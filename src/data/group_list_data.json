@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "test1",
+        "image_file": "",
+        "participants": 4
+    },
+    {
+        "id": 2,
+        "name": "test2",
+        "image_file": "",
+        "participants": 3
+    },
+    {
+        "id": 3,
+        "name": "test3",
+        "image_file": "",
+        "participants": 11
+    },
+    {
+        "id": 4,
+        "name": "test4",
+        "image_file": "",
+        "participants": 8
+    },
+    {
+        "id": 5,
+        "name": "test5",
+        "image_file": "",
+        "participants": 7
+    }
+]
