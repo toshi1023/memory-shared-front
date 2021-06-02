@@ -28,46 +28,38 @@ const Home: React.FC = () => {
                 {/* PC版 & iPad版 */}
                 <div className={displayStyles.sectionDesktop}>
                     <Grid container>
-                        <Grid item sm md className="title_space center">
+                        <Grid item sm className="title_space center">
                             <Typography className="title">
-                                参加グループ一覧
+                                ファミリー
                             </Typography>
                         </Grid>
-                        <Grid item sm={5} md={6} className="title_space">
+                        <Grid item sm={6} className="title_space">
                             <Typography className="title">
                                 プロフィール
                             </Typography>
                         </Grid>
-                        <Grid item sm md className="title_space center">
+                        <Grid item sm className="title_space center">
                             <Typography className="title">
                                 トーク
                             </Typography>
                         </Grid>
                     </Grid>
                     <Grid container spacing={2}>
-                        <Grid item sm md>
-                            <GroupList data={group_list} />
-                            <br />
-                            <hr className="app_hr" />
-                            <div className="title_space center">
-                                <Typography className="title">
-                                    ファミリー
-                                </Typography>
-                            </div>
+                        <Grid item sm>
                             <FamilyList data={user_list} />
                         </Grid>
-                        <Grid item sm={5} md={6}>
+                        <Grid item sm={6}>
                             <ProfileCard data={profile} />
                             <br />
                             <hr className="app_hr" />
                             <div className="title_space">
                                 <Typography className="title">
-                                    お知らせ
+                                    参加グループ一覧
                                 </Typography>
                             </div>
-                            <ProfileCard data={profile} />
+                            <GroupList data={group_list} />
                         </Grid>
-                        <Grid item sm md>
+                        <Grid item sm>
                             <TalkList />
                         </Grid>
                     </Grid>

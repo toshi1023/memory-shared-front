@@ -31,5 +31,7 @@ export interface GROUP_LIST {
         name: string;
         image_file: string;
         participants: number;
+        album_count: number;
+        private_flg: boolean;
     }[]
 }

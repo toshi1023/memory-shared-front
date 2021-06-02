@@ -12,6 +12,11 @@ const useStyles = makeStyles((theme: Theme) =>
     inline: {
       display: 'inline',
     },
+    talklist: {
+        '&:hover': {
+            background: "rgb(209, 208, 208)",
+        }
+    }
   }),
 );
 
@@ -22,7 +27,7 @@ const TalkList: React.FC = () => {
     <Grid container justify="center">
         <Grid item sm={11}>
             <List className={classes.root}>
-                <ListItem alignItems="flex-start">
+                <ListItem alignItems="flex-start" className={classes.talklist}>
                     <ListItemAvatar>
                         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                     </ListItemAvatar>
@@ -43,7 +48,7 @@ const TalkList: React.FC = () => {
                     />
                 </ListItem>
                 <Divider variant="inset" component="li" />
-                <ListItem alignItems="flex-start">
+                <ListItem alignItems="flex-start" className={classes.talklist}>
                     <ListItemAvatar>
                         <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
                     </ListItemAvatar>
@@ -64,7 +69,7 @@ const TalkList: React.FC = () => {
                     />
                 </ListItem>
                 <Divider variant="inset" component="li" />
-                <ListItem alignItems="flex-start">
+                <ListItem alignItems="flex-start" className={classes.talklist}>
                     <ListItemAvatar>
                         <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
                     </ListItemAvatar>

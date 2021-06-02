@@ -3,30 +3,40 @@
         "id": 1,
         "name": "test1",
         "image_file": "",
-        "participants": 4
+        "participants": 4,
+        "album_count": 6,
+        "private_flg": true
     },
     {
         "id": 2,
         "name": "test2",
         "image_file": "",
-        "participants": 3
+        "participants": 3,
+        "album_count": 4,
+        "private_flg": false
     },
     {
         "id": 3,
         "name": "test3",
         "image_file": "",
-        "participants": 11
+        "participants": 11,
+        "album_count": 15,
+        "private_flg": true
     },
     {
         "id": 4,
         "name": "test4",
         "image_file": "",
-        "participants": 8
+        "participants": 8,
+        "album_count": 17,
+        "private_flg": true
     },
     {
         "id": 5,
         "name": "test5",
         "image_file": "",
-        "participants": 7
+        "participants": 7,
+        "album_count": 8,
+        "private_flg": false
     }
 ]

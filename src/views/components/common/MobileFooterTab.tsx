@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
+import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Grid from '@material-ui/core/Grid';
@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
     position: 'absolute',/*←絶対位置*/
     bottom: 0 /*下に固定*/
   }
@@ -42,7 +41,7 @@ const MobileFooterTab: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <Paper square className={classes.root}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -55,7 +54,7 @@ const MobileFooterTab: React.FC = () => {
           <Tab label="ファミリー" icon={<PersonPinCircleIcon />} {...a11yProps(2)} />
           <Tab label="トーク" icon={<TapAndPlayIcon />} {...a11yProps(2)} />
         </Tabs>
-      </AppBar>
+      </Paper>
     </div>
   );
 }
