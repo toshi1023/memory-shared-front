@@ -18,7 +18,9 @@ const Home: React.FC = () => {
         name: 'test',
         email: 'test@xxx.co.jp',
         image_file: '',
-        memo: 'こんにちは！'
+        hobby: '映画鑑賞',
+        gender: 1,
+        description: 'バスケと映画鑑賞が好きな会社員です。アクティブな付き合いをしたいです。'
     }
 
     return (

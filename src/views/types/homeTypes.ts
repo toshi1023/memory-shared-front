@@ -7,7 +7,9 @@ export interface PROFILE_CARD {
         name: string;
         email: string;
         image_file: string;
-        memo: string | null;
+        hobby: string;
+        gender: boolean;
+        description: string | null;
     }
 }
 

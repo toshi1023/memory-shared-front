@@ -22,6 +22,10 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  editButton: {
+    fontWeight: 'bold',
+    color: 'rgb(168, 168, 168)'
+  }
 });
 
 /**
@@ -35,22 +39,35 @@ const ProfileCard: React.FC<PROFILE_CARD> = (props) => {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-            {props.data.name}
-        </Typography>
-        <Typography variant="h5" component="h2">
-            {props.data.email}
-        </Typography>
         <Typography className={classes.pos} color="textSecondary">
             {props.data.image_file}
         </Typography>
+        <Typography className={classes.title} color="textSecondary" gutterBottom>
+            {props.data.name}
+        </Typography>
+        <Typography className={classes.title} color="textSecondary" gutterBottom>
+            {props.data.hobby}
+        </Typography>
+        {
+          props.data.gender ? 
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                男性
+            </Typography>
+          :
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                女性
+            </Typography>
+        }
+        <Typography variant="h6" component="h4">
+            {props.data.email}
+        </Typography>
         <Typography variant="body2" component="p">
-            {props.data.memo}
+            {props.data.description}
           <br />
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small" className={classes.editButton}>プロフィールを編集する</Button>
       </CardActions>
     </Card>
   );
