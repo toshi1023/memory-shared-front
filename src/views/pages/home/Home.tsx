@@ -19,7 +19,7 @@ const Home: React.FC = () => {
         email: 'test@xxx.co.jp',
         image_file: '',
         hobby: '映画鑑賞',
-        gender: 1,
+        gender: true,
         description: 'バスケと映画鑑賞が好きな会社員です。アクティブな付き合いをしたいです。'
     }
 
