@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "user_name": "test1",
+        "image_file": "",
+        "content": "この時の合宿楽しかった…"
+    },
+    {
+        "id": 2,
+        "user_name": "test2",
+        "image_file": "",
+        "content": "6月20日の予定空いてる？よかったら…"
+    },
+    {
+        "id": 3,
+        "user_name": "test3",
+        "image_file": "",
+        "content": "昨日の飲み会お疲れ様！また…"
+    },
+    {
+        "id": 4,
+        "user_name": "test4",
+        "image_file": "",
+        "content": "今度バスケしにいかん？"
+    },
+    {
+        "id": 5,
+        "user_name": "test5",
+        "image_file": "",
+        "content": "明日18時に駅前集合な！遅れるな…"
+    }
+]

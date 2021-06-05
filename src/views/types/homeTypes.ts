@@ -37,3 +37,15 @@ export interface GROUP_LIST {
         private_flg: boolean;
     }[]
 }
+
+/**
+ * TalkList用のデータ型定義
+ */
+ export interface TALK_LIST {
+    data: {
+        id: number,
+        content: string;
+        user_name: string;
+        image_file: string;
+    }[]
+}

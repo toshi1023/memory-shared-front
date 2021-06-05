@@ -3,12 +3,13 @@ import '../../../styles/home/home.scss';
 import ProfileCard from '../../components/home/ProfileCard';
 import GroupList from '../../components/home/GroupList';
 import FamilyList from '../../components/home/FamilyList';
+import TalkList from '../../components/home/TalkList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 
 import group_list from '../../../data/group_list_data.json';
 import user_list from '../../../data/user_list_data.json';
-import TalkList from '../../components/home/TalkList';
+import talk_list from '../../../data/talk_list_data.json';
 
 const Home: React.FC = () => {
     const displayStyles = DisplayStyles();
@@ -47,7 +48,7 @@ const Home: React.FC = () => {
                         </Grid>
                     </Grid>
                     <Grid container spacing={2}>
-                        <Grid item sm>
+                        <Grid item sm={3}>
                             <FamilyList data={user_list} />
                         </Grid>
                         <Grid item sm={6}>
@@ -61,8 +62,8 @@ const Home: React.FC = () => {
                             </div>
                             <GroupList data={group_list} />
                         </Grid>
-                        <Grid item sm>
-                            <TalkList />
+                        <Grid item sm={3}>
+                            <TalkList data={talk_list} />
                         </Grid>
                     </Grid>
                 </div>
@@ -70,6 +71,11 @@ const Home: React.FC = () => {
                 {/* スマホ版 */}
                 <div className={displayStyles.sectionMobile}>
                     <Grid container justify="center">
+                        <Grid item xs={11} className="title_space">
+                            <Typography className="title">
+                                プロフィール
+                            </Typography>
+                        </Grid>
                         <Grid item xs={11} className="mobile_profile">
                             <ProfileCard data={profile} />
                         </Grid>

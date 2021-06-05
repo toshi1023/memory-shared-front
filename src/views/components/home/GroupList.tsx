@@ -55,9 +55,9 @@ const GroupList: React.FC<GROUP_LIST> = (props) => {
                         <Card className={classes.root}>
                             <CardActionArea>
                                 <CardMedia
-                                className={classes.media}
-                                image="/static/images/cards/contemplative-reptile.jpg"
-                                title="Contemplative Reptile"
+                                    className={classes.media}
+                                    image="/static/images/cards/contemplative-reptile.jpg"
+                                    title="Contemplative Reptile"
                                 />
                                 <CardContent>
                                     <Typography gutterBottom variant="h6" component="h4">

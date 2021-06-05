@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import useWindowDimensions from './functions/WindowDimensions';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AppMainBar from './views/components/common/AppMainBar';
 import MobileFooterTab from './views/components/common/MobileFooterTab';
 import Home from './views/pages/home/Home';
+import MobileMyFamily from './views/pages/home/MobileMyFamily';
+import MobileMyGroup from './views/pages/home/MobileMyGroup';
+import MobileMyTalk from './views/pages/home/MobileMyTalk';
 
 /**
  * スマホ画面の場合、フッターのメニュータブを表示
@@ -27,9 +31,19 @@ function App() {
 
   return (
     <div className="App">
-      <AppMainBar />
-      <Home />
-      {renderMobileFooterTab()}
+      <BrowserRouter>
+        <AppMainBar />
+        <Switch>
+          {/* PC & 一部スマホページ */}
+          <Route exact path="/" component={Home} />
+
+          {/* スマホ用フッタータブとの連携ページ */}
+          <Route exact path="/mobile/myfamily" component={MobileMyFamily} />
+          <Route exact path="/mobile/mygroup" component={MobileMyGroup} />
+          <Route exact path="/mobile/mytalk" component={MobileMyTalk} />
+        </Switch>
+        {renderMobileFooterTab()}
+      </BrowserRouter>
     </div>
   );
 }

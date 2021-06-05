@@ -1,6 +1,8 @@
 import React from 'react';
+import _ from 'lodash';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Grid, Typography } from '@material-ui/core';
+import { TALK_LIST } from '../../types/homeTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -11,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     inline: {
       display: 'inline',
+      fontSize: 12
     },
     talklist: {
         '&:hover': {
@@ -20,79 +23,42 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const TalkList: React.FC = () => {
-  const classes = useStyles();
+const TalkList: React.FC<TALK_LIST> = (props) => {
+    const classes = useStyles();
 
-  return (
-    <Grid container justify="center">
-        <Grid item sm={11}>
-            <List className={classes.root}>
-                <ListItem alignItems="flex-start" className={classes.talklist}>
-                    <ListItemAvatar>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    </ListItemAvatar>
-                    <ListItemText
-                    primary="test1"
-                    secondary={
-                        <React.Fragment>
-                            <Typography
-                                component="span"
-                                variant="body2"
-                                className={classes.inline}
-                                color="textSecondary"
-                            >
-                                I'll be in your neighborhood doing errands this…
-                            </Typography>
-                        </React.Fragment>
-                    }
-                    />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                <ListItem alignItems="flex-start" className={classes.talklist}>
-                    <ListItemAvatar>
-                        <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                    </ListItemAvatar>
-                    <ListItemText
-                    primary="Summer BBQ"
-                    secondary={
-                        <React.Fragment>
-                            <Typography
-                                component="span"
-                                variant="body2"
-                                className={classes.inline}
-                                color="textSecondary"
-                            >
-                                Wish I could come, but I'm out of town this…
-                            </Typography>
-                        </React.Fragment>
-                    }
-                    />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                <ListItem alignItems="flex-start" className={classes.talklist}>
-                    <ListItemAvatar>
-                        <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                    </ListItemAvatar>
-                    <ListItemText
-                    primary="Oui Oui"
-                    secondary={
-                        <React.Fragment>
-                            <Typography
-                                component="span"
-                                variant="body2"
-                                className={classes.inline}
-                                color="textSecondary"
-                            >
-                                Do you have Paris recommendations? Have you ever…
-                            </Typography>
-                        </React.Fragment>
-                    }
-                    />
-                </ListItem>
-            </List>
-        </Grid>
-    </Grid>
-  );
+    return (
+        <div>
+            {_.map(props.data, value => (
+                <Grid container justify="center">
+                    <Grid item sm={11}>
+                        <List className={classes.root}>
+                            <ListItem alignItems="flex-start" className={classes.talklist} key={value.id}>
+                                <ListItemAvatar>
+                                    <Avatar alt="Remy Sharp" src={value.image_file} />
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={value.user_name}
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                className={classes.inline}
+                                                color="textSecondary"
+                                            >
+                                                {value.content}
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItem>
+                            <Divider variant="inset" component="li" />
+                        </List>
+                    </Grid>
+                </Grid>
+            ))}
+        </div>
+    );
 }
 
 export default TalkList

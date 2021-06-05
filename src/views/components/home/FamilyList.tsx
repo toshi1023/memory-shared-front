@@ -38,13 +38,13 @@ const FamilyList: React.FC<FAMILY_LIST> = (props) => {
         <div>
             {_.map(props.data, value => (
                 <Grid container justify="center" alignItems="center" className={classes.userList} key={value.id}>
-                    <Grid item sm={9} className={classes.avatar}>
+                    <Grid item xs={9} className={classes.avatar}>
                         <Avatar alt="Remy Sharp" src={value.image_file} />
                         <Typography color="textSecondary" className={classes.userName}>
                             {value.name}
                         </Typography>
                     </Grid>
-                    <Grid item sm={3}>
+                    <Grid item xs={3}>
                         <Avatar className={classes.iconBackGround}><MailIcon /></Avatar>
                     </Grid>
                 </Grid>
