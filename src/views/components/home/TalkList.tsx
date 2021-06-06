@@ -29,10 +29,10 @@ const TalkList: React.FC<TALK_LIST> = (props) => {
     return (
         <div>
             {_.map(props.data, value => (
-                <Grid container justify="center">
-                    <Grid item sm={11}>
+                <Grid container justify="center" key={value.id}>
+                    <Grid item xs={12} sm={11}>
                         <List className={classes.root}>
-                            <ListItem alignItems="flex-start" className={classes.talklist} key={value.id}>
+                            <ListItem alignItems="flex-start" className={classes.talklist}>
                                 <ListItemAvatar>
                                     <Avatar alt="Remy Sharp" src={value.image_file} />
                                 </ListItemAvatar>

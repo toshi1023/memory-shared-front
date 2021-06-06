@@ -9,13 +9,21 @@ const DisplayStyles = makeStyles((theme: Theme) =>
       display: "none",
       [theme.breakpoints.up("sm")]: {
           display: "block"
-      }
+      },
+      marginBottom: "15px"
+    },
+    sectionMobileAppBar: {
+        display: "block",
+        [theme.breakpoints.up("sm")]: {
+            display: "none"
+        }
     },
     sectionMobile: {
         display: "block",
         [theme.breakpoints.up("sm")]: {
             display: "none"
-        }
+        },
+        marginBottom: "100px"
     },
   }));
 

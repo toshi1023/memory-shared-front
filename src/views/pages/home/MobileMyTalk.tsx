@@ -16,13 +16,13 @@ const MobileMyTalk: React.FC = () => {
             </div>
 
             <div className={displayStyles.sectionMobile}>
-                <Grid container>
-                    <Grid item xs={11} className="title_space">
+                <Grid container justify="center">
+                    <Grid item xs={10} className="title_space">
                         <Typography className="title">
                             トーク
                         </Typography>
                     </Grid>
-                    <Grid item xs={11}>
+                    <Grid item xs={10}>
                         <TalkList data={talk_list} />
                     </Grid>
                 </Grid>

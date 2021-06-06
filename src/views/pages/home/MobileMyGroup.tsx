@@ -21,13 +21,13 @@ const MobileMyGroup: React.FC = () => {
             </div>
 
             <div className={displayStyles.sectionMobile}>
-                <Grid container>
+                <Grid container justify="center">
                     <Grid item xs={11} className="title_space">
                         <Typography className="title">
                             参加グループ一覧
                         </Typography>
                     </Grid>
-                    <Grid item xs={11}>
+                    <Grid item xs={8}>
                         <GroupList data={group_list} />
                     </Grid>
                 </Grid>

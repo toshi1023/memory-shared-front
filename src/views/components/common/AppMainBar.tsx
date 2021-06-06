@@ -80,7 +80,7 @@ const AppMainBar: React.FC = () => {
         </Grid>
 
         {/* スマホ版 */}
-        <Grid container className={displayStyles.sectionMobile}>
+        <Grid container className={displayStyles.sectionMobileAppBar}>
           <Grid item xs={12}>
             <Toolbar>
               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">

@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            maxWidth: 200,
+            maxWidth: 300,
             '&:hover': {
                 background: "rgb(209, 208, 208)",
             }
@@ -51,7 +51,7 @@ const GroupList: React.FC<GROUP_LIST> = (props) => {
       <div>
           <Grid container spacing={1}>
             {_.map(props.data, value => (
-                    <Grid item xs={11} sm={6} md={4} key={value.id}>
+                    <Grid item xs={12} sm={6} md={4} key={value.id}>
                         <Card className={classes.root}>
                             <CardActionArea>
                                 <CardMedia

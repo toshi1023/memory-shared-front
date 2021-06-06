@@ -1,15 +1,13 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Grid from '@material-ui/core/Grid';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
 import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle';
 import TapAndPlayIcon from '@material-ui/icons/TapAndPlay';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 function a11yProps(index: any) {
   return {
@@ -22,8 +20,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
-    position: 'absolute',/*←絶対位置*/
-    bottom: 0 /*下に固定*/
+    position: 'fixed',/*←絶対位置*/
+    bottom: 0, /*下に固定*/
   }
 }));
 
@@ -33,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
  */
 const MobileFooterTab: React.FC = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -41,20 +40,12 @@ const MobileFooterTab: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <Paper square className={classes.root}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          centered
-        >           
-          <Tab label="ホーム" icon={<HomeIcon />} {...a11yProps(0)} />
-          <Tab label="グループ" icon={<PeopleOutlineIcon />} {...a11yProps(1)} />
-          <Tab label="ファミリー" icon={<PersonPinCircleIcon />} {...a11yProps(2)} />
-          <Tab label="トーク" icon={<TapAndPlayIcon />} {...a11yProps(2)} />
-        </Tabs>
-      </Paper>
+      <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
+        <BottomNavigationAction label="ホーム" value="ホーム" icon={<HomeIcon />} onClick={() => history.push('/')} />
+        <BottomNavigationAction label="グループ" value="グループ" icon={<PeopleOutlineIcon />} onClick={() => history.push('/mobile/mygroup')} />
+        <BottomNavigationAction label="ファミリ" value="ファミリー" icon={<PersonPinCircleIcon onClick={() => history.push('/mobile/myfamily')} />} />
+        <BottomNavigationAction label="トーク" value="トーク" icon={<TapAndPlayIcon />} onClick={() => history.push('/mobile/mytalk')} />
+      </BottomNavigation>
     </div>
   );
 }
