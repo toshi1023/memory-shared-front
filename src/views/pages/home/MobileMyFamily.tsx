@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../../styles/home/home.scss';
+import PageNotFound from '../../components/common/PageNotFound';
 import FamilyList from '../../components/home/FamilyList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
@@ -12,7 +13,7 @@ const MobileMyFamily: React.FC = () => {
     return (
         <div id="mobile_home">
             <div className={displayStyles.sectionDesktop}>
-                {/*404画面を予定*/}
+                <PageNotFound />
             </div>
 
             <div className={displayStyles.sectionMobile}>

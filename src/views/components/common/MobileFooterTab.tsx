@@ -39,14 +39,12 @@ const MobileFooterTab: React.FC = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
-        <BottomNavigationAction label="ホーム" value="ホーム" icon={<HomeIcon />} onClick={() => history.push('/')} />
-        <BottomNavigationAction label="グループ" value="グループ" icon={<PeopleOutlineIcon />} onClick={() => history.push('/mobile/mygroup')} />
-        <BottomNavigationAction label="ファミリ" value="ファミリー" icon={<PersonPinCircleIcon onClick={() => history.push('/mobile/myfamily')} />} />
-        <BottomNavigationAction label="トーク" value="トーク" icon={<TapAndPlayIcon />} onClick={() => history.push('/mobile/mytalk')} />
-      </BottomNavigation>
-    </div>
+    <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
+      <BottomNavigationAction label="ホーム" value="ホーム" icon={<HomeIcon />} onClick={() => history.push('/')} />
+      <BottomNavigationAction label="グループ" value="グループ" icon={<PeopleOutlineIcon />} onClick={() => history.push('/mobile/mygroup')} />
+      <BottomNavigationAction label="ファミリ" value="ファミリー" icon={<PersonPinCircleIcon onClick={() => history.push('/mobile/myfamily')} />} />
+      <BottomNavigationAction label="トーク" value="トーク" icon={<TapAndPlayIcon />} onClick={() => history.push('/mobile/mytalk')} />
+    </BottomNavigation>
   );
 }
 

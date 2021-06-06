@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../../styles/home/home.scss';
+import PageNotFound from '../../components/common/PageNotFound';
 import GroupList from '../../components/home/GroupList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
@@ -17,7 +18,7 @@ const MobileMyGroup: React.FC = () => {
     return (
         <div id="mobile_home">
             <div className={displayStyles.sectionDesktop}>
-                {/*404画面を予定*/}
+                <PageNotFound />
             </div>
 
             <div className={displayStyles.sectionMobile}>
@@ -26,6 +27,7 @@ const MobileMyGroup: React.FC = () => {
                         <Typography className="title">
                             参加グループ一覧
                         </Typography>
+                        <PageNotFound />
                     </Grid>
                     <Grid item xs={8}>
                         <GroupList data={group_list} />
