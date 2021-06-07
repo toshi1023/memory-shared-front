@@ -38,7 +38,7 @@ const SearchText = (props: SEARCH<string>) => {
      * 入力値の取得
      * @param event 
      */
-    const change = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.currentTarget.value);
     }
 
@@ -46,7 +46,7 @@ const SearchText = (props: SEARCH<string>) => {
      * Enter key 実行時の処理
      * @param event 
      */
-    const keyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             // エンターキー押下時の処理
             searchHandler(value);
@@ -62,7 +62,7 @@ const SearchText = (props: SEARCH<string>) => {
                     <SearchIcon onClick={() => searchHandler(value)} />
                 </Grid>
                 <Grid item>
-                    <TextField label={props.label} onChange={change} onKeyDown={keyDown} />
+                    <TextField label={props.label} onChange={handleChange} onKeyDown={handleKeyDown} />
                 </Grid>
             </Grid>
         </div>
