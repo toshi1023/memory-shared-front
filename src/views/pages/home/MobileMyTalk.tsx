@@ -11,7 +11,7 @@ const MobileMyTalk: React.FC = () => {
     const displayStyles = DisplayStyles();
 
     return (
-        <div id="mobile_home">
+        <div id="home">
             <div className={displayStyles.sectionDesktop}>
                 <PageNotFound />
             </div>

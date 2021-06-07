@@ -16,7 +16,7 @@ const MobileMyGroup: React.FC = () => {
     const displayStyles = DisplayStyles();
 
     return (
-        <div id="mobile_home">
+        <div id="home">
             <div className={displayStyles.sectionDesktop}>
                 <PageNotFound />
             </div>
@@ -27,7 +27,6 @@ const MobileMyGroup: React.FC = () => {
                         <Typography className="title">
                             参加グループ一覧
                         </Typography>
-                        <PageNotFound />
                     </Grid>
                     <Grid item xs={8}>
                         <GroupList data={group_list} />

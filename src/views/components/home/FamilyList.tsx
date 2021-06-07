@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { FAMILY_LIST, GROUP_LIST } from '../../types/homeTypes';
+import { FAMILY_LIST } from '../../types/homeTypes';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { Avatar, Grid, Typography } from '@material-ui/core';
 import MailIcon from '@material-ui/icons/Mail';

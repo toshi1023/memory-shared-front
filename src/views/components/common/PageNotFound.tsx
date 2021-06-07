@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
+/**
+ * 404エラーページ用関数
+ * @returns 
+ */
 const PageNotFound: React.FC = () => {
     const classes = useStyles();
 
