@@ -8,7 +8,7 @@ import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 
 import group_list from '../../../data/group_list_data.json';
-import user_list from '../../../data/user_list_data.json';
+import family_list from '../../../data/family_list_data.json';
 import talk_list from '../../../data/talk_list_data.json';
 
 const Home: React.FC = () => {
@@ -49,7 +49,7 @@ const Home: React.FC = () => {
                     </Grid>
                     <Grid container spacing={2}>
                         <Grid item sm={3}>
-                            <FamilyList data={user_list} />
+                            <FamilyList data={family_list} />
                         </Grid>
                         <Grid item sm={6}>
                             <ProfileCard data={profile} />

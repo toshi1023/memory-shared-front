@@ -8,7 +8,7 @@ import Home from './views/pages/home/Home';
 import MobileMyFamily from './views/pages/home/MobileMyFamily';
 import MobileMyGroup from './views/pages/home/MobileMyGroup';
 import MobileMyTalk from './views/pages/home/MobileMyTalk';
-import UserList from './views/pages/users/list';
+import UserList from './views/pages/users/List';
 
 /**
  * スマホ画面の場合、フッターのメニュータブを表示

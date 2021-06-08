@@ -5,7 +5,7 @@ import FamilyList from '../../components/home/FamilyList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 
-import user_list from '../../../data/user_list_data.json';
+import family_list from '../../../data/family_list_data.json';
 
 const MobileMyFamily: React.FC = () => {
     const displayStyles = DisplayStyles();
@@ -24,7 +24,7 @@ const MobileMyFamily: React.FC = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={10}>
-                        <FamilyList data={user_list} />
+                        <FamilyList data={family_list} />
                     </Grid>
                 </Grid>
             </div>
