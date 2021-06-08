@@ -22,6 +22,10 @@ const useStyles = makeStyles({
   }
 });
 
+/**
+ * スマホ用メニューの設定
+ * @returns 
+ */
 const MobileMenu: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
