@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
+import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles({
@@ -21,50 +23,77 @@ const useStyles = makeStyles({
 });
 
 const MobileMenu: React.FC = () => {
-  const classes = useStyles();
-  const [state, setState] = useState(false);
+    const classes = useStyles();
+    const history = useHistory();
+    const [state, setState] = useState(false);
 
-  const toggleDrawer = (open: boolean) => (
-    event: React.KeyboardEvent | React.MouseEvent,
-  ) => {
-    if (
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' ||
-        (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
+    /**
+     * drawerメニューの表示制御
+     * @param open 
+     * @returns 
+     */
+    const toggleDrawer = (open: boolean) => (
+        event: React.KeyboardEvent | React.MouseEvent,
+    ) => {
+        if (
+            event.type === 'keydown' &&
+            ((event as React.KeyboardEvent).key === 'Tab' ||
+            (event as React.KeyboardEvent).key === 'Shift')
+        ) {
+            return;
+        }
+        setState(open);
+    };
+
+    /**
+     * ページ遷移
+     * @param index 
+     */
+    const pageTransition = (index: number) => {
+        if(index === 0) history.push('/users');
+        if(index === 1) history.push('/users');
+        if(index === 2) history.push('/users');
     }
 
-    setState(open);
-  };
-
-  const list = () => (
-    <div
-      className={classes.list}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-        <MenuIcon className={classes.drawerMenuIcon} onClick={toggleDrawer(false)} />
-        <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-            </ListItem>
-            ))}
-        </List>
-        <Divider />
-        <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-            </ListItem>
-            ))}
-        </List>
-    </div>
-  );
+    /**
+     * メニューリスト生成
+     * @returns 
+     */
+    const list = () => (
+        <div
+            className={classes.list}
+            role="presentation"
+            onClick={toggleDrawer(false)}
+            onKeyDown={toggleDrawer(false)}
+        >
+            <MenuIcon className={classes.drawerMenuIcon} onClick={toggleDrawer(false)} />
+            <List>
+                {['ユーザを探す', 'グループを探す', 'お知らせ'].map((text, index) => (
+                    <ListItem 
+                        button 
+                        key={text}
+                        onClick={() => pageTransition(index)}
+                    >
+                        <ListItemIcon>
+                            {index === 0 ? <EmojiPeopleIcon /> : ''}
+                            {index === 1 ? <SupervisedUserCircleIcon /> : ''}
+                            {index === 2 ? <NotificationImportantIcon /> : ''}
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                    </ListItem>
+                ))}
+            </List>
+            <Divider />
+            <List>
+                {['ログアウト'].map((text) => (
+                    <ListItem button key={text} onClick={() => history.push('/users')}>
+                        <ListItemIcon><ExitToAppIcon /></ListItemIcon>
+                        <ListItemText primary={text} />
+                    </ListItem>
+                ))}
+            </List>
+        </div>
+    );
 
     return (
         <div>
