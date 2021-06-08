@@ -9,13 +9,6 @@ import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle';
 import TapAndPlayIcon from '@material-ui/icons/TapAndPlay';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 
-function a11yProps(index: any) {
-  return {
-    id: `scrollable-force-tab-${index}`,
-    'aria-controls': `scrollable-force-tabpanel-${index}`,
-  };
-}
-
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,

@@ -1,13 +1,14 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Toolbar, Typography, Tooltip, Button, IconButton, Grid  } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DisplayStyles from '../../../styles/common/displayMode';
+import MobileMenu from './MobileMenu';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,6 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const AppMainBar: React.FC = () => {
   const classes = useStyles();
+  const history = useHistory();
   const displayStyles = DisplayStyles();
 
   return (
@@ -60,11 +62,14 @@ const AppMainBar: React.FC = () => {
         <Grid container className={displayStyles.sectionDesktop}>
           <Grid item sm={12}>
             <Toolbar>
-              <Typography variant="h6" className={classes.title}>
+              <Typography variant="h6" className={classes.title} onClick={() => history.push('/')}>
                 MemoryShareApp
               </Typography>
+              <Tooltip title="ホーム" classes={{tooltip: classes.tooltip}}>
+                <Button color="inherit"><HomeIcon onClick={() => history.push('/')} /></Button>
+              </Tooltip>
               <Tooltip title="ユーザ" classes={{tooltip: classes.tooltip}}>
-                <Button color="inherit"><EmojiPeopleIcon /></Button>
+                <Button color="inherit"><EmojiPeopleIcon onClick={() => history.push('/users')} /></Button>
               </Tooltip>
               <Tooltip title="グループ" classes={{tooltip: classes.tooltip}}>
                 <Button color="inherit"><SupervisedUserCircleIcon /></Button>
@@ -84,9 +89,9 @@ const AppMainBar: React.FC = () => {
           <Grid item xs={12}>
             <Toolbar>
               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                <MenuIcon />
+                <MobileMenu />
               </IconButton>
-              <Typography variant="h6" className={classes.mobileTitle}>
+              <Typography variant="h6" className={classes.mobileTitle} onClick={() => history.push('/')}>
                 MemoryShareApp
               </Typography>
             </Toolbar>
