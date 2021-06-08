@@ -9,6 +9,7 @@ import MobileMyFamily from './views/pages/home/MobileMyFamily';
 import MobileMyGroup from './views/pages/home/MobileMyGroup';
 import MobileMyTalk from './views/pages/home/MobileMyTalk';
 import UserList from './views/pages/users/List';
+import UserDetail from './views/pages/users/Detail';
 
 /**
  * スマホ画面の場合、フッターのメニュータブを表示
@@ -38,6 +39,7 @@ function App() {
           {/* PC & 一部スマホページ */}
           <Route exact path="/" component={Home} />
           <Route exact path="/users" component={UserList} />
+          <Route exact path="/users/test" component={UserDetail} />
 
           {/* スマホ用フッタータブとの連携ページ */}
           <Route exact path="/mobile/myfamily" component={MobileMyFamily} />

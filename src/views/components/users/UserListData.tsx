@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import _ from 'lodash';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -34,41 +35,42 @@ const useStyles = makeStyles((theme: Theme) =>
  * @param props 
  * @returns 
  */
-const ListData: React.FC<USER_LIST_DATA> = (props) => {
+const UserListData: React.FC<USER_LIST_DATA> = (props) => {
     const classes = useStyles();
+    const history = useHistory();
 
     return (
         <List dense className={classes.root}>
         {_.map(props.data, value => {
             const labelId = `user-list-${value.id}`;
             return (
-            <ListItem key={value.id} button className={classes.listItem}>
-                <ListItemAvatar>
-                    <Avatar
-                        alt={`Avatar n°${value.id + 1}`}
-                        src={value.image_file}
-                    />
-                </ListItemAvatar>
-                <ListItemText id={labelId} primary={value.name} />
-                <ListItemSecondaryAction>
-                    {
-                        value.talk_id ? 
-                            <Chip label="トーク中" className={classes.chip} color="primary" />
-                        :
-                            ''
-                    }
-                    {
-                        value.family_id ? 
-                            <Chip label="ファミリー" className={classes.chip && classes.yellow} />
-                        :
-                            ''
-                    }
-                </ListItemSecondaryAction>
-            </ListItem>
+                <ListItem key={value.id} button className={classes.listItem} onClick={() => history.push('users/test')}>
+                    <ListItemAvatar>
+                        <Avatar
+                            alt={`Avatar n°${value.id + 1}`}
+                            src={value.image_file}
+                        />
+                    </ListItemAvatar>
+                    <ListItemText id={labelId} primary={value.name} />
+                    <ListItemSecondaryAction>
+                        {
+                            value.talk_id ? 
+                                <Chip label="トーク中" className={classes.chip} color="primary" />
+                            :
+                                ''
+                        }
+                        {
+                            value.family_id ? 
+                                <Chip label="ファミリー" className={classes.chip && classes.yellow} />
+                            :
+                                ''
+                        }
+                    </ListItemSecondaryAction>
+                </ListItem>
             );
         })}
         </List>
     );
 }
 
-export default ListData
+export default UserListData
