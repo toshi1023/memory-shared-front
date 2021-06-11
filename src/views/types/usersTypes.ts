@@ -11,6 +11,9 @@ export interface USER_LIST_DATA {
     }[]
 }
 
+/**
+ * UserCard用のデータ型定義
+ */
 export interface USER_CARD {
     data: {
         id: number;
@@ -22,4 +25,12 @@ export interface USER_CARD {
         family_id: number | null;
         talk_id: number | null;
     }
+}
+
+export interface GROUP_LIST_DATA {
+    data: {
+        id: number;
+        name: string;
+        image_file: string;
+    }[]
 }

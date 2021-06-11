@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
+import MailIcon from '@material-ui/icons/Mail';
 import { USER_CARD } from '../../types/usersTypes';
 
 
@@ -51,6 +53,18 @@ const useStyles = makeStyles((theme: Theme) =>
     yellow: {
         backgroundColor: 'rgb(213, 247, 119)',
         color: 'white'
+    },
+    footerContainer: {
+      paddingLeft: '20px'
+    },
+    iconBackGround: {
+      backgroundColor: 'rgb(126, 170, 252)'
+    },
+    offset: {
+      flexGrow: 1  // 要素を右寄せにするために必要なプロパティ
+    },
+    tooltip: {
+      fontSize: '1rem'
     }
 }));
 
@@ -121,10 +135,12 @@ const UserCard: React.FC<USER_CARD> = (props) => {
           
         </Grid>
       </CardContent>
-      <CardActions>
+      <CardActions className={classes.footerContainer}>
         <Typography component="p">
           ユーザとの関係 : 
         </Typography>
+      </CardActions>
+      <CardActions className={classes.footerContainer}>
         {
             props.data.talk_id ? 
                 <Chip label="トーク中" className={classes.chip} color="primary" />
@@ -136,7 +152,11 @@ const UserCard: React.FC<USER_CARD> = (props) => {
                 <Chip label="ファミリー" className={classes.chip && classes.yellow} />
             :
                 ''
-        }
+        }        
+        <div className={classes.offset}></div>
+        <Tooltip title="トークを始める" classes={{tooltip: classes.tooltip}}>
+          <Button><Avatar className={classes.iconBackGround}><MailIcon /></Avatar></Button>  
+        </Tooltip>
       </CardActions>
     </Card>
   );
