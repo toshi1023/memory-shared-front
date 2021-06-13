@@ -25,7 +25,12 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'left',
       color: 'white',
       fontFamily: 'Merienda, cursive',
-      fontSize: '2rem'
+      fontSize: '2rem',
+    },
+    titleSpan: {
+      '&:hover': {
+        cursor: 'pointer'
+      }
     },
     mobileTitle: {
       flexGrow: 1,
@@ -62,8 +67,8 @@ const AppMainBar: React.FC = () => {
         <Grid container className={displayStyles.sectionDesktop}>
           <Grid item sm={12}>
             <Toolbar>
-              <Typography variant="h6" className={classes.title} onClick={() => history.push('/')}>
-                MemoryShareApp
+              <Typography variant="h6" className={classes.title}>
+                <span className={classes.titleSpan} onClick={() => history.push('/')}>MemoryShareApp</span>
               </Typography>
               <Tooltip title="ホーム" classes={{tooltip: classes.tooltip}}>
                 <Button color="inherit"><HomeIcon onClick={() => history.push('/')} /></Button>

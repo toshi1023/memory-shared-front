@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
     talklist: {
         '&:hover': {
             background: "rgb(209, 208, 208)",
+            cursor: 'pointer'
         }
     }
   }),

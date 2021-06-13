@@ -24,6 +24,11 @@ const useStyles = makeStyles((theme: Theme) =>
         chip: {
             fontSize: '0.5rem',
         },
+        chipButton: {
+            '&:hover': {
+                cursor: 'pointer'
+            }
+        },
         yellow: {
             backgroundColor: 'rgb(213, 247, 119)',
             color: 'white'
@@ -40,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
  * @param props 
  * @returns 
  */
-const UserListData: React.FC<GROUP_LIST_DATA> = (props) => {
+const GroupListData: React.FC<GROUP_LIST_DATA> = (props) => {
     const classes = useStyles();
     const history = useHistory();
 
@@ -78,7 +83,7 @@ const UserListData: React.FC<GROUP_LIST_DATA> = (props) => {
                         }
                         {
                             value.status_type === null ? 
-                                <Button><Chip label="申請する" className={classes.chip} color="primary" /></Button>
+                                <Button><Chip label="申請する" className={classes.chip && classes.chipButton} color="primary" /></Button>
                             :
                                 ''
                         }
@@ -90,4 +95,4 @@ const UserListData: React.FC<GROUP_LIST_DATA> = (props) => {
     );
 }
 
-export default UserListData
+export default GroupListData

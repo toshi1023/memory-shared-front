@@ -1,8 +1,8 @@
 import React from 'react';
-import '../../../styles/users/users.scss';
+import '../../../styles/groups/groups.scss';
 import SearchText from '../../components/common/SearchText';
 import SelectBox from '../../components/common/SelectBox';
-import GroupListData from '../../components/users/GroupListData';
+import GroupListData from '../../components/groups/GroupListData';
 import { Grid, Typography } from '@material-ui/core';
 
 import group_list from '../../../data/group_list_data.json';

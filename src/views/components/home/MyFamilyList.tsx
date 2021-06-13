@@ -26,7 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
         alignItems: 'center'
     },
     iconBackGround: {
-        backgroundColor: 'rgb(126, 170, 252)'
+        backgroundColor: 'rgb(126, 170, 252)',
+        '&:hover': {
+            cursor: 'pointer'
+        }
     }
   }),
 );
