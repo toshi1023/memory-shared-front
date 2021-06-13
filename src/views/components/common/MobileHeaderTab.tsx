@@ -22,12 +22,14 @@ const MobileHeaderTab: React.FC<MOBILE_HEADER_TAB> = (props) => {
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
+    // 左側のタブを押下された場合
     if(newValue === 0) {
-      props.callback.function1();
+      props.callback.function1(newValue);
       return;
     }
+    // 右側のタブを押下された場合
     if(newValue === 1) {
-      props.callback.function2();
+      props.callback.function2(newValue);
       return;
     }
   };

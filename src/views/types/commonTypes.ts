@@ -18,8 +18,8 @@ export interface MOBILE_MENU {
  */
 export interface MOBILE_HEADER_TAB {
     callback: {
-        function1: () => void,
-        function2: () => void,
+        function1: (value: number) => void,
+        function2: (value: number) => void,
     }
 
     label: {
