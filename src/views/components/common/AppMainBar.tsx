@@ -72,7 +72,7 @@ const AppMainBar: React.FC = () => {
                 <Button color="inherit"><EmojiPeopleIcon onClick={() => history.push('/users')} /></Button>
               </Tooltip>
               <Tooltip title="グループ" classes={{tooltip: classes.tooltip}}>
-                <Button color="inherit"><SupervisedUserCircleIcon /></Button>
+                <Button color="inherit"><SupervisedUserCircleIcon onClick={() => history.push('/groups')} /></Button>
               </Tooltip>
               <Tooltip title="お知らせ" classes={{tooltip: classes.tooltip}}>
                 <Button color="inherit"><NotificationImportantIcon /></Button>

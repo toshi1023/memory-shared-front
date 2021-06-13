@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../../styles/home/home.scss';
 import PageNotFound from '../../components/common/PageNotFound';
-import TalkList from '../../components/home/TalkList';
+import MyTalkList from '../../components/home/MyTalkList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 
@@ -24,7 +24,7 @@ const MobileMyTalk: React.FC = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={10}>
-                        <TalkList data={talk_list} />
+                        <MyTalkList data={talk_list} />
                     </Grid>
                 </Grid>
             </div>

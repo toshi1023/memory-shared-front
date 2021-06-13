@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const TalkList: React.FC<TALK_LIST> = (props) => {
+const MyTalkList: React.FC<TALK_LIST> = (props) => {
     const classes = useStyles();
 
     return (
@@ -61,4 +61,4 @@ const TalkList: React.FC<TALK_LIST> = (props) => {
     );
 }
 
-export default TalkList
+export default MyTalkList

@@ -5,7 +5,8 @@
         "image_file": "",
         "participants": 4,
         "album_count": 6,
-        "private_flg": true
+        "private_flg": true,
+        "status_type": "ホスト"
     },
     {
         "id": 2,
@@ -13,7 +14,8 @@
         "image_file": "",
         "participants": 3,
         "album_count": 4,
-        "private_flg": false
+        "private_flg": false,
+        "status_type": "申請中"
     },
     {
         "id": 3,
@@ -21,7 +23,8 @@
         "image_file": "",
         "participants": 11,
         "album_count": 15,
-        "private_flg": true
+        "private_flg": true,
+        "status_type": null
     },
     {
         "id": 4,
@@ -29,7 +32,8 @@
         "image_file": "",
         "participants": 8,
         "album_count": 17,
-        "private_flg": true
+        "private_flg": true,
+        "status_type": "メンバー"
     },
     {
         "id": 5,
@@ -37,6 +41,7 @@
         "image_file": "",
         "participants": 7,
         "album_count": 8,
-        "private_flg": false
+        "private_flg": false,
+        "status_type": null
     }
 ]

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../../styles/home/home.scss';
 import PageNotFound from '../../components/common/PageNotFound';
-import GroupList from '../../components/home/GroupList';
+import MyGroupList from '../../components/home/MyGroupList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 
@@ -29,7 +29,7 @@ const MobileMyGroup: React.FC = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={8}>
-                        <GroupList data={group_list} />
+                        <MyGroupList data={group_list} />
                     </Grid>
                 </Grid>
             </div>

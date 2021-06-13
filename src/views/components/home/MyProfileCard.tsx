@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
  * @param props 
  * @returns 
  */
-const ProfileCard: React.FC<PROFILE_CARD> = (props) => {
+const MyProfileCard: React.FC<PROFILE_CARD> = (props) => {
   const classes = useStyles();
 
   return (
@@ -120,4 +120,4 @@ const ProfileCard: React.FC<PROFILE_CARD> = (props) => {
   );
 }
 
-export default ProfileCard;
+export default MyProfileCard;

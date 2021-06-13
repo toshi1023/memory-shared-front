@@ -1,5 +1,5 @@
 /**
- * ListData用のデータ型定義
+ * UserListData用のデータ型定義
  */
 export interface USER_LIST_DATA {
     data: { 

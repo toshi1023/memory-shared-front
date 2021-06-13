@@ -1,9 +1,9 @@
 import React from 'react';
 import '../../../styles/home/home.scss';
-import ProfileCard from '../../components/home/ProfileCard';
-import GroupList from '../../components/home/GroupList';
-import FamilyList from '../../components/home/FamilyList';
-import TalkList from '../../components/home/TalkList';
+import MyProfileCard from '../../components/home/MyProfileCard';
+import MyGroupList from '../../components/home/MyGroupList';
+import MyFamilyList from '../../components/home/MyFamilyList';
+import MyTalkList from '../../components/home/MyTalkList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 
@@ -49,10 +49,10 @@ const Home: React.FC = () => {
                     </Grid>
                     <Grid container spacing={2}>
                         <Grid item sm={3}>
-                            <FamilyList data={family_list} />
+                            <MyFamilyList data={family_list} />
                         </Grid>
                         <Grid item sm={6}>
-                            <ProfileCard data={profile} />
+                            <MyProfileCard data={profile} />
                             <br />
                             <hr className="app_hr" />
                             <div className="title_space">
@@ -60,10 +60,10 @@ const Home: React.FC = () => {
                                     参加グループ一覧
                                 </Typography>
                             </div>
-                            <GroupList data={group_list} />
+                            <MyGroupList data={group_list} />
                         </Grid>
                         <Grid item sm={3}>
-                            <TalkList data={talk_list} />
+                            <MyTalkList data={talk_list} />
                         </Grid>
                     </Grid>
                 </div>
@@ -77,7 +77,7 @@ const Home: React.FC = () => {
                             </Typography>
                         </Grid>
                         <Grid item xs={11} className="mobile_profile">
-                            <ProfileCard data={profile} />
+                            <MyProfileCard data={profile} />
                         </Grid>
                     </Grid>
                 </div>

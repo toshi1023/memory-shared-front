@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const GroupList: React.FC<GROUP_LIST> = (props) => {
+const MyGroupList: React.FC<GROUP_LIST> = (props) => {
   const classes = useStyles();
 
   return (
@@ -91,4 +91,4 @@ const GroupList: React.FC<GROUP_LIST> = (props) => {
   );
 }
 
-export default GroupList
+export default MyGroupList

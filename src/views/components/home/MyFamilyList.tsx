@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const FamilyList: React.FC<FAMILY_LIST> = (props) => {
+const MyFamilyList: React.FC<FAMILY_LIST> = (props) => {
     const classes = useStyles();
 
     return (
@@ -53,4 +53,4 @@ const FamilyList: React.FC<FAMILY_LIST> = (props) => {
     )
 }
 
-export default FamilyList
+export default MyFamilyList
