@@ -24,19 +24,9 @@ const useStyles = makeStyles((theme: Theme) =>
     pos: {
       marginBottom: 12,
     },
-    editButton: {
-      fontWeight: 'bold',
-      color: 'rgb(168, 168, 168)'
-    },
-    footerContainer: {
-      paddingLeft: '20px'
-    },
     iconBackGround: {
       backgroundColor: 'rgb(126, 170, 252)'
-    },
-    offset: {
-      flexGrow: 1  // 要素を右寄せにするために必要なプロパティ
-    },
+    }
 }));
 
 /**
@@ -109,12 +99,12 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
           
         </Grid>
       </CardContent>
-      <CardActions className={classes.footerContainer}>
+      <CardActions className={componentStyles.footerContainer}>
         <Typography component="p">
           ユーザとの関係 : 
         </Typography>
       </CardActions>
-      <CardActions className={classes.footerContainer}>
+      <CardActions className={componentStyles.footerContainer}>
         {
             props.data.status_type === 'ホスト' ? 
                 <Chip label="ホスト" className={componentStyles.chip} color="secondary" />
@@ -133,7 +123,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
             :
                 ''
         }  
-        <div className={classes.offset}></div>
+        <div className={componentStyles.offset}></div>
         {
           props.data.status_type !== null ? 
             <Button><Chip label="申請する" className={componentStyles.chip && componentStyles.chipButton} color="primary" /></Button>
