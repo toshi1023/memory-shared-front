@@ -1,4 +1,5 @@
 import React from 'react';
+import ComponentStyles from '../../../styles/common/componentStyle';
 import { useHistory } from "react-router-dom";
 import _ from 'lodash';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -21,22 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
         listItem: {
             margin: '10px 0 10px 0'
         },
-        chip: {
-            fontSize: '0.5rem',
-        },
-        chipButton: {
-            '&:hover': {
-                cursor: 'pointer'
-            }
-        },
-        yellow: {
-            backgroundColor: 'rgb(213, 247, 119)',
-            color: 'white'
-        },
-        green: {
-            backgroundColor: 'rgb(105, 247, 148)',
-            color: 'white'
-        },
     }),
 );
 
@@ -47,14 +32,15 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const GroupListData: React.FC<GROUP_LIST_DATA> = (props) => {
     const classes = useStyles();
+    const componentStyles = ComponentStyles();
     const history = useHistory();
 
     return (
         <List dense className={classes.root}>
         {_.map(props.data, value => {
-            const labelId = `user-list-${value.id}`;
+            const labelId = `group-list-${value.id}`;
             return (
-                <ListItem key={value.id} button className={classes.listItem} onClick={() => history.push('users/test')}>
+                <ListItem key={value.id} button className={classes.listItem} onClick={() => history.push('groups/test')}>
                     <ListItemAvatar>
                         <Avatar
                             alt={`Avatar n°${value.id + 1}`}
@@ -65,25 +51,25 @@ const GroupListData: React.FC<GROUP_LIST_DATA> = (props) => {
                     <ListItemSecondaryAction>
                         {
                             value.status_type === 'ホスト' ? 
-                                <Chip label="ホスト" className={classes.chip} color="secondary" />
+                                <Chip label="ホスト" className={componentStyles.chip} color="secondary" />
                             :
                                 ''
                         }
                         {
                             value.status_type === 'メンバー' ? 
-                                <Chip label="メンバー" className={classes.chip && classes.green} />
+                                <Chip label="メンバー" className={componentStyles.chip && componentStyles.green} />
                             :
                                 ''
                         }
                         {
                             value.status_type === '申請中' ? 
-                                <Chip label="申請中" className={classes.chip && classes.yellow} />
+                                <Chip label="申請中" className={componentStyles.chip && componentStyles.yellow} />
                             :
                                 ''
                         }
                         {
                             value.status_type === null ? 
-                                <Button><Chip label="申請する" className={classes.chip && classes.chipButton} color="primary" /></Button>
+                                <Button><Chip label="申請する" className={componentStyles.chip && componentStyles.chipButton} color="primary" /></Button>
                             :
                                 ''
                         }

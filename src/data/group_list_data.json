@@ -6,7 +6,8 @@
         "participants": 4,
         "album_count": 6,
         "private_flg": true,
-        "status_type": "ホスト"
+        "status_type": "ホスト",
+        "description": "梅田カフェ巡り！ほっと一息つけるカフェタイムを楽しみにでかけるグループです！"
     },
     {
         "id": 2,
@@ -15,7 +16,8 @@
         "participants": 3,
         "album_count": 4,
         "private_flg": false,
-        "status_type": "申請中"
+        "status_type": "申請中",
+        "description": "予想を超えます！100店近くのお店が軒を連ねる新梅田食道街でハシゴ酒しよう！"
     },
     {
         "id": 3,
@@ -24,7 +26,8 @@
         "participants": 11,
         "album_count": 15,
         "private_flg": true,
-        "status_type": null
+        "status_type": null,
+        "description": "大阪駅のランチ会★"
     },
     {
         "id": 4,
@@ -33,7 +36,8 @@
         "participants": 8,
         "album_count": 17,
         "private_flg": true,
-        "status_type": "メンバー"
+        "status_type": "メンバー",
+        "description": "バスケサークルBASKE★の思い出共有グループです"
     },
     {
         "id": 5,
@@ -42,6 +46,7 @@
         "participants": 7,
         "album_count": 8,
         "private_flg": false,
-        "status_type": null
+        "status_type": null,
+        "description": "神戸駅の友達作りランチ会！"
     }
 ]

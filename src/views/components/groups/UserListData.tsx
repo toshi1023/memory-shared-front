@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
-import ComponentStyles from '../../../styles/common/componentStyle';
 import _ from 'lodash';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -9,8 +8,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
-import { USER_LIST_DATA } from '../../types/usersTypes';
+import { USER_LIST_DATA } from '../../types/groupsTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,7 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const UserListData: React.FC<USER_LIST_DATA> = (props) => {
     const classes = useStyles();
-    const componentStyles = ComponentStyles();
     const history = useHistory();
 
     return (
@@ -39,7 +36,7 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
         {_.map(props.data, value => {
             const labelId = `user-list-${value.id}`;
             return (
-                <ListItem key={value.id} button className={classes.listItem} onClick={() => history.push('users/test')}>
+                <ListItem key={value.id} button className={classes.listItem} onClick={() => history.push('/groups/test')}>
                     <ListItemAvatar>
                         <Avatar
                             alt={`Avatar n°${value.id + 1}`}
@@ -47,20 +44,6 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
                         />
                     </ListItemAvatar>
                     <ListItemText id={labelId} primary={value.name} />
-                    <ListItemSecondaryAction>
-                        {
-                            value.talk_id ? 
-                                <Chip label="トーク中" className={componentStyles.chip} color="primary" />
-                            :
-                                ''
-                        }
-                        {
-                            value.family_id ? 
-                                <Chip label="ファミリー" className={componentStyles.chip && componentStyles.yellow} />
-                            :
-                                ''
-                        }
-                    </ListItemSecondaryAction>
                 </ListItem>
             );
         })}

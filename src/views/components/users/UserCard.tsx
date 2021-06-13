@@ -1,4 +1,5 @@
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import ComponentStyles from '../../../styles/common/componentStyle';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -22,49 +23,8 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '0 2px',
       transform: 'scale(0.8)',
     },
-    profileAvatar: {
-      width: theme.spacing(10),
-      height: theme.spacing(10),
-      marginBottom: theme.spacing(1),
-      display: 'inline-block',
-    },
-    title: {
-      fontSize: 16,
-      textAlign: 'right'
-    },
-    content: {
-      fontSize: 18,
-      textAlign: 'left'
-    },
-    description: {
-      fontSize: 16,
-      textAlign: 'left'
-    },
-    pos: {
-      marginBottom: 12,
-    },
-    editButton: {
-      fontWeight: 'bold',
-      color: 'rgb(168, 168, 168)'
-    },
-    chip: {
-      fontSize: '0.5rem',
-    },
-    yellow: {
-        backgroundColor: 'rgb(213, 247, 119)',
-        color: 'white'
-    },
-    footerContainer: {
-      paddingLeft: '20px'
-    },
     iconBackGround: {
       backgroundColor: 'rgb(126, 170, 252)'
-    },
-    offset: {
-      flexGrow: 1  // 要素を右寄せにするために必要なプロパティ
-    },
-    tooltip: {
-      fontSize: '1rem'
     }
 }));
 
@@ -75,86 +35,87 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const UserCard: React.FC<USER_CARD> = (props) => {
   const classes = useStyles();
+  const componentStyles = ComponentStyles();
 
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Avatar src={props.data.image_file} className={classes.profileAvatar} />
+        <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} />
         <Grid container spacing={1}>
 
           <Grid item xs={4} sm={3}>
-            <Typography className={classes.title}>
+            <Typography className={componentStyles.title}>
               ユーザ名 :
             </Typography>
           </Grid>
           <Grid item xs={8} sm={9}>
-            <Typography className={classes.content} color="textSecondary" gutterBottom>
+            <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
               {props.data.name}
             </Typography>
           </Grid>
 
           <Grid item xs={4} sm={3}>
-            <Typography className={classes.title}>
+            <Typography className={componentStyles.title}>
               趣味 :
             </Typography>
           </Grid>
           <Grid item xs={8} sm={9}>
-            <Typography className={classes.content} color="textSecondary" gutterBottom>
+            <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
               {props.data.hobby}
             </Typography>
           </Grid>
           
           <Grid item xs={4} sm={3}>
-            <Typography className={classes.title}>
+            <Typography className={componentStyles.title}>
               性別 :
             </Typography>
           </Grid>
           <Grid item xs={8} sm={9}>
             {
               props.data.gender ? 
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
+                <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
                     男性
                 </Typography>
               :
-                <Typography className={classes.content} color="textSecondary" gutterBottom>
+                <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
                     女性
                 </Typography>
             }
           </Grid>
 
           <Grid item xs={4} sm={3}>
-            <Typography className={classes.title}>
+            <Typography className={componentStyles.title}>
               自己紹介 :
             </Typography>
           </Grid>
           <Grid item xs={8} sm={9}>
-            <Typography className={classes.description} color="textSecondary" gutterBottom>
+            <Typography className={componentStyles.description} color="textSecondary" gutterBottom>
               {props.data.description}
             </Typography>
           </Grid>
           
         </Grid>
       </CardContent>
-      <CardActions className={classes.footerContainer}>
+      <CardActions className={componentStyles.footerContainer}>
         <Typography component="p">
           ユーザとの関係 : 
         </Typography>
       </CardActions>
-      <CardActions className={classes.footerContainer}>
+      <CardActions className={componentStyles.footerContainer}>
         {
             props.data.talk_id ? 
-                <Chip label="トーク中" className={classes.chip} color="primary" />
+                <Chip label="トーク中" className={componentStyles.chip} color="primary" />
             :
                 ''
         }
         {
             props.data.family_id ? 
-                <Chip label="ファミリー" className={classes.chip && classes.yellow} />
+                <Chip label="ファミリー" className={componentStyles.chip && componentStyles.yellow} />
             :
                 ''
         }        
-        <div className={classes.offset}></div>
-        <Tooltip title="トークを始める" classes={{tooltip: classes.tooltip}}>
+        <div className={componentStyles.offset}></div>
+        <Tooltip title="トークを始める" classes={{tooltip: componentStyles.tooltip}}>
           <Button><Avatar className={classes.iconBackGround}><MailIcon /></Avatar></Button>  
         </Tooltip>
       </CardActions>

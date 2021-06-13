@@ -11,6 +11,7 @@ import MobileMyTalk from './views/pages/home/MobileMyTalk';
 import UserList from './views/pages/users/List';
 import UserDetail from './views/pages/users/Detail';
 import GroupList from './views/pages/groups/List';
+import GroupDetail from './views/pages/groups/Detail';
 
 /**
  * スマホ画面の場合、フッターのメニュータブを表示
@@ -42,6 +43,7 @@ function App() {
           <Route exact path="/users" component={UserList} />
           <Route exact path="/users/test" component={UserDetail} />
           <Route exact path="/groups" component={GroupList} />
+          <Route exact path="/groups/test" component={GroupDetail} />
 
           {/* スマホ用フッタータブとの連携ページ */}
           <Route exact path="/mobile/myfamily" component={MobileMyFamily} />

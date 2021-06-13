@@ -1,4 +1,5 @@
 import React from 'react';
+import ComponentStyles from '../../../styles/common/componentStyle';
 import _ from 'lodash';
 import { GROUP_LIST } from '../../types/homeTypes';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -20,32 +21,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         media: {
             height: 70,
-        },
-        participants: {
-            textAlign: 'left',
-            color: 'rgb(245, 176, 111)'
-        },
-        unit: {
-            fontSize: '0.6rem',
-            color: 'rgb(139, 139, 139)'
-        },
-        albums: {
-            textAlign: 'left',
-            fontSize: '0.9rem'
-        },
-        privateFlgTrue: {
-            fontSize: '0.8rem',
-            color: 'red'
-        },
-        privateFlgFalse: {
-            fontSize: '0.8rem',
-            color: 'blue'
         }
     })
 );
 
 const MyGroupList: React.FC<GROUP_LIST> = (props) => {
   const classes = useStyles();
+  const componentStyles = ComponentStyles();
 
   return (
       <div>
@@ -63,22 +45,22 @@ const MyGroupList: React.FC<GROUP_LIST> = (props) => {
                                     <Typography gutterBottom variant="h6" component="h4">
                                         {value.name}
                                     </Typography>
-                                    <Typography variant="body2" color="textSecondary" component="p" className={classes.albums}>
-                                        {value.album_count}<span className={classes.unit}>個のアルバムを作成中</span>
+                                    <Typography variant="body2" color="textSecondary" component="p" className={componentStyles.albums}>
+                                        {value.album_count}<span className={componentStyles.unit}>個のアルバムを作成中</span>
                                     </Typography>
-                                    <Typography component="p" className={classes.participants}>
-                                        {value.participants}<span className={classes.unit}>人参加中</span>
+                                    <Typography component="p" className={componentStyles.participants}>
+                                        {value.participants}<span className={componentStyles.unit}>人参加中</span>
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
                             <CardActions>
                                 {
                                     value.private_flg ? 
-                                        <Typography className={classes.privateFlgTrue}>
+                                        <Typography className={componentStyles.privateFlgTrue}>
                                             非公開
                                         </Typography>
                                     :
-                                        <Typography className={classes.privateFlgFalse}>
+                                        <Typography className={componentStyles.privateFlgFalse}>
                                             公開
                                         </Typography>
                                 }
