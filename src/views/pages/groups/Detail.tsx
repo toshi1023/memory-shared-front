@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import '../../../styles/home/home.scss';
 import GroupCard from '../../components/groups/GroupCard';
 import UserListData from '../../components/groups/UserListData';
+import AlbumListData from '../../components/groups/AlbumListData';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
 import { Grid, Typography, Hidden } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 
 import user_list from '../../../data/user_list_data.json';
+import album_list from '../../../data/album_list_data.json';
 
 const GroupDetail: React.FC = () => {
     const displayStyles = DisplayStyles();
@@ -34,6 +36,7 @@ const GroupDetail: React.FC = () => {
             <Grid container justify="center" spacing={1} className="card">
                 <Grid item xs={11} sm={7} md={5}>
                     <GroupCard data={group} />
+                    <AlbumListData data={album_list} />
                 </Grid>
             </Grid>
         );
@@ -84,6 +87,7 @@ const GroupDetail: React.FC = () => {
                     </Grid>
                     <Grid item sm={7} md={5}>
                         <GroupCard data={group} />
+                        <AlbumListData data={album_list} />
                     </Grid>
                     <Hidden smDown>
                         <Grid item md className="title_space center">

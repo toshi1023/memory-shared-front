@@ -38,3 +38,14 @@ export interface GROUP_CARD {
         talk_id: number | null;
     }[]
 }
+
+/**
+ * AlbumListData用のデータ型定義
+ */
+ export interface ALBUM_LIST_DATA {
+    data: { 
+        id: number;
+        name: string;
+        image_file: string;
+    }[]
+}
