@@ -14,6 +14,16 @@ export interface MOBILE_MENU {
 }
 
 /**
+ * AppMainBar用のデータ型定義
+ */
+ export interface ICON_ACTIVE {
+    home: boolean,
+    user: boolean,
+    group: boolean,
+    news: boolean
+}
+
+/**
  * MobileHeaderTab用のデータ型定義
  */
 export interface MOBILE_HEADER_TAB {

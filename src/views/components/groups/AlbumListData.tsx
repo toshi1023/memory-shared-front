@@ -13,14 +13,14 @@ import { ALBUM_LIST_DATA } from '../../types/groupsTypes';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            maxWidth: 300,
+            maxWidth: 400,
             '&:hover': {
                 background: "rgb(209, 208, 208)",
             },
             marginBottom: theme.spacing(2)
         },
         media: {
-            height: 100,
+            height: 135,
         }
     })
 );

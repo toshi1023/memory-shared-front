@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../../styles/groups/groups.scss';
 import '../../../styles/home/home.scss';
 import GroupCard from '../../components/groups/GroupCard';
 import UserListData from '../../components/groups/UserListData';
@@ -36,6 +37,8 @@ const GroupDetail: React.FC = () => {
             <Grid container justify="center" spacing={1} className="card">
                 <Grid item xs={11} sm={7} md={5}>
                     <GroupCard data={group} />
+                </Grid>
+                <Grid item xs={8} className="album_list">
                     <AlbumListData data={album_list} />
                 </Grid>
             </Grid>
@@ -77,7 +80,7 @@ const GroupDetail: React.FC = () => {
     }
 
     return (
-        <div id="user_detail">
+        <div id="group_detail">
 
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
@@ -87,7 +90,9 @@ const GroupDetail: React.FC = () => {
                     </Grid>
                     <Grid item sm={7} md={5}>
                         <GroupCard data={group} />
-                        <AlbumListData data={album_list} />
+                        <div className="album_list">
+                            <AlbumListData data={album_list} />
+                        </div>
                     </Grid>
                     <Hidden smDown>
                         <Grid item md className="title_space center">
