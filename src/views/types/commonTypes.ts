@@ -14,6 +14,13 @@ export interface MOBILE_MENU {
 }
 
 /**
+ * MobileMenuアイコン用のデータ型定義
+ */
+ export interface MOBILE_MENU_ICON {
+    callback: (value: string) => void
+}
+
+/**
  * AppMainBar用のデータ型定義
  */
  export interface ICON_ACTIVE {

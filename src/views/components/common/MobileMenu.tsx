@@ -12,6 +12,7 @@ import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
+import { MOBILE_MENU_ICON } from '../../types/commonTypes';
 
 const useStyles = makeStyles({
   list: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles({
  * スマホ用メニューの設定
  * @returns 
  */
-const MobileMenu: React.FC = () => {
+const MobileMenu: React.FC<MOBILE_MENU_ICON> = (props) => {
     const classes = useStyles();
     const history = useHistory();
     const [state, setState] = useState(false);
@@ -60,6 +61,16 @@ const MobileMenu: React.FC = () => {
     }
 
     /**
+     * メニューのクリック
+     * @param index 
+     */
+    const handleMenuClick = (index: number) => {
+        if(index === 0) props.callback('user');
+        if(index === 1) props.callback('group');
+        if(index === 2) props.callback('news');
+    }
+
+    /**
      * メニューリスト生成
      * @returns 
      */
@@ -83,7 +94,7 @@ const MobileMenu: React.FC = () => {
                             {index === 1 ? <SupervisedUserCircleIcon /> : ''}
                             {index === 2 ? <NotificationImportantIcon /> : ''}
                         </ListItemIcon>
-                        <ListItemText primary={text} />
+                        <ListItemText primary={text} onClick={() => handleMenuClick(index)} />
                     </ListItem>
                 ))}
             </List>

@@ -81,6 +81,27 @@ const AppMainBar: React.FC = () => {
         if(value === 'news') setActive({...active, home: false, user: false, group: false, news: true});
     }
 
+    /**
+     * モバイル用のアイコン表示制御
+     * @returns 
+     */
+    const renderMobileIcon = () => {
+        return (
+            <div>
+              {
+                active.user ? 
+                  <EmojiPeopleIcon style={{ color: activeColor }} />
+                : active.group ? 
+                  <SupervisedUserCircleIcon style={{ color: activeColor }} />
+                : active.news ? 
+                  <NotificationImportantIcon style={{ color: activeColor }} />
+                : 
+                  <HomeIcon style={{ color: activeColor }} />
+              }
+            </div>
+        );
+    }
+
     return (
       <div>
         <div className={classes.root}>
@@ -119,11 +140,15 @@ const AppMainBar: React.FC = () => {
             <Grid item xs={12}>
               <Toolbar>
                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                  <MobileMenu />
+                  <MobileMenu callback={iconActive} />
                 </IconButton>
-                <Typography variant="h6" className={classes.mobileTitle} onClick={() => history.push('/')}>
+                <Typography variant="h6" className={classes.mobileTitle} onClick={() => { 
+                  history.push('/');
+                  iconActive('home');
+                }}>
                   MemoryShareApp
                 </Typography>
+                {renderMobileIcon()}
               </Toolbar>
             </Grid>
           </Grid>
