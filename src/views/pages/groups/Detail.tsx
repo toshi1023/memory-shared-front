@@ -38,7 +38,7 @@ const GroupDetail: React.FC = () => {
                 <Grid item xs={11} sm={7} md={5}>
                     <GroupCard data={group} />
                 </Grid>
-                <Grid item xs={8} className="album_list">
+                <Grid item xs={11} className="album_list">
                     <AlbumListData data={album_list} />
                 </Grid>
             </Grid>
@@ -84,42 +84,44 @@ const GroupDetail: React.FC = () => {
 
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
-                <Grid container justify="center" spacing={1} className="card">
-                    <Grid item md>
-                        {/* 広告用写真 */}
+                <Hidden smDown>
+                    <Grid container justify="center" spacing={1} className="card">
+                        <Grid item md>
+                            {/* 広告用写真 */}
+                        </Grid>
+                        <Grid item md={5}>
+                            <GroupCard data={group} />
+                            <div className="album_list">
+                                <AlbumListData data={album_list} />
+                            </div>
+                        </Grid>
+                        <Hidden smDown>
+                            <Grid item md className="title_space center">
+                                <Typography className="title">
+                                    参加ユーザ
+                                </Typography>
+                                <UserListData data={user_list} />
+                            </Grid>
+                        </Hidden>
                     </Grid>
-                    <Grid item sm={7} md={5}>
-                        <GroupCard data={group} />
-                        <div className="album_list">
-                            <AlbumListData data={album_list} />
-                        </div>
-                    </Grid>
-                    <Hidden smDown>
-                        <Grid item md className="title_space center">
+                </Hidden>
+                <Hidden mdUp xsDown>
+                    <Grid container spacing={2} className="card">
+                        <Grid item sm={7} className="title_space center">
+                            <GroupCard data={group} />
+                            <div className="album_list">
+                                <AlbumListData data={album_list} />
+                            </div>
+                        </Grid>
+                        <Grid item sm={4} className="title_space center">
                             <Typography className="title">
                                 参加ユーザ
                             </Typography>
                             <UserListData data={user_list} />
                         </Grid>
-                    </Hidden>
-                </Grid>
-                <Grid container>
-                    <Hidden mdUp>
-                        <Grid item sm className="title_space center">
-                            <Typography className="title">
-                                参加ユーザ
-                            </Typography>
-                        </Grid>
-                    </Hidden>
-                </Grid>
-                <Grid container justify="center">
-                    {/* mdサイズ以上は表示しない */}
-                    <Hidden mdUp xsDown>
-                        <Grid item sm={7}>
-                            <UserListData data={user_list} />
-                        </Grid>
-                    </Hidden>
-                </Grid>
+                    </Grid>
+                </Hidden>
+                
             </div>
 
             {/* スマホ版 */}

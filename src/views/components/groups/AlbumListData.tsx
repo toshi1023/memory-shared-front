@@ -38,7 +38,7 @@ const AlbumListData: React.FC<ALBUM_LIST_DATA> = (props) => {
         <div>
             <Grid container spacing={2}>
             {_.map(props.data, value => (
-                <Grid item xs={12} sm={6} md={4} key={value.id}>
+                <Grid item xs={6} sm={6} md={4} key={value.id}>
                     <Card className={classes.root}>
                         <CardActionArea>
                             <CardMedia

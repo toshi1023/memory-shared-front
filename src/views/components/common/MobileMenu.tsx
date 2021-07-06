@@ -25,6 +25,8 @@ const useStyles = makeStyles({
 
 /**
  * スマホ用メニューの設定
+ * 
+ * @param props 
  * @returns 
  */
 const MobileMenu: React.FC<MOBILE_MENU_ICON> = (props) => {

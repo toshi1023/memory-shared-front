@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme: Theme) =>
             maxWidth: 300,
             '&:hover': {
                 background: "rgb(209, 208, 208)",
-            }
+            },
+            marginBottom: theme.spacing(2)
         },
         media: {
             height: 70,
@@ -31,7 +32,7 @@ const MyGroupList: React.FC<GROUP_LIST> = (props) => {
 
   return (
       <div>
-          <Grid container spacing={1}>
+          <Grid container spacing={2}>
             {_.map(props.data, value => (
                     <Grid item xs={12} sm={6} md={4} key={value.id}>
                         <Card className={classes.root}>
