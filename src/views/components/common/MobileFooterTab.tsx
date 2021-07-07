@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
@@ -27,16 +26,21 @@ const MobileFooterTab: React.FC = () => {
   const history = useHistory();
   const [value, setValue] = React.useState(0);
 
+  /**
+   * アクティブなタブの状態を切り替え
+   * @param event 
+   * @param newValue 
+   */
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
 
   return (
     <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
-      <BottomNavigationAction label="ホーム" value="ホーム" icon={<HomeIcon />} onClick={() => history.push('/')} />
-      <BottomNavigationAction label="グループ" value="グループ" icon={<PeopleOutlineIcon />} onClick={() => history.push('/mobile/mygroup')} />
-      <BottomNavigationAction label="ファミリ" value="ファミリー" icon={<PersonPinCircleIcon onClick={() => history.push('/mobile/myfamily')} />} />
-      <BottomNavigationAction label="トーク" value="トーク" icon={<TapAndPlayIcon />} onClick={() => history.push('/mobile/mytalk')} />
+      <BottomNavigationAction label="Home" value={1} icon={<HomeIcon />} onClick={() => history.push('/')} />
+      <BottomNavigationAction label="Group" value={2} icon={<PeopleOutlineIcon />} onClick={() => history.push('/mobile/mygroup')} />
+      <BottomNavigationAction label="Family" value={3} icon={<PersonPinCircleIcon onClick={() => history.push('/mobile/myfamily')} />} />
+      <BottomNavigationAction label="Talk" value={4} icon={<TapAndPlayIcon />} onClick={() => history.push('/mobile/mytalk')} />
     </BottomNavigation>
   );
 }

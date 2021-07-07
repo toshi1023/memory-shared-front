@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 /**
- * ユーザ一覧表示用関数
+ * グループ一覧表示用関数
  * @param props 
  * @returns 
  */

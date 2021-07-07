@@ -43,5 +43,4 @@ export interface MOBILE_HEADER_TAB {
         label1: string,
         label2: string
     }
-    
 }
