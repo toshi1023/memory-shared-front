@@ -3,14 +3,18 @@
  */
  export interface MEDIA_LIST_DATA {
     data: { 
-        image: {
-            id: number;
-            image_file: string;
-        },
-        movie: {
-            id: number;
-            image_file: string;
-            title: string;
-        }
+        id: number;
+        image_file: string;
+        title: string;
+        // image: {
+        //     id: number;
+        //     image_file: string;
+        //     title: string;
+        // },
+        // movie: {
+        //     id: number;
+        //     image_file: string;
+        //     title: string;
+        // }
     }[]
 }
