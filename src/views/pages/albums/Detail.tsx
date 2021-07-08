@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../styles/albums/albums.scss';
 import { Grid, Typography, Hidden } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import MediaListData from '../../components/albums/MediaListData';
@@ -14,7 +15,7 @@ const AlbumDetail: React.FC = () => {
         <div id="album_detail">
             <Grid container justify="center" spacing={1} className="card">
                 <Grid item xs={11} md={7}>
-                    <div className="album_list">
+                    <div>
                         <MediaListData data={media_list} />
                     </div>
                 </Grid>

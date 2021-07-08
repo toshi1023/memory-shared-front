@@ -25,65 +25,63 @@ const Home: React.FC = () => {
     }
 
     return (
-        <>
-            <div id="home">
+        <div id="home">
 
-                {/* PC版 & iPad版 */}
-                <div className={displayStyles.sectionDesktop}>
-                    <Grid container>
-                        <Grid item sm className="title_space center">
-                            <Typography className="title">
-                                ファミリー
-                            </Typography>
-                        </Grid>
-                        <Grid item sm={6} className="title_space">
-                            <Typography className="title">
-                                プロフィール
-                            </Typography>
-                        </Grid>
-                        <Grid item sm className="title_space center">
-                            <Typography className="title">
-                                トーク
-                            </Typography>
-                        </Grid>
+            {/* PC版 & iPad版 */}
+            <div className={displayStyles.sectionDesktop}>
+                <Grid container>
+                    <Grid item sm className="title_space center">
+                        <Typography className="title">
+                            ファミリー
+                        </Typography>
                     </Grid>
-                    <Grid container spacing={2}>
-                        <Grid item sm={3}>
-                            <MyFamilyList data={family_list} />
-                        </Grid>
-                        <Grid item sm={6}>
-                            <MyProfileCard data={profile} />
-                            <br />
-                            <hr className="app_hr" />
-                            <div className="title_space">
-                                <Typography className="title">
-                                    参加グループ一覧
-                                </Typography>
-                            </div>
-                            <MyGroupList data={group_list} />
-                        </Grid>
-                        <Grid item sm={3}>
-                            <MyTalkList data={talk_list} />
-                        </Grid>
+                    <Grid item sm={6} className="title_space">
+                        <Typography className="title">
+                            プロフィール
+                        </Typography>
                     </Grid>
-                </div>
-            
-                {/* スマホ版 */}
-                <div className={displayStyles.sectionMobile}>
-                    <Grid container justify="center">
-                        <Grid item xs={11} className="title_space">
+                    <Grid item sm className="title_space center">
+                        <Typography className="title">
+                            トーク
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                    <Grid item sm={3}>
+                        <MyFamilyList data={family_list} />
+                    </Grid>
+                    <Grid item sm={6}>
+                        <MyProfileCard data={profile} />
+                        <br />
+                        <hr className="app_hr" />
+                        <div className="title_space">
                             <Typography className="title">
-                                プロフィール
+                                参加グループ一覧
                             </Typography>
-                        </Grid>
-                        <Grid item xs={11} className="mobile_profile">
-                            <MyProfileCard data={profile} />
-                        </Grid>
+                        </div>
+                        <MyGroupList data={group_list} />
                     </Grid>
-                </div>
-                
+                    <Grid item sm={3}>
+                        <MyTalkList data={talk_list} />
+                    </Grid>
+                </Grid>
             </div>
-        </>
+        
+            {/* スマホ版 */}
+            <div className={displayStyles.sectionMobile}>
+                <Grid container justify="center">
+                    <Grid item xs={11} className="title_space">
+                        <Typography className="title">
+                            プロフィール
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={11} className="mobile_profile">
+                        <MyProfileCard data={profile} />
+                    </Grid>
+                </Grid>
+            </div>
+            
+        </div>
     )
 }
 

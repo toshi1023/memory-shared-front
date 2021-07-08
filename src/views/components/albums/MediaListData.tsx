@@ -1,5 +1,5 @@
 import React from 'react';
-import ComponentStyles from '../../../styles/common/componentStyle';
+import DisplayStyles from '../../../styles/common/displayMode';
 import _ from 'lodash';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
@@ -18,10 +18,15 @@ const useStyles = makeStyles((theme: Theme) =>
         justifyContent: 'space-around',
         overflow: 'hidden',
         backgroundColor: theme.palette.background.paper,
+        padding: '10px'
     },
     imageList: {
-        width: 500,
-        height: 450,
+        maxWidth: 800,
+        maxHeight: 700,
+    },
+    mobileImageList: {
+        maxWidth: 500,
+        height: 600,
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
@@ -36,28 +41,53 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const MediaListData: React.FC<MEDIA_LIST_DATA> = (props) => {
     const classes = useStyles();
+    const displayStyles = DisplayStyles();
 
     return (
-        <div className={classes.root}>
-            <ImageList rowHeight={180} className={classes.imageList}>
-                <ImageListItem key="Subheader" cols={2} style={{ height: 'auto' }}>
-                    <ListSubheader component="div">December</ListSubheader>
-                </ImageListItem>
-                {_.map(props.data, item => (
-                    <ImageListItem key={item.id}>
-                        <img src={item.image_file} alt={item.title} />
-                        <ImageListItemBar
-                            title={item.title}
-                            actionIcon={
-                                <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
-                                <InfoIcon />
-                                </IconButton>
-                            }
-                        />
-                    </ImageListItem>
-                ))}
-            </ImageList>
-        </div>
+        <>
+
+            {/* PC版 & iPad版 */}
+            <div className={displayStyles.sectionDesktop}>
+                <div className={classes.root}>
+                    <ImageList rowHeight={180} className={classes.imageList} cols={3}>
+                        {_.map(props.data, item => (
+                            <ImageListItem key={item.id}>
+                                <img src={item.image_file} alt={item.title} />
+                                <ImageListItemBar
+                                    title={item.title}
+                                    actionIcon={
+                                        <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
+                                        <InfoIcon />
+                                        </IconButton>
+                                    }
+                                />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
+                </div>
+            </div>
+
+            {/* スマホ版 */}
+            <div className={displayStyles.sectionMobile}>
+                <div className={classes.root}>
+                    <ImageList rowHeight={180} className={classes.mobileImageList}>
+                        {_.map(props.data, item => (
+                            <ImageListItem key={item.id}>
+                                <img src={item.image_file} alt={item.title} />
+                                <ImageListItemBar
+                                    title={item.title}
+                                    actionIcon={
+                                        <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
+                                        <InfoIcon />
+                                        </IconButton>
+                                    }
+                                />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
+                </div>
+            </div>
+        </>
     );
 }
 

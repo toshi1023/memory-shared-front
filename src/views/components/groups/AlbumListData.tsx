@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import ComponentStyles from '../../../styles/common/componentStyle';
 import _ from 'lodash';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -33,13 +34,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const AlbumListData: React.FC<ALBUM_LIST_DATA> = (props) => {
     const classes = useStyles();
     const componentStyles = ComponentStyles();
+    const history = useHistory();
 
     return (
         <div>
             <Grid container spacing={2}>
             {_.map(props.data, value => (
                 <Grid item xs={6} sm={6} md={4} key={value.id}>
-                    <Card className={classes.root}>
+                    <Card className={classes.root} onClick={() => history.push('/albums/test')}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
