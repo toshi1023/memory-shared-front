@@ -13,6 +13,7 @@ import UserDetail from './views/pages/users/Detail';
 import GroupList from './views/pages/groups/List';
 import GroupDetail from './views/pages/groups/Detail';
 import AlbumDetail from './views/pages/albums/Detail';
+import Login from './views/pages/home/Login';
 
 /**
  * スマホ画面の場合、フッターのメニュータブを表示
@@ -33,13 +34,19 @@ function App() {
   useEffect(() => {
     renderMobileFooterTab();
   }, [width]);
-
+  
   return (
     <div className="App">
       <BrowserRouter>
-        <AppMainBar />
+        {
+          window.location.pathname !== "/login" ? 
+            <AppMainBar />
+          :
+            ''
+        }
         <Switch>
           {/* PC & 一部スマホページ */}
+          <Route exact path="/login" component={Login} />
           <Route exact path="/" component={Home} />
           <Route exact path="/users" component={UserList} />
           <Route exact path="/users/test" component={UserDetail} />
