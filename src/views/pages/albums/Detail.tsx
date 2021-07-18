@@ -14,10 +14,12 @@ import media_list from '../../../data/media_list_data.json';
 const AlbumDetail: React.FC = () => {
     return (
         <div id="album_detail">
-            <Typography className="title">
-                album1
-            </Typography>
-            <Grid container justify="center" spacing={1} className="card">
+            <Grid container justify="center">
+                <Grid item xs={11} md={7} className="title_space">
+                    <Typography className="title">
+                        album1
+                    </Typography>
+                </Grid>
                 <Grid item xs={11} md={7}>
                     <div>
                         <MediaListData data={media_list} />

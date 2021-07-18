@@ -117,16 +117,16 @@ const AppMainBar: React.FC = () => {
                   }}>MemoryShareApp</span>
                 </Typography>
                 <Tooltip title="ホーム" classes={{tooltip: classes.tooltip}}>
-                  <Button color="inherit" onClick={() => iconActive('home')}><HomeIcon onClick={() => history.push('/')} style={active.home ? { color: activeColor } : { color: inActiveColor }} /></Button>
+                  <Button color="inherit" onClick={() => {iconActive('home'); history.push('/');}}><HomeIcon style={active.home ? { color: activeColor } : { color: inActiveColor }} /></Button>
                 </Tooltip>
                 <Tooltip title="ユーザ" classes={{tooltip: classes.tooltip}}>
-                  <Button color="inherit" onClick={() => iconActive('user')}><EmojiPeopleIcon onClick={() => history.push('/users')} style={active.user ? { color: activeColor } : { color: inActiveColor }} /></Button>
+                  <Button color="inherit" onClick={() => {iconActive('user'); history.push('/users')}}><EmojiPeopleIcon style={active.user ? { color: activeColor } : { color: inActiveColor }} /></Button>
                 </Tooltip>
                 <Tooltip title="グループ" classes={{tooltip: classes.tooltip}}>
-                  <Button color="inherit" onClick={() => iconActive('group')}><SupervisedUserCircleIcon onClick={() => history.push('/groups')} style={active.group ? { color: activeColor } : { color: inActiveColor }} /></Button>
+                  <Button color="inherit" onClick={() => {iconActive('group'); history.push('/groups')}}><SupervisedUserCircleIcon style={active.group ? { color: activeColor } : { color: inActiveColor }} /></Button>
                 </Tooltip>
                 <Tooltip title="お知らせ" classes={{tooltip: classes.tooltip}}>
-                  <Button color="inherit" onClick={() => iconActive('news')}><NotificationImportantIcon style={active.news ? { color: activeColor } : { color: inActiveColor }} /></Button>
+                  <Button color="inherit" onClick={() => {iconActive('news')}}><NotificationImportantIcon style={active.news ? { color: activeColor } : { color: inActiveColor }} /></Button>
                 </Tooltip>
                 <Tooltip title="ログアウト" classes={{tooltip: classes.tooltip}}>
                   <Button color="inherit"><ExitToAppIcon /></Button>
