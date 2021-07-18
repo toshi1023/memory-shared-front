@@ -1,0 +1,22 @@
+.card {
+    margin-top: 20px;
+}
+
+.title {
+    color: rgb(179, 165, 165);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.title_space {
+    padding: 15px 15px;
+
+    &.center {
+        text-align: center;
+    }
+}
+
+.content_space {
+    margin: 15px;
+    padding: 0 20px 0 20px;
+}

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../../../styles/home/home.scss';
+import '../../../styles/common/common.scss';
+import '../../../styles/groups/groups.scss';
 import UserCard from '../../components/users/UserCard';
 import GroupListData from '../../components/users/GroupListData';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
@@ -31,8 +33,13 @@ const UserDetail: React.FC = () => {
      */
     const renderMobileUserCard = () => {
         return (
-            <Grid container justify="center" spacing={1} className="card">
-                <Grid item xs={11} sm={7} md={5}>
+            <Grid container justify="center">
+                <Grid item xs={11} className="title_space center">
+                    <Typography className="title">
+                        {profile.name}さんのプロフィール
+                    </Typography>
+                </Grid>
+                <Grid item xs={11}>
                     <UserCard data={profile} />
                 </Grid>
             </Grid>
@@ -45,20 +52,16 @@ const UserDetail: React.FC = () => {
      */
     const renderMobileGroupList = () => {
         return (
-            <>
-                <Grid container>
-                    <Grid item xs className="title_space center">
-                        <Typography className="title">
-                            参加中のグループ
-                        </Typography>
-                    </Grid>
+            <Grid container justify="center">
+                <Grid item xs={11} className="title_space center">
+                    <Typography className="title">
+                        参加中のグループ
+                    </Typography>
                 </Grid>
-                <Grid container justify="center">
-                    <Grid item xs={11}>
-                        <GroupListData data={group_list} />
-                    </Grid>
+                <Grid item xs={11}>
+                    <GroupListData data={group_list} />
                 </Grid>
-            </>
+            </Grid>
         );
     }
     
@@ -78,39 +81,52 @@ const UserDetail: React.FC = () => {
 
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
-                <Grid container justify="center" spacing={1} className="card">
-                    <Grid item md>
-                        {/* 広告用写真 */}
-                    </Grid>
-                    <Grid item sm={7} md={5}>
-                        <UserCard data={profile} />
-                    </Grid>
-                    <Hidden smDown>
-                        <Grid item md className="title_space center">
+                {/* PC版 */}
+                <Hidden smDown>
+                    <Grid container justify="center">
+                        {/* Title */}
+                        <Grid item md={6} className="title_space">
                             <Typography className="title">
-                                参加中のグループ
+                                {profile.name}さんのプロフィール
                             </Typography>
-                            <GroupListData data={group_list} />
                         </Grid>
-                    </Hidden>
-                </Grid>
-                <Grid container>
-                    <Hidden mdUp>
-                        <Grid item sm className="title_space center">
+                        <Grid item md={3} className="title_space center">
                             <Typography className="title">
                                 参加中のグループ
                             </Typography>
                         </Grid>
-                    </Hidden>
-                </Grid>
-                <Grid container justify="center">
-                    {/* mdサイズ以上は表示しない */}
-                    <Hidden mdUp xsDown>
-                        <Grid item sm={7}>
+                        {/* Content */}
+                        <Grid item md={6} className="content_space center">
+                            <UserCard data={profile} />
+                        </Grid>
+                        <Grid item md={3} className="content_space center">
                             <GroupListData data={group_list} />
                         </Grid>
-                    </Hidden>
-                </Grid>
+                    </Grid>
+                </Hidden>
+                {/* iPad版 */}
+                <Hidden mdUp xsDown>
+                    <Grid container justify="center">
+                        {/* Title */}
+                        <Grid item sm={7} className="title_space">
+                            <Typography className="title">
+                                {profile.name}さんのプロフィール
+                            </Typography>
+                        </Grid>
+                        <Grid item sm={4} className="title_space center">
+                            <Typography className="title">
+                                参加中のグループ
+                            </Typography>
+                        </Grid>
+                        {/* Content */}
+                        <Grid item sm={7} className="content_space center">
+                            <UserCard data={profile} />
+                        </Grid>
+                        <Grid item sm={4} className="content_space center">
+                            <GroupListData data={group_list} />
+                        </Grid>
+                    </Grid>
+                </Hidden>
             </div>
 
             {/* スマホ版 */}

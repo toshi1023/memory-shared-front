@@ -41,55 +41,58 @@ const MyProfileCard: React.FC<PROFILE_CARD> = (props) => {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} />
         <Grid container spacing={1}>
 
-          <Grid item xs={4} sm={3}>
-            <Typography className={componentStyles.title}>
-              ユーザ名 :
-            </Typography>
+          <Grid item xs={4}>
+            <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} />
           </Grid>
-          <Grid item xs={8} sm={9}>
-            <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
-              {props.data.name}
-            </Typography>
+          <Grid item xs={8}>
+            <Grid container>
+
+              <Grid item xs={4}>
+                <Typography className={componentStyles.title}>
+                  ユーザ名 :
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
+                  {props.data.name}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={4}>
+                <Typography className={componentStyles.title}>
+                  趣味 :
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
+                  {props.data.hobby}
+                </Typography>
+              </Grid>
+              
+              <Grid item xs={4}>
+                <Typography className={componentStyles.title}>
+                  性別 :
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                {
+                  props.data.gender ? 
+                    <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
+                        男性
+                    </Typography>
+                  :
+                    <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
+                        女性
+                    </Typography>
+                }
+              </Grid>
+            
+            </Grid>
           </Grid>
 
-          <Grid item xs={4} sm={3}>
-            <Typography className={componentStyles.title}>
-              趣味 :
-            </Typography>
-          </Grid>
-          <Grid item xs={8} sm={9}>
-            <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
-              {props.data.hobby}
-            </Typography>
-          </Grid>
-          
-          <Grid item xs={4} sm={3}>
-            <Typography className={componentStyles.title}>
-              性別 :
-            </Typography>
-          </Grid>
-          <Grid item xs={8} sm={9}>
-            {
-              props.data.gender ? 
-                <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
-                    男性
-                </Typography>
-              :
-                <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
-                    女性
-                </Typography>
-            }
-          </Grid>
-
-          <Grid item xs={4} sm={3}>
-            <Typography className={componentStyles.title}>
-              自己紹介 :
-            </Typography>
-          </Grid>
-          <Grid item xs={8} sm={9}>
+          <Grid item xs={12}>
             <Typography className={componentStyles.description} color="textSecondary" gutterBottom>
               {props.data.description}
             </Typography>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../../styles/common/common.scss';
 import '../../../styles/groups/groups.scss';
 import '../../../styles/home/home.scss';
 import GroupCard from '../../components/groups/GroupCard';
@@ -34,11 +35,22 @@ const GroupDetail: React.FC = () => {
      */
     const renderMobileGroupCard = () => {
         return (
-            <Grid container justify="center" spacing={1} className="card">
-                <Grid item xs={11} sm={7} md={5}>
+            <Grid container justify="center">
+                <Grid item xs={11} className="title_space center">
+                    <Typography className="title">
+                        {group.name}の詳細
+                    </Typography>
+                </Grid>
+                <Grid item xs={11}>
                     <GroupCard data={group} />
                 </Grid>
                 <Grid item xs={11} className="album_list">
+                    <hr className="app_hr" />
+                    <div className="title_space">
+                        <Typography className="title">
+                            アルバム
+                        </Typography>
+                    </div>
                     <AlbumListData data={album_list} />
                 </Grid>
             </Grid>
@@ -51,20 +63,16 @@ const GroupDetail: React.FC = () => {
      */
     const renderMobileUserList = () => {
         return (
-            <>
-                <Grid container>
-                    <Grid item xs className="title_space center">
-                        <Typography className="title">
-                            参加ユーザ
-                        </Typography>
-                    </Grid>
+            <Grid container justify="center">
+                <Grid item xs={11} className="title_space center">
+                    <Typography className="title">
+                        参加ユーザ
+                    </Typography>
                 </Grid>
-                <Grid container justify="center">
-                    <Grid item xs={11}>
-                        <UserListData data={user_list} />
-                    </Grid>
+                <Grid item xs={11}>
+                    <UserListData data={user_list} />
                 </Grid>
-            </>
+            </Grid>
         );
     }
     
@@ -84,39 +92,64 @@ const GroupDetail: React.FC = () => {
 
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
+                {/* PC版 */}
                 <Hidden smDown>
-                    <Grid container justify="center" spacing={1} className="card">
-                        <Grid item md>
-                            {/* 広告用写真 */}
+                    <Grid container justify="center">
+                        {/* Title */}
+                        <Grid item md={6} className="title_space center">
+                            <Typography className="title">
+                                {group.name}の詳細
+                            </Typography>
                         </Grid>
-                        <Grid item md={5}>
+                        <Grid item md={3} className="title_space center">
+                            <Typography className="title">
+                                参加ユーザ
+                            </Typography>
+                        </Grid>
+                        {/* Content */}
+                        <Grid item md={6} className="content_space center">
                             <GroupCard data={group} />
-                            <div className="album_list">
-                                <AlbumListData data={album_list} />
-                            </div>
-                        </Grid>
-                        <Hidden smDown>
-                            <Grid item md className="title_space center">
+                            <br />
+                            <hr className="app_hr" />
+                            <div className="title_space">
                                 <Typography className="title">
-                                    参加ユーザ
+                                    アルバム
                                 </Typography>
-                                <UserListData data={user_list} />
-                            </Grid>
-                        </Hidden>
+                            </div>
+                            <AlbumListData data={album_list} />
+                        </Grid>
+                        <Grid item md={3} className="content_space center">
+                            <UserListData data={user_list} />
+                        </Grid>
                     </Grid>
                 </Hidden>
+                {/* iPad版 */}
                 <Hidden mdUp xsDown>
-                    <Grid container spacing={2} className="card">
+                    <Grid container justify="center">
+                        {/* Title */}
                         <Grid item sm={7} className="title_space center">
-                            <GroupCard data={group} />
-                            <div className="album_list">
-                                <AlbumListData data={album_list} />
-                            </div>
+                            <Typography className="title">
+                                {group.name}の詳細
+                            </Typography>
                         </Grid>
                         <Grid item sm={4} className="title_space center">
                             <Typography className="title">
                                 参加ユーザ
                             </Typography>
+                        </Grid>
+                        {/* Content */}
+                        <Grid item sm={7} className="content_space center">
+                            <GroupCard data={group} />
+                            <br />
+                            <hr className="app_hr" />
+                            <div className="title_space">
+                                <Typography className="title">
+                                    アルバム
+                                </Typography>
+                            </div>
+                            <AlbumListData data={album_list} />
+                        </Grid>
+                        <Grid item sm={4} className="content_space center">
                             <UserListData data={user_list} />
                         </Grid>
                     </Grid>

@@ -17,17 +17,18 @@ const ComponentStyles = makeStyles((theme: Theme) =>
     },
 
     title: {
-      fontSize: 16,
+      fontSize: 14,
       textAlign: 'right'
     },
 
     content: {
-      fontSize: 18,
+      fontSize: 16,
       textAlign: 'left'
     },
 
     description: {
       fontSize: 16,
+      padding: '0 5px 0 5px',
       textAlign: 'left'
     },
 

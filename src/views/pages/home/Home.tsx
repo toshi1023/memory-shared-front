@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
 import MyProfileCard from '../../components/home/MyProfileCard';
 import MyGroupList from '../../components/home/MyGroupList';

@@ -41,57 +41,60 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} />
+        
         <Grid container spacing={1}>
+          <Grid item xs={4}>
+            <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} />
+          </Grid>
+          <Grid item xs={8}>
+            <Grid container>
 
-          <Grid item xs={4} sm={3}>
-            <Typography className={componentStyles.title}>
-              グループ名 :
-            </Typography>
-          </Grid>
-          <Grid item xs={8} sm={9}>
-            <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
-              {props.data.name}
-            </Typography>
+              <Grid item xs={4}>
+                <Typography className={componentStyles.title}>
+                  グループ名 :
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
+                  {props.data.name}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={4}>
+                <Typography className={componentStyles.title}>
+                  公開設定 :
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
+                  {
+                    props.data.private_flg ? 
+                        <Typography className={componentStyles.privateFlgTrue}>
+                            非公開
+                        </Typography>
+                    :
+                        <Typography className={componentStyles.privateFlgFalse}>
+                            公開
+                        </Typography>
+                  }
+                </Typography>
+              </Grid>
+              
+              <Grid item xs={4}>
+                <Typography className={componentStyles.title}>
+                  メンバー :
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography component="p" className={componentStyles.participants}>
+                    {props.data.participants}<span className={componentStyles.unit}>人参加中</span>
+                </Typography>
+              </Grid>
+              
+            </Grid>
           </Grid>
 
-          <Grid item xs={4} sm={3}>
-            <Typography className={componentStyles.title}>
-              公開設定 :
-            </Typography>
-          </Grid>
-          <Grid item xs={8} sm={9}>
-            <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
-              {
-                props.data.private_flg ? 
-                    <Typography className={componentStyles.privateFlgTrue}>
-                        非公開
-                    </Typography>
-                :
-                    <Typography className={componentStyles.privateFlgFalse}>
-                        公開
-                    </Typography>
-              }
-            </Typography>
-          </Grid>
-          
-          <Grid item xs={4} sm={3}>
-            <Typography className={componentStyles.title}>
-              メンバー :
-            </Typography>
-          </Grid>
-          <Grid item xs={8} sm={9}>
-            <Typography component="p" className={componentStyles.participants}>
-                {props.data.participants}<span className={componentStyles.unit}>人参加中</span>
-            </Typography>
-          </Grid>
-
-          <Grid item xs={4} sm={3}>
-            <Typography className={componentStyles.title}>
-              紹介 :
-            </Typography>
-          </Grid>
-          <Grid item xs={8} sm={9}>
+          <Grid item xs={12}>
             <Typography className={componentStyles.description} color="textSecondary" gutterBottom>
               {props.data.description}
             </Typography>
