@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import { PROFILE_CARD } from "../../types/homeTypes";
+import houston from '../../../image/houston.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,7 +45,8 @@ const MyProfileCard: React.FC<PROFILE_CARD> = (props) => {
         <Grid container spacing={1}>
 
           <Grid item xs={4}>
-            <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} />
+            <Avatar src={houston} className={componentStyles.imageAvatar} />
+            {/* <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} /> */}
           </Grid>
           <Grid item xs={8}>
             <Grid container>

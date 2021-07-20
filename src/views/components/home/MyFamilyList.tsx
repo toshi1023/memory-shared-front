@@ -4,6 +4,7 @@ import { FAMILY_LIST } from '../../types/homeTypes';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { Avatar, Grid, Typography } from '@material-ui/core';
 import MailIcon from '@material-ui/icons/Mail';
+import noimage from '../../../image/no-image2.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,7 +43,8 @@ const MyFamilyList: React.FC<FAMILY_LIST> = (props) => {
             {_.map(props.data, value => (
                 <Grid container justify="center" alignItems="center" className={classes.userList} key={value.id}>
                     <Grid item xs={9} className={classes.avatar}>
-                        <Avatar alt="Remy Sharp" src={value.image_file} />
+                        <Avatar alt="Remy Sharp" src={noimage} />
+                        {/* <Avatar alt="Remy Sharp" src={value.image_file} /> */}
                         <Typography color="textSecondary" className={classes.userName}>
                             {value.name}
                         </Typography>

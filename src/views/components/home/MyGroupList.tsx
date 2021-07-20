@@ -10,6 +10,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import sappolo from '../../../image/sappolo.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: theme.spacing(2)
         },
         media: {
-            height: 70,
+            height: 130,
         }
     })
 );
@@ -39,7 +40,8 @@ const MyGroupList: React.FC<GROUP_LIST> = (props) => {
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}
-                                    image="/static/images/cards/contemplative-reptile.jpg"
+                                    image={sappolo}
+                                    // image="/static/images/cards/contemplative-reptile.jpg"
                                     title="Contemplative Reptile"
                                 />
                                 <CardContent>

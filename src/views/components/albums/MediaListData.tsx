@@ -8,6 +8,7 @@ import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import { MEDIA_LIST_DATA } from '../../types/albumsTypes';
+import houston from '../../../image/houston.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,7 +52,8 @@ const MediaListData: React.FC<MEDIA_LIST_DATA> = (props) => {
                     <ImageList rowHeight={180} className={classes.imageList} cols={3}>
                         {_.map(props.data, item => (
                             <ImageListItem key={item.id}>
-                                <img src={item.image_file} alt={item.title} />
+                                <img src={houston} alt={item.title} />
+                                {/* <img src={item.image_file} alt={item.title} /> */}
                                 <ImageListItemBar
                                     title={item.title}
                                     actionIcon={

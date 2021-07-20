@@ -25,7 +25,28 @@ const Login: React.FC = () => {
                             仲間と一緒に思い出を共有しよう
                         </Typography>
                     </Grid>
-                    <Grid item sm={5} md={4}>
+                    <Grid item sm={5} md={3}>
+                        <Card className="card">
+                            <CardHeader 
+                                title={
+                                    <Typography className="header_title">
+                                        Login
+                                    </Typography>
+                                }
+                                className="header">
+                            </CardHeader>
+                            <CardContent>
+                                test
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
+            </div>
+
+            {/* スマホ版 */}
+            <div className={displayStyles.sectionMobile}>
+                <Grid container justify="center" className="formcontainer">
+                    <Grid item xs={12}>
                         <Card className="card">
                             <CardHeader 
                                 title={

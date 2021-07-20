@@ -22,7 +22,14 @@ import Login from './views/pages/home/Login';
 const renderMobileFooterTab = () => {
   if (window.innerWidth < 768) {
     return (
-      <MobileFooterTab />
+      <>
+        {
+          window.location.pathname !== "/login" ? 
+            <MobileFooterTab />
+          :
+            ''
+        }
+      </>
     )
   }
 }

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Grid, Typography } from '@material-ui/core';
 import { TALK_LIST } from '../../types/homeTypes';
+import noimage from '../../../image/no-image2.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,7 +36,8 @@ const MyTalkList: React.FC<TALK_LIST> = (props) => {
                         <List className={classes.root}>
                             <ListItem alignItems="flex-start" className={classes.talklist}>
                                 <ListItemAvatar>
-                                    <Avatar alt="Remy Sharp" src={value.image_file} />
+                                    <Avatar alt="Remy Sharp" src={noimage} />
+                                    {/* <Avatar alt="Remy Sharp" src={value.image_file} /> */}
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={value.user_name}
