@@ -29,15 +29,35 @@
         }
     }
 
+    form {
+        .textfield {
+            margin: 15px 0 15px 0;
+            width: 80%;
+        }
+    }
 
     .formcontainer {
         display: flex;
         padding: 50px;
     }
+    
+    .formcontainer_mobile {
+        padding-top: 100px;
+    }
 
+    // PC版
     .loginpage_image_area {
         position: relative;
-        
+
+        img {
+            animation-name: loginpage_image;
+            -webkit-animation-name: loginpage_image;
+            animation-duration: 10s;
+            -webkit-animation-duration: 10s;
+            animation-iteration-count: infinite;
+            -webkit-animation-iteration-count: infinite;
+            opacity: 0;
+        }
     }
     .loginpage_back {
         position: absolute;
@@ -45,6 +65,11 @@
         left: 22%;
         height: auto;
         width: 450px;
+
+        &.after {
+            animation-delay:5s;
+            -webkit-animation-delay:5s;
+        }
     }
     .loginpage_front {
         position: absolute;
@@ -52,8 +77,12 @@
         left: 11%;
         height: auto;
         width: 450px;
+
+        &.after {
+            animation-delay:5s;
+            -webkit-animation-delay:5s;
+        }
     }
-    
     .wf-merienda {
         position: absolute;
         top: 30%;
@@ -63,7 +92,6 @@
         font-weight: bold;
         color: white;
     }
-
     .wf-roundedmplus1c {
         position: absolute;
         top: 77%;
@@ -72,4 +100,88 @@
         font-size: 1.5rem;
         font-weight: bold;
     }
+    @keyframes loginpage_image {
+        0% {
+            opacity: 0;
+        }
+        
+        12.5% {
+            opacity: 1;
+        }
+    
+        37.5% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+    }
+    @-webkit-keyframes loginpage_image {
+        0% {
+            opacity: 0;
+        }
+        
+        12.5% {
+            opacity: 1;
+        }
+    
+        37.5% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+    }
+
+    // iPad版
+    .loginpage_image_area_ipad {
+        position: relative;
+    }
+    .loginpage_back_ipad {
+        position: absolute;
+        top: 3%;
+        left: 38%;
+        height: auto;
+        width: 350px;
+    }
+    .loginpage_front_ipad {
+        position: absolute;
+        top: 15%;
+        left: 18%;
+        height: auto;
+        width: 350px;
+    }
+    .wf-merienda_ipad {
+        position: absolute;
+        top: 15%;
+        left: 33%;
+        font-family: 'Merienda', 'cursive';
+        font-size: 2.0rem;
+        font-weight: bold;
+        color: white;
+    }
+    .wf-roundedmplus1c_ipad {
+        position: absolute;
+        top: 40%;
+        left: 30%;
+        font-family: "M PLUS Rounded 1c";
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    .card_ipad {
+        background-color: white;
+        height: 350px;
+        margin-top: 120%;
+        
+        .header {
+            background-color: rgb(253, 200, 103);
+            height: 5%;
+        }
+        .header_title {
+            font-family: 'Merienda', 'cursive';
+            font-size: 1.2rem;
+            color: white;
+        }
+    }
+
 }

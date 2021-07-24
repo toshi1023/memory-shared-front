@@ -20,3 +20,48 @@
     margin: 15px;
     padding: 0 20px 0 20px;
 }
+
+form {
+    padding: 5% 0 15% 0;
+
+    .button {
+        margin: 20px 0 20px 0;
+        width: 80%;
+        height: 50px;
+        position: relative;
+        background: #f8cf77;
+        border: 1px solid #f8cf77;
+        border-radius: 30px;
+        box-sizing: border-box;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        
+        &:before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border: 0;
+            border-top: 2px solid #fff;
+            border-right: 2px solid #fff;
+            transform: rotate(45deg);
+            position: absolute;
+            top: 50%;
+            right: 25px;
+            margin-top: -6px;
+        }
+        &:hover {
+            background: #fff;
+            color: #f8cf77;
+        }
+        &:hover:before {
+            border-top: 2px solid #f8cf77;
+            border-right: 2px solid #f8cf77;
+        }
+
+        &.small {
+            width: 40%
+        }
+    }
+}

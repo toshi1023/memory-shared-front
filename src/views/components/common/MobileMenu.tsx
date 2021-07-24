@@ -103,7 +103,7 @@ const MobileMenu: React.FC<MOBILE_MENU_ICON> = (props) => {
             <Divider />
             <List>
                 {['ログアウト'].map((text) => (
-                    <ListItem button key={text} onClick={() => history.push('/users')}>
+                    <ListItem button key={text} onClick={() => window.location.href = '/login'}>
                         <ListItemIcon><ExitToAppIcon /></ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>
