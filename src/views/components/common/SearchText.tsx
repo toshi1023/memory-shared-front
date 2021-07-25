@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { SEARCH } from '../../types/commonTypes';
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField, Button, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -59,10 +59,14 @@ const SearchText = (props: SEARCH<string>) => {
         <div className={classes.root}>
             <Grid container spacing={1} alignItems="flex-end">
                 <Grid item>
-                    <SearchIcon onClick={() => searchHandler(value)} />
-                </Grid>
-                <Grid item>
-                    <TextField label={props.label} onChange={handleChange} onKeyDown={handleKeyDown} />
+                    <TextField 
+                        label={props.label} 
+                        onChange={handleChange} 
+                        onKeyDown={handleKeyDown} 
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end"><Button><SearchIcon onClick={() => searchHandler(value)} /></Button></InputAdornment>,
+                        }}
+                    />
                 </Grid>
             </Grid>
         </div>
