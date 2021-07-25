@@ -31,18 +31,18 @@ const Home: React.FC = () => {
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
                 <Grid container>
-                    <Grid item sm className="title_space center">
-                        <Typography className="title">
+                    <Grid item sm className="c_title_space center">
+                        <Typography className="c_title">
                             ファミリー
                         </Typography>
                     </Grid>
-                    <Grid item sm={6} className="title_space">
-                        <Typography className="title">
+                    <Grid item sm={6} className="c_title_space">
+                        <Typography className="c_title">
                             プロフィール
                         </Typography>
                     </Grid>
-                    <Grid item sm className="title_space center">
-                        <Typography className="title">
+                    <Grid item sm className="c_title_space center">
+                        <Typography className="c_title">
                             トーク
                         </Typography>
                     </Grid>
@@ -55,8 +55,8 @@ const Home: React.FC = () => {
                         <MyProfileCard data={profile} />
                         <br />
                         <hr className="app_hr" />
-                        <div className="title_space">
-                            <Typography className="title">
+                        <div className="c_title_space">
+                            <Typography className="c_title">
                                 参加グループ一覧
                             </Typography>
                         </div>
@@ -71,8 +71,8 @@ const Home: React.FC = () => {
             {/* スマホ版 */}
             <div className={displayStyles.sectionMobile}>
                 <Grid container justify="center">
-                    <Grid item xs={11} className="title_space">
-                        <Typography className="title">
+                    <Grid item xs={11} className="c_title_space">
+                        <Typography className="c_title">
                             プロフィール
                         </Typography>
                     </Grid>

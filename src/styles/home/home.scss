@@ -29,11 +29,8 @@
         }
     }
 
-    form {
-        .textfield {
-            margin: 15px 0 15px 0;
-            width: 80%;
-        }
+    .pagetransition_card {
+        margin: 20px 0 20px 0;
     }
 
     .formcontainer {
@@ -42,7 +39,7 @@
     }
     
     .formcontainer_mobile {
-        padding-top: 100px;
+        padding-top: 30px;
     }
 
     // PC版
@@ -83,23 +80,7 @@
             -webkit-animation-delay:5s;
         }
     }
-    .wf-merienda {
-        position: absolute;
-        top: 30%;
-        left: 23%;
-        font-family: 'Merienda', 'cursive';
-        font-size: 2.0rem;
-        font-weight: bold;
-        color: white;
-    }
-    .wf-roundedmplus1c {
-        position: absolute;
-        top: 77%;
-        left: 20%;
-        font-family: "M PLUS Rounded 1c";
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
+    
     @keyframes loginpage_image {
         0% {
             opacity: 0;
@@ -151,23 +132,6 @@
         height: auto;
         width: 350px;
     }
-    .wf-merienda_ipad {
-        position: absolute;
-        top: 15%;
-        left: 33%;
-        font-family: 'Merienda', 'cursive';
-        font-size: 2.0rem;
-        font-weight: bold;
-        color: white;
-    }
-    .wf-roundedmplus1c_ipad {
-        position: absolute;
-        top: 40%;
-        left: 30%;
-        font-family: "M PLUS Rounded 1c";
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
     .card_ipad {
         background-color: white;
         height: 350px;
@@ -184,4 +148,55 @@
         }
     }
 
+    // iPhone版
+    .loginpage_image_area_iphone {
+        position: relative;
+    }
+    .loginpage_iphone {
+        height: auto;
+        width: 100%;
+    }
+
+    // 文字フォント
+    .wf-merienda {
+        position: absolute;
+        font-family: 'Merienda', 'cursive';
+        font-size: 2.0rem;
+        font-weight: bold;
+        color: white;
+
+        &.pc {
+            top: 30%;
+            left: 23%;
+        }
+        &.ipad {
+            top: 15%;
+            left: 33%;
+        }
+        &.iphone {
+            // 上下中央配置
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            width: 80%;
+            height: 3.2rem;
+        }
+    }
+    .wf-roundedmplus1c {
+        position: absolute;
+        font-family: "M PLUS Rounded 1c";
+        font-size: 1.5rem;
+        font-weight: bold;
+
+        &.pc {
+            top: 77%;
+            left: 20%;
+        }
+        &.ipad {
+            top: 40%;
+            left: 30%;
+        }
+    }
 }

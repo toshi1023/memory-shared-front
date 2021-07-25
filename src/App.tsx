@@ -14,6 +14,7 @@ import GroupList from './views/pages/groups/List';
 import GroupDetail from './views/pages/groups/Detail';
 import AlbumDetail from './views/pages/albums/Detail';
 import Login from './views/pages/home/Login';
+import UserRegister from './views/pages/users/Register';
 
 /**
  * スマホ画面の場合、フッターのメニュータブを表示
@@ -46,14 +47,15 @@ function App() {
     <div className="App">
       <BrowserRouter>
         {
-          window.location.pathname !== "/login" ? 
-            <AppMainBar />
-          :
+          window.location.pathname === "/login" || window.location.pathname === "/register" ? 
             ''
+          :
+            <AppMainBar />
         }
         <Switch>
           {/* PC & 一部スマホページ */}
           <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={UserRegister} />
           <Route exact path="/" component={Home} />
           <Route exact path="/users" component={UserList} />
           <Route exact path="/users/test" component={UserDetail} />

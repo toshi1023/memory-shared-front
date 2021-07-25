@@ -15,8 +15,8 @@ const AlbumDetail: React.FC = () => {
     return (
         <div id="album_detail">
             <Grid container justify="center">
-                <Grid item xs={11} md={7} className="title_space">
-                    <Typography className="title">
+                <Grid item xs={11} md={7} className="c_title_space">
+                    <Typography className="c_title">
                         album1
                     </Typography>
                 </Grid>

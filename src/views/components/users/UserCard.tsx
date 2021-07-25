@@ -41,28 +41,28 @@ const UserCard: React.FC<USER_CARD> = (props) => {
     <Card className={classes.root}>
       <CardContent>
         <Grid container spacing={1}>
-          <Grid item xs={4}>
+          <Grid item xs={4} md={3}>
             <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={8} md={9}>
             <Grid container>
-              <Grid item xs={4}>
+              <Grid item xs={4} md={3}>
                 <Typography className={componentStyles.title}>
                   ユーザ名 :
                 </Typography>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={8} md={9}>
                 <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
                   {props.data.name}
                 </Typography>
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={4} md={3}>
                 <Typography className={componentStyles.title}>
                   性別 :
                 </Typography>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={8} md={9}>
                 {
                   props.data.gender ? 
                     <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
@@ -75,12 +75,12 @@ const UserCard: React.FC<USER_CARD> = (props) => {
                 }
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={4} md={3}>
                 <Typography className={componentStyles.title}>
                   趣味 :
                 </Typography>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={8} md={9}>
                 <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
                   {props.data.hobby}
                 </Typography>

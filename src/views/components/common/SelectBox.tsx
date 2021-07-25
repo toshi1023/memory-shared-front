@@ -29,17 +29,8 @@ const SelectBox = (props: SEARCH<string>) => {
      */
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setValue(event.target.value as string);
+        props.callback(event.target.value as string);
     };
-
-    /**
-     * 非アクティブに変更時の処理
-     */
-    const handleBlur = () => {
-        if(!value) {
-            return;
-        }
-        props.callback(value);
-    }
 
     return (
         <FormControl className={classes.formControl}>
@@ -49,7 +40,6 @@ const SelectBox = (props: SEARCH<string>) => {
                 id="select-component"
                 value={value}
                 onChange={handleChange}
-                onBlur={handleBlur}
             >
                 <MenuItem value="old">古い順</MenuItem>
                 <MenuItem value="new">新しい順</MenuItem>

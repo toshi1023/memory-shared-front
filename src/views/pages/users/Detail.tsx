@@ -34,8 +34,8 @@ const UserDetail: React.FC = () => {
     const renderMobileUserCard = () => {
         return (
             <Grid container justify="center">
-                <Grid item xs={11} className="title_space center">
-                    <Typography className="title">
+                <Grid item xs={11} className="c_title_space center">
+                    <Typography className="c_title">
                         {profile.name}さんのプロフィール
                     </Typography>
                 </Grid>
@@ -53,8 +53,8 @@ const UserDetail: React.FC = () => {
     const renderMobileGroupList = () => {
         return (
             <Grid container justify="center">
-                <Grid item xs={11} className="title_space center">
-                    <Typography className="title">
+                <Grid item xs={11} className="c_title_space center">
+                    <Typography className="c_title">
                         参加中のグループ
                     </Typography>
                 </Grid>
@@ -85,21 +85,21 @@ const UserDetail: React.FC = () => {
                 <Hidden smDown>
                     <Grid container justify="center">
                         {/* Title */}
-                        <Grid item md={6} className="title_space">
-                            <Typography className="title">
+                        <Grid item md={6} className="c_title_space">
+                            <Typography className="c_title">
                                 {profile.name}さんのプロフィール
                             </Typography>
                         </Grid>
-                        <Grid item md={3} className="title_space center">
-                            <Typography className="title">
+                        <Grid item md={3} className="c_title_space center">
+                            <Typography className="c_title">
                                 参加中のグループ
                             </Typography>
                         </Grid>
                         {/* Content */}
-                        <Grid item md={6} className="content_space center">
+                        <Grid item md={6} className="c_content_space center">
                             <UserCard data={profile} />
                         </Grid>
-                        <Grid item md={3} className="content_space center">
+                        <Grid item md={3} className="c_content_space center">
                             <GroupListData data={group_list} />
                         </Grid>
                     </Grid>
@@ -108,21 +108,21 @@ const UserDetail: React.FC = () => {
                 <Hidden mdUp xsDown>
                     <Grid container justify="center">
                         {/* Title */}
-                        <Grid item sm={7} className="title_space">
-                            <Typography className="title">
+                        <Grid item sm={7} className="c_title_space">
+                            <Typography className="c_title">
                                 {profile.name}さんのプロフィール
                             </Typography>
                         </Grid>
-                        <Grid item sm={4} className="title_space center">
-                            <Typography className="title">
+                        <Grid item sm={4} className="c_title_space center">
+                            <Typography className="c_title">
                                 参加中のグループ
                             </Typography>
                         </Grid>
                         {/* Content */}
-                        <Grid item sm={7} className="content_space center">
+                        <Grid item sm={7} className="c_content_space center">
                             <UserCard data={profile} />
                         </Grid>
-                        <Grid item sm={4} className="content_space center">
+                        <Grid item sm={4} className="c_content_space center">
                             <GroupListData data={group_list} />
                         </Grid>
                     </Grid>

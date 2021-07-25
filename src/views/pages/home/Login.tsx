@@ -27,7 +27,7 @@ const Login: React.FC = () => {
                             </Typography> */}
                             <img src={loginpage_back2} className="loginpage_back after" />
                             <img src={loginpage_front2} className="loginpage_front after" />
-                            <Typography className="wf-merienda">
+                            <Typography className="wf-merienda pc">
                                 MemoryShareApp
                             </Typography>
                         </Grid>
@@ -43,10 +43,24 @@ const Login: React.FC = () => {
                                 </CardHeader>
                                 <CardContent>
                                     <form>
-                                        <Input placeholder="ユーザーネーム" className="textfield" inputProps={{ 'aria-label': 'username' }} />
-                                        <Input placeholder="パスワード" className="textfield" inputProps={{ 'aria-label': 'password' }} />
-                                        <button className="button">ログイン</button>
+                                        <Input placeholder="ユーザーネーム" className="c_textfield" inputProps={{ 'aria-label': 'username' }} />
+                                        <Input placeholder="パスワード" className="c_textfield" inputProps={{ 'aria-label': 'password' }} />
+                                        <button className="c_button">ログイン</button>
                                     </form>
+                                </CardContent>
+                            </Card>
+
+                            {/* Googleアカウントでログイン */}
+
+                            {/* 新規アカウントの作成案内 */}
+                            <Card className="pagetransition_card">
+                                <CardContent>
+                                    <Typography>
+                                        アカウントを新規で登録しますか？
+                                    </Typography>
+                                    <a href="/register">
+                                        登録する
+                                    </a>
                                 </CardContent>
                             </Card>
                         </Grid>
@@ -61,7 +75,7 @@ const Login: React.FC = () => {
                             <img src={loginpage_front2} className="loginpage_front_ipad" />
                             {/* <img src={loginpage_back1} className="loginpage_back_ipad" />
                             <img src={loginpage_front1} className="loginpage_front_ipad" /> */}
-                            <Typography className="wf-merienda_ipad">
+                            <Typography className="wf-merienda ipad">
                                 MemoryShareApp
                             </Typography>
                             {/* <Typography className="wf-roundedmplus1c_ipad">
@@ -82,8 +96,19 @@ const Login: React.FC = () => {
                                     <form>
                                         <Input placeholder="ユーザーネーム" className="textfield" inputProps={{ 'aria-label': 'username' }} />
                                         <Input placeholder="パスワード" className="textfield" inputProps={{ 'aria-label': 'password' }} />
-                                        <button className="button">ログイン</button>
+                                        <button className="c_button">ログイン</button>
                                     </form>
+                                </CardContent>
+                            </Card>
+
+                            <Card className="pagetransition_card">
+                                <CardContent>
+                                    <Typography>
+                                        アカウントを新規で登録しますか？
+                                    </Typography>
+                                    <a href="/register">
+                                        登録する
+                                    </a>
                                 </CardContent>
                             </Card>
                         </Grid>
@@ -94,12 +119,18 @@ const Login: React.FC = () => {
             {/* スマホ版 */}
             <div className={displayStyles.sectionMobile}>
                 <Grid container justify="center" className="formcontainer_mobile">
+                    <Grid item xs={11} className="loginpage_image_area_iphone">
+                        <img src={loginpage_back2} className="loginpage_iphone" />
+                        <Typography className="wf-merienda iphone">
+                            MemoryShareApp
+                        </Typography>
+                    </Grid>
                     <Grid item xs={11}>
                         <Card className="card">
                             <CardHeader 
                                 title={
                                     <Typography className="header_title">
-                                        MemoryShareApp
+                                        Login
                                     </Typography>
                                 }
                                 className="header">
@@ -108,8 +139,22 @@ const Login: React.FC = () => {
                                 <form>
                                     <Input placeholder="ユーザーネーム" className="textfield" inputProps={{ 'aria-label': 'username' }} />
                                     <Input placeholder="パスワード" className="textfield" inputProps={{ 'aria-label': 'password' }} />
-                                    <button className="button">ログイン</button>
+                                    <button className="c_button">ログイン</button>
                                 </form>
+                            </CardContent>
+                        </Card>
+
+                        {/* Googleアカウントでログイン */}
+
+                        {/* アカウント作成案内 */}
+                        <Card className="pagetransition_card">
+                            <CardContent>
+                                <Typography>
+                                    アカウントを新規で登録しますか？
+                                </Typography>
+                                <a href="/register">
+                                    登録する
+                                </a>
                             </CardContent>
                         </Card>
                     </Grid>

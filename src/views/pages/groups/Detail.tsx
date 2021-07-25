@@ -36,8 +36,8 @@ const GroupDetail: React.FC = () => {
     const renderMobileGroupCard = () => {
         return (
             <Grid container justify="center">
-                <Grid item xs={11} className="title_space center">
-                    <Typography className="title">
+                <Grid item xs={11} className="c_title_space center">
+                    <Typography className="c_title">
                         {group.name}の詳細
                     </Typography>
                 </Grid>
@@ -46,8 +46,8 @@ const GroupDetail: React.FC = () => {
                 </Grid>
                 <Grid item xs={11} className="album_list">
                     <hr className="app_hr" />
-                    <div className="title_space">
-                        <Typography className="title">
+                    <div className="c_title_space">
+                        <Typography className="c_title">
                             アルバム
                         </Typography>
                     </div>
@@ -64,8 +64,8 @@ const GroupDetail: React.FC = () => {
     const renderMobileUserList = () => {
         return (
             <Grid container justify="center">
-                <Grid item xs={11} className="title_space center">
-                    <Typography className="title">
+                <Grid item xs={11} className="c_title_space center">
+                    <Typography className="c_title">
                         参加ユーザ
                     </Typography>
                 </Grid>
@@ -96,29 +96,29 @@ const GroupDetail: React.FC = () => {
                 <Hidden smDown>
                     <Grid container justify="center">
                         {/* Title */}
-                        <Grid item md={6} className="title_space center">
-                            <Typography className="title">
+                        <Grid item md={6} className="c_title_space center">
+                            <Typography className="c_title">
                                 {group.name}の詳細
                             </Typography>
                         </Grid>
-                        <Grid item md={3} className="title_space center">
-                            <Typography className="title">
+                        <Grid item md={3} className="c_title_space center">
+                            <Typography className="c_title">
                                 参加ユーザ
                             </Typography>
                         </Grid>
                         {/* Content */}
-                        <Grid item md={6} className="content_space center">
+                        <Grid item md={6} className="c_content_space center">
                             <GroupCard data={group} />
                             <br />
                             <hr className="app_hr" />
-                            <div className="title_space">
-                                <Typography className="title">
+                            <div className="c_title_space">
+                                <Typography className="c_title">
                                     アルバム
                                 </Typography>
                             </div>
                             <AlbumListData data={album_list} />
                         </Grid>
-                        <Grid item md={3} className="content_space center">
+                        <Grid item md={3} className="c_content_space center">
                             <UserListData data={user_list} />
                         </Grid>
                     </Grid>
@@ -127,29 +127,29 @@ const GroupDetail: React.FC = () => {
                 <Hidden mdUp xsDown>
                     <Grid container justify="center">
                         {/* Title */}
-                        <Grid item sm={7} className="title_space center">
-                            <Typography className="title">
+                        <Grid item sm={7} className="c_title_space center">
+                            <Typography className="c_title">
                                 {group.name}の詳細
                             </Typography>
                         </Grid>
-                        <Grid item sm={4} className="title_space center">
-                            <Typography className="title">
+                        <Grid item sm={4} className="c_title_space center">
+                            <Typography className="c_title">
                                 参加ユーザ
                             </Typography>
                         </Grid>
                         {/* Content */}
-                        <Grid item sm={7} className="content_space center">
+                        <Grid item sm={7} className="c_content_space center">
                             <GroupCard data={group} />
                             <br />
                             <hr className="app_hr" />
-                            <div className="title_space">
-                                <Typography className="title">
+                            <div className="c_title_space">
+                                <Typography className="c_title">
                                     アルバム
                                 </Typography>
                             </div>
                             <AlbumListData data={album_list} />
                         </Grid>
-                        <Grid item sm={4} className="content_space center">
+                        <Grid item sm={4} className="c_content_space center">
                             <UserListData data={user_list} />
                         </Grid>
                     </Grid>

@@ -7,3 +7,28 @@
 #user_detail {
     
 }
+
+#user_register {
+    .card {
+        margin-top: 50px;
+        background-color: white;
+        min-height: 250px;
+        
+        .header {
+            background-color: rgb(253, 200, 103);
+            height: 5%;
+        }
+        .header_title {
+            font-family: 'Merienda', 'cursive';
+            font-size: 1.2rem;
+            color: white;
+        }
+    }
+
+    form {
+        .textfield {
+            margin: 15px 0 15px 0;
+            width: 80%;
+        }
+    }
+}

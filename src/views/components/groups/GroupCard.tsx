@@ -43,29 +43,29 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
       <CardContent>
         
         <Grid container spacing={1}>
-          <Grid item xs={4}>
+          <Grid item xs={4} md={3}>
             <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={8} md={9}>
             <Grid container>
 
-              <Grid item xs={4}>
+              <Grid item xs={5} md={3}>
                 <Typography className={componentStyles.title}>
-                  グループ名 :
+                  グループ名 : 
                 </Typography>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={7} md={9}>
                 <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
                   {props.data.name}
                 </Typography>
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={5} md={3}>
                 <Typography className={componentStyles.title}>
-                  公開設定 :
+                  公開設定 : 
                 </Typography>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={7} md={9}>
                 <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
                   {
                     props.data.private_flg ? 
@@ -80,12 +80,12 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                 </Typography>
               </Grid>
               
-              <Grid item xs={4}>
+              <Grid item xs={5} md={3}>
                 <Typography className={componentStyles.title}>
-                  メンバー :
+                  メンバー : 
                 </Typography>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={7} md={9}>
                 <Typography component="p" className={componentStyles.participants}>
                     {props.data.participants}<span className={componentStyles.unit}>人参加中</span>
                 </Typography>
