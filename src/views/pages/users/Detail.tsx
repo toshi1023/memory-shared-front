@@ -42,6 +42,14 @@ const UserDetail: React.FC = () => {
                 <Grid item xs={11}>
                     <UserCard data={profile} />
                 </Grid>
+                <Grid item xs={11} className="group_list">
+                    <hr className="app_hr" />
+                    <div className="c_title_space">
+                        <Typography className="c_title">
+                            参加歓迎中のグループ
+                        </Typography>
+                    </div>
+                </Grid>
             </Grid>
         );
     }
@@ -97,7 +105,17 @@ const UserDetail: React.FC = () => {
                         </Grid>
                         {/* Content */}
                         <Grid item md={6} className="c_content_space center">
+
                             <UserCard data={profile} />
+
+                            <br />
+                            <hr className="app_hr" />
+                            <div className="c_title_space">
+                                <Typography className="c_title">
+                                    参加歓迎中のグループ
+                                </Typography>
+                            </div>
+                            
                         </Grid>
                         <Grid item md={3} className="c_content_space center">
                             <GroupListData data={group_list} />
@@ -120,7 +138,17 @@ const UserDetail: React.FC = () => {
                         </Grid>
                         {/* Content */}
                         <Grid item sm={7} className="c_content_space center">
+
                             <UserCard data={profile} />
+
+                            <br />
+                            <hr className="app_hr" />
+                            <div className="c_title_space">
+                                <Typography className="c_title">
+                                    参加歓迎中のグループ
+                                </Typography>
+                            </div>
+
                         </Grid>
                         <Grid item sm={4} className="c_content_space center">
                             <GroupListData data={group_list} />

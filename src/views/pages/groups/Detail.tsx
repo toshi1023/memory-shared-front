@@ -108,7 +108,9 @@ const GroupDetail: React.FC = () => {
                         </Grid>
                         {/* Content */}
                         <Grid item md={6} className="c_content_space center">
+                            
                             <GroupCard data={group} />
+                            
                             <br />
                             <hr className="app_hr" />
                             <div className="c_title_space">
@@ -117,6 +119,7 @@ const GroupDetail: React.FC = () => {
                                 </Typography>
                             </div>
                             <AlbumListData data={album_list} />
+
                         </Grid>
                         <Grid item md={3} className="c_content_space center">
                             <UserListData data={user_list} />
@@ -139,7 +142,9 @@ const GroupDetail: React.FC = () => {
                         </Grid>
                         {/* Content */}
                         <Grid item sm={7} className="c_content_space center">
+                            
                             <GroupCard data={group} />
+
                             <br />
                             <hr className="app_hr" />
                             <div className="c_title_space">
@@ -148,6 +153,7 @@ const GroupDetail: React.FC = () => {
                                 </Typography>
                             </div>
                             <AlbumListData data={album_list} />
+                            
                         </Grid>
                         <Grid item sm={4} className="c_content_space center">
                             <UserListData data={user_list} />

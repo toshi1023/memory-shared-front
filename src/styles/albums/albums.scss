@@ -1,4 +1,34 @@
 #album_detail {
-    
+    .desktop_tab {
+        padding: 10px;
+    }
 
+    /* 画像投稿ボタン(モバイル用はアルバム名)とタブを同一行にデザイン */
+    .pos_relative {
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+    .pos_right {
+        position: absolute;
+        right: 0%;
+    }
+
+    .ic_button {
+        background-color: rgb(126, 170, 252);
+        color: white;
+
+        &.desk {
+            margin: 10px 0 10px 0;
+        }
+
+        &.mobile {
+            height: 80%;
+            bottom: 5px;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }

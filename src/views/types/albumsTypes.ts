@@ -17,4 +17,14 @@
         //     title: string;
         // }
     }[]
+
+    callback: {
+        function1: (value: number) => void,
+        function2: (value: number) => void,
+    }
+
+    label: {
+        label1: string,
+        label2: string
+    }
 }

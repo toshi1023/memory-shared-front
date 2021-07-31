@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
 import PageNotFound from '../../components/common/PageNotFound';
 import MyTalkList from '../../components/home/MyTalkList';
@@ -18,8 +19,8 @@ const MobileMyTalk: React.FC = () => {
 
             <div className={displayStyles.sectionMobile}>
                 <Grid container justify="center">
-                    <Grid item xs={10} className="title_space">
-                        <Typography className="title">
+                    <Grid item xs={10} className="c_title_space">
+                        <Typography className="c_title">
                             トーク
                         </Typography>
                     </Grid>

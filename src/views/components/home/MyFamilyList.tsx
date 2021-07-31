@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { FAMILY_LIST } from '../../types/homeTypes';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { Avatar, Grid, Typography } from '@material-ui/core';
+import { Avatar, IconButton, Grid, Typography } from '@material-ui/core';
 import MailIcon from '@material-ui/icons/Mail';
 import noimage from '../../../image/no-image2.jpg';
 
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     iconBackGround: {
         backgroundColor: 'rgb(126, 170, 252)',
+        color: 'white',
         '&:hover': {
             cursor: 'pointer'
         }
@@ -50,7 +51,7 @@ const MyFamilyList: React.FC<FAMILY_LIST> = (props) => {
                         </Typography>
                     </Grid>
                     <Grid item xs={3}>
-                        <Avatar className={classes.iconBackGround}><MailIcon /></Avatar>
+                        <IconButton className={classes.iconBackGround}><MailIcon /></IconButton>
                     </Grid>
                 </Grid>
             ))}

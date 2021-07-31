@@ -26,11 +26,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     mobileImageList: {
         maxWidth: 500,
-        height: 600,
+        height: 550,
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
-    },
+    }
   }),
 );
 
@@ -45,7 +45,6 @@ const MediaListData: React.FC<MEDIA_LIST_DATA> = (props) => {
 
     return (
         <>
-
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
                 <div className={classes.root}>
@@ -58,7 +57,7 @@ const MediaListData: React.FC<MEDIA_LIST_DATA> = (props) => {
                                     title={item.title}
                                     actionIcon={
                                         <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
-                                        <InfoIcon />
+                                            <InfoIcon />
                                         </IconButton>
                                     }
                                 />
@@ -74,12 +73,13 @@ const MediaListData: React.FC<MEDIA_LIST_DATA> = (props) => {
                     <ImageList rowHeight={180} className={classes.mobileImageList}>
                         {_.map(props.data, item => (
                             <ImageListItem key={item.id}>
-                                <img src={item.image_file} alt={item.title} />
+                                <img src={houston} alt={item.title} />
+                                {/* <img src={item.image_file} alt={item.title} /> */}
                                 <ImageListItemBar
                                     title={item.title}
                                     actionIcon={
                                         <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
-                                        <InfoIcon />
+                                            <InfoIcon />
                                         </IconButton>
                                     }
                                 />

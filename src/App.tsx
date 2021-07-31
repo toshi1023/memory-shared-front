@@ -61,7 +61,7 @@ function App() {
           <Route exact path="/users/test" component={UserDetail} />
           <Route exact path="/groups" component={GroupList} />
           <Route exact path="/groups/test" component={GroupDetail} />
-          <Route exact path="/albums/test" component={AlbumDetail} />
+          <Route exact path="/groups/test/albums/test" component={AlbumDetail} />
 
           {/* スマホ用フッタータブとの連携ページ */}
           <Route exact path="/mobile/myfamily" component={MobileMyFamily} />
