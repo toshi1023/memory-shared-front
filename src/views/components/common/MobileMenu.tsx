@@ -59,7 +59,7 @@ const MobileMenu: React.FC<MOBILE_MENU_ICON> = (props) => {
     const pageTransition = (index: number) => {
         if(index === 0) history.push('/users');
         if(index === 1) history.push('/groups');
-        if(index === 2) history.push('/users');
+        if(index === 2) history.push('/news/test');
     }
 
     /**

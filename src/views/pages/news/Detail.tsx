@@ -28,6 +28,60 @@ const NewsDetail: React.FC = () => {
         function2: (value: number) => setView(value)
     }
 
+    /**
+     * スマホ用NewsCard & NewsListDataの表示
+     * @returns 
+     */
+     const renderMobileNews = () => {
+        return (
+            <Grid container justify="center">
+                <Grid item xs={11} className="c_title_space center">
+                    <Typography className="c_title">
+                        {profile.name}さんへの通知
+                    </Typography>
+                </Grid>
+                <Grid item xs={11}>
+                    <NewsCard data={news} />
+                </Grid>
+                <Grid item xs={11} className="news_list">
+                    <hr className="app_hr" />
+                    <br />
+
+                    <NewsListData data={news_list} />
+                </Grid>
+            </Grid>
+        );
+    }
+
+    /**
+     * スマホ用GroupListDataの表示
+     * @returns 
+     */
+    const renderMobileGroupList = () => {
+        return (
+            <Grid container justify="center">
+                <Grid item xs={11} className="c_title_space center">
+                    <Typography className="c_title">
+                        申請中のグループ
+                    </Typography>
+                </Grid>
+                <Grid item xs={11}>
+                    <GroupListData data={group_list} />
+
+                    <br />
+                    <hr className="app_hr" />
+                    <div className="c_title_space">
+                        <Typography className="c_title">
+                            承認済みのグループ
+                        </Typography>
+                    </div>
+
+                    <GroupListData data={group_list} />
+                </Grid>
+            </Grid>
+        );
+    }
+
     const profile = {
         id: 2,
         name: 'test',
@@ -76,6 +130,16 @@ const NewsDetail: React.FC = () => {
                         </Grid>
                         <Grid item md={3} className="c_content_space center">
                             <GroupListData data={group_list} />
+
+                            <br />
+                            <hr className="app_hr" />
+                            <div className="c_title_space">
+                                <Typography className="c_title">
+                                    承認済みのグループ
+                                </Typography>
+                            </div>
+
+                            <GroupListData data={group_list} />
                         </Grid>
                     </Grid>
                 </Hidden>
@@ -105,9 +169,36 @@ const NewsDetail: React.FC = () => {
                         </Grid>
                         <Grid item sm={4} className="c_content_space center">
                             <GroupListData data={group_list} />
+
+                            <br />
+                            <hr className="app_hr" />
+                            <div className="c_title_space">
+                                <Typography className="c_title">
+                                    承認済みのグループ
+                                </Typography>
+                            </div>
+
+                            <GroupListData data={group_list} />
                         </Grid>
                     </Grid>
                 </Hidden>
+            </div>
+
+            {/* スマホ版 */}
+            <div className={displayStyles.sectionMobile}>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <MobileHeaderTab label={label} callback={callback} />
+                    </Grid>
+                </Grid>
+
+                {
+                    view ?
+                        renderMobileGroupList()
+                    :
+                        renderMobileNews()
+                }
+
             </div>
 
         </div>
