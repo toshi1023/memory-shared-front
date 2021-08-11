@@ -126,7 +126,7 @@ const AppMainBar: React.FC = () => {
                   <Button color="inherit" onClick={() => {iconActive('group'); history.push('/groups')}}><SupervisedUserCircleIcon style={active.group ? { color: activeColor } : { color: inActiveColor }} /></Button>
                 </Tooltip>
                 <Tooltip title="お知らせ" classes={{tooltip: classes.tooltip}}>
-                  <Button color="inherit" onClick={() => {iconActive('news');}}><NotificationImportantIcon style={active.news ? { color: activeColor } : { color: inActiveColor }} /></Button>
+                  <Button color="inherit" onClick={() => {iconActive('news'); history.push('/news/test')}}><NotificationImportantIcon style={active.news ? { color: activeColor } : { color: inActiveColor }} /></Button>
                 </Tooltip>
                 <Tooltip title="ログアウト" classes={{tooltip: classes.tooltip}}>
                   <Button color="inherit" onClick={() => window.location.href = '/login'}><ExitToAppIcon /></Button>

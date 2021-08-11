@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../../styles/users/users.scss';
 import { Grid, Hidden, Typography, Card, CardHeader, CardContent, Input } from '@material-ui/core';
+import SingleImageRegister from '../../components/common/SingleImageRegister';
 
 const UserRegister: React.FC = () => {
     return (
@@ -22,6 +23,7 @@ const UserRegister: React.FC = () => {
                                 <Input placeholder="メールアドレス" className="c_textfield" inputProps={{ 'aria-label': 'email' }} />
                                 <Input placeholder="パスワード" className="c_textfield" inputProps={{ 'aria-label': 'password' }} />
                                 <Input placeholder="パスワード(確認)" className="c_textfield" inputProps={{ 'aria-label': 'password_confirm' }} />
+                                <SingleImageRegister />
                                 <button className="c_button small">登録</button>
                             </form>
                         </CardContent>

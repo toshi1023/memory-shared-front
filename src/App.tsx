@@ -15,6 +15,7 @@ import GroupDetail from './views/pages/groups/Detail';
 import AlbumDetail from './views/pages/albums/Detail';
 import Login from './views/pages/home/Login';
 import UserRegister from './views/pages/users/Register';
+import NewsDetail from './views/pages/news/Detail';
 
 /**
  * スマホ画面の場合、フッターのメニュータブを表示
@@ -44,33 +45,34 @@ function App() {
   }, [width]);
   
   return (
-    <div className="App">
-      <BrowserRouter>
-        {
-          window.location.pathname === "/login" || window.location.pathname === "/register" ? 
-            ''
-          :
-            <AppMainBar />
-        }
-        <Switch>
-          {/* PC & 一部スマホページ */}
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={UserRegister} />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/users" component={UserList} />
-          <Route exact path="/users/test" component={UserDetail} />
-          <Route exact path="/groups" component={GroupList} />
-          <Route exact path="/groups/test" component={GroupDetail} />
-          <Route exact path="/groups/test/albums/test" component={AlbumDetail} />
+      <div className="App">
+          <BrowserRouter>
+              {
+                window.location.pathname === "/login" || window.location.pathname === "/register" ? 
+                  ''
+                :
+                  <AppMainBar />
+              }
+              <Switch>
+                  {/* PC & 一部スマホページ */}
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/register" component={UserRegister} />
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/users" component={UserList} />
+                  <Route exact path="/users/test" component={UserDetail} />
+                  <Route exact path="/groups" component={GroupList} />
+                  <Route exact path="/groups/test" component={GroupDetail} />
+                  <Route exact path="/groups/test/albums/test" component={AlbumDetail} />
+                  <Route exact path="/news/test" component={NewsDetail} />
 
-          {/* スマホ用フッタータブとの連携ページ */}
-          <Route exact path="/mobile/myfamily" component={MobileMyFamily} />
-          <Route exact path="/mobile/mygroup" component={MobileMyGroup} />
-          <Route exact path="/mobile/mytalk" component={MobileMyTalk} />
-        </Switch>
-        {renderMobileFooterTab()}
-      </BrowserRouter>
-    </div>
+                  {/* スマホ用フッタータブとの連携ページ */}
+                  <Route exact path="/mobile/myfamily" component={MobileMyFamily} />
+                  <Route exact path="/mobile/mygroup" component={MobileMyGroup} />
+                  <Route exact path="/mobile/mytalk" component={MobileMyTalk} />
+              </Switch>
+              {renderMobileFooterTab()}
+          </BrowserRouter>
+      </div>
   );
 }
 
