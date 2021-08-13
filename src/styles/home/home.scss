@@ -144,6 +144,7 @@
     // iPhone版
     .loginpage_image_area_iphone {
         position: relative;
+        padding-bottom: 15px;
     }
     .loginpage_iphone {
         height: auto;
@@ -191,5 +192,37 @@
             top: 40%;
             left: 30%;
         }
+    }
+}
+
+#dragDropArea {
+    background-color: #f4f4f4;
+    margin: 10px;
+    padding: 10px;
+    border: #ddd dashed 5px;
+    min-height: 200px;
+    text-align: center;
+    position: relative;
+
+    p {
+        color: #999;
+        font-weight: bold;
+        font-size: 14px;
+        font-size: 1.4em;
+    }
+
+    .drag-drop-buttons {
+        margin-top: 20px;
+        font-size: 12px;
+        font-size: 1.2em;
+    }
+    .drag-drop-buttons input {
+        margin: auto;
+    }
+
+    .clear_button_place {
+        position: absolute;
+        bottom: 0;
+        right: 0;
     }
 }

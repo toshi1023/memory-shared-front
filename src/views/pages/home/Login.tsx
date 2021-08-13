@@ -69,7 +69,7 @@ const Login: React.FC = () => {
 
                 {/* iPad版 */}
                 <Hidden mdUp xsDown>
-                    <Grid container justify="center">
+                    <Grid container justify="center" className="formcontainer">
                         <Grid item sm={12} className="login_image_area_ipad">
                             <img src={loginpage_back2} className="loginpage_back_ipad" />
                             <img src={loginpage_front2} className="loginpage_front_ipad" />
@@ -94,8 +94,8 @@ const Login: React.FC = () => {
                                 </CardHeader>
                                 <CardContent>
                                     <form>
-                                        <Input placeholder="ユーザーネーム" className="textfield" inputProps={{ 'aria-label': 'username' }} />
-                                        <Input placeholder="パスワード" className="textfield" inputProps={{ 'aria-label': 'password' }} />
+                                        <Input placeholder="ユーザーネーム" className="c_textfield" inputProps={{ 'aria-label': 'username' }} />
+                                        <Input placeholder="パスワード" className="c_textfield" inputProps={{ 'aria-label': 'password' }} />
                                         <button className="c_button">ログイン</button>
                                     </form>
                                 </CardContent>
@@ -137,8 +137,8 @@ const Login: React.FC = () => {
                             </CardHeader>
                             <CardContent>
                                 <form>
-                                    <Input placeholder="ユーザーネーム" className="textfield" inputProps={{ 'aria-label': 'username' }} />
-                                    <Input placeholder="パスワード" className="textfield" inputProps={{ 'aria-label': 'password' }} />
+                                    <Input placeholder="ユーザーネーム" className="c_textfield" inputProps={{ 'aria-label': 'username' }} />
+                                    <Input placeholder="パスワード" className="c_textfield" inputProps={{ 'aria-label': 'password' }} />
                                     <button className="c_button">ログイン</button>
                                 </form>
                             </CardContent>

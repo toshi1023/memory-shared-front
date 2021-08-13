@@ -12,7 +12,7 @@ const UserRegister: React.FC = () => {
                         <CardHeader 
                             title={
                                 <Typography className="header_title">
-                                    New Register
+                                    Account Register
                                 </Typography>
                             }
                             className="header">
