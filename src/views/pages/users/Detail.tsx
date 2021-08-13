@@ -92,19 +92,11 @@ const UserDetail: React.FC = () => {
                 {/* PC版 */}
                 <Hidden smDown>
                     <Grid container justify="center">
-                        {/* Title */}
-                        <Grid item md={6} className="c_title_space">
+                        {/* Content */}
+                        <Grid item md={6} className="c_content_space center">
                             <Typography className="c_title">
                                 {profile.name}さんのプロフィール
                             </Typography>
-                        </Grid>
-                        <Grid item md={3} className="c_title_space center">
-                            <Typography className="c_title">
-                                参加中のグループ
-                            </Typography>
-                        </Grid>
-                        {/* Content */}
-                        <Grid item md={6} className="c_content_space center">
 
                             <UserCard data={profile} />
 
@@ -117,7 +109,11 @@ const UserDetail: React.FC = () => {
                             </div>
                             
                         </Grid>
-                        <Grid item md={3} className="c_content_space center">
+                        <Grid item md={3} className="c_content_space center c_side_area">
+                            <Typography className="c_title">
+                                参加中のグループ
+                            </Typography>
+
                             <GroupListData data={group_list} />
                         </Grid>
                     </Grid>
@@ -125,19 +121,11 @@ const UserDetail: React.FC = () => {
                 {/* iPad版 */}
                 <Hidden mdUp xsDown>
                     <Grid container justify="center">
-                        {/* Title */}
-                        <Grid item sm={7} className="c_title_space">
+                        {/* Content */}
+                        <Grid item sm={7} className="c_content_space center">
                             <Typography className="c_title">
                                 {profile.name}さんのプロフィール
                             </Typography>
-                        </Grid>
-                        <Grid item sm={4} className="c_title_space center">
-                            <Typography className="c_title">
-                                参加中のグループ
-                            </Typography>
-                        </Grid>
-                        {/* Content */}
-                        <Grid item sm={7} className="c_content_space center">
 
                             <UserCard data={profile} />
 
@@ -150,7 +138,11 @@ const UserDetail: React.FC = () => {
                             </div>
 
                         </Grid>
-                        <Grid item sm={4} className="c_content_space center">
+                        <Grid item sm={4} className="c_content_space center c_side_area">
+                            <Typography className="c_title">
+                                参加中のグループ
+                            </Typography>
+
                             <GroupListData data={group_list} />
                         </Grid>
                     </Grid>

@@ -30,28 +30,17 @@ const Home: React.FC = () => {
 
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
-                <Grid container>
-                    <Grid item sm className="c_title_space center">
+                <Grid container spacing={2}>
+                    <Grid item sm={3} className="c_title_space center c_side_area">
                         <Typography className="c_title">
                             ファミリー
                         </Typography>
+                        <MyFamilyList data={family_list} />
                     </Grid>
                     <Grid item sm={6} className="c_title_space">
                         <Typography className="c_title">
                             プロフィール
                         </Typography>
-                    </Grid>
-                    <Grid item sm className="c_title_space center">
-                        <Typography className="c_title">
-                            トーク
-                        </Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2}>
-                    <Grid item sm={3}>
-                        <MyFamilyList data={family_list} />
-                    </Grid>
-                    <Grid item sm={6}>
                         <MyProfileCard data={profile} />
                         <br />
                         <hr className="app_hr" />
@@ -62,7 +51,10 @@ const Home: React.FC = () => {
                         </div>
                         <MyGroupList data={group_list} />
                     </Grid>
-                    <Grid item sm={3}>
+                    <Grid item sm={3} className="c_title_space center c_side_area">
+                        <Typography className="c_title">
+                            トーク
+                        </Typography>
                         <MyTalkList data={talk_list} />
                     </Grid>
                 </Grid>

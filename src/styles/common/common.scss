@@ -6,6 +6,7 @@
     color: rgb(179, 165, 165);
     font-size: 1.2rem;
     font-weight: bold;
+    padding: 15px;
 }
 
 .c_title_space {
@@ -19,6 +20,25 @@
 .c_content_space {
     margin: 15px;
     padding: 0 20px 0 20px;
+}
+
+.c_side_area {
+    position: -webkit-sticky;/*Safari用*/
+    position: sticky;
+    top:0;
+    /*横半分50%　縦を100vhにする*/
+    height: 100vh;
+    overflow: auto;
+}
+
+// スクロールバーのスタイル
+::-webkit-scrollbar{
+    width: 10px;
+}
+::-webkit-scrollbar-thumb{
+    background: #ccc;
+    border-radius: 10px;
+    box-shadow: none;
 }
 
 form {

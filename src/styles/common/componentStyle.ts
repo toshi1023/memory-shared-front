@@ -58,12 +58,12 @@ const ComponentStyles = makeStyles((theme: Theme) =>
     },
 
     yellow: {
-        backgroundColor: 'rgb(213, 247, 119)',
+        backgroundColor: 'rgba(245, 241, 16, 0.904)',
         color: 'white'
     },
 
     green: {
-      backgroundColor: 'rgb(105, 247, 148)',
+      backgroundColor: 'rgb(68, 231, 104)',
       color: 'white'
     },
 

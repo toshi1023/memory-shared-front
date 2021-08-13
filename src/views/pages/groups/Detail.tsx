@@ -95,20 +95,12 @@ const GroupDetail: React.FC = () => {
                 {/* PC版 */}
                 <Hidden smDown>
                     <Grid container justify="center">
-                        {/* Title */}
-                        <Grid item md={6} className="c_title_space center">
+                        {/* Content */}
+                        <Grid item md={6} className="c_content_space center">
                             <Typography className="c_title">
                                 {group.name}の詳細
                             </Typography>
-                        </Grid>
-                        <Grid item md={3} className="c_title_space center">
-                            <Typography className="c_title">
-                                参加ユーザ
-                            </Typography>
-                        </Grid>
-                        {/* Content */}
-                        <Grid item md={6} className="c_content_space center">
-                            
+
                             <GroupCard data={group} />
                             
                             <br />
@@ -119,9 +111,12 @@ const GroupDetail: React.FC = () => {
                                 </Typography>
                             </div>
                             <AlbumListData data={album_list} />
-
                         </Grid>
-                        <Grid item md={3} className="c_content_space center">
+                        <Grid item md={3} className="c_content_space center c_side_area">
+                            <Typography className="c_title">
+                                参加ユーザ
+                            </Typography>
+                            
                             <UserListData data={user_list} />
                         </Grid>
                     </Grid>
@@ -129,20 +124,12 @@ const GroupDetail: React.FC = () => {
                 {/* iPad版 */}
                 <Hidden mdUp xsDown>
                     <Grid container justify="center">
-                        {/* Title */}
-                        <Grid item sm={7} className="c_title_space center">
+                        {/* Content */}
+                        <Grid item sm={7} className="c_content_space center">
                             <Typography className="c_title">
                                 {group.name}の詳細
                             </Typography>
-                        </Grid>
-                        <Grid item sm={4} className="c_title_space center">
-                            <Typography className="c_title">
-                                参加ユーザ
-                            </Typography>
-                        </Grid>
-                        {/* Content */}
-                        <Grid item sm={7} className="c_content_space center">
-                            
+
                             <GroupCard data={group} />
 
                             <br />
@@ -155,7 +142,11 @@ const GroupDetail: React.FC = () => {
                             <AlbumListData data={album_list} />
                             
                         </Grid>
-                        <Grid item sm={4} className="c_content_space center">
+                        <Grid item sm={4} className="c_content_space center c_side_area">
+                            <Typography className="c_title">
+                                参加ユーザ
+                            </Typography>
+
                             <UserListData data={user_list} />
                         </Grid>
                     </Grid>
