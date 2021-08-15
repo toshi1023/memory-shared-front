@@ -18,6 +18,11 @@ const initialOptions: videojs.PlayerOptions = {
   }
 };
 
+/**
+ * ビデオ再生用関数
+ * @param param0 
+ * @returns 
+ */
 const VideoPlayer: React.FC<IVideoPlayerProps> = ({ options }) => {
   const videoNode = React.useRef<HTMLVideoElement>(null);
   const player = React.useRef<videojs.Player>();
