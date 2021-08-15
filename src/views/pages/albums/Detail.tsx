@@ -5,7 +5,7 @@ import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip } from '@mater
 import DisplayStyles from '../../../styles/common/displayMode';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
-import MediaListData from '../../components/albums/MediaListData';
+import ImageListData from '../../components/albums/ImageListData';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 
 import media_list from '../../../data/media_list_data.json';
@@ -64,7 +64,7 @@ const AlbumDetail: React.FC = () => {
                         </Tooltip>
                     </Grid>
                     <Grid item sm={7}>
-                        <MediaListData data={media_list} label={label} callback={callback} />
+                        <ImageListData data={media_list} label={label} callback={callback} />
                     </Grid>
                 </Grid>
             </div>
@@ -85,7 +85,7 @@ const AlbumDetail: React.FC = () => {
                     </Grid>
                     <Grid item xs={11}>
                         <div>
-                            <MediaListData data={media_list} label={label} callback={callback} />
+                            <ImageListData data={media_list} label={label} callback={callback} />
                         </div>
                     </Grid>
                 </Grid>

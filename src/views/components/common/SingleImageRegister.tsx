@@ -66,6 +66,7 @@ const confirmImageFormat = (file: ArrayBuffer) => {
  * @param fileArea 
  */
 const draggable = (fileArea: HTMLDivElement) => {
+    console.log('start')
     fileArea.addEventListener('dragover', function(evt: DragEvent){
         evt.preventDefault();
         fileArea.classList.add('dragover');
@@ -179,10 +180,9 @@ const SingleImageRegister: React.FC = () => {
     // ドラッグ&ドロップのイベント定義
     useEffect(() => {
         if(fileArea !== null) {
-            fileArea.addEventListener('draggable', () => draggable(fileArea));
+            draggable(fileArea);
         }
-    });
-
+    }, [fileArea]);
 
     return (
         <div id="dragDropArea" onClick={() => handleFileClick()}>
