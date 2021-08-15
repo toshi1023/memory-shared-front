@@ -7,8 +7,8 @@ import ImageListItem from '@material-ui/core/ImageListItem';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import { IMAGE_LIST_DATA } from '../../types/albumsTypes';
-import houston from '../../../image/houston.jpg';
+import { VIDEO_LIST_DATA } from '../../types/albumsTypes';
+import VideoPlayer from "../../components/common/VideoPlayer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
  * @param props 
  * @returns 
  */
-const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
+const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
     const classes = useStyles();
     const displayStyles = DisplayStyles();
 
@@ -48,11 +48,26 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
                 <div className={classes.root}>
-                    <ImageList rowHeight={180} className={classes.imageList} cols={3}>
+                    {_.map(props.data, item => (
+                        <VideoPlayer 
+                            options={{
+                                sources: [{
+                                    src: item.src,
+                                    type: item.type
+                                }],
+                            }} 
+                            key={item.id}
+                        />
+                    ))}
+                    {/* <ImageList rowHeight={180} className={classes.imageList} cols={3}>
                         {_.map(props.data, item => (
                             <ImageListItem key={item.id}>
-                                <img src={houston} alt={item.title} />
-                                {/* <img src={item.image_file} alt={item.title} /> */}
+                                <VideoPlayer options={{
+                                    sources: [{
+                                        src: item.src,
+                                        type: item.type
+                                    }]
+                                }} />
                                 <ImageListItemBar
                                     title={item.title}
                                     actionIcon={
@@ -63,33 +78,28 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                                 />
                             </ImageListItem>
                         ))}
-                    </ImageList>
+                    </ImageList> */}
                 </div>
             </div>
 
             {/* スマホ版 */}
             <div className={displayStyles.sectionMobile}>
                 <div className={classes.root}>
-                    <ImageList rowHeight={180} className={classes.mobileImageList}>
-                        {_.map(props.data, item => (
-                            <ImageListItem key={item.id}>
-                                <img src={houston} alt={item.title} />
-                                {/* <img src={item.image_file} alt={item.title} /> */}
-                                <ImageListItemBar
-                                    title={item.title}
-                                    actionIcon={
-                                        <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
-                                            <InfoIcon />
-                                        </IconButton>
-                                    }
-                                />
-                            </ImageListItem>
-                        ))}
-                    </ImageList>
+                    {_.map(props.data, item => (
+                        <VideoPlayer 
+                            options={{
+                                sources: [{
+                                    src: item.src,
+                                    type: item.type
+                                }],
+                            }} 
+                            key={item.id}
+                        />
+                    ))}
                 </div>
             </div>
         </>
     );
 }
 
-export default ImageListData
+export default VideoListData

@@ -6,8 +6,8 @@ import DisplayStyles from '../../../styles/common/displayMode';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
 import ImageListData from '../../components/albums/ImageListData';
+import VideoListData from '../../components/albums/VideoListData';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import VideoPlayer from "../../components/common/VideoPlayer";
 
 import videoSrc from '../../../video/MemoryShareApp.mp4';
 import media_list from '../../../data/media_list_data.json';
@@ -28,16 +28,6 @@ const AlbumDetail: React.FC = () => {
         label2: '動画'
     }
 
-    // videoオプション
-    const videoJsOptions = {
-        sources: [
-           {
-              src: videoSrc,
-              type: "video/mp4"
-           }
-        ]
-    };
-
     // MobileHeaderTab用のcallback関数を設定
     const callback = {
         function1: (value: number) => setView(value),
@@ -47,6 +37,39 @@ const AlbumDetail: React.FC = () => {
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setView(newValue);
     };
+
+    const videoData = [
+        {
+            id: 1,
+            src: videoSrc,
+            type: "video/mp4",
+            title: 'test_video1'
+        },
+        {
+            id: 2,
+            src: videoSrc,
+            type: "video/mp4",
+            title: 'test_video2'
+        },
+        {
+            id: 3,
+            src: videoSrc,
+            type: "video/mp4",
+            title: 'test_video3'
+        },
+        {
+            id: 4,
+            src: videoSrc,
+            type: "video/mp4",
+            title: 'test_video4'
+        },
+        {
+            id: 5,
+            src: videoSrc,
+            type: "video/mp4",
+            title: 'test_video5'
+        },
+    ]
 
     return (
         <div id="album_detail">
@@ -76,11 +99,14 @@ const AlbumDetail: React.FC = () => {
                         </Tooltip>
                     </Grid>
                     <Grid item sm={7}>
-                        <ImageListData data={media_list} label={label} callback={callback} />
+                        {
+                            view ? 
+                                <VideoListData data={videoData} label ={label} callback={callback} />
+                            :
+                                <ImageListData data={media_list} label={label} callback={callback} />
+                        }
                     </Grid>
                 </Grid>
-                {/* テストで実装(後で削除予定) */}
-                <VideoPlayer options={videoJsOptions} />
             </div>
 
             {/* スマホ版 */}
@@ -99,7 +125,12 @@ const AlbumDetail: React.FC = () => {
                     </Grid>
                     <Grid item xs={11}>
                         <div>
-                            <ImageListData data={media_list} label={label} callback={callback} />
+                            {
+                                view ? 
+                                    <VideoListData data={videoData} label ={label} callback={callback} />
+                                :
+                                    <ImageListData data={media_list} label={label} callback={callback} />
+                            }
                         </div>
                     </Grid>
                 </Grid>

@@ -9,13 +9,13 @@ interface IVideoPlayerProps {
 }
 
 const initialOptions: videojs.PlayerOptions = {
-  controls: true,
-  fluid: true,
-  controlBar: {
-    volumePanel: {
-      inline: false
+    controls: true,
+    fluid: true,
+    controlBar: {
+        volumePanel: {
+        inline: false
+        }
     }
-  }
 };
 
 /**
@@ -26,7 +26,7 @@ const initialOptions: videojs.PlayerOptions = {
 const VideoPlayer: React.FC<IVideoPlayerProps> = ({ options }) => {
   const videoNode = React.useRef<HTMLVideoElement>(null);
   const player = React.useRef<videojs.Player>();
-
+  
   React.useEffect(() => {
     if(videoNode !== null) {
         player.current = videojs(videoNode.current!, {
@@ -43,7 +43,7 @@ const VideoPlayer: React.FC<IVideoPlayerProps> = ({ options }) => {
     }
   }, [options]);
 
-  return <video ref={videoNode} className="video-js" />;
+  return <video ref={videoNode} className="video-js" style={{ margin: '10px 0 10px 0'}} />;
 };
 
 export default VideoPlayer;
