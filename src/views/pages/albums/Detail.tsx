@@ -7,7 +7,9 @@ import ComponentStyles from '../../../styles/common/componentStyle';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
 import ImageListData from '../../components/albums/ImageListData';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import VideoPlayer from "../../components/common/Video";
 
+import videoSrc from '../../../video/MemoryShareApp.mp4';
 import media_list from '../../../data/media_list_data.json';
 
 /**
@@ -25,6 +27,16 @@ const AlbumDetail: React.FC = () => {
         label1: '写真',
         label2: '動画'
     }
+
+    // videoオプション
+    const videoJsOptions = {
+        sources: [
+           {
+              src: videoSrc,
+              type: "video/mp4"
+           }
+        ]
+    };
 
     // MobileHeaderTab用のcallback関数を設定
     const callback = {
@@ -44,7 +56,7 @@ const AlbumDetail: React.FC = () => {
                 <Grid container justify="center">
                     <Grid item sm={7} className="c_title_space">
                         <Typography className="c_title">
-                            album1
+                          album1
                         </Typography>
                     </Grid>
                     <Grid item sm={7} className="pos_relative">
@@ -67,6 +79,8 @@ const AlbumDetail: React.FC = () => {
                         <ImageListData data={media_list} label={label} callback={callback} />
                     </Grid>
                 </Grid>
+                {/* テストで実装(後で削除予定) */}
+                <VideoPlayer options={videoJsOptions} />
             </div>
 
             {/* スマホ版 */}
