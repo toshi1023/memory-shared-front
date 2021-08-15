@@ -7,7 +7,7 @@ import ComponentStyles from '../../../styles/common/componentStyle';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
 import ImageListData from '../../components/albums/ImageListData';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import VideoPlayer from "../../components/common/Video";
+import VideoPlayer from "../../components/common/VideoPlayer";
 
 import videoSrc from '../../../video/MemoryShareApp.mp4';
 import media_list from '../../../data/media_list_data.json';
