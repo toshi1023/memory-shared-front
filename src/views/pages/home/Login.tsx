@@ -11,15 +11,14 @@ import loginpage_front1 from '../../../image/loginpage/loginpage_front1.jpg';
 const Login: React.FC = () => {
     const displayStyles = DisplayStyles();
 
-
     return (
         <div id="login">
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
                 {/* PC版 */}
-                <Hidden smDown>
+                <Hidden mdDown>
                     <Grid container justify="center" className="formcontainer">
-                        <Grid item md={6} className="login_image_area">
+                        <Grid item lg={6} className="login_image_area">
                             <img src={loginpage_back1} className="loginpage_back" />
                             <img src={loginpage_front1} className="loginpage_front" />
                             {/* <Typography className="wf-roundedmplus1c">
@@ -31,7 +30,7 @@ const Login: React.FC = () => {
                                 MemoryShareApp
                             </Typography>
                         </Grid>
-                        <Grid item md={3}>
+                        <Grid item lg={3}>
                             <Card className="card">
                                 <CardHeader 
                                     title={
@@ -68,9 +67,9 @@ const Login: React.FC = () => {
                 </Hidden>
 
                 {/* iPad版 */}
-                <Hidden mdUp xsDown>
+                <Hidden lgUp xsDown>
                     <Grid container justify="center" className="formcontainer">
-                        <Grid item sm={12} className="login_image_area_ipad">
+                        <Grid item sm={12} md={12} className="login_image_area_ipad">
                             <img src={loginpage_back2} className="loginpage_back_ipad" />
                             <img src={loginpage_front2} className="loginpage_front_ipad" />
                             {/* <img src={loginpage_back1} className="loginpage_back_ipad" />
@@ -82,7 +81,7 @@ const Login: React.FC = () => {
                                 仲間と一緒に思い出を共有しよう
                             </Typography> */}
                         </Grid>
-                        <Grid item sm={6}>
+                        <Grid item sm={6} md={6}>
                             <Card className="card_ipad">
                                 <CardHeader 
                                     title={
