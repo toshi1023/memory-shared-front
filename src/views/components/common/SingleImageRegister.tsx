@@ -180,6 +180,7 @@ const SingleImageRegister: React.FC = () => {
     // ドラッグ&ドロップのイベント定義
     useEffect(() => {
         if(fileArea !== null) {
+            console.log('effect')
             draggable(fileArea);
         }
     }, [fileArea]);

@@ -49,6 +49,26 @@ form {
         width: 80%;
     }
 
+    .c_labelarea {
+        margin: 15px 0 10px 0;
+        width: 80%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: start;
+    }
+    .c_label {
+        font-size: 1.1rem;
+        color: rgb(179, 165, 165);
+    }
+
+    .c_imagearea {
+        width: 90%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .c_button {
         margin: 20px 0 20px 0;
         width: 80%;
