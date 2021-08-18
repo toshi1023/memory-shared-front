@@ -45,7 +45,7 @@ form {
     padding: 5% 0 5% 0;
 
     .c_textfield {
-        margin: 15px 0 15px 0;
+        margin: 5px 0 5px 0;
         width: 80%;
     }
 
@@ -67,6 +67,11 @@ form {
         display: block;
         margin-left: auto;
         margin-right: auto;
+    }
+    .c_imagesize {
+        width: 90%;
+        height: auto;
+        margin-bottom: 30px;
     }
 
     .c_button {

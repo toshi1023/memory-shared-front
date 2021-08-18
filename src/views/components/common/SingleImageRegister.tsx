@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import '../../../styles/home/home.scss';
+import '../../../styles/common/common.scss';
 import { Button } from '@material-ui/core';
 
 /**
@@ -70,13 +71,16 @@ const draggable = (fileArea: HTMLDivElement) => {
     fileArea.addEventListener('dragover', function(evt: DragEvent){
         evt.preventDefault();
         fileArea.classList.add('dragover');
+        fileArea.style.backgroundColor = 'rgb(218, 216, 219)';
     });
     fileArea.addEventListener('dragleave', function(evt: DragEvent){
         evt.preventDefault();
         fileArea.classList.remove('dragover');
+        fileArea.style.backgroundColor = '#f4f4f4';
     });
     fileArea.addEventListener('drop', function(evt: DragEvent){
         evt.preventDefault();
+        fileArea.style.backgroundColor = '#f4f4f4';
         const fileInput = document.getElementById('fileInput') as HTMLInputElement;
 
         fileArea.classList.remove('dragenter');
@@ -124,6 +128,7 @@ const photoPreview = async (f: File) => {
             if(reader.result !== null) {
                 img.setAttribute("src", reader.result as string);
                 img.setAttribute("id", "previewImage");
+                img.setAttribute("class", "c_imagesize");
                 preview.appendChild(img);
             }
         };
@@ -163,6 +168,7 @@ const photoChangePreview = async (event: React.ChangeEvent<HTMLInputElement>) =>
             if(reader.result !== null) {
                 img.setAttribute("src", reader.result as string);
                 img.setAttribute("id", "previewImage");
+                img.setAttribute("class", "c_imagesize");
                 preview.appendChild(img);
             }
         };
@@ -192,8 +198,8 @@ const SingleImageRegister: React.FC = () => {
                 <p className="drag-drop-buttons">
                     <input id="fileInput" type="file" accept="image/*" name="photo" onChange={(event) => photoChangePreview(event)} style={{ display: 'none' }} />
                 </p>
-                <Button id="fileClear" className="c_clear clear_button_place" onClick={(event) => handleFileClear(event)}>クリア</Button>
                 <div id="previewArea"></div>
+                <Button id="fileClear" className="c_clear clear_button_place" onClick={(event) => handleFileClear(event)}>クリア</Button>
             </div>
         </div>
     )

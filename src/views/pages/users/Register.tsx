@@ -37,10 +37,14 @@ const UserRegister: React.FC = () => {
                         </CardHeader>
                         <CardContent>
                             <form>
-                                <Input placeholder="ユーザーネーム" className="c_textfield" inputProps={{ 'aria-label': 'username' }} />
-                                <Input placeholder="メールアドレス" className="c_textfield" inputProps={{ 'aria-label': 'email' }} />
-                                <Input placeholder="パスワード" className="c_textfield" inputProps={{ 'aria-label': 'password' }} />
-                                <Input placeholder="パスワード(確認)" className="c_textfield" inputProps={{ 'aria-label': 'password_confirm' }} />
+                                <div className="c_labelarea"><span className="c_label">ユーザーネーム</span></div>
+                                <Input placeholder="test user" className="c_textfield" />
+                                <div className="c_labelarea"><span className="c_label">メールアドレス</span></div>
+                                <Input placeholder="test@xxx.co.jp" className="c_textfield" />
+                                <div className="c_labelarea"><span className="c_label">パスワード</span></div>
+                                <Input className="c_textfield" inputProps={{ 'type': 'password' }} />
+                                <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
+                                <Input className="c_textfield" inputProps={{ 'type': 'password' }} />
                                 <div className="c_labelarea"><span className="c_label">性別</span></div>
                                 <div className="c_radioarea">
                                     <Radio
