@@ -27,6 +27,19 @@ export interface USER_CARD {
     }
 }
 
+/**
+ * WelcomeGroupListData用のデータ型定義
+ */
+ export interface WELCOME_GROUP_LIST_DATA {
+    data: {
+        id: number,
+        name: string;
+        image_file: string;
+        participants: number;
+        album_count: number;
+    }[]
+}
+
 export interface GROUP_LIST_DATA {
     data: {
         id: number;

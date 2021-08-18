@@ -4,6 +4,7 @@ import '../../../styles/common/common.scss';
 import '../../../styles/groups/groups.scss';
 import UserCard from '../../components/users/UserCard';
 import GroupListData from '../../components/users/GroupListData';
+import WelcomeGroupListData from '../../components/users/WelcomGroupListData';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
 import { Grid, Typography, Hidden } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
@@ -49,6 +50,8 @@ const UserDetail: React.FC = () => {
                             参加歓迎中のグループ
                         </Typography>
                     </div>
+                    
+                    <WelcomeGroupListData data={group_list} />
                 </Grid>
             </Grid>
         );
@@ -108,6 +111,7 @@ const UserDetail: React.FC = () => {
                                 </Typography>
                             </div>
                             
+                            <WelcomeGroupListData data={group_list} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center c_side_area">
                             <Typography className="c_title">
@@ -137,6 +141,7 @@ const UserDetail: React.FC = () => {
                                 </Typography>
                             </div>
 
+                            <WelcomeGroupListData data={group_list} />
                         </Grid>
                         <Grid item sm={4} className="c_content_space center c_side_area">
                             <Typography className="c_title">

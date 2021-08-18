@@ -25,7 +25,7 @@ const UserRegister: React.FC = () => {
     return (
         <div id="user_register">
             <Grid container justify="center">
-                <Grid item xs={11} sm={6} md={4}>
+                <Grid item xs={11} sm={6} lg={4}>
                     <Card className="card">
                         <CardHeader 
                             title={
