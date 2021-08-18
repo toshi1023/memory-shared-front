@@ -1,10 +1,77 @@
 #group_list {
     .list_box {
         margin-top: 30px;
+        position: relative;
+    }
+
+    .groupcreate_button {
+        margin: 20px 0 20px 0;
+        height: 50px;
+        width: 40%;
+        align-items: right;
+        background-color: #fff;
+        border: 2px solid #f8cf77;
+        border-radius: 30px;
+        box-sizing: border-box;
+        color: #f8cf77;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        &:hover {
+            background: rgb(245, 218, 160);
+            color: #fff;
+
+            .groupcreate_icon {
+                color: #fff;
+            }
+        }
+
+        &.mobile {
+            width: 60%;
+        }
+
+    }
+
+    .groupcreate_icon {
+        color: #f8cf77;
+        margin-right: 10px;
     }
 }
 
 #group_detail {
+    .albumcreate_button {
+        margin: 20px 0 20px 0;
+        height: 50px;
+        width: 30%;
+        align-items: right;
+        background-color: #fff;
+        border: 2px solid #f8cf77;
+        border-radius: 30px;
+        box-sizing: border-box;
+        color: #f8cf77;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        &:hover {
+            background: rgb(245, 218, 160);
+            color: #fff;
+
+            .albumcreate_icon {
+                color: #fff;
+            }
+        }
+
+        &.mobile {
+            width: 60%;
+        }
+
+    }
+
+    .albumcreate_icon {
+        color: #f8cf77;
+        margin-right: 10px;
+    }
+
     .album_list {
         margin-top: 30px;
     }

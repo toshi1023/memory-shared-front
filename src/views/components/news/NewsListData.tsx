@@ -40,6 +40,7 @@ const NewsListData: React.FC<NEWS_LIST_DATA> = (props) => {
                         button
                         selected={selectedIndex === 0}
                         onClick={(event) => handleListItemClick(event, 0)}
+                        key={value.id}
                     >
                         <ListItemIcon>
                             <MailIcon />

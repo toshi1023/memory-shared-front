@@ -92,4 +92,4 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
     );
 }
 
-export default ImageListData
+export default React.memo(ImageListData)

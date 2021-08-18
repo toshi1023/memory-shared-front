@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
-import { Grid, Hidden, Typography, Card, CardHeader, CardContent, Input } from '@material-ui/core';
+import { Grid, Hidden, Typography, Card, CardHeader, CardContent, Input, Button } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import loginpage_back2 from '../../../image/loginpage/loginpage_back2.jpg';
 import loginpage_front2 from '../../../image/loginpage/loginpage_front2.jpg';
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
                                     <form>
                                         <Input placeholder="ユーザーネーム" className="textfield" inputProps={{ 'aria-label': 'username' }} />
                                         <Input placeholder="パスワード" className="textfield" inputProps={{ 'aria-label': 'password' }} />
-                                        <button className="c_button">ログイン</button>
+                                        <Button className="c_button">ログイン</Button>
                                     </form>
                                 </CardContent>
                             </Card>
@@ -95,7 +95,7 @@ const Login: React.FC = () => {
                                     <form>
                                         <Input placeholder="ユーザーネーム" className="textfield" inputProps={{ 'aria-label': 'username' }} />
                                         <Input placeholder="パスワード" className="textfield" inputProps={{ 'aria-label': 'password' }} />
-                                        <button className="c_button">ログイン</button>
+                                        <Button className="c_button">ログイン</Button>
                                     </form>
                                 </CardContent>
                             </Card>
@@ -138,7 +138,7 @@ const Login: React.FC = () => {
                                 <form>
                                     <Input placeholder="ユーザーネーム" className="textfield" inputProps={{ 'aria-label': 'username' }} />
                                     <Input placeholder="パスワード" className="textfield" inputProps={{ 'aria-label': 'password' }} />
-                                    <button className="c_button">ログイン</button>
+                                    <Button className="c_button">ログイン</Button>
                                 </form>
                             </CardContent>
                         </Card>

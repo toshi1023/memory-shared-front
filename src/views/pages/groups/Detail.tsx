@@ -6,8 +6,9 @@ import GroupCard from '../../components/groups/GroupCard';
 import UserListData from '../../components/groups/UserListData';
 import AlbumListData from '../../components/groups/AlbumListData';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
-import { Grid, Typography, Hidden } from '@material-ui/core';
+import { Grid, Typography, Hidden, Button } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 
 import user_list from '../../../data/user_list_data.json';
 import album_list from '../../../data/album_list_data.json';
@@ -51,6 +52,7 @@ const GroupDetail: React.FC = () => {
                             アルバム
                         </Typography>
                     </div>
+                    <Button className="albumcreate_button mobile"><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
                     <AlbumListData data={album_list} />
                 </Grid>
             </Grid>
@@ -110,6 +112,7 @@ const GroupDetail: React.FC = () => {
                                     アルバム
                                 </Typography>
                             </div>
+                            <Button className="albumcreate_button mobile"><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
                             <AlbumListData data={album_list} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center c_side_area">
@@ -139,6 +142,7 @@ const GroupDetail: React.FC = () => {
                                     アルバム
                                 </Typography>
                             </div>
+                            <Button className="albumcreate_button mobile"><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
                             <AlbumListData data={album_list} />
                             
                         </Grid>

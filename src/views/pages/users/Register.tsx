@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../../styles/users/users.scss';
-import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, Radio } from '@material-ui/core';
+import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, Radio, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -67,7 +67,7 @@ const UserRegister: React.FC = () => {
                                 <div className="c_imagearea">
                                     <SingleImageRegister />
                                 </div>
-                                <button className="c_button small">登録</button>
+                                <Button className="c_button small">登録</Button>
                             </form>
                         </CardContent>
                     </Card>

@@ -102,4 +102,4 @@ const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
     );
 }
 
-export default VideoListData
+export default React.memo(VideoListData)
