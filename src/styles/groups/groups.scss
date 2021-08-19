@@ -42,7 +42,7 @@
     .albumcreate_button {
         margin: 20px 0 20px 0;
         height: 50px;
-        width: 30%;
+        width: 40%;
         align-items: right;
         background-color: #fff;
         border: 2px solid #f8cf77;
@@ -61,10 +61,13 @@
             }
         }
 
+        &.ipad {
+            width: 50%;
+        }
+
         &.mobile {
             width: 60%;
         }
-
     }
 
     .albumcreate_icon {
@@ -78,5 +81,35 @@
 
     .ipad_grouplist {
         margin-top: 20px;
+    }
+}
+
+#group_register {
+    .card {
+        margin-top: 50px;
+        background-color: white;
+        min-height: 250px;
+        
+        .header {
+            background-color: rgb(253, 200, 103);
+            height: 5%;
+        }
+        .header_title {
+            font-family: 'Merienda', 'cursive';
+            font-size: 1.2rem;
+            color: white;
+        }
+    }
+
+    form {
+        .textfield {
+            margin: 15px 0 15px 0;
+            width: 80%;
+        }
+
+        .glabel {
+            color: rgb(134, 133, 133);
+            margin-right: 15px;
+        }
     }
 }

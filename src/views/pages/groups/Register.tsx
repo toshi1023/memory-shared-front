@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../styles/users/users.scss';
+import '../../../styles/groups/groups.scss';
 import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, Radio, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 )
 
-const UserRegister: React.FC = () => {
-    const [selectedValue, setSelectedValue] = React.useState('男性');
+const GroupRegister: React.FC = () => {
+    const [selectedValue, setSelectedValue] = React.useState('公開');
     const classes = useStyles();
     const displayStyles = DisplayStyles();
 
@@ -25,7 +25,7 @@ const UserRegister: React.FC = () => {
     };
 
     return (
-        <div id="user_register">
+        <div id="group_register">
 
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
@@ -35,40 +35,36 @@ const UserRegister: React.FC = () => {
                             <CardHeader 
                                 title={
                                     <Typography className="header_title">
-                                        Account Register
+                                        Group Register
                                     </Typography>
                                 }
                                 className="header">
                             </CardHeader>
                             <CardContent>
                                 <form>
-                                    <div className="c_labelarea"><span className="c_label">ユーザーネーム</span></div>
-                                    <Input placeholder="test user" className="c_textfield" />
-                                    <div className="c_labelarea"><span className="c_label">メールアドレス</span></div>
-                                    <Input placeholder="test@xxx.co.jp" className="c_textfield" />
-                                    <div className="c_labelarea"><span className="c_label">パスワード</span></div>
-                                    <Input className="c_textfield" inputProps={{ 'type': 'password' }} />
-                                    <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
-                                    <Input className="c_textfield" inputProps={{ 'type': 'password' }} />
-                                    <div className="c_labelarea"><span className="c_label">性別</span></div>
+                                    <div className="c_labelarea"><span className="c_label">グループ名</span></div>
+                                    <Input name="name" placeholder="test group" className="c_textfield" />
+                                    <div className="c_labelarea"><span className="c_label">紹介文</span></div>
+                                    <Input name="description" placeholder="ここに紹介文を記載してください。" className="c_textfield" />
+                                    <div className="c_labelarea"><span className="c_label">公開フラグ</span></div>
                                     <div className="c_radioarea">
                                         <Radio
-                                            checked={selectedValue === '男性'}
+                                            checked={selectedValue === '公開'}
                                             onChange={handleChange}
-                                            value='男性'
-                                            name="gender"
+                                            value='公開'
+                                            name="private_flg"
                                             classes={{root: classes.radio, checked: classes.checked}}
                                         />
-                                        <span className="glabel">男性</span>
+                                        <span className="glabel">公開</span>
                                         <Radio
-                                            checked={selectedValue === '女性'}
+                                            checked={selectedValue === '非公開'}
                                             onChange={handleChange}
-                                            value='女性'
-                                            name="gender"
+                                            value='非公開'
+                                            name="private_flg"
                                         />
-                                        <span className="glabel">女性</span>
+                                        <span className="glabel">非公開</span>
                                     </div>
-                                    <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
+                                    <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                     <div className="c_imagearea">
                                         <SingleImageRegister />
                                     </div>
@@ -88,40 +84,36 @@ const UserRegister: React.FC = () => {
                             <CardHeader 
                                 title={
                                     <Typography className="header_title">
-                                        Account Register
+                                        Group Register
                                     </Typography>
                                 }
                                 className="header">
                             </CardHeader>
                             <CardContent>
                                 <form>
-                                    <div className="c_labelarea"><span className="c_label">ユーザーネーム</span></div>
-                                    <Input placeholder="test user" className="c_textfield" />
-                                    <div className="c_labelarea"><span className="c_label">メールアドレス</span></div>
-                                    <Input placeholder="test@xxx.co.jp" className="c_textfield" />
-                                    <div className="c_labelarea"><span className="c_label">パスワード</span></div>
-                                    <Input className="c_textfield" inputProps={{ 'type': 'password' }} />
-                                    <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
-                                    <Input className="c_textfield" inputProps={{ 'type': 'password' }} />
-                                    <div className="c_labelarea"><span className="c_label">性別</span></div>
+                                    <div className="c_labelarea"><span className="c_label">グループ名</span></div>
+                                    <Input name="name" placeholder="test group" className="c_textfield" />
+                                    <div className="c_labelarea"><span className="c_label">紹介文</span></div>
+                                    <Input name="description" placeholder="ここに紹介文を記載してください。" className="c_textfield" />
+                                    <div className="c_labelarea"><span className="c_label">公開フラグ</span></div>
                                     <div className="c_radioarea">
                                         <Radio
-                                            checked={selectedValue === '男性'}
+                                            checked={selectedValue === '公開'}
                                             onChange={handleChange}
-                                            value='男性'
-                                            name="gender"
+                                            value='公開'
+                                            name="private_flg"
                                             classes={{root: classes.radio, checked: classes.checked}}
                                         />
-                                        <span className="glabel">男性</span>
+                                        <span className="glabel">公開</span>
                                         <Radio
-                                            checked={selectedValue === '女性'}
+                                            checked={selectedValue === '非公開'}
                                             onChange={handleChange}
-                                            value='女性'
-                                            name="gender"
+                                            value='非公開'
+                                            name="private_flg"
                                         />
-                                        <span className="glabel">女性</span>
+                                        <span className="glabel">非公開</span>
                                     </div>
-                                    <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
+                                    <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                     <div className="c_imagearea">
                                         <SingleImageRegister />
                                     </div>
@@ -137,4 +129,4 @@ const UserRegister: React.FC = () => {
     )
 }
 
-export default UserRegister
+export default GroupRegister

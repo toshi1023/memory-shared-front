@@ -10,11 +10,13 @@ import MobileMyGroup from './views/pages/home/MobileMyGroup';
 import MobileMyTalk from './views/pages/home/MobileMyTalk';
 import UserList from './views/pages/users/List';
 import UserDetail from './views/pages/users/Detail';
+import UserRegister from './views/pages/users/Register';
 import GroupList from './views/pages/groups/List';
 import GroupDetail from './views/pages/groups/Detail';
+import GroupRegister from './views/pages/groups/Register';
 import AlbumDetail from './views/pages/albums/Detail';
+import AlbumRegister from './views/pages/albums/Register';
 import Login from './views/pages/home/Login';
-import UserRegister from './views/pages/users/Register';
 import NewsDetail from './views/pages/news/Detail';
 
 /**
@@ -61,8 +63,10 @@ function App() {
                   <Route exact path="/users" component={UserList} />
                   <Route exact path="/users/test" component={UserDetail} />
                   <Route exact path="/groups" component={GroupList} />
+                  <Route exact path="/groups/register" component={GroupRegister} />
                   <Route exact path="/groups/test" component={GroupDetail} />
                   <Route exact path="/groups/test/albums/test" component={AlbumDetail} />
+                  <Route exact path="/groups/test/albums/register" component={AlbumRegister} />
                   <Route exact path="/news/test" component={NewsDetail} />
 
                   {/* スマホ用フッタータブとの連携ページ */}

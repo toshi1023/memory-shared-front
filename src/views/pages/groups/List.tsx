@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import '../../../styles/groups/groups.scss';
 import DisplayStyles from '../../../styles/common/displayMode';
 import SearchText from '../../components/common/SearchText';
@@ -11,6 +12,7 @@ import group_list from '../../../data/group_list_data.json';
 
 
 const GroupList: React.FC = () => {
+    const history = useHistory();
     const displayStyles = DisplayStyles();
 
     /**
@@ -40,7 +42,7 @@ const GroupList: React.FC = () => {
                 </Grid>
                 <Grid container justify="center" className="list_box">
                     <Grid item sm={7} md={5}>
-                        <Button className="groupcreate_button"><GroupAddIcon className="groupcreate_icon" />グループを作成</Button>
+                        <Button className="groupcreate_button" onClick={() => history.push('/groups/register')}><GroupAddIcon className="groupcreate_icon" />グループを作成</Button>
                         <GroupListData data={group_list} />
                     </Grid>
                 </Grid>
@@ -58,7 +60,7 @@ const GroupList: React.FC = () => {
                 </Grid>
                 <Grid container justify="center" className="list_box">
                     <Grid item xs={11}>
-                        <Button className="groupcreate_button mobile"><GroupAddIcon className="groupcreate_icon" />グループを作成</Button>
+                        <Button className="groupcreate_button mobile" onClick={() => history.push('/groups/register')}><GroupAddIcon className="groupcreate_icon" />グループを作成</Button>
                         <GroupListData data={group_list} />
                     </Grid>
                 </Grid>

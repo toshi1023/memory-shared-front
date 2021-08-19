@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import '../../../styles/common/common.scss';
 import '../../../styles/groups/groups.scss';
 import '../../../styles/home/home.scss';
@@ -14,6 +15,7 @@ import user_list from '../../../data/user_list_data.json';
 import album_list from '../../../data/album_list_data.json';
 
 const GroupDetail: React.FC = () => {
+    const history = useHistory();
     const displayStyles = DisplayStyles();
     // スマホ用の画面切り替えを管理
     const [view, setView] = useState(0);
@@ -52,7 +54,7 @@ const GroupDetail: React.FC = () => {
                             アルバム
                         </Typography>
                     </div>
-                    <Button className="albumcreate_button mobile"><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                    <Button className="albumcreate_button mobile" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
                     <AlbumListData data={album_list} />
                 </Grid>
             </Grid>
@@ -112,7 +114,7 @@ const GroupDetail: React.FC = () => {
                                     アルバム
                                 </Typography>
                             </div>
-                            <Button className="albumcreate_button mobile"><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                            <Button className="albumcreate_button" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
                             <AlbumListData data={album_list} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center c_side_area">
@@ -142,7 +144,7 @@ const GroupDetail: React.FC = () => {
                                     アルバム
                                 </Typography>
                             </div>
-                            <Button className="albumcreate_button mobile"><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                            <Button className="albumcreate_button" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
                             <AlbumListData data={album_list} />
                             
                         </Grid>
