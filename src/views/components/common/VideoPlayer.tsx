@@ -11,6 +11,7 @@ interface IVideoPlayerProps {
 const initialOptions: videojs.PlayerOptions = {
     controls: true,
     fluid: true,
+    preload: 'metadata',
     controlBar: {
         volumePanel: {
         inline: false
