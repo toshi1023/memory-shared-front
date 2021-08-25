@@ -231,3 +231,44 @@
         right: 0;
     }
 }
+
+#talk {
+    .avatar {
+        // Avatarのサイズ変更
+        height: 70%;
+    }
+
+    .content {
+        font-size: 1.2rem;
+        white-space: pre-line;  // 文字データに改行コードが含まれる場合、改行を実行
+    }
+
+    .mobile_content {
+        font-size: 1.1rem;
+        white-space: pre-line;  // 文字データに改行コードが含まれる場合、改行を実行
+    }
+
+    .right-box {
+        background-color: rgb(253, 200, 103); 
+        color: white;
+        float: right;
+    }
+
+    .left-box {
+        background-color: white;
+        color: #1b2538;
+        float: right;
+        display: flex;
+    }
+
+    .message_field {
+        font-size: 1.2rem;
+        margin: 10px 10px 10px 0;
+        display: 'flex'
+    }
+
+    .message_box {
+        // メッセージを1データごとに改行させる
+        overflow: hidden
+    }
+}

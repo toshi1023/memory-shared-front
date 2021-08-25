@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import _ from 'lodash';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Grid, Typography } from '@material-ui/core';
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const MyTalkList: React.FC<TALK_LIST> = (props) => {
+    const history = useHistory();
     const classes = useStyles();
 
     return (
@@ -34,7 +36,7 @@ const MyTalkList: React.FC<TALK_LIST> = (props) => {
                 <Grid container justify="center" key={value.id}>
                     <Grid item xs={12} sm={11}>
                         <List className={classes.root}>
-                            <ListItem alignItems="flex-start" className={classes.talklist}>
+                            <ListItem alignItems="flex-start" className={classes.talklist} onClick={() => history.push('/test/talk/test2')}>
                                 <ListItemAvatar>
                                     <Avatar alt="Remy Sharp" src={noimage} />
                                     {/* <Avatar alt="Remy Sharp" src={value.image_file} /> */}

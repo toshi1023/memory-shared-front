@@ -8,6 +8,7 @@ import Home from './views/pages/home/Home';
 import MobileMyFamily from './views/pages/home/MobileMyFamily';
 import MobileMyGroup from './views/pages/home/MobileMyGroup';
 import MobileMyTalk from './views/pages/home/MobileMyTalk';
+import Talk from './views/pages/home/Talk';
 import UserList from './views/pages/users/List';
 import UserDetail from './views/pages/users/Detail';
 import UserRegister from './views/pages/users/Register';
@@ -31,7 +32,9 @@ const renderMobileFooterTab = () => {
     return (
       <>
         {
-          window.location.pathname !== "/login" && window.location.pathname !== "/register" ? 
+          window.location.pathname !== "/login" && 
+          window.location.pathname !== "/register" &&
+          window.location.pathname !== "/test/talk/test2" ? 
             <MobileFooterTab />
           :
             ''
@@ -64,6 +67,7 @@ function App() {
                   <Route exact path="/register" component={UserRegister} />
                   <Route exact path="/" component={Home} />
                   <Route exact path="/test/editer" component={UserEditer} />
+                  <Route exact path="/test/talk/test2" component={Talk} />
                   <Route exact path="/users" component={UserList} />
                   <Route exact path="/users/test" component={UserDetail} />
                   <Route exact path="/groups" component={GroupList} />
