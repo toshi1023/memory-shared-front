@@ -103,7 +103,7 @@ const MyProfileCard: React.FC<PROFILE_CARD> = (props) => {
         </Grid>
       </CardContent>
       <CardActions>
-        <Button size="small" className={classes.editButton}>プロフィールを編集する</Button>
+        <Button size="small" className={componentStyles.editButton}>プロフィールを編集する</Button>
       </CardActions>
     </Card>
   );

@@ -82,6 +82,11 @@ const ComponentStyles = makeStyles((theme: Theme) =>
 
     footerContainer: {
       paddingLeft: '20px'
+    },
+
+    editButton: {
+      fontWeight: 'bold',
+      color: 'rgb(168, 168, 168)'
     }
   }));
 

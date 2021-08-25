@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 )
 
-const GroupRegister: React.FC = () => {
+const GroupEditer: React.FC = () => {
     const [selectedValue, setSelectedValue] = React.useState('公開');
     const [selectedValue2, setSelectedValue2] = React.useState('する');
     const classes = useStyles();
@@ -29,7 +29,7 @@ const GroupRegister: React.FC = () => {
     };
 
     return (
-        <div id="group_register">
+        <div id="group_editer">
 
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
@@ -39,7 +39,7 @@ const GroupRegister: React.FC = () => {
                             <CardHeader 
                                 title={
                                     <Typography className="header_title">
-                                        Group Register
+                                        Group Editer
                                     </Typography>
                                 }
                                 className="header">
@@ -102,10 +102,11 @@ const GroupRegister: React.FC = () => {
                                         <SingleImageRegister />
                                     </div>
 
-                                    <Button className="c_button small">登録</Button>
+                                    <Button className="c_button small">更新</Button>
                                 </form>
                             </CardContent>
                         </Card>
+                        <Button variant="contained" color="secondary" className="delete_button">グループを削除する</Button>
                     </Grid>
                 </Grid>
             </div>
@@ -118,7 +119,7 @@ const GroupRegister: React.FC = () => {
                             <CardHeader 
                                 title={
                                     <Typography className="header_title">
-                                        Group Register
+                                        Group Editer
                                     </Typography>
                                 }
                                 className="header">
@@ -180,10 +181,11 @@ const GroupRegister: React.FC = () => {
                                     <div className="c_imagearea">
                                         <SingleImageRegister />
                                     </div>
-                                    <Button className="c_button small">登録</Button>
+                                    <Button className="c_button small">更新</Button>
                                 </form>
                             </CardContent>
                         </Card>
+                        <Button variant="contained" color="secondary" className="delete_button">グループを削除する</Button>
                     </Grid>
                 </Grid>
             </div>
@@ -192,4 +194,4 @@ const GroupRegister: React.FC = () => {
     )
 }
 
-export default GroupRegister
+export default GroupEditer

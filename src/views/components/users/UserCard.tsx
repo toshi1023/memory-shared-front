@@ -114,7 +114,7 @@ const UserCard: React.FC<USER_CARD> = (props) => {
                 <Chip label="ファミリー" className={componentStyles.chip && componentStyles.yellow} />
             :
                 ''
-        }        
+        }
         <div className={componentStyles.offset}></div>
         <Tooltip title="トークを始める" classes={{tooltip: componentStyles.tooltip}}>
           <Button><Avatar className={classes.iconBackGround}><MailIcon /></Avatar></Button>  

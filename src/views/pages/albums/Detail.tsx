@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../../../styles/albums/albums.scss';
 import '../../../styles/common/common.scss';
-import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip } from '@material-ui/core';
+import { useHistory } from "react-router-dom";
+import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip, Button } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
@@ -17,6 +18,7 @@ import media_list from '../../../data/media_list_data.json';
  * @returns 
  */
 const AlbumDetail: React.FC = () => {
+    const history = useHistory();
     const displayStyles = DisplayStyles();
     const componentStyles = ComponentStyles();
     // 画面切り替えを管理
@@ -77,12 +79,18 @@ const AlbumDetail: React.FC = () => {
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
                 <Grid container justify="center">
-                    <Grid item sm={7} className="c_title_space">
+                    <Grid item sm={10} md={8} lg={7} className="c_title_space">
                         <Typography className="c_title">
                           album1
                         </Typography>
                     </Grid>
-                    <Grid item sm={7} className="pos_relative">
+                    <Grid item sm={10} md={8} lg={7} className="pos_relative">
+                        <Button 
+                            className="edit_button pos_left pos_vertical_center"
+                            onClick={() => history.push('/groups/test/albums/test/editer')}
+                        >
+                            アルバムを編集する
+                        </Button>
                         <Tabs
                             className="desktop_tab"
                             value={view}
@@ -98,7 +106,7 @@ const AlbumDetail: React.FC = () => {
                             <IconButton className="ic_button desk pos_right"><AddAPhotoIcon /></IconButton>
                         </Tooltip>
                     </Grid>
-                    <Grid item sm={7}>
+                    <Grid item sm={10} md={8} lg={7}>
                         {
                             view ? 
                                 <VideoListData data={videoData} label ={label} callback={callback} />
@@ -118,9 +126,17 @@ const AlbumDetail: React.FC = () => {
                 </Grid>
                 <Grid container justify="center">
                     <Grid item xs={11} className="c_title_space pos_relative">
-                        <Typography className="c_title">
+                        <Typography className="c_title mobile_title">
                             album1
                         </Typography>
+                    </Grid>
+                    <Grid item xs={11} className="pos_relative">
+                        <Button
+                            className="edit_button mobile pos_left"
+                            onClick={() => history.push('/groups/test/albums/test/editer')}
+                        >
+                            アルバムを編集する
+                        </Button>
                         <IconButton className="ic_button mobile pos_right"><AddAPhotoIcon /></IconButton>
                     </Grid>
                     <Grid item xs={11}>

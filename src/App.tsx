@@ -14,8 +14,10 @@ import UserRegister from './views/pages/users/Register';
 import GroupList from './views/pages/groups/List';
 import GroupDetail from './views/pages/groups/Detail';
 import GroupRegister from './views/pages/groups/Register';
+import GroupEditer from './views/pages/groups/Editer';
 import AlbumDetail from './views/pages/albums/Detail';
 import AlbumRegister from './views/pages/albums/Register';
+import AlbumEditer from './views/pages/albums/Editer';
 import Login from './views/pages/home/Login';
 import NewsDetail from './views/pages/news/Detail';
 
@@ -65,8 +67,10 @@ function App() {
                   <Route exact path="/groups" component={GroupList} />
                   <Route exact path="/groups/register" component={GroupRegister} />
                   <Route exact path="/groups/test" component={GroupDetail} />
+                  <Route exact path="/groups/register/test/editer" component={GroupEditer} />
                   <Route exact path="/groups/test/albums/test" component={AlbumDetail} />
                   <Route exact path="/groups/test/albums/register" component={AlbumRegister} />
+                  <Route exact path="/groups/test/albums/test/editer" component={AlbumEditer} />
                   <Route exact path="/news/test" component={NewsDetail} />
 
                   {/* スマホ用フッタータブとの連携ページ */}

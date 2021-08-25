@@ -144,7 +144,7 @@ const GroupDetail: React.FC = () => {
                                     アルバム
                                 </Typography>
                             </div>
-                            <Button className="albumcreate_button" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                            <Button className="albumcreate_button ipad" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
                             <AlbumListData data={album_list} />
                             
                         </Grid>

@@ -1,4 +1,5 @@
 import ComponentStyles from '../../../styles/common/componentStyle';
+import { useHistory } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
  * @returns 
  */
 const GroupCard: React.FC<GROUP_CARD> = (props) => {
+  const history = useHistory();
   const classes = useStyles();
   const componentStyles = ComponentStyles();
 
@@ -125,7 +127,16 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                 <Chip label="申請中" className={componentStyles.chip && componentStyles.yellow} />
             :
                 ''
-        }  
+        }
+      </CardActions>
+      <CardActions>
+        <Button 
+          size="small" 
+          className={componentStyles.editButton}
+          onClick={() => history.push('/groups/register/test/editer')}
+        >
+          グループを編集する
+        </Button>  
         <div className={componentStyles.offset}></div>
         {
           props.data.status_type !== null ? 

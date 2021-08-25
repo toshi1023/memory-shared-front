@@ -4,11 +4,11 @@ import { Grid, Typography, Card, CardHeader, CardContent, Input, Button } from '
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 
-const AlbumRegister: React.FC = () => {
+const AlbumEditer: React.FC = () => {
     const displayStyles = DisplayStyles();
 
     return (
-        <div id="album_register">
+        <div id="album_editer">
 
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
@@ -18,7 +18,7 @@ const AlbumRegister: React.FC = () => {
                             <CardHeader 
                                 title={
                                     <Typography className="header_title">
-                                        Album Register
+                                        Album Editer
                                     </Typography>
                                 }
                                 className="header">
@@ -31,10 +31,11 @@ const AlbumRegister: React.FC = () => {
                                     <div className="c_imagearea">
                                         <SingleImageRegister />
                                     </div>
-                                    <Button className="c_button small">登録</Button>
+                                    <Button className="c_button small">更新</Button>
                                 </form>
                             </CardContent>
                         </Card>
+                        <Button variant="contained" color="secondary" className="delete_button">アルバムを削除する</Button>
                     </Grid>
                 </Grid>
             </div>
@@ -47,7 +48,7 @@ const AlbumRegister: React.FC = () => {
                             <CardHeader 
                                 title={
                                     <Typography className="header_title">
-                                        Album Register
+                                        Album Editer
                                     </Typography>
                                 }
                                 className="header">
@@ -60,10 +61,11 @@ const AlbumRegister: React.FC = () => {
                                     <div className="c_imagearea">
                                         <SingleImageRegister />
                                     </div>
-                                    <Button className="c_button small">登録</Button>
+                                    <Button className="c_button small">更新</Button>
                                 </form>
                             </CardContent>
                         </Card>
+                        <Button variant="contained" color="secondary" className="delete_button">アルバムを削除する</Button>
                     </Grid>
                 </Grid>
             </div>
@@ -72,4 +74,4 @@ const AlbumRegister: React.FC = () => {
     )
 }
 
-export default AlbumRegister
+export default AlbumEditer
