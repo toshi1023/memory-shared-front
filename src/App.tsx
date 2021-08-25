@@ -11,6 +11,7 @@ import MobileMyTalk from './views/pages/home/MobileMyTalk';
 import UserList from './views/pages/users/List';
 import UserDetail from './views/pages/users/Detail';
 import UserRegister from './views/pages/users/Register';
+import UserEditer from './views/pages/users/Editer';
 import GroupList from './views/pages/groups/List';
 import GroupDetail from './views/pages/groups/Detail';
 import GroupRegister from './views/pages/groups/Register';
@@ -62,6 +63,7 @@ function App() {
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/register" component={UserRegister} />
                   <Route exact path="/" component={Home} />
+                  <Route exact path="/test/editer" component={UserEditer} />
                   <Route exact path="/users" component={UserList} />
                   <Route exact path="/users/test" component={UserDetail} />
                   <Route exact path="/groups" component={GroupList} />

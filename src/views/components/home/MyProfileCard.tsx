@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
  * @returns 
  */
 const MyProfileCard: React.FC<PROFILE_CARD> = (props) => {
+  const history = useHistory();
   const classes = useStyles();
   const componentStyles = ComponentStyles();
 
@@ -103,7 +105,13 @@ const MyProfileCard: React.FC<PROFILE_CARD> = (props) => {
         </Grid>
       </CardContent>
       <CardActions>
-        <Button size="small" className={componentStyles.editButton}>プロフィールを編集する</Button>
+        <Button 
+          size="small" 
+          className={componentStyles.editButton}
+          onClick={() => history.push('/test/editer')}
+        >
+          プロフィールを編集する
+        </Button>
       </CardActions>
     </Card>
   );
