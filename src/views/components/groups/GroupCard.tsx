@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { GROUP_CARD } from '../../types/groupsTypes';
 
 
@@ -27,6 +28,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     iconBackGround: {
       backgroundColor: 'rgb(126, 170, 252)'
+    },
+    boardButton: {
+      background: 'rgb(236, 234, 234)',
+      color: 'rgb(145, 144, 144)'
     }
 }));
 
@@ -104,47 +109,71 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
           
         </Grid>
       </CardContent>
-      <CardActions className={componentStyles.footerContainer}>
-        <Typography component="p">
-          ユーザとの関係 : 
-        </Typography>
-      </CardActions>
-      <CardActions className={componentStyles.footerContainer}>
-        {
-            props.data.status_type === 'ホスト' ? 
-                <Chip label="ホスト" className={componentStyles.chip} color="secondary" />
-            :
-                ''
-        }
-        {
-            props.data.status_type === 'メンバー' ? 
-                <Chip label="メンバー" className={componentStyles.chip && componentStyles.green} />
-            :
-                ''
-        }
-        {
-            props.data.status_type === '申請中' ? 
-                <Chip label="申請中" className={componentStyles.chip && componentStyles.yellow} />
-            :
-                ''
-        }
-      </CardActions>
-      <CardActions>
-        <Button 
-          size="small" 
-          className={componentStyles.editButton}
-          onClick={() => history.push('/groups/register/test/editer')}
-        >
-          グループを編集する
-        </Button>  
-        <div className={componentStyles.offset}></div>
-        {
-          props.data.status_type !== null ? 
-            <Button><Chip label="申請する" className={componentStyles.chip && componentStyles.chipButton} color="primary" /></Button>
-          :
-            ''
-        }
-      </CardActions>
+      {
+        props.data.status_type === 'ホスト' ?
+          <>
+            <CardActions className={componentStyles.footerContainer}>
+              <Typography component="p">
+                ユーザとの関係 : 
+              </Typography>
+            </CardActions>
+            <CardActions className={componentStyles.footerContainer}>
+              <Chip label="ホスト" className={componentStyles.chip} color="secondary" />
+            </CardActions>
+            <CardActions>
+              <Button 
+                size="small" 
+                className={componentStyles.editButton}
+                onClick={() => history.push('/groups/register/test/editer')}
+              >
+                グループを編集する
+              </Button>  
+              <div className={componentStyles.offset}></div>
+              {
+                props.data.count ? 
+                  <Button className={classes.boardButton}>掲示板を確認<ExpandMoreIcon /></Button>
+                :
+                  <Button><Chip label="申請する" className={componentStyles.chip && componentStyles.chipButton} color="primary" /></Button>
+              }
+            </CardActions>
+          </>
+        :
+          <>
+            <CardActions className={componentStyles.footerContainer}>
+              <Typography component="p">
+                ユーザとの関係 : 
+              </Typography>
+            </CardActions>
+            <CardActions className={componentStyles.footerContainer}>
+              {
+                  props.data.status_type === 'ホスト' ? 
+                      <Chip label="ホスト" className={componentStyles.chip} color="secondary" />
+                  :
+                      ''
+              }
+              {
+                  props.data.status_type === 'メンバー' ? 
+                      <Chip label="メンバー" className={componentStyles.chip && componentStyles.green} />
+                  :
+                      ''
+              }
+              {
+                  props.data.status_type === '申請中' ? 
+                      <Chip label="申請中" className={componentStyles.chip && componentStyles.yellow} />
+                  :
+                      ''
+              }
+              <div className={componentStyles.offset}></div>
+              {
+                props.data.count ? 
+                  <Button className={classes.boardButton}>掲示板を確認<ExpandMoreIcon /></Button>
+                :
+                  <Button><Chip label="申請する" className={componentStyles.chip && componentStyles.chipButton} color="primary" /></Button>
+              }
+            </CardActions>
+          </>
+      }
+      
     </Card>
   );
 }

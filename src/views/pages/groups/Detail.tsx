@@ -88,7 +88,8 @@ const GroupDetail: React.FC = () => {
         album_count: 6,
         private_flg: true,
         status_type: 'ホスト',
-        description: '梅田カフェ巡り！ほっと一息つけるカフェタイムを楽しみにでかけるグループです！'
+        description: '梅田カフェ巡り！ほっと一息つけるカフェタイムを楽しみにでかけるグループです！',
+        count: 1
     }
 
     return (

@@ -23,6 +23,7 @@ export interface GROUP_CARD {
         participants: number;
         album_count: number;
         private_flg: boolean;
+        count: number;
     }
 }
 

@@ -25,6 +25,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     iconBackGround: {
       backgroundColor: 'rgb(126, 170, 252)'
+    },
+    inviteButton: {
+      background: 'rgb(236, 234, 234)',
+      color: 'rgb(145, 144, 144)'
     }
 }));
 
@@ -97,29 +101,68 @@ const UserCard: React.FC<USER_CARD> = (props) => {
           
         </Grid>
       </CardContent>
-      <CardActions className={componentStyles.footerContainer}>
-        <Typography component="p">
-          ユーザとの関係 : 
-        </Typography>
-      </CardActions>
-      <CardActions className={componentStyles.footerContainer}>
-        {
-            props.data.talk_id ? 
-                <Chip label="トーク中" className={componentStyles.chip} color="primary" />
-            :
-                ''
-        }
-        {
-            props.data.family_id ? 
-                <Chip label="ファミリー" className={componentStyles.chip && componentStyles.yellow} />
-            :
-                ''
-        }
-        <div className={componentStyles.offset}></div>
-        <Tooltip title="トークを始める" classes={{tooltip: componentStyles.tooltip}}>
-          <Button><Avatar className={classes.iconBackGround}><MailIcon /></Avatar></Button>  
-        </Tooltip>
-      </CardActions>
+      {
+        props.data.family_id ?
+          <>
+            <CardActions className={componentStyles.footerContainer}>
+              <Typography component="p">
+                ユーザとの関係 : 
+              </Typography>
+            </CardActions>
+            <CardActions className={componentStyles.footerContainer}>
+              {
+                  props.data.talk_id ? 
+                      <Chip label="トーク中" className={componentStyles.chip} color="primary" />
+                  :
+                      ''
+              }
+              {
+                  props.data.family_id ? 
+                      <Chip label="ファミリー" className={componentStyles.chip && componentStyles.yellow} />
+                  :
+                      ''
+              }
+              <div className={componentStyles.offset}></div>
+              <Tooltip title="トークを始める" classes={{tooltip: componentStyles.tooltip}}>
+                <Button><Avatar className={classes.iconBackGround}><MailIcon /></Avatar></Button>  
+              </Tooltip>
+            </CardActions>
+          </>
+        :
+          <>
+            <CardActions className={componentStyles.footerContainer}>
+              <Typography component="p">
+                ユーザとの関係 : 
+              </Typography>
+            </CardActions>
+            <CardActions className={componentStyles.footerContainer}>
+              {
+                  props.data.talk_id ? 
+                      <Chip label="トーク中" className={componentStyles.chip} color="primary" />
+                  :
+                      ''
+              }
+              {
+                  props.data.family_id ? 
+                      <Chip label="ファミリー" className={componentStyles.chip && componentStyles.yellow} />
+                  :
+                      ''
+              }
+            </CardActions>
+            <CardActions>
+              <Button 
+                size="small" 
+                className={classes.inviteButton}
+              >
+                グループに招待する
+              </Button>  
+              <div className={componentStyles.offset}></div>
+              <Tooltip title="トークを始める" classes={{tooltip: componentStyles.tooltip}}>
+                <Button><Avatar className={classes.iconBackGround}><MailIcon /></Avatar></Button>  
+              </Tooltip>
+            </CardActions>
+          </>
+      }
     </Card>
   );
 }
