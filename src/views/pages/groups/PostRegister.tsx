@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../../styles/groups/groups.scss';
-import { Grid, Typography, Card, CardHeader, CardContent, Input, Button } from '@material-ui/core';
+import { Grid, Typography, Card, CardHeader, CardContent, Input, TextField, Button } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 
 const PostRegister: React.FC = () => {
@@ -25,10 +25,17 @@ const PostRegister: React.FC = () => {
                             <CardContent>
                                 <form>
                                     <div className="c_labelarea"><span className="c_label">グループ名</span></div>
-                                    <Input name="name" placeholder="test group" className="c_textfield" />
+                                    <Typography className="c_typography">test group</Typography>
                                     
                                     <div className="c_labelarea"><span className="c_label">投稿文</span></div>
-                                    <Input name="content" placeholder="ここに投稿文を記載してください。" className="c_textfield" inputProps={{ 'type': 'textarea', 'cols': 10 }} />
+                                    <TextField
+                                        name="content"
+                                        className="c_textfield"
+                                        multiline
+                                        rows={10}
+                                        placeholder="ここに投稿内容を記載してください"
+                                        variant="outlined"
+                                    />
 
                                     <Button className="c_button small">投稿</Button>
                                 </form>
@@ -54,10 +61,17 @@ const PostRegister: React.FC = () => {
                             <CardContent>
                                 <form>
                                     <div className="c_labelarea"><span className="c_label">グループ名</span></div>
-                                    <Input name="name" placeholder="test group" className="c_textfield" />
+                                    <Typography className="c_typography">test group</Typography>
                                     
                                     <div className="c_labelarea"><span className="c_label">紹介文</span></div>
-                                    <Input name="description" placeholder="ここに紹介文を記載してください。" className="c_textfield" inputProps={{ 'type': 'textarea', 'cols': 10 }} />
+                                    <TextField
+                                        name="content"
+                                        className="c_textfield"
+                                        multiline
+                                        rows={10}
+                                        placeholder="ここに投稿内容を記載してください"
+                                        variant="outlined"
+                                    />
                                     
                                     <Button className="c_button small">投稿</Button>
                                 </form>

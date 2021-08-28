@@ -1,6 +1,9 @@
 import React from 'react';
 import '../../../styles/users/users.scss';
-import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, Radio, Button } from '@material-ui/core';
+import { 
+    Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, 
+    CardContent, Input, Radio, Button, TextField
+} from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 
@@ -17,11 +20,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const UserEditer: React.FC = () => {
     const [selectedValue, setSelectedValue] = React.useState('男性');
+    const [selectedValue2, setSelectedValue2] = React.useState('変更しない');
     const classes = useStyles();
     const displayStyles = DisplayStyles();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedValue(event.target.value);
+    };
+    const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedValue2(event.target.value);
     };
 
     return (
@@ -43,13 +50,38 @@ const UserEditer: React.FC = () => {
                             <CardContent>
                                 <form>
                                     <div className="c_labelarea"><span className="c_label">ユーザーネーム</span></div>
-                                    <Input placeholder="test user" className="c_textfield" />
+                                    <Input placeholder="test user" className="c_textfield" inputProps={{ 'name': 'name' }} />
                                     <div className="c_labelarea"><span className="c_label">メールアドレス</span></div>
-                                    <Input placeholder="test@xxx.co.jp" className="c_textfield" />
-                                    <div className="c_labelarea"><span className="c_label">パスワード</span></div>
-                                    <Input className="c_textfield" inputProps={{ 'type': 'password' }} />
-                                    <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
-                                    <Input className="c_textfield" inputProps={{ 'type': 'password' }} />
+                                    <Input placeholder="test@xxx.co.jp" className="c_textfield" inputProps={{ 'name': 'email' }} />
+
+                                    <div className="c_labelarea"><span className="c_label">パスワード変更</span></div>
+                                    <div className="c_radioarea">
+                                        <Radio
+                                            checked={selectedValue2 === '変更する'}
+                                            onChange={handleChange2}
+                                            value='変更する'
+                                            classes={{root: classes.radio, checked: classes.checked}}
+                                        />
+                                        <span className="glabel">変更する</span>
+                                        <Radio
+                                            checked={selectedValue2 === '変更しない'}
+                                            onChange={handleChange2}
+                                            value='変更しない'
+                                        />
+                                        <span className="glabel">変更しない</span>
+                                    </div>
+                                    {
+                                        selectedValue2 === '変更する' ?
+                                            <>
+                                                <div className="c_labelarea"><span className="c_label">パスワード</span></div>
+                                                <Input className="c_textfield" inputProps={{ 'name': 'password', 'type': 'password' }} />
+                                                <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
+                                                <Input className="c_textfield" inputProps={{ 'name': 'password_confirm', 'type': 'password' }} />
+                                            </>
+                                        :
+                                            ''
+                                    }
+
                                     <div className="c_labelarea"><span className="c_label">性別</span></div>
                                     <div className="c_radioarea">
                                         <Radio
@@ -68,10 +100,25 @@ const UserEditer: React.FC = () => {
                                         />
                                         <span className="glabel">女性</span>
                                     </div>
+
+                                    <div className="c_labelarea"><span className="c_label">趣味</span></div>
+                                    <Input placeholder="スポーツ観戦...etc" className="c_textfield" inputProps={{ 'name': 'hobby' }} />
+
+                                    <div className="c_labelarea"><span className="c_label">紹介文</span></div>
+                                    <TextField
+                                        name="description"
+                                        className="c_textfield"
+                                        multiline
+                                        rows={10}
+                                        placeholder="ここに紹介文を記載してください"
+                                        variant="outlined"
+                                    />
+
                                     <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
                                     <div className="c_imagearea">
                                         <SingleImageRegister />
                                     </div>
+
                                     <Button className="c_button small">登録</Button>
                                 </form>
                             </CardContent>
@@ -97,13 +144,38 @@ const UserEditer: React.FC = () => {
                             <CardContent>
                                 <form>
                                     <div className="c_labelarea"><span className="c_label">ユーザーネーム</span></div>
-                                    <Input placeholder="test user" className="c_textfield" />
+                                    <Input placeholder="test user" className="c_textfield" inputProps={{ 'name': 'name' }} />
                                     <div className="c_labelarea"><span className="c_label">メールアドレス</span></div>
-                                    <Input placeholder="test@xxx.co.jp" className="c_textfield" />
-                                    <div className="c_labelarea"><span className="c_label">パスワード</span></div>
-                                    <Input className="c_textfield" inputProps={{ 'type': 'password' }} />
-                                    <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
-                                    <Input className="c_textfield" inputProps={{ 'type': 'password' }} />
+                                    <Input placeholder="test@xxx.co.jp" className="c_textfield" inputProps={{ 'name': 'email' }} />
+
+                                    <div className="c_labelarea"><span className="c_label">パスワード変更</span></div>
+                                    <div className="c_radioarea">
+                                        <Radio
+                                            checked={selectedValue2 === '変更する'}
+                                            onChange={handleChange2}
+                                            value='変更する'
+                                            classes={{root: classes.radio, checked: classes.checked}}
+                                        />
+                                        <span className="glabel">変更する</span>
+                                        <Radio
+                                            checked={selectedValue2 === '変更しない'}
+                                            onChange={handleChange2}
+                                            value='変更しない'
+                                        />
+                                        <span className="glabel">変更しない</span>
+                                    </div>
+                                    {
+                                        selectedValue2 === '変更する' ?
+                                            <>
+                                                <div className="c_labelarea"><span className="c_label">パスワード</span></div>
+                                                <Input className="c_textfield" inputProps={{ 'name': 'password', 'type': 'password' }} />
+                                                <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
+                                                <Input className="c_textfield" inputProps={{ 'name': 'password_confirm', 'type': 'password' }} />
+                                            </>
+                                        :
+                                            ''
+                                    }
+
                                     <div className="c_labelarea"><span className="c_label">性別</span></div>
                                     <div className="c_radioarea">
                                         <Radio
@@ -122,10 +194,25 @@ const UserEditer: React.FC = () => {
                                         />
                                         <span className="glabel">女性</span>
                                     </div>
+
+                                    <div className="c_labelarea"><span className="c_label">趣味</span></div>
+                                    <Input placeholder="スポーツ観戦...etc" className="c_textfield" inputProps={{ 'name': 'hobby' }} />
+
+                                    <div className="c_labelarea"><span className="c_label">紹介文</span></div>
+                                    <TextField
+                                        name="description"
+                                        className="c_textfield"
+                                        multiline
+                                        rows={10}
+                                        placeholder="ここに紹介文を記載してください"
+                                        variant="outlined"
+                                    />
+
                                     <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
                                     <div className="c_imagearea">
                                         <SingleImageRegister />
                                     </div>
+
                                     <Button className="c_button small">更新</Button>
                                 </form>
                             </CardContent>

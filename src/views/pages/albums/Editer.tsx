@@ -25,6 +25,8 @@ const AlbumEditer: React.FC = () => {
                             </CardHeader>
                             <CardContent>
                                 <form>
+                                    <div className="c_labelarea"><span className="c_label">グループ名</span></div>
+                                    <Typography className="c_typography">test group</Typography>
                                     <div className="c_labelarea"><span className="c_label">アルバム名</span></div>
                                     <Input name="name" placeholder="test album" className="c_textfield" />
                                     <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
@@ -55,6 +57,8 @@ const AlbumEditer: React.FC = () => {
                             </CardHeader>
                             <CardContent>
                                 <form>
+                                    <div className="c_labelarea"><span className="c_label">グループ名</span></div>
+                                    <Typography className="c_typography">test group</Typography>
                                     <div className="c_labelarea"><span className="c_label">アルバム名</span></div>
                                     <Input name="name" placeholder="test album" className="c_textfield" />
                                     <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>

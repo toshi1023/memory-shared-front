@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../../styles/groups/groups.scss';
-import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, Radio, Button } from '@material-ui/core';
+import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, TextField, Radio, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 
@@ -50,7 +50,14 @@ const GroupRegister: React.FC = () => {
                                     <Input name="name" placeholder="test group" className="c_textfield" />
                                     
                                     <div className="c_labelarea"><span className="c_label">紹介文</span></div>
-                                    <Input name="description" placeholder="ここに紹介文を記載してください。" className="c_textfield" />
+                                    <TextField
+                                        name="description"
+                                        className="c_textfield"
+                                        multiline
+                                        rows={10}
+                                        placeholder="ここに紹介文を記載してください"
+                                        variant="outlined"
+                                    />
                                     
                                     <div className="c_labelarea"><span className="c_label">公開フラグ</span></div>
                                     <div className="c_radioarea">
@@ -129,7 +136,14 @@ const GroupRegister: React.FC = () => {
                                     <Input name="name" placeholder="test group" className="c_textfield" />
                                     
                                     <div className="c_labelarea"><span className="c_label">紹介文</span></div>
-                                    <Input name="description" placeholder="ここに紹介文を記載してください。" className="c_textfield" />
+                                    <TextField
+                                        name="description"
+                                        className="c_textfield"
+                                        multiline
+                                        rows={10}
+                                        placeholder="ここに紹介文を記載してください"
+                                        variant="outlined"
+                                    />
                                     
                                     <div className="c_labelarea"><span className="c_label">公開フラグ</span></div>
                                     <div className="c_radioarea">
