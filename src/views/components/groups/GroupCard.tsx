@@ -14,6 +14,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 import { GROUP_CARD } from '../../types/groupsTypes';
 
 import post_list from '../../../data/post_list_data.json';
@@ -59,12 +60,17 @@ const useStyles = makeStyles((theme: Theme) =>
     postList: {
       margin: '15px'
     },
+    postMeta: {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '5px'
+    },
     postBox: {
-      width: '90%',
       height: 'auto',
       margin: '0 auto',
       background: 'white',
-      borderRadius: '10px'
+      borderRadius: '10px',
+      cursor: 'pointer'
     },
     postContent: {
       fontSize: '1.1rem',
@@ -234,13 +240,22 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
             </CardActions>
           </>
       }
+
+      {/* 掲示板 */}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-        <Typography paragraph className={classes.postTitle}>投稿</Typography>
+          <Button className={componentStyles.registerButton} onClick={() => history.push('/groups/test/albums/register')}>
+            <PostAddIcon className={componentStyles.registerIcon} />投稿を作成
+          </Button>
+          <Typography paragraph className={classes.postTitle}>投稿</Typography>
           <div className={classes.postFrame}>
             {
               _.map(post_list, value => (
                 <div className={classes.postList}>
+                  <div className={classes.postMeta}>
+                    <Avatar src={props.data.image_file} />
+                    <Typography style={{ marginLeft: '8px', fontSize: '1.1rem' }}>test</Typography>
+                  </div>
                   <div className={classes.postBox} key={value.id}>
                     <Typography className={classes.postContent}>{value.content}</Typography>
                   </div>

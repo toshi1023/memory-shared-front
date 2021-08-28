@@ -84,6 +84,34 @@ const ComponentStyles = makeStyles((theme: Theme) =>
       paddingLeft: '20px'
     },
 
+    registerButton: {
+        margin: '20px 0 20px 0',
+        height: '50px',
+        width: '60%',
+        alignItems: 'right',
+        backgroundColor: '#fff',
+        border: '2px solid #f8cf77',
+        borderRadius: '30px',
+        boxSizing: 'border-box',
+        color: '#f8cf77',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        '&:hover': {
+            background: 'rgb(245, 218, 160)',
+            color: '#fff',
+
+            registerIcon: {
+                color: '#fff'
+            }
+        }
+    },
+
+    registerIcon: {
+        color: '#f8cf77',
+        marginRight: '10px'
+    },
+
     editButton: {
       fontWeight: 'bold',
       color: 'rgb(168, 168, 168)'
