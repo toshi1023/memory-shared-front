@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
     iconBackGround: {
       backgroundColor: 'rgb(126, 170, 252)'
     },
-    boardButton: {
+    postButton: {
       background: 'rgb(236, 234, 234)',
       color: 'rgb(145, 144, 144)'
     },
@@ -181,7 +181,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
               {
                 props.data.count ? 
                   <Button 
-                    className={classes.boardButton}
+                    className={classes.postButton}
                     onClick={handleExpandClick}
                     aria-expanded={expanded}
                   >
@@ -225,7 +225,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
               {
                 props.data.count ? 
                   <Button 
-                    className={classes.boardButton}
+                    className={classes.postButton}
                     onClick={handleExpandClick}
                     aria-expanded={expanded}
                   >
@@ -257,7 +257,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                     <Typography style={{ marginLeft: '8px', fontSize: '1.1rem' }}>test</Typography>
                   </div>
                   <div className={classes.postBox} key={value.id}>
-                    <Typography className={classes.postContent}>{value.content}</Typography>
+                    <Typography className={classes.postContent} color="textSecondary">{value.content}</Typography>
                   </div>
                   <Typography>{value.updated_at}</Typography>
                 </div>
