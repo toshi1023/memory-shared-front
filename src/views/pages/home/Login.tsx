@@ -94,7 +94,7 @@ const Login: React.FC = () => {
                                 <CardContent>
                                     <form>
                                         <Input placeholder="メールアドレス" className="textfield" inputProps={{ 'name': 'email' }} />
-                                        <Input placeholder="パスワード" className="textfield" inputProps={{ 'name': 'password' }} />
+                                        <Input placeholder="パスワード" className="textfield" inputProps={{ 'name': 'password', 'type': 'password' }} />
                                         <Button className="c_button">ログイン</Button>
                                     </form>
                                 </CardContent>

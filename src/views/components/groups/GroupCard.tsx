@@ -173,7 +173,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
               <Button 
                 size="small" 
                 className={componentStyles.editButton}
-                onClick={() => history.push('/groups/register/test/editer')}
+                onClick={() => history.push('/groups/test/editer')}
               >
                 グループを編集する
               </Button>  
@@ -244,7 +244,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
       {/* 掲示板 */}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Button className={componentStyles.registerButton} onClick={() => history.push('/groups/test/albums/register')}>
+          <Button className={componentStyles.registerButton} onClick={() => history.push('/groups/test/post/register')}>
             <PostAddIcon className={componentStyles.registerIcon} />投稿を作成
           </Button>
           <Typography paragraph className={classes.postTitle}>投稿</Typography>
