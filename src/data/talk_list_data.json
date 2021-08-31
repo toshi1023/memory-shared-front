@@ -3,30 +3,35 @@
         "id": 1,
         "user_name": "test1",
         "image_file": "",
-        "content": "この時の合宿楽しかった…"
+        "content": "この時の合宿楽しかった…",
+        "own_id": 1
     },
     {
         "id": 2,
         "user_name": "test2",
         "image_file": "",
-        "content": "6月20日の予定空いてる？よかったら…"
+        "content": "6月20日の予定空いてる？よかったら…",
+        "own_id": 2
     },
     {
         "id": 3,
         "user_name": "test3",
         "image_file": "",
-        "content": "昨日の飲み会お疲れ様！また…"
+        "content": "昨日の飲み会お疲れ様！また…",
+        "own_id": 1
     },
     {
         "id": 4,
         "user_name": "test4",
         "image_file": "",
-        "content": "今度バスケしにいかん？"
+        "content": "今度バスケしにいかん？",
+        "own_id": 2
     },
     {
         "id": 5,
         "user_name": "test5",
         "image_file": "",
-        "content": "明日18時に駅前集合な！遅れるな…"
+        "content": "明日18時に駅前集合な！遅れるな…",
+        "own_id": 1
     }
 ]

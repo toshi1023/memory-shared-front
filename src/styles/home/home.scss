@@ -233,9 +233,13 @@
 }
 
 #talk {
+    .message_area {
+        overflow: auto;
+    }
+
     .avatar {
         // Avatarのサイズ変更
-        height: 70%;
+        height: 100%;
     }
 
     .content {
@@ -257,14 +261,28 @@
     .left-box {
         background-color: white;
         color: #1b2538;
-        float: right;
+        float: left;
         display: flex;
     }
 
     .message_field {
         font-size: 1.2rem;
-        margin: 10px 10px 10px 0;
-        display: 'flex'
+        padding: 20px 10px 20px 10px;
+        position: fixed;
+        bottom: 0;
+        display: 'flex';
+        width: 100%;
+
+        .reply_icon {
+            font-size: 1.5rem;
+            color: blue;
+            width: 100%;
+        }
+
+        .textfield {
+            width: 85%;
+            background-color: white;
+        }
     }
 
     .message_box {
