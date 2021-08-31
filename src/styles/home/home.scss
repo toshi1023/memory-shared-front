@@ -233,6 +233,8 @@
 }
 
 #talk {
+    margin-top: 20px;
+
     .message_area {
         overflow: auto;
     }
@@ -267,7 +269,7 @@
 
     .message_field {
         font-size: 1.2rem;
-        padding: 20px 10px 20px 10px;
+        padding: 20px 0 20px 0;
         position: fixed;
         bottom: 0;
         display: 'flex';
