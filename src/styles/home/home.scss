@@ -237,21 +237,35 @@
 
     .message_area {
         overflow: auto;
+        height: 75vh;
     }
 
-    .avatar {
-        // Avatarのサイズ変更
-        height: 100%;
+    .avatar_area {
+        width: 20%;
+        margin-top: 5px;
+
+        .avatar {
+            height: 100%;
+            margin-left: 5px;
+        }
+        .avatar_name {
+            text-align: left;
+            font-size: 0.7rem;
+            margin-left: 10px;
+
+            &.left {
+                color: rgb(179, 165, 165);
+            }
+        }
     }
 
-    .content {
-        font-size: 1.2rem;
-        white-space: pre-line;  // 文字データに改行コードが含まれる場合、改行を実行
-    }
+    .content_area {
+        padding: 10px;
 
-    .mobile_content {
-        font-size: 1.1rem;
-        white-space: pre-line;  // 文字データに改行コードが含まれる場合、改行を実行
+        .content {
+            font-size: 1.1rem;
+            white-space: pre-line;  // 文字データに改行コードが含まれる場合、改行を実行
+        }
     }
 
     .right-box {
@@ -264,7 +278,6 @@
         background-color: white;
         color: #1b2538;
         float: left;
-        display: flex;
     }
 
     .message_field {

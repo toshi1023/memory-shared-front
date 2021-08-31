@@ -33,5 +33,12 @@
         "image_file": "",
         "content": "明日18時に駅前集合な！遅れるな…",
         "own_id": 1
+    },
+    {
+        "id": 6,
+        "user_name": "test4",
+        "image_file": "",
+        "content": "今日はありがとうねー！",
+        "own_id": 2
     }
 ]
