@@ -3,30 +3,107 @@
         "id": 1,
         "content": "プライベートな画像・動画共有サイトをオープンしました！",
         "user_id": 1,
-        "updated_at": "2021/08/26 11:20"
+        "user_name": "test",
+        "updated_at": "2021/08/26 11:20",
+        "comment": [
+            {
+                "id": 1,
+                "content": "楽しみ！",
+                "user_id": 2,
+                "user_name": "test2",
+                "updated_at": "2021/08/26 11:22"
+            },
+            {
+                "id": 2,
+                "content": "一緒に盛り上げていこう！",
+                "user_id": 3,
+                "user_name": "test3",
+                "updated_at": "2021/08/26 11:25"
+            },
+            {
+                "id": 3,
+                "content": "いいサイトが出来たね！",
+                "user_id": 4,
+                "user_name": "test4",
+                "updated_at": "2021/08/26 11:26"
+            },
+            {
+                "id": 4,
+                "content": "どんどん活用するぞー！",
+                "user_id": 5,
+                "user_name": "test5",
+                "updated_at": "2021/08/26 11:29"
+            }
+        ]
     },
     {
         "id": 2,
         "content": "ログインが出来ない不具合を対応しました。ご迷惑をおかけしたこと、大変深くお詫び申し上げます。",
         "user_id": 1,
-        "updated_at": "2021/08/26 12:30"
+        "user_name": "test2",
+        "updated_at": "2021/08/26 12:30",
+        "comment": [
+            {
+                "id": 1,
+                "content": "良かったー！",
+                "user_id": 4,
+                "user_name": "test4",
+                "updated_at": "2021/08/26 12:34"
+            },
+            {
+                "id": 2,
+                "content": "助かった！",
+                "user_id": 2,
+                "user_name": "test2",
+                "updated_at": "2021/08/26 12:40"
+            }
+        ]
     },
     {
         "id": 3,
         "content": "動画がアップロード出来ない不具合を対応しました。ご迷惑をおかけしたこと、大変深くお詫び申し上げます。",
         "user_id": 2,
-        "updated_at": "2021/08/26 14:22"
+        "user_name": "test",
+        "updated_at": "2021/08/26 14:22",
+        "comment": null
     },
     {
         "id": 4,
         "content": "チャットの不具合を対応しました。ご迷惑をおかけしたこと、大変深くお詫び申し上げます。",
         "user_id": 3,
-        "updated_at": "2021/08/27 17:20"
+        "user_name": "test",
+        "updated_at": "2021/08/27 17:20",
+        "comment": [
+            {
+                "id": 1,
+                "content": "大変だね～",
+                "user_id": 3,
+                "user_name": "test3",
+                "updated_at": "2021/08/27 18:34"
+            },
+            {
+                "id": 2,
+                "content": "早めに復旧して良かった！",
+                "user_id": 4,
+                "user_name": "test4",
+                "updated_at": "2021/08/27 19:00"
+            }
+        ]
     },
     {
         "id": 5,
         "content": "グループ登録数が100を超えました！いつもご利用ありがとうございます。",
         "user_id": 2,
-        "updated_at": "2021/08/27 19:50"
+        "user_name": "test3",
+        "updated_at": "2021/08/27 19:50",
+        "comment": [
+            {
+                "id": 1,
+                "content": "おめでとうございます！",
+                "user_id": 1,
+                "user_name": "test",
+                "updated_at": "2021/08/27 19:55"
+            }
+        ]
     }
 ]

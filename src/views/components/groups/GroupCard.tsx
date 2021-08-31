@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { useHistory } from "react-router-dom";
@@ -15,7 +15,8 @@ import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PostAddIcon from '@material-ui/icons/PostAdd';
-import { GROUP_CARD } from '../../types/groupsTypes';
+import { GROUP_CARD, POST_MODAL, MODAL_DATA } from '../../types/groupsTypes';
+import PostModal from './PostModal';
 
 import post_list from '../../../data/post_list_data.json';
 
@@ -88,10 +89,30 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
   const history = useHistory();
   const classes = useStyles();
   const componentStyles = ComponentStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [modalData, setModalData] = useState<MODAL_DATA>({
+    id: null,
+    content: null,
+    user_id: null,
+    user_name: null,
+    updated_at: null,
+    comment: null
+  });
 
+  /**
+   * 投稿掲示板表示関数
+   */
   const handleExpandClick = () => {
       setExpanded(!expanded);
+  };
+
+  /**
+   * モーダル表示制御用関数
+   * @param value 
+   */
+  const handleOpen = (value: boolean) => {
+      setOpen(value);
   };
 
   return (
@@ -251,19 +272,24 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
           <div className={classes.postFrame}>
             {
               _.map(post_list, value => (
-                <div className={classes.postList}>
-                  <div className={classes.postMeta}>
-                    <Avatar src={props.data.image_file} />
-                    <Typography style={{ marginLeft: '8px', fontSize: '1.1rem' }}>test</Typography>
+                <>
+                  <div className={classes.postList} onClick={() => { handleOpen(true); setModalData(value); }}>
+                    <div className={classes.postMeta}>
+                      <Avatar src={props.data.image_file} />
+                      <Typography style={{ marginLeft: '8px', fontSize: '1.1rem' }}>test</Typography>
+                    </div>
+                    <div className={classes.postBox} key={value.id}>
+                      <Typography className={classes.postContent} color="textSecondary">{value.content}</Typography>
+                    </div>
+                    <Typography>{value.updated_at}</Typography>
                   </div>
-                  <div className={classes.postBox} key={value.id}>
-                    <Typography className={classes.postContent} color="textSecondary">{value.content}</Typography>
-                  </div>
-                  <Typography>{value.updated_at}</Typography>
-                </div>
+
+                </>
               ))
             }
           </div>
+          {/* 詳細表示モーダル */}
+          <PostModal callback={handleOpen} data={modalData} open={open} />
         </CardContent>
       </Collapse>
     </Card>
