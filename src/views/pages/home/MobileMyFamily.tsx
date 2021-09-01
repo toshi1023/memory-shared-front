@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
 import PageNotFound from '../../components/common/PageNotFound';
@@ -10,6 +10,14 @@ import family_list from '../../../data/family_list_data.json';
 
 const MobileMyFamily: React.FC = () => {
     const displayStyles = DisplayStyles();
+    const [desc, setDesc] = useState(false);
+
+    /**
+     * ファミリーの説明表示制御
+     */
+    const handleOpenDescription = () => {
+        setDesc(!desc);
+    }
 
     return (
         <div id="home">
@@ -23,6 +31,18 @@ const MobileMyFamily: React.FC = () => {
                         <Typography className="c_title">
                             ファミリー
                         </Typography>
+                        <Typography className="description_label mobile">
+                            <span className="label_font" onClick={handleOpenDescription}>ファミリーとは?</span>
+                        </Typography>
+                        {
+                            desc ? 
+                                <Typography className="description">
+                                    ファミリーとは同じグループに所属するユーザを指します。
+                                    どんどんグループを作成してファミリーを増やしていきましょう。
+                                </Typography>
+                            :
+                                ''
+                        }
                     </Grid>
                     <Grid item xs={10}>
                         <MyFamilyList data={family_list} />

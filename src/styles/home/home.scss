@@ -4,6 +4,28 @@
     .mobile_profile {
         margin-top: 30px;
     }
+
+    .description_label {
+        font-size: 0.7rem;
+        text-align: right;
+        color: rgb(116, 161, 245);
+        margin: 0 5px 10px 0;
+
+        &.mobile {
+            font-size: 0.8rem;
+        }
+
+        .label_font {
+            cursor: pointer;
+        }
+    }
+
+    .description {
+        text-align: left;
+        font-size: 0.9rem;
+        color: rgb(179, 165, 165);
+        padding: 10px;
+    }
 }
 
 #login {
