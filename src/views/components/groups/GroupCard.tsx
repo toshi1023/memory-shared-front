@@ -15,7 +15,7 @@ import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PostAddIcon from '@material-ui/icons/PostAdd';
-import { GROUP_CARD, POST_MODAL, MODAL_DATA } from '../../types/groupsTypes';
+import { GROUP_CARD, MODAL_DATA } from '../../types/groupsTypes';
 import PostModal from './PostModal';
 
 import post_list from '../../../data/post_list_data.json';
@@ -76,6 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
     postContent: {
       fontSize: '1.1rem',
       padding: '10px',
+      textAlign: 'left',
       whiteSpace: 'pre-line'
     }
 }));
@@ -273,10 +274,10 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
             {
               _.map(post_list, value => (
                 <>
-                  <div className={classes.postList} onClick={() => { handleOpen(true); setModalData(value); }}>
+                  <div className={classes.postList} key={value.id} onClick={() => { handleOpen(true); setModalData(value); }}>
                     <div className={classes.postMeta}>
                       <Avatar src={props.data.image_file} />
-                      <Typography style={{ marginLeft: '8px', fontSize: '1.1rem' }}>test</Typography>
+                      <Typography style={{ marginLeft: '8px', fontSize: '1.1rem' }}>{value.user_name}</Typography>
                     </div>
                     <div className={classes.postBox} key={value.id}>
                       <Typography className={classes.postContent} color="textSecondary">{value.content}</Typography>
