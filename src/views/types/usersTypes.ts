@@ -47,3 +47,11 @@ export interface GROUP_LIST_DATA {
         image_file: string;
     }[]
 }
+
+/**
+ * GroupModal用のデータ型定義
+ */
+ export interface GROUP_MODAL {
+    open: boolean;
+    callback: (value: boolean) => void;
+}

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import Card from '@material-ui/core/Card';
@@ -10,8 +11,8 @@ import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import MailIcon from '@material-ui/icons/Mail';
+import GroupModal from './GroupModal';
 import { USER_CARD } from '../../types/usersTypes';
-
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,6 +42,15 @@ const useStyles = makeStyles((theme: Theme) =>
 const UserCard: React.FC<USER_CARD> = (props) => {
   const classes = useStyles();
   const componentStyles = ComponentStyles();
+  const [open, setOpen] = useState(false);
+
+  /**
+   * モーダル表示制御用関数
+   * @param value 
+   */
+  const handleOpen = (value: boolean) => {
+      setOpen(value);
+  };
 
   return (
     <Card className={classes.root}>
@@ -125,6 +135,7 @@ const UserCard: React.FC<USER_CARD> = (props) => {
         <Button 
           size="small" 
           className={classes.inviteButton}
+          onClick={() => handleOpen(true)}
         >
           グループに招待する
         </Button>  
@@ -133,6 +144,14 @@ const UserCard: React.FC<USER_CARD> = (props) => {
           <Button><Avatar className={classes.iconBackGround}><MailIcon /></Avatar></Button>  
         </Tooltip>
       </CardActions>
+
+      {/* 招待グループリストの表示用モーダル */}
+      {
+        open ? 
+          <GroupModal callback={handleOpen} open={open} />
+        :
+          ''
+      }
     </Card>
   );
 }

@@ -9,7 +9,9 @@ import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import { POST_MODAL } from '../../types/groupsTypes';
+import { GROUP_MODAL } from '../../types/usersTypes';
+
+import group_list from '../../../data/group_list_data.json';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,31 +20,23 @@ const useStyles = makeStyles((theme: Theme) =>
         textAlign: 'left',
         color: 'rgb(179, 165, 165)'
     },
-    content: {
-        textAlign: 'left',
-        padding: '10px 0 20px 0'
-    },
-    commentFrame: {
+    groupListFrame: {
         width: '100%',
         borderRadius: '5px',
         background: 'rgb(243, 239, 239)'
     },
-    commentArea: {
-        display: 'flex',
-        padding: '5px 15px 5px 15px'
-    },
-    commentBox: {
+    groupListBox: {
         background: 'white',
         borderRadius: '10px',
-        margin: '0 auto',
+        display: 'flex'
     },
-    comment: {
-        padding: '5px 10px 5px 10px'
+    privateFlg: {
+        textAlign: 'right'
     }
   }),
 );
 
-const PostModal: React.FC<POST_MODAL> = (props) => {
+const GroupModal: React.FC<GROUP_MODAL> = (props) => {
     const classes = useStyles();
     const componentStyles = ComponentStyles();
 
@@ -64,20 +58,21 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                     >
                         <Fade in={props.open}>
                         <div className={componentStyles.paper}>
-                            <Typography className={classes.title}>内容</Typography>
-                            <Typography className={classes.content}>{props.data.content}</Typography>
-                            <Typography className={classes.title}>コメント</Typography>
-                            <div className={classes.commentFrame}>
+                            <Typography className={classes.title}>招待可能なグループ一覧</Typography>
+                            <div className={classes.groupListFrame}>
                                 {
-                                    _.map(props.data.comment, value => (
-                                        <div className={classes.commentArea} key={value.id}>
-                                            <div style={{ width: '10%' }}>
-                                                <Avatar src="" />
-                                                <Typography>{value.user_name}</Typography>
-                                            </div>
-                                            <div className={classes.commentBox} style={{ width: '90%' }}>
-                                                <Typography className={classes.comment}>{value.content}</Typography>
-                                            </div>
+                                    _.map(group_list, value => (
+                                        <div className={classes.groupListBox} key={value.id}>
+                                            <Avatar src={value.image_file} />
+                                            <Typography>{value.name}</Typography>
+                                            <Typography className={classes.privateFlg}>
+                                                {
+                                                    value.private_flg ? 
+                                                        '公開'
+                                                    :
+                                                        '非公開'
+                                                }
+                                            </Typography>
                                         </div>
                                     ))
                                 }
@@ -103,20 +98,21 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                     >
                         <Fade in={props.open}>
                         <div className={componentStyles.paper}>
-                            <Typography className={classes.title}>内容</Typography>
-                            <Typography className={classes.content}>{props.data.content}</Typography>
-                            <Typography className={classes.title}>コメント</Typography>
-                            <div className={classes.commentFrame}>
+                            <Typography className={classes.title}>招待可能なグループ一覧</Typography>
+                            <div className={classes.groupListFrame}>
                                 {
-                                    _.map(props.data.comment, value => (
-                                        <div className={classes.commentArea} key={value.id}>
-                                            <div style={{ width: '14%' }}>
-                                                <Avatar src="" />
-                                                <Typography>{value.user_name}</Typography>
-                                            </div>
-                                            <div className={classes.commentBox} style={{ width: '86%' }}>
-                                                <Typography className={classes.comment}>{value.content}</Typography>
-                                            </div>
+                                    _.map(group_list, value => (
+                                        <div className={classes.groupListBox} key={value.id}>
+                                            <Avatar src={value.image_file} />
+                                            <Typography>{value.name}</Typography>
+                                            <Typography className={classes.privateFlg}>
+                                                {
+                                                    value.private_flg ? 
+                                                        '公開'
+                                                    :
+                                                        '非公開'
+                                                }
+                                            </Typography>
                                         </div>
                                     ))
                                 }
@@ -142,20 +138,21 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                     >
                         <Fade in={props.open}>
                             <div className={componentStyles.paper} style={{ width: '80%' }}>
-                                <Typography className={classes.title}>内容</Typography>
-                                <Typography className={classes.content}>{props.data.content}</Typography>
-                                <Typography className={classes.title}>コメント</Typography>
-                                <div className={classes.commentFrame}>
+                                <Typography className={classes.title}>招待可能なグループ一覧</Typography>
+                                <div className={classes.groupListFrame}>
                                     {
-                                        _.map(props.data.comment, value => (
-                                            <div className={classes.commentArea} key={value.id}>
-                                                <div style={{ width: '17%' }}>
-                                                    <Avatar src="" />
-                                                    <Typography>{value.user_name}</Typography>
-                                                </div>
-                                                <div className={classes.commentBox} style={{ width: '83%' }}>
-                                                    <Typography className={classes.comment} style={{ fontSize: '0.9rem' }}>{value.content}</Typography>
-                                                </div>
+                                        _.map(group_list, value => (
+                                            <div className={classes.groupListBox} key={value.id}>
+                                                <Avatar src={value.image_file} />
+                                                <Typography>{value.name}</Typography>
+                                                <Typography className={classes.privateFlg}>
+                                                    {
+                                                        value.private_flg ? 
+                                                            '公開'
+                                                        :
+                                                            '非公開'
+                                                    }
+                                                </Typography>
                                             </div>
                                         ))
                                     }
@@ -169,4 +166,4 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
     )
 }
 
-export default PostModal
+export default GroupModal

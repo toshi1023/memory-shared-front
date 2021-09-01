@@ -115,7 +115,20 @@ const ComponentStyles = makeStyles((theme: Theme) =>
     editButton: {
       fontWeight: 'bold',
       color: 'rgb(168, 168, 168)'
-    }
+    },
+
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    paper: {
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        width: '50%'
+    },
   }));
 
 export default ComponentStyles;
