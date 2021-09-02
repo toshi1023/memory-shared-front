@@ -148,7 +148,7 @@ const UserCard: React.FC<USER_CARD> = (props) => {
       {/* 招待グループリストの表示用モーダル */}
       {
         open ? 
-          <GroupModal callback={handleOpen} open={open} />
+          <GroupModal callback={handleOpen} open={open} data={{user_id: props.data.id}} />
         :
           ''
       }

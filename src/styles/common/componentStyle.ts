@@ -117,6 +117,43 @@ const ComponentStyles = makeStyles((theme: Theme) =>
       color: 'rgb(168, 168, 168)'
     },
 
+    submitButton: {
+        margin: '20px 0 20px 0',
+        width: '80%',
+        height: '50px',
+        position: 'relative',
+        background: '#f8cf77',
+        border: '1px solid #f8cf77',
+        borderRadius: '30px',
+        boxSizing: 'border-box',
+        color: '#fff',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        
+        '&:before': {
+            content: '',
+            width: '8px',
+            height: '8px',
+            border: 0,
+            borderTop: '2px solid #fff',
+            borderRight: '2px solid #fff',
+            transform: 'rotate(45deg)',
+            position: 'absolute',
+            top: '50%',
+            right: '25px',
+            marginTop: '-6px',
+        },
+        '&:hover': {
+            background: '#fff',
+            color: '#f8cf77',
+        },
+        '&:hover:before': {
+            borderTop: '2px solid #f8cf77',
+            borderRight: '2px solid #f8cf77'
+        }
+    },
+
     modal: {
       display: 'flex',
       alignItems: 'center',

@@ -52,6 +52,9 @@ export interface GROUP_LIST_DATA {
  * GroupModal用のデータ型定義
  */
  export interface GROUP_MODAL {
+    data: {
+        user_id: number;
+    }
     open: boolean;
     callback: (value: boolean) => void;
 }
