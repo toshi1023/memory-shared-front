@@ -38,6 +38,10 @@ const useStyles = makeStyles((theme: Theme) =>
     avatar: {
         margin: '5px'
     },
+    groupInfo: {
+        display: 'flex',
+        alignItems: 'center'
+    },
     privateTrue: {
         color: 'blue',
         fontSize: '0.9rem',
@@ -101,10 +105,10 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                             <div style={{ width: '15%' }}>
                                                 <Avatar src={value.image_file} className={classes.avatar} />
                                             </div>
-                                            <div style={{ width: '75%', alignItems: 'center' }}>
+                                            <div className={classes.groupInfo} style={{ width: '75%' }}>
                                                 <Typography>{value.name}</Typography>
                                             </div>
-                                            <div style={{ width: '20%' }}>
+                                            <div className={classes.groupInfo} style={{ width: '20%' }}>
                                                 <Typography>
                                                     {
                                                         value.private_flg ? 
@@ -158,10 +162,10 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                             <div style={{ width: '20%' }}>
                                                 <Avatar src={value.image_file} className={classes.avatar} />
                                             </div>
-                                            <div style={{ width: '60%', alignItems: 'center' }}>
+                                            <div className={classes.groupInfo} style={{ width: '60%' }}>
                                                 <Typography>{value.name}</Typography>
                                             </div>
-                                            <div style={{ width: '20%' }}>
+                                            <div className={classes.groupInfo} style={{ width: '20%' }}>
                                                 <Typography>
                                                     {
                                                         value.private_flg ? 
@@ -215,10 +219,10 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                                 <div style={{ width: '20%' }}>
                                                     <Avatar src={value.image_file} className={classes.avatar} />
                                                 </div>
-                                                <div style={{ width: '55%', alignItems: 'center' }}>
+                                                <div className={classes.groupInfo} style={{ width: '55%' }}>
                                                     <Typography>{value.name}</Typography>
                                                 </div>
-                                                <div style={{ width: '25%' }}>
+                                                <div className={classes.groupInfo} style={{ width: '25%' }}>
                                                     <Typography>
                                                         {
                                                             value.private_flg ? 
