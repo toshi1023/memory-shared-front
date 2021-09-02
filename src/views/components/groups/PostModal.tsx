@@ -9,6 +9,10 @@ import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import ReplyIcon from '@material-ui/icons/Reply';
+import CloseIcon from '@material-ui/icons/Close';
 import { POST_MODAL } from '../../types/groupsTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,6 +42,23 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     comment: {
         padding: '5px 10px 5px 10px'
+    },
+    commentField: {
+        fontSize: '1.2rem',
+        padding: '20px 0 20px 0',
+        display: 'flex',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    replyIcon: {
+        fontSize: '1.5rem',
+        color: 'blue',
+        width: '100%'
+    },
+    textfield: {
+        width: '85%',
+        backgroundColor: 'white'
     }
   }),
 );
@@ -64,6 +85,7 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                     >
                         <Fade in={props.open}>
                         <div className={componentStyles.paper}>
+                            <CloseIcon className={componentStyles.closeIcon} onClick={() => props.callback(false)} />
                             <Typography className={classes.title}>内容</Typography>
                             <Typography className={classes.content}>{props.data.content}</Typography>
                             <Typography className={classes.title}>コメント</Typography>
@@ -81,6 +103,21 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                         </div>
                                     ))
                                 }
+                            </div>
+                            <div className={classes.commentField}>
+                                <TextField
+                                    className={classes.textfield}
+                                    name="message"
+                                    label="コメントを投稿"
+                                    variant="outlined"
+                                    multiline
+                                />
+                                <IconButton 
+                                    color="primary" 
+                                    aria-label="add"
+                                >
+                                    <ReplyIcon className={classes.replyIcon} />
+                                </IconButton>
                             </div>
                         </div>
                         </Fade>
@@ -103,6 +140,7 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                     >
                         <Fade in={props.open}>
                         <div className={componentStyles.paper}>
+                            <CloseIcon className={componentStyles.closeIcon} onClick={() => props.callback(false)} />
                             <Typography className={classes.title}>内容</Typography>
                             <Typography className={classes.content}>{props.data.content}</Typography>
                             <Typography className={classes.title}>コメント</Typography>
@@ -120,6 +158,21 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                         </div>
                                     ))
                                 }
+                            </div>
+                            <div className={classes.commentField}>
+                                <TextField
+                                    className={classes.textfield}
+                                    name="message"
+                                    label="コメントを投稿"
+                                    variant="outlined"
+                                    multiline
+                                />
+                                <IconButton 
+                                    color="primary" 
+                                    aria-label="add"
+                                >
+                                    <ReplyIcon className={classes.replyIcon} />
+                                </IconButton>
                             </div>
                         </div>
                         </Fade>
@@ -142,6 +195,7 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                     >
                         <Fade in={props.open}>
                             <div className={componentStyles.paper} style={{ width: '80%' }}>
+                                <CloseIcon className={componentStyles.closeIcon} onClick={() => props.callback(false)} />
                                 <Typography className={classes.title}>内容</Typography>
                                 <Typography className={classes.content}>{props.data.content}</Typography>
                                 <Typography className={classes.title}>コメント</Typography>
@@ -159,6 +213,21 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                             </div>
                                         ))
                                     }
+                                </div>
+                                <div className={classes.commentField}>
+                                    <TextField
+                                        className={classes.textfield}
+                                        name="message"
+                                        label="コメントを投稿"
+                                        variant="outlined"
+                                        multiline
+                                    />
+                                    <IconButton 
+                                        color="primary" 
+                                        aria-label="add"
+                                    >
+                                        <ReplyIcon className={classes.replyIcon} />
+                                    </IconButton>
                                 </div>
                             </div>
                         </Fade>

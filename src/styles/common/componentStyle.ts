@@ -164,7 +164,14 @@ const ComponentStyles = makeStyles((theme: Theme) =>
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        width: '50%'
+        width: '50%',
+        position: 'relative'
+    },
+    closeIcon: {
+        position: 'absolute',
+        right: 5,
+        top: 2,
+        cursor: 'pointer'
     },
   }));
 

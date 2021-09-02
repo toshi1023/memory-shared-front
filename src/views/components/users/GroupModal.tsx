@@ -10,8 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
+import CloseIcon from '@material-ui/icons/Close';
 import { GROUP_MODAL } from '../../types/usersTypes';
 
 import group_list from '../../../data/group_list_data.json';
@@ -88,6 +87,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                     >
                         <Fade in={props.open}>
                         <div className={componentStyles.paper} style={{ width: '40%' }}>
+                            <CloseIcon className={componentStyles.closeIcon} onClick={() => props.callback(false)} />
                             <Typography className={classes.title}>招待するグループを選択してください</Typography>
                             <div className={classes.groupListFrame}>
                                 {
@@ -144,6 +144,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                     >
                         <Fade in={props.open}>
                         <div className={componentStyles.paper}>
+                            <CloseIcon className={componentStyles.closeIcon} onClick={() => props.callback(false)} />
                             <Typography className={classes.title}>招待するグループを選択してください</Typography>
                             <div className={classes.groupListFrame}>
                                 {
@@ -200,6 +201,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                     >
                         <Fade in={props.open}>
                             <div className={componentStyles.paper} style={{ width: '80%' }}>
+                                <CloseIcon className={componentStyles.closeIcon} onClick={() => props.callback(false)} />
                                 <Typography className={classes.title}>招待するグループを選択してください</Typography>
                                 <div className={classes.groupListFrame}>
                                     {
