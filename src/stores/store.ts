@@ -14,3 +14,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+// TypeScriptではdispatchに対しても型を定義する必要があり、コンポーネントで利用するには必須の設定
+// storeのdispatch型を受け取ってAppDispatchという型に定義してエクスポート
+export type AppDispatch = typeof store.dispatch;
