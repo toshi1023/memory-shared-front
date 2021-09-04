@@ -44,3 +44,11 @@ export interface MOBILE_HEADER_TAB {
         label2: string
     }
 }
+
+/**
+ * MessageComponent用のデータ型定義
+ */
+ export interface MESSEAGE_COMPONENT {
+    infoOpen: boolean,
+    errorOpen: boolean
+}
