@@ -1,5 +1,32 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../../stores/store";
+import axios from "axios";
+
+const webUrl = process.env.REACT_APP_MSA_WEB_URL;
+
+/**
+ * Sanctum用のToken取得用非同期関数
+ */
+export const fetchAsyncGetToken = createAsyncThunk(
+    "sanctum",
+    async () => {
+        try {
+            const res = await axios.get(`${webUrl}/sanctum/csrf-cookie`, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data;
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            return err.response.data
+        }
+    }
+);
 
 /**
  * Slice(store)の設定

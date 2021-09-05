@@ -31,7 +31,7 @@
 #login {
     .card {
         background-color: white;
-        height: 350px;
+        max-height: 350px;
         
         .header {
             background-color: rgb(253, 200, 103);
@@ -154,7 +154,7 @@
     }
     .card_ipad {
         background-color: white;
-        height: 350px;
+        max-height: 350px;
         margin-top: 120%;
         
         .header {

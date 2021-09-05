@@ -1,3 +1,7 @@
+/************************************************
+ *  components用の型設定
+ ************************************************/
+
 /**
  * ProfileCard用のデータ型定義
  */
@@ -48,4 +52,16 @@ export interface GROUP_LIST {
         user_name: string;
         image_file: string;
     }[]
+}
+
+/************************************************
+ *  slice用の型設定
+ ************************************************/
+
+/**
+ * login用のデータ型定義
+ */
+ export interface LOGIN_PROPS {
+    email: string,
+    password: string
 }

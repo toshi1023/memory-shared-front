@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import './App.css';
+import { selectInfoMessage, selectErrorMessage } from './views/pages/appSlice';
 import useWindowDimensions from './functions/WindowDimensions';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AppMainBar from './views/components/common/AppMainBar';
 import MobileFooterTab from './views/components/common/MobileFooterTab';
+import MessageComponent from './views/components/common/MessageComponent';
 import Home from './views/pages/home/Home';
 import MobileMyFamily from './views/pages/home/MobileMyFamily';
 import MobileMyGroup from './views/pages/home/MobileMyGroup';
@@ -46,6 +49,8 @@ const renderMobileFooterTab = () => {
 }
 
 function App() {
+  const errorMessage = useSelector(selectErrorMessage);
+  const infoMessage = useSelector(selectInfoMessage);
   const { width, height } = useWindowDimensions();
   
   // 画面サイズの変更でモバイルフッターの表示制御
@@ -55,6 +60,17 @@ function App() {
   
   return (
       <div className="App">
+          {/* メッセージ表示 */}
+          {
+            infoMessage ? 
+              <MessageComponent infoOpen={true} errorOpen={false} />
+            :
+              errorMessage ? 
+                <MessageComponent infoOpen={false} errorOpen={true} />
+              :
+                ''
+          }
+
           <BrowserRouter>
               {
                 window.location.pathname === "/login" || window.location.pathname === "/register" ? 

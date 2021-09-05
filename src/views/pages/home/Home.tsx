@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
+import { fetchAsyncGetToken } from '../appSlice';
 import MyProfileCard from '../../components/home/MyProfileCard';
 import MyGroupList from '../../components/home/MyGroupList';
 import MyFamilyList from '../../components/home/MyFamilyList';
 import MyTalkList from '../../components/home/MyTalkList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
+import MessageComponent from '../../components/common/MessageComponent';
 
 import group_list from '../../../data/group_list_data.json';
 import family_list from '../../../data/family_list_data.json';
