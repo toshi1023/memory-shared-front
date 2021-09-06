@@ -1,9 +1,10 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectInfoMessage, selectErrorMessage, fetchGetInfoMessages, fetchGetErrorMessages } from '../../pages/appSlice';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
 import { MESSEAGE_COMPONENT } from '../../types/commonTypes';
 
 const Alert = (props: AlertProps) => {
@@ -33,16 +34,16 @@ const MessageComponent: React.FC<MESSEAGE_COMPONENT> = (props) => {
     const dispatch = useDispatch();
 
     // infoメッセージの格納
-    // const infoMessage = useSelector(selectInfo)
-    const infoMessage = '登録に成功しました';
+    const infoMessage = useSelector(selectInfoMessage);
+    // const infoMessage = '登録に成功しました';
     // errorメッセージの格納
-    // const errorMessage = useSelector(selectError)
-    const errorMessage = '登録に失敗しました';
+    const errorMessage = useSelector(selectErrorMessage);
+    // const errorMessage = '登録に失敗しました';
     // snackBarの表示制御
     const handleClose = () => {
-      // infoメッセージとerrorメッセージのリセット
-    //   dispatch(fetchGetInfoMessages(''))
-    //   dispatch(fetchGetErrorMessages(''))
+        // infoメッセージとerrorメッセージのリセット
+        dispatch(fetchGetInfoMessages(''));
+        dispatch(fetchGetErrorMessages(''));
     };
 
     return (

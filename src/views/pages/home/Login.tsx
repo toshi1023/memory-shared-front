@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
 import { fetchAsyncGetToken, fetchGetInfoMessages, fetchGetErrorMessages } from '../appSlice';
-import { fetchAsyncLogin, selectLoginInfom, selectLoginErrm } from './homeSlice';
+import { fetchAsyncLogin } from './homeSlice';
 import { Grid, Hidden, Typography, Card, CardHeader, CardContent, Input, Button } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import loginpage_back2 from '../../../image/loginpage/loginpage_back2.jpg';
@@ -13,13 +13,12 @@ import loginpage_back1 from '../../../image/loginpage/loginpage_back1.jpg';
 import loginpage_front1 from '../../../image/loginpage/loginpage_front1.jpg';
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { AppDispatch } from '../../../stores/store';
 
 const Login: React.FC = () => {
     const displayStyles = DisplayStyles();
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const history = useHistory();
-    const errorMessage = useSelector(selectLoginErrm);
-    const infoMessage = useSelector(selectLoginInfom);
 
     return (
         <div id="login">
@@ -28,10 +27,15 @@ const Login: React.FC = () => {
                 initialValues={{ email: "", password: "" }}
                 onSubmit={async (values) => {
                     await dispatch(fetchAsyncGetToken());
-                    await dispatch(fetchAsyncLogin(values));
-                    
-                    infoMessage ? dispatch(fetchGetInfoMessages(infoMessage)) : dispatch(fetchGetErrorMessages(errorMessage));
-                    if(infoMessage) history.push('/');
+                    const loginRes = await dispatch(fetchAsyncLogin(values));
+                    if(fetchAsyncLogin.fulfilled.match(loginRes)) {
+                        loginRes.payload.info_message ? 
+                            dispatch(fetchGetInfoMessages(loginRes.payload.info_message)) 
+                        : 
+                            dispatch(fetchGetErrorMessages(loginRes.payload.error_message));
+                            
+                        if(loginRes.payload.info_message) history.push('/');
+                    }
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string()

@@ -1,4 +1,5 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { useSelector as rawUseSelector, TypedUseSelectorHook } from 'react-redux';
 import appReducer from '../views/pages/appSlice';
 import homeReducer from '../views/pages/home/homeSlice';
 
@@ -20,3 +21,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 // TypeScriptではdispatchに対しても型を定義する必要があり、コンポーネントで利用するには必須の設定
 // storeのdispatch型を受け取ってAppDispatchという型に定義してエクスポート
 export type AppDispatch = typeof store.dispatch;
+
+// useSelectorに型を定義
+export const useSelector: TypedUseSelectorHook<RootState> = rawUseSelector

@@ -61,7 +61,14 @@ export interface GROUP_LIST {
 /**
  * login用のデータ型定義
  */
- export interface LOGIN_PROPS {
+export interface LOGIN_PROPS {
     email: string,
     password: string
+}
+/**
+ * AsyncThunk用
+ */
+export interface LOGIN_RES {
+    info_message: string,
+    error_message: string
 }
