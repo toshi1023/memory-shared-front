@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchAsyncLogout } from '../../pages/home/homeSlice';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -13,6 +15,7 @@ import NotificationImportantIcon from '@material-ui/icons/NotificationImportant'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 import { MOBILE_MENU_ICON } from '../../types/commonTypes';
+import { AppDispatch } from '../../../stores/store';
 
 const useStyles = makeStyles({
   list: {
@@ -32,6 +35,7 @@ const useStyles = makeStyles({
 const MobileMenu: React.FC<MOBILE_MENU_ICON> = (props) => {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch: AppDispatch = useDispatch();
     const [state, setState] = useState(false);
 
     /**
@@ -103,7 +107,10 @@ const MobileMenu: React.FC<MOBILE_MENU_ICON> = (props) => {
             <Divider />
             <List>
                 {['ログアウト'].map((text) => (
-                    <ListItem button key={text} onClick={() => window.location.href = '/login'}>
+                    <ListItem button key={text} onClick={() => {
+                        dispatch(fetchAsyncLogout({id: +localStorage.loginId}));
+                        window.location.href = '/login';
+                    }}>
                         <ListItemIcon><ExitToAppIcon /></ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>

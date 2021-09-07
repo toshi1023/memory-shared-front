@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchAsyncLogout } from '../../pages/home/homeSlice';
+import { fetchGetErrorMessages } from '../../pages/appSlice';
 import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Toolbar, Typography, Tooltip, Button, IconButton, Grid  } from '@material-ui/core';
@@ -10,6 +13,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DisplayStyles from '../../../styles/common/displayMode';
 import MobileMenu from './MobileMenu';
 import { ICON_ACTIVE } from '../../types/commonTypes';
+import { AppDispatch } from '../../../stores/store';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,6 +63,7 @@ const AppMainBar: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
     const displayStyles = DisplayStyles();
+    const dispatch: AppDispatch = useDispatch();
     const [active, setActive] = useState<ICON_ACTIVE>({
         home: false,
         user: false,
@@ -129,7 +134,18 @@ const AppMainBar: React.FC = () => {
                   <Button color="inherit" onClick={() => {iconActive('news'); history.push('/news/test')}}><NotificationImportantIcon style={active.news ? { color: activeColor } : { color: inActiveColor }} /></Button>
                 </Tooltip>
                 <Tooltip title="ログアウト" classes={{tooltip: classes.tooltip}}>
-                  <Button color="inherit" onClick={() => window.location.href = '/login'}><ExitToAppIcon /></Button>
+                  <Button color="inherit" onClick={async () => {
+                    // ログアウト処理
+                    const logoutRes = await dispatch(fetchAsyncLogout({id: +localStorage.loginId}));
+                    if(fetchAsyncLogout.fulfilled.match(logoutRes)) {
+                      logoutRes.payload.info_message ? 
+                        window.location.href = '/login'
+                      : 
+                        dispatch(fetchGetErrorMessages(logoutRes.payload.error_message));
+                    }
+                  }}>
+                    <ExitToAppIcon />
+                  </Button>
                 </Tooltip>
               </Toolbar>
             </Grid>

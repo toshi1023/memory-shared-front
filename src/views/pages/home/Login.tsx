@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
@@ -20,20 +20,31 @@ const Login: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const history = useHistory();
 
+    // ログアウト完了メッセージの表示
+    useEffect(() => {
+        // メッセージ表示
+        if(localStorage.infoMessage) {
+            dispatch(fetchGetInfoMessages(localStorage.infoMessage));
+            localStorage.removeItem('infoMessage');
+        }
+    }, [dispatch]);
+
     return (
         <div id="login">
             <Formik
                 initialErrors={{ email: "required", password: "required" }}
                 initialValues={{ email: "", password: "" }}
                 onSubmit={async (values) => {
+                    // XSRF-TOKENの取得
                     await dispatch(fetchAsyncGetToken());
+                    // ログイン処理
                     const loginRes = await dispatch(fetchAsyncLogin(values));
                     if(fetchAsyncLogin.fulfilled.match(loginRes)) {
                         loginRes.payload.info_message ? 
                             dispatch(fetchGetInfoMessages(loginRes.payload.info_message)) 
                         : 
                             dispatch(fetchGetErrorMessages(loginRes.payload.error_message));
-                            
+                        console.log(loginRes.payload.error_message);
                         if(loginRes.payload.info_message) history.push('/');
                     }
                 }}

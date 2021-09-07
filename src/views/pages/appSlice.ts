@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../stores/store";
 import axios from "axios";
 
@@ -53,11 +53,11 @@ export const fetchAsyncGetToken = createAsyncThunk(
             state.isLoading = false;
         },
         // infoメッセージの取得
-        fetchGetInfoMessages(state, action) {
+        fetchGetInfoMessages(state, action: PayloadAction<string>) {
             state.infoMessages = action.payload
         },
         // errorメッセージの取得
-        fetchGetErrorMessages(state, action) {
+        fetchGetErrorMessages(state, action: PayloadAction<string>) {
             state.errorMessages = action.payload
         }
     }

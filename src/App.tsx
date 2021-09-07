@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import './App.css';
 import { selectInfoMessage, selectErrorMessage } from './views/pages/appSlice';
 import useWindowDimensions from './functions/WindowDimensions';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, RouteProps, Switch } from 'react-router-dom';
 import AppMainBar from './views/components/common/AppMainBar';
 import MobileFooterTab from './views/components/common/MobileFooterTab';
 import MessageComponent from './views/components/common/MessageComponent';
@@ -36,9 +36,7 @@ const renderMobileFooterTab = () => {
     return (
       <>
         {
-          window.location.pathname !== "/login" && 
-          window.location.pathname !== "/register" &&
-          window.location.pathname !== "/test/talk/test2" ? 
+          localStorage.loginId ? 
             <MobileFooterTab />
           :
             ''
@@ -48,7 +46,21 @@ const renderMobileFooterTab = () => {
   }
 }
 
-function App() {
+/**
+ * PrivateRouteの実装
+ * @param param0 
+ * @returns 
+ */
+const PrivateRoute: React.FC<RouteProps> = ({...props}) => {
+    const isAuthenticated = localStorage.loginId != null //認証されているかの判定
+    if (isAuthenticated) {
+      return <Route {...props}/>
+    }else{
+      return <Redirect to="/login"/>
+    }
+}
+
+const App: React.FC = () => {
   const errorMessage = useSelector(selectErrorMessage);
   const infoMessage = useSelector(selectInfoMessage);
   const { width, height } = useWindowDimensions();
@@ -73,34 +85,34 @@ function App() {
 
           <BrowserRouter>
               {
-                window.location.pathname === "/login" || window.location.pathname === "/register" ? 
-                  ''
-                :
+                localStorage.loginId ? 
                   <AppMainBar />
+                :
+                  ''
               }
               <Switch>
                   {/* PC & 一部スマホページ */}
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/register" component={UserRegister} />
-                  <Route exact path="/" component={Home} />
-                  <Route exact path="/test/editer" component={UserEditer} />
-                  <Route exact path="/test/talk/test2" component={Talk} />
-                  <Route exact path="/users" component={UserList} />
-                  <Route exact path="/users/test" component={UserDetail} />
-                  <Route exact path="/groups" component={GroupList} />
-                  <Route exact path="/groups/register" component={GroupRegister} />
-                  <Route exact path="/groups/test" component={GroupDetail} />
-                  <Route exact path="/groups/test/editer" component={GroupEditer} />
-                  <Route exact path="/groups/test/post/register" component={PostRegister} />
-                  <Route exact path="/groups/test/albums/test" component={AlbumDetail} />
-                  <Route exact path="/groups/test/albums/register" component={AlbumRegister} />
-                  <Route exact path="/groups/test/albums/test/editer" component={AlbumEditer} />
-                  <Route exact path="/news/test" component={NewsDetail} />
+                  <PrivateRoute exact path="/" component={Home} />
+                  <PrivateRoute exact path="/test/editer" component={UserEditer} />
+                  <PrivateRoute exact path="/test/talk/test2" component={Talk} />
+                  <PrivateRoute exact path="/users" component={UserList} />
+                  <PrivateRoute exact path="/users/test" component={UserDetail} />
+                  <PrivateRoute exact path="/groups" component={GroupList} />
+                  <PrivateRoute exact path="/groups/register" component={GroupRegister} />
+                  <PrivateRoute exact path="/groups/test" component={GroupDetail} />
+                  <PrivateRoute exact path="/groups/test/editer" component={GroupEditer} />
+                  <PrivateRoute exact path="/groups/test/post/register" component={PostRegister} />
+                  <PrivateRoute exact path="/groups/test/albums/test" component={AlbumDetail} />
+                  <PrivateRoute exact path="/groups/test/albums/register" component={AlbumRegister} />
+                  <PrivateRoute exact path="/groups/test/albums/test/editer" component={AlbumEditer} />
+                  <PrivateRoute exact path="/news/test" component={NewsDetail} />
 
                   {/* スマホ用フッタータブとの連携ページ */}
-                  <Route exact path="/mobile/myfamily" component={MobileMyFamily} />
-                  <Route exact path="/mobile/mygroup" component={MobileMyGroup} />
-                  <Route exact path="/mobile/mytalk" component={MobileMyTalk} />
+                  <PrivateRoute exact path="/mobile/myfamily" component={MobileMyFamily} />
+                  <PrivateRoute exact path="/mobile/mygroup" component={MobileMyGroup} />
+                  <PrivateRoute exact path="/mobile/mytalk" component={MobileMyTalk} />
               </Switch>
               {renderMobileFooterTab()}
           </BrowserRouter>

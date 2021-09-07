@@ -70,5 +70,20 @@ export interface LOGIN_PROPS {
  */
 export interface LOGIN_RES {
     info_message: string,
+    error_message: string,
+    user: number
+}
+
+/**
+ * logout用のデータ型定義
+ */
+ export interface LOGOUT_PROPS {
+    id: number
+}
+/**
+ * AsyncThunk用
+ */
+export interface LOGOUT_RES {
+    info_message: string,
     error_message: string
 }
