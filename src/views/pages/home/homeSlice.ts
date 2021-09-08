@@ -142,6 +142,17 @@ export const homeSlice = createSlice({
                 image_url: "",
             },
         ],
+        page: {
+            // ファミリー
+            f_currentpage: 0,
+            f_lastpage: 0,
+            // グループ
+            g_currentpage: 0,
+            g_lastpage: 0,
+            // トーク
+            t_currentpage: 0,
+            t_lastpage: 0
+        }
     },
     reducers: {},
     // 非同期関数の後処理を設定
@@ -163,12 +174,15 @@ export const homeSlice = createSlice({
         });
         // ファミリー取得処理
         builder.addCase(fetchAsyncGetFamily.fulfilled, (state, action: PayloadAction<FAMILY_RES>) => {
-            state.families = action.payload.families;
+            state.families = action.payload.families.data;
+            state.page.f_currentpage = action.payload.families.current_page;
+            state.page.f_lastpage = action.payload.families.last_page;
         });
     },
 });
 
 export const selectProfile = (state: RootState) => state.home.profile;
 export const selectFamily = (state: RootState) => state.home.families;
+export const selectHomePage = (state: RootState) => state.home.page;
 
 export default homeSlice.reducer;

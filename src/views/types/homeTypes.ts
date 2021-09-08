@@ -130,15 +130,19 @@ export interface PROFILE_RES {
  */
 export interface FAMILY_RES {
     families: {
-        id: number,
-        name: string,
-        hobby: string,
-        gender: number,
-        description: string,
-        status: number,
-        image_file: string,
-        image_url: string,
-    }[]
+        data: {
+            id: number,
+            name: string,
+            hobby: string,
+            gender: number,
+            description: string,
+            status: number,
+            image_file: string,
+            image_url: string,
+        }[],
+        current_page: number,
+        last_page: number,
+    },
 
     error_message: string,
 }
