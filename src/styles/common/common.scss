@@ -133,6 +133,18 @@ form {
         }
     }
 
+    .c_disabled_button {
+        margin: 20px 0 20px 0;
+        width: 80%;
+        height: 50px;
+        background: #e6e1e1;
+        border: 1px solid #e6e1e1;
+        border-radius: 30px;
+        box-sizing: border-box;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
     .c_clear {
         background: #fce3ca;
         border-radius: 10px;

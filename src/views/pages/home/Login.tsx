@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
-import { fetchAsyncGetToken, fetchGetInfoMessages, fetchGetErrorMessages } from '../appSlice';
+import { fetchAsyncGetToken, fetchGetInfoMessages, fetchGetErrorMessages, fetchCredStart, fetchCredEnd } from '../appSlice';
 import { fetchAsyncLogin } from './homeSlice';
 import { Grid, Hidden, Typography, Card, CardHeader, CardContent, Input, Button } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
@@ -14,11 +14,13 @@ import loginpage_front1 from '../../../image/loginpage/loginpage_front1.jpg';
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { AppDispatch } from '../../../stores/store';
+import Loading from '../../components/common/Loading';
 
 const Login: React.FC = () => {
     const displayStyles = DisplayStyles();
     const dispatch: AppDispatch = useDispatch();
     const history = useHistory();
+    const [disabled, setDisabled] = useState(false);
 
     // ログアウト完了メッセージの表示
     useEffect(() => {
@@ -35,6 +37,9 @@ const Login: React.FC = () => {
                 initialErrors={{ email: "required", password: "required" }}
                 initialValues={{ email: "", password: "" }}
                 onSubmit={async (values) => {
+                    // ボタンを非活性化
+                    setDisabled(true);
+                    await dispatch(fetchCredStart());
                     // XSRF-TOKENの取得
                     await dispatch(fetchAsyncGetToken());
                     // ログイン処理
@@ -47,6 +52,8 @@ const Login: React.FC = () => {
                         console.log(loginRes.payload.error_message);
                         if(loginRes.payload.info_message) history.push('/');
                     }
+                    await dispatch(fetchCredEnd());
+                    setDisabled(false);
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string()
@@ -122,7 +129,14 @@ const Login: React.FC = () => {
                                                         <div className="c_errmessage">{errors.password}</div>
                                                     : null
                                                 }
-                                                <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
+                                                {
+                                                    disabled ? 
+                                                        <Button className="c_disabled_button" disabled={disabled}>
+                                                            ログイン中<Loading />
+                                                        </Button>
+                                                    :
+                                                        <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
+                                                }
                                             </CardContent>
                                         </Card>
 
@@ -195,7 +209,14 @@ const Login: React.FC = () => {
                                                         <div className="c_errmessage">{errors.password}</div>
                                                     : null
                                                 }
-                                                <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
+                                                {
+                                                    disabled ? 
+                                                        <Button className="c_disabled_button" disabled={disabled}>
+                                                            ログイン中<Loading />
+                                                        </Button>
+                                                    :
+                                                        <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
+                                                }
                                             </CardContent>
                                         </Card>
 
@@ -260,7 +281,14 @@ const Login: React.FC = () => {
                                                     <div className="c_errmessage">{errors.password}</div>
                                                 : null
                                             }
-                                            <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
+                                            {
+                                                disabled ? 
+                                                    <Button className="c_disabled_button" disabled={disabled}>
+                                                        ログイン中<Loading />
+                                                    </Button>
+                                                :
+                                                    <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
+                                            }
                                         </CardContent>
                                     </Card>
 
