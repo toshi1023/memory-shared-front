@@ -8,12 +8,13 @@
 export interface PROFILE_CARD {
     data: {
         id: number,
-        name: string;
-        email: string;
-        image_file: string;
-        hobby: string;
-        gender: boolean;
-        description: string | null;
+        name: string,
+        hobby: string,
+        gender: number,
+        description: string,
+        status: number,
+        image_file: string,
+        image_url: string,
     }
 }
 
@@ -23,8 +24,13 @@ export interface PROFILE_CARD {
 export interface FAMILY_LIST {
     data: {
         id: number,
-        name: string;
-        image_file: string;
+        name: string,
+        hobby: string,
+        gender: number,
+        description: string,
+        status: number,
+        image_file: string,
+        image_url: string,
     }[]
 }
 
@@ -71,6 +77,7 @@ export interface LOGIN_PROPS {
 export interface LOGIN_RES {
     info_message: string,
     error_message: string,
+
     user: number
 }
 
@@ -86,4 +93,52 @@ export interface LOGIN_RES {
 export interface LOGOUT_RES {
     info_message: string,
     error_message: string
+}
+
+/**
+ * profile用のデータ型定義
+ */
+export interface PROFILE_PROPS {
+    id: number
+}
+/**
+ * AsyncThunk用
+ */
+export interface PROFILE_RES {
+    user: {
+        id: number,
+        name: string,
+        hobby: string,
+        gender: number,
+        description: string,
+        status: number,
+        image_file: string,
+        image_url: string,
+    }
+
+    error_message: string,
+}
+
+/**
+ * family用のデータ型定義
+ */
+ export interface FAMILY_PROPS {
+    id: number
+}
+/**
+ * AsyncThunk用
+ */
+export interface FAMILY_RES {
+    families: {
+        id: number,
+        name: string,
+        hobby: string,
+        gender: number,
+        description: string,
+        status: number,
+        image_file: string,
+        image_url: string,
+    }[]
+
+    error_message: string,
 }

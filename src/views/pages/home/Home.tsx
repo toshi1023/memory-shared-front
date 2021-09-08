@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
-import { fetchAsyncGetToken } from '../appSlice';
+import { fetchGetErrorMessages } from '../appSlice';
+import { fetchAsyncGetProfile, selectProfile, fetchAsyncGetFamily, selectFamily } from './homeSlice';
 import MyProfileCard from '../../components/home/MyProfileCard';
 import MyGroupList from '../../components/home/MyGroupList';
 import MyFamilyList from '../../components/home/MyFamilyList';
@@ -10,24 +11,37 @@ import MyTalkList from '../../components/home/MyTalkList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import MessageComponent from '../../components/common/MessageComponent';
+import { AppDispatch } from '../../../stores/store';
 
 import group_list from '../../../data/group_list_data.json';
-import family_list from '../../../data/family_list_data.json';
 import talk_list from '../../../data/talk_list_data.json';
 
 const Home: React.FC = () => {
     const displayStyles = DisplayStyles();
     const [desc, setDesc] = useState(false);
-    
-    const profile = {
-        id: 1,
-        name: 'test',
-        email: 'test@xxx.co.jp',
-        image_file: '',
-        hobby: '映画鑑賞',
-        gender: true,
-        description: 'バスケと映画鑑賞が好きな会社員です。アクティブな付き合いをしたいです。'
-    }
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+    const profile = useSelector(selectProfile);
+    const families = useSelector(selectFamily);
+
+    useEffect(() => {
+        const renderHome = async() => {
+            // プロフィール情報を取得
+            const profileRes = await dispatch(fetchAsyncGetProfile({ id: +localStorage.loginId }));
+            if(fetchAsyncGetProfile.fulfilled.match(profileRes) && profileRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(profileRes.payload.error_message));
+                return;
+            }
+
+            // ファミリー情報を取得
+            const familyRes = await dispatch(fetchAsyncGetFamily({ id: +localStorage.loginId }));
+            if(fetchAsyncGetFamily.fulfilled.match(familyRes) && familyRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(familyRes.payload.error_message));
+                return;
+            }
+        }
+        renderHome();
+    }, [dispatch]);
 
     /**
      * ファミリーの説明表示制御
@@ -58,7 +72,7 @@ const Home: React.FC = () => {
                             :
                                 ''
                         }
-                        <MyFamilyList data={family_list} />
+                        <MyFamilyList data={families} />
                     </Grid>
                     <Grid item sm={6} className="c_title_space">
                         <Typography className="c_title">

@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
+import { fetchGetErrorMessages } from '../appSlice';
+import { fetchAsyncGetFamily, selectFamily } from './homeSlice';
 import PageNotFound from '../../components/common/PageNotFound';
 import MyFamilyList from '../../components/home/MyFamilyList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
-
-import family_list from '../../../data/family_list_data.json';
+import { AppDispatch } from '../../../stores/store';
 
 const MobileMyFamily: React.FC = () => {
     const displayStyles = DisplayStyles();
     const [desc, setDesc] = useState(false);
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+    const families = useSelector(selectFamily);
+
+    useEffect(() => {
+        const renderMyFamily = async() => {
+            // ファミリー情報を取得
+            const familyRes = await dispatch(fetchAsyncGetFamily({ id: +localStorage.loginId }));
+            if(fetchAsyncGetFamily.fulfilled.match(familyRes) && familyRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(familyRes.payload.error_message));
+                return;
+            }
+        }
+        renderMyFamily();
+    }, [dispatch]);
 
     /**
      * ファミリーの説明表示制御
@@ -45,7 +62,7 @@ const MobileMyFamily: React.FC = () => {
                         }
                     </Grid>
                     <Grid item xs={10}>
-                        <MyFamilyList data={family_list} />
+                        <MyFamilyList data={families} />
                     </Grid>
                 </Grid>
             </div>

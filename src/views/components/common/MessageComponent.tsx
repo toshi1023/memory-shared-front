@@ -35,10 +35,8 @@ const MessageComponent: React.FC<MESSEAGE_COMPONENT> = (props) => {
 
     // infoメッセージの格納
     const infoMessage = useSelector(selectInfoMessage);
-    // const infoMessage = '登録に成功しました';
     // errorメッセージの格納
     const errorMessage = useSelector(selectErrorMessage);
-    // const errorMessage = '登録に失敗しました';
     // snackBarの表示制御
     const handleClose = () => {
         // infoメッセージとerrorメッセージのリセット

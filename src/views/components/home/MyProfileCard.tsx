@@ -47,8 +47,7 @@ const MyProfileCard: React.FC<PROFILE_CARD> = (props) => {
         <Grid container spacing={1}>
 
           <Grid item xs={4}>
-            <Avatar src={houston} className={componentStyles.imageAvatar} />
-            {/* <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} /> */}
+            <Avatar src={props.data.image_url} className={componentStyles.imageAvatar} />
           </Grid>
           <Grid item xs={8}>
             <Grid container>
