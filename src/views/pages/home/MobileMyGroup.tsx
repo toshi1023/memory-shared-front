@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
+import { fetchGetErrorMessages } from '../appSlice';
+import { fetchAsyncGetParticipant, selectParticipant } from './homeSlice';
 import PageNotFound from '../../components/common/PageNotFound';
 import MyGroupList from '../../components/home/MyGroupList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
-
-import group_list from '../../../data/group_list_data.json';
+import { AppDispatch } from '../../../stores/store';
 
 
 /**
@@ -15,6 +17,21 @@ import group_list from '../../../data/group_list_data.json';
  */
 const MobileMyGroup: React.FC = () => {
     const displayStyles = DisplayStyles();
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+    const participants = useSelector(selectParticipant);
+
+    useEffect(() => {
+        const renderMyFamily = async() => {
+            // 参加中グループ情報を取得
+            const participantRes = await dispatch(fetchAsyncGetParticipant({ id: +localStorage.loginId }));
+            if(fetchAsyncGetParticipant.fulfilled.match(participantRes) && participantRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(participantRes.payload.error_message));
+                return;
+            }
+        }
+        renderMyFamily();
+    }, [dispatch]);
 
     return (
         <div id="home">
@@ -30,7 +47,7 @@ const MobileMyGroup: React.FC = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={8}>
-                        <MyGroupList data={group_list} />
+                        <MyGroupList data={participants} />
                     </Grid>
                 </Grid>
             </div>

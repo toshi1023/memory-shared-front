@@ -1,5 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { useSelector as rawUseSelector, TypedUseSelectorHook } from 'react-redux';
+import SessionCheck from '../middleware/sessionCheck';
 import appReducer from '../views/pages/appSlice';
 import homeReducer from '../views/pages/home/homeSlice';
 
@@ -8,6 +9,13 @@ export const store = configureStore({
     app: appReducer,
     home: homeReducer
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .prepend(
+        // correctly typed middlewares can just be used
+        // セッションチェック
+        // SessionCheck,
+      )
 });
 
 export type RootState = ReturnType<typeof store.getState>;

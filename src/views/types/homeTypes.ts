@@ -40,11 +40,26 @@ export interface FAMILY_LIST {
 export interface GROUP_LIST {
     data: {
         id: number,
-        name: string;
-        image_file: string;
-        participants: number;
-        album_count: number;
-        private_flg: boolean;
+        name: string,
+        description: string,
+        private_flg: number,
+        welcome_flg: number,
+        image_file: string,
+        image_url: string,
+        host_user_id: number,
+        memo: string,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        albums: {
+            id: number,
+            name: string
+        }[],
+        group_histories: {
+            id: number,
+            group_id: number
+        }[]
     }[]
 }
 
@@ -54,9 +69,21 @@ export interface GROUP_LIST {
  export interface TALK_LIST {
     data: {
         id: number,
-        content: string;
-        user_name: string;
-        image_file: string;
+        content: string,
+        own_id: number,
+        user_id: number,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        otherid: number,
+        messangers_id: number,
+        other: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string
+        }
     }[]
 }
 
@@ -96,13 +123,13 @@ export interface LOGOUT_RES {
 }
 
 /**
- * profile用のデータ型定義
+ * api/users/*** 通信用のデータ型定義
  */
-export interface PROFILE_PROPS {
+export interface API_USERS_PROPS {
     id: number
 }
 /**
- * AsyncThunk用
+ * AsyncThunk用(profile用)
  */
 export interface PROFILE_RES {
     user: {
@@ -120,13 +147,7 @@ export interface PROFILE_RES {
 }
 
 /**
- * family用のデータ型定義
- */
- export interface FAMILY_PROPS {
-    id: number
-}
-/**
- * AsyncThunk用
+ * AsyncThunk用(family用)
  */
 export interface FAMILY_RES {
     families: {
@@ -139,6 +160,71 @@ export interface FAMILY_RES {
             status: number,
             image_file: string,
             image_url: string,
+        }[],
+        current_page: number,
+        last_page: number,
+    },
+
+    error_message: string,
+}
+
+/**
+ * AsyncThunk用(participant用)
+ */
+export interface PARTICIPANT_RES {
+    participants: {
+        data: {
+            id: number,
+            name: string,
+            description: string,
+            private_flg: number,
+            welcome_flg: number,
+            image_file: string,
+            image_url: string,
+            host_user_id: number,
+            memo: string,
+            update_user_id: number,
+            created_at: string,
+            updated_at: string,
+            deleted_at: null,
+            albums: {
+                id: number,
+                name: string,
+            }[],
+            group_histories: {
+                id: number,
+                group_id: number
+            }[]
+        }[],
+        current_page: number,
+        last_page: number,
+    },
+
+    error_message: string,
+}
+
+/**
+ * AsyncThunk用(talklist用)
+ */
+export interface TALKLIST_RES {
+    talklist: {
+        data: {
+            id: number,
+            content: string,
+            own_id: number,
+            user_id: number,
+            update_user_id: number,
+            created_at: string,
+            updated_at: string,
+            deleted_at: null,
+            otherid: number,
+            messangers_id: number,
+            other: {
+                id: number,
+                name: string,
+                image_file: string,
+                image_url: string
+            }
         }[],
         current_page: number,
         last_page: number,

@@ -38,11 +38,10 @@ const MyTalkList: React.FC<TALK_LIST> = (props) => {
                         <List className={classes.root}>
                             <ListItem alignItems="flex-start" className={classes.talklist} onClick={() => history.push('/test/talk/test2')}>
                                 <ListItemAvatar>
-                                    <Avatar alt="Remy Sharp" src={noimage} />
-                                    {/* <Avatar alt="Remy Sharp" src={value.image_file} /> */}
+                                    <Avatar alt={value.other ? value.other.image_file : ''} src={value.other ? value.other.image_url : ''} />
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={value.user_name}
+                                    primary={value.other ? value.other.name : ''}
                                     secondary={
                                         <React.Fragment>
                                             <Typography

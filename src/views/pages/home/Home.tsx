@@ -3,18 +3,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
 import { fetchGetErrorMessages } from '../appSlice';
-import { fetchAsyncGetProfile, selectProfile, fetchAsyncGetFamily, selectFamily } from './homeSlice';
+import { 
+    fetchAsyncGetProfile, selectProfile, fetchAsyncGetFamily, selectFamily, 
+    fetchAsyncGetParticipant, selectParticipant, fetchAsyncGetTalklist, selectTalklist 
+} from './homeSlice';
 import MyProfileCard from '../../components/home/MyProfileCard';
 import MyGroupList from '../../components/home/MyGroupList';
 import MyFamilyList from '../../components/home/MyFamilyList';
 import MyTalkList from '../../components/home/MyTalkList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
-import MessageComponent from '../../components/common/MessageComponent';
 import { AppDispatch } from '../../../stores/store';
-
-import group_list from '../../../data/group_list_data.json';
-import talk_list from '../../../data/talk_list_data.json';
 
 const Home: React.FC = () => {
     const displayStyles = DisplayStyles();
@@ -23,6 +22,8 @@ const Home: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const profile = useSelector(selectProfile);
     const families = useSelector(selectFamily);
+    const participants = useSelector(selectParticipant);
+    const talklists = useSelector(selectTalklist);
 
     useEffect(() => {
         const renderHome = async() => {
@@ -37,6 +38,20 @@ const Home: React.FC = () => {
             const familyRes = await dispatch(fetchAsyncGetFamily({ id: +localStorage.loginId }));
             if(fetchAsyncGetFamily.fulfilled.match(familyRes) && familyRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(familyRes.payload.error_message));
+                return;
+            }
+            
+            // 参加中グループ情報を取得
+            const participantRes = await dispatch(fetchAsyncGetParticipant({ id: +localStorage.loginId }));
+            if(fetchAsyncGetParticipant.fulfilled.match(participantRes) && participantRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(participantRes.payload.error_message));
+                return;
+            }
+
+            // トーク一覧情報を取得
+            const talklistRes = await dispatch(fetchAsyncGetTalklist({ id: +localStorage.loginId }));
+            if(fetchAsyncGetTalklist.fulfilled.match(talklistRes) && talklistRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(talklistRes.payload.error_message));
                 return;
             }
         }
@@ -86,13 +101,13 @@ const Home: React.FC = () => {
                                 参加グループ一覧
                             </Typography>
                         </div>
-                        <MyGroupList data={group_list} />
+                        <MyGroupList data={participants} />
                     </Grid>
                     <Grid item sm={3} className="c_title_space center c_side_area">
                         <Typography className="c_title">
                             トーク
                         </Typography>
-                        <MyTalkList data={talk_list} />
+                        <MyTalkList data={talklists} />
                     </Grid>
                 </Grid>
             </div>

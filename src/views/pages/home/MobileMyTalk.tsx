@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
+import { fetchGetErrorMessages } from '../appSlice';
+import { fetchAsyncGetTalklist, selectTalklist } from './homeSlice';
 import PageNotFound from '../../components/common/PageNotFound';
 import MyTalkList from '../../components/home/MyTalkList';
 import { Grid, Typography } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
-
-import talk_list from '../../../data/talk_list_data.json';
+import { AppDispatch } from '../../../stores/store';
 
 const MobileMyTalk: React.FC = () => {
     const displayStyles = DisplayStyles();
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+    const talklists = useSelector(selectTalklist);
+
+    useEffect(() => {
+        const renderMyTalk = async() => {
+            // トーク一覧情報を取得
+            const talklistRes = await dispatch(fetchAsyncGetTalklist({ id: +localStorage.loginId }));
+            if(fetchAsyncGetTalklist.fulfilled.match(talklistRes) && talklistRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(talklistRes.payload.error_message));
+                return;
+            }
+        }
+        renderMyTalk();
+    }, [dispatch]);
 
     return (
         <div id="home">
@@ -25,7 +42,7 @@ const MobileMyTalk: React.FC = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={10}>
-                        <MyTalkList data={talk_list} />
+                        <MyTalkList data={talklists} />
                     </Grid>
                 </Grid>
             </div>
