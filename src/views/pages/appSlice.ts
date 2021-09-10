@@ -41,6 +41,8 @@ export const fetchAsyncGetToken = createAsyncThunk(
         infoMessages: '',
         // errorメッセージの管理
         errorMessages: '',
+        // 現在のURL管理
+        currentUrl: '/'
     },
     // Reducer (actionの処理を記述)
     reducers: {
@@ -54,11 +56,14 @@ export const fetchAsyncGetToken = createAsyncThunk(
         },
         // infoメッセージの取得
         fetchGetInfoMessages(state, action: PayloadAction<string>) {
-            state.infoMessages = action.payload
+            state.infoMessages = action.payload;
         },
         // errorメッセージの取得
         fetchGetErrorMessages(state, action: PayloadAction<string>) {
-            state.errorMessages = action.payload
+            state.errorMessages = action.payload;
+        },
+        fetchGetUrl(state, action: PayloadAction<string>) {
+            state.currentUrl = action.payload;
         }
     }
 })
@@ -68,10 +73,12 @@ export const {
     fetchCredEnd,
     fetchGetInfoMessages,
     fetchGetErrorMessages,
+    fetchGetUrl
 } = appSlice.actions;
 
 export const selectLoading = (state: RootState) => state.app.isLoading;
 export const selectInfoMessage = (state: RootState) => state.app.infoMessages;
 export const selectErrorMessage = (state: RootState) => state.app.errorMessages;
+export const selectUrl = (state: RootState) => state.app.currentUrl;
 
 export default appSlice.reducer

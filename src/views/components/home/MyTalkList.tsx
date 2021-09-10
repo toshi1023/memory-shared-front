@@ -36,7 +36,7 @@ const MyTalkList: React.FC<TALK_LIST> = (props) => {
                 <Grid container justify="center" key={value.id}>
                     <Grid item xs={12} sm={11}>
                         <List className={classes.root}>
-                            <ListItem alignItems="flex-start" className={classes.talklist} onClick={() => history.push('/test/talk/test2')}>
+                            <ListItem alignItems="flex-start" className={classes.talklist} onClick={() => history.push('/talk/test2')}>
                                 <ListItemAvatar>
                                     <Avatar alt={value.other ? value.other.image_file : ''} src={value.other ? value.other.image_url : ''} />
                                 </ListItemAvatar>

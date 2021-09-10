@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import './App.css';
-import { selectInfoMessage, selectErrorMessage } from './views/pages/appSlice';
+import { selectInfoMessage, selectErrorMessage, selectUrl } from './views/pages/appSlice';
 import useWindowDimensions from './functions/windowDimensions';
 import { BrowserRouter, Route, Redirect, RouteProps, Switch } from 'react-router-dom';
 import AppMainBar from './views/components/common/AppMainBar';
@@ -31,12 +31,12 @@ import NewsDetail from './views/pages/news/Detail';
  * スマホ画面の場合、フッターのメニュータブを表示
  * @returns 
  */
-const renderMobileFooterTab = () => {
+const renderMobileFooterTab = (url: string) => {
   if (window.innerWidth < 768) {
     return (
       <>
         {
-          localStorage.loginId ? 
+          localStorage.loginId && url.substring(0, 5) !== '/talk' ? 
             <MobileFooterTab />
           :
             ''
@@ -63,12 +63,18 @@ const PrivateRoute: React.FC<RouteProps> = ({...props}) => {
 const App: React.FC = () => {
   const errorMessage = useSelector(selectErrorMessage);
   const infoMessage = useSelector(selectInfoMessage);
+  const currentUrl = useSelector(selectUrl);
   const { width, height } = useWindowDimensions();
   
   // 画面サイズの変更でモバイルフッターの表示制御
   useEffect(() => {
-    renderMobileFooterTab();
+    renderMobileFooterTab(currentUrl);
   }, [width]);
+  
+  // urlの変更でモバイルフッターの表示制御
+  useEffect(() => {
+    renderMobileFooterTab(currentUrl);
+  }, [currentUrl]);
   
   return (
       <div className="App">
@@ -96,7 +102,7 @@ const App: React.FC = () => {
                   <Route exact path="/register" component={UserRegister} />
                   <PrivateRoute exact path="/" component={Home} />
                   <PrivateRoute exact path="/test/editer" component={UserEditer} />
-                  <PrivateRoute exact path="/test/talk/test2" component={Talk} />
+                  <PrivateRoute exact path="/talk/test2" component={Talk} />
                   <PrivateRoute exact path="/users" component={UserList} />
                   <PrivateRoute exact path="/users/test" component={UserDetail} />
                   <PrivateRoute exact path="/groups" component={GroupList} />
@@ -114,7 +120,7 @@ const App: React.FC = () => {
                   <PrivateRoute exact path="/mobile/mygroup" component={MobileMyGroup} />
                   <PrivateRoute exact path="/mobile/mytalk" component={MobileMyTalk} />
               </Switch>
-              {renderMobileFooterTab()}
+              {renderMobileFooterTab(currentUrl)}
           </BrowserRouter>
       </div>
   );

@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import '../../../styles/users/users.scss';
+import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
 import { 
     Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, 
     CardContent, Input, Radio, Button, TextField
 } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
+import { AppDispatch } from '../../../stores/store';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -19,10 +23,17 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 const UserEditer: React.FC = () => {
-    const [selectedValue, setSelectedValue] = React.useState('男性');
-    const [selectedValue2, setSelectedValue2] = React.useState('変更しない');
     const classes = useStyles();
     const displayStyles = DisplayStyles();
+    const history = useHistory();
+    const [selectedValue, setSelectedValue] = React.useState('男性');
+    const [selectedValue2, setSelectedValue2] = React.useState('変更しない');
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchGetUrl(history.location.pathname));
+    }, [dispatch]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedValue(event.target.value);

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
-import { fetchGetErrorMessages } from '../appSlice';
+import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
 import { fetchAsyncGetParticipant, selectParticipant } from './homeSlice';
 import PageNotFound from '../../components/common/PageNotFound';
 import MyGroupList from '../../components/home/MyGroupList';
@@ -17,6 +18,7 @@ import { AppDispatch } from '../../../stores/store';
  */
 const MobileMyGroup: React.FC = () => {
     const displayStyles = DisplayStyles();
+    const history = useHistory();
     // redux
     const dispatch: AppDispatch = useDispatch();
     const participants = useSelector(selectParticipant);
@@ -29,6 +31,7 @@ const MobileMyGroup: React.FC = () => {
                 dispatch(fetchGetErrorMessages(participantRes.payload.error_message));
                 return;
             }
+            dispatch(fetchGetUrl(history.location.pathname));
         }
         renderMyFamily();
     }, [dispatch]);

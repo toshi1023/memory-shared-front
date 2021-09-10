@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
-import { fetchGetErrorMessages } from '../appSlice';
+import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
 import { 
     fetchAsyncGetProfile, selectProfile, fetchAsyncGetFamily, selectFamily, 
     fetchAsyncGetParticipant, selectParticipant, fetchAsyncGetTalklist, selectTalklist 
@@ -17,6 +18,7 @@ import { AppDispatch } from '../../../stores/store';
 
 const Home: React.FC = () => {
     const displayStyles = DisplayStyles();
+    const history = useHistory();
     const [desc, setDesc] = useState(false);
     // redux
     const dispatch: AppDispatch = useDispatch();
@@ -54,6 +56,7 @@ const Home: React.FC = () => {
                 dispatch(fetchGetErrorMessages(talklistRes.payload.error_message));
                 return;
             }
+            dispatch(fetchGetUrl(history.location.pathname));
         }
         renderHome();
     }, [dispatch]);

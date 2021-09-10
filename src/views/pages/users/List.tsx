@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import '../../../styles/users/users.scss';
-import { fetchGetErrorMessages } from '../appSlice';
+import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
 import { fetchAsyncGetUsers, selectUsers } from './userSlice';
 import SearchText from '../../components/common/SearchText';
 import SelectBox from '../../components/common/SelectBox';
@@ -11,6 +12,7 @@ import getSearchSortProps from '../../../functions/getSearchSortProps';
 import { AppDispatch } from '../../../stores/store';
 
 const UserList: React.FC = () => {
+    const history = useHistory();
     // users取得条件
     const [searchProps, setSearchProps] = useState('');
     // redux
@@ -35,6 +37,7 @@ const UserList: React.FC = () => {
     useEffect(() => {
         const renderUserList = () => {
             asyncGetData('new');
+            dispatch(fetchGetUrl(history.location.pathname));
         }
         renderUserList();
     }, [dispatch]);

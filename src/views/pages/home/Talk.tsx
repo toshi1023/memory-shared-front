@@ -1,11 +1,17 @@
 import React, { useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
 import { Grid, Typography, Hidden, Button, Box, Avatar, CardContent, IconButton, TextField } from '@material-ui/core';
 import ReplyIcon from '@material-ui/icons/Reply';
 import _ from 'lodash';
+import { AppDispatch } from '../../../stores/store';
 
 import talk_list from '../../../data/talk_list_data.json';
 
 const Talk: React.FC = () => {
+    const history = useHistory();
+    const dispatch: AppDispatch = useDispatch();
     const messageArea = useRef<HTMLDivElement>(null);
     const loginId = 1;
 
@@ -14,6 +20,7 @@ const Talk: React.FC = () => {
         if(messageArea.current !== null) {
             messageArea.current.scrollTop = messageArea.current?.clientHeight;
         }
+        dispatch(fetchGetUrl(history.location.pathname));
     }, []);
 
     return (

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
-import { fetchGetErrorMessages } from '../appSlice';
+import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
 import { fetchAsyncGetTalklist, selectTalklist } from './homeSlice';
 import PageNotFound from '../../components/common/PageNotFound';
 import MyTalkList from '../../components/home/MyTalkList';
@@ -12,6 +13,7 @@ import { AppDispatch } from '../../../stores/store';
 
 const MobileMyTalk: React.FC = () => {
     const displayStyles = DisplayStyles();
+    const history = useHistory();
     // redux
     const dispatch: AppDispatch = useDispatch();
     const talklists = useSelector(selectTalklist);
@@ -24,6 +26,7 @@ const MobileMyTalk: React.FC = () => {
                 dispatch(fetchGetErrorMessages(talklistRes.payload.error_message));
                 return;
             }
+            dispatch(fetchGetUrl(history.location.pathname));
         }
         renderMyTalk();
     }, [dispatch]);
