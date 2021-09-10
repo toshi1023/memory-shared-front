@@ -13,8 +13,9 @@ export const store = configureStore({
     getDefaultMiddleware()
       .prepend(
         // correctly typed middlewares can just be used
+      ).concat(
         // セッションチェック
-        // SessionCheck,
+        SessionCheck,
       )
 });
 

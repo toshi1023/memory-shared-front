@@ -1,4 +1,4 @@
-import { Middleware, MiddlewareAPI, Dispatch, AnyAction } from 'redux';
+import { Middleware, MiddlewareAPI, Dispatch, Action } from 'redux';
 import { RootState } from '../stores/store';
 
 /**
@@ -8,17 +8,17 @@ import { RootState } from '../stores/store';
  */
 
 const SessionCheck: Middleware = <S extends RootState>({ getState }: MiddlewareAPI<Dispatch, S>)  => 
-    (next: Dispatch<AnyAction>) => (action: any): any => 
+    (next: Dispatch<Action>) => (action: any): any => 
 {
-    // ログイン中にlocalStorage.loginIdを手動で削除した場合
-    // if(!localStorage.loginId) {
-    //     if(localStorage.loginId) {
-    //         // localStorageのTokenとIDを削除(ログアウト処理)
-    //         localStorage.removeItem("loginId");
-    //     }
-    //     // ログインページへ遷移
-    //     window.location.href = '/login'
-    // }
+    // セッション切れの場合
+    if(action.payload !== undefined && action.payload.message === 'Unauthenticated.') {
+        if(localStorage.loginId) {
+            // localStorageのTokenとIDを削除(ログアウト処理)
+            localStorage.removeItem("loginId");
+        }
+        // ログインページへ遷移
+        window.location.href = '/login'
+    }
 
     // 次の処理へ移行
     next(action)

@@ -36,7 +36,6 @@ const MyGroupList: React.FC<GROUP_LIST> = (props) => {
           <Grid container spacing={2}>
             {_.map(props.data, value => (
                 <Grid item xs={12} sm={6} lg={4} key={value.id}>
-                    {console.log(value)}
                     <Card className={classes.root}>
                         <CardActionArea>
                             <CardMedia
