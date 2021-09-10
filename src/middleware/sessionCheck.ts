@@ -15,6 +15,7 @@ const SessionCheck: Middleware = <S extends RootState>({ getState }: MiddlewareA
         if(localStorage.loginId) {
             // localStorageのTokenとIDを削除(ログアウト処理)
             localStorage.removeItem("loginId");
+            localStorage.removeItem("loginName");
         }
         // ログインページへ遷移
         window.location.href = '/login'

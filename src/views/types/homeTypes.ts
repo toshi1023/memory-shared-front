@@ -105,7 +105,8 @@ export interface LOGIN_RES {
     info_message: string,
     error_message: string,
 
-    user: number
+    id: number,
+    name: string
 }
 
 /**

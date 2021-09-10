@@ -70,6 +70,7 @@ const AppMainBar: React.FC = () => {
         group: false,
         news: false
     });
+    const user = localStorage.loginName;
 
     // アイコンの色を設定
     const activeColor = 'blue';
@@ -131,7 +132,7 @@ const AppMainBar: React.FC = () => {
                   <Button color="inherit" onClick={() => {iconActive('group'); history.push('/groups')}}><SupervisedUserCircleIcon style={active.group ? { color: activeColor } : { color: inActiveColor }} /></Button>
                 </Tooltip>
                 <Tooltip title="お知らせ" classes={{tooltip: classes.tooltip}}>
-                  <Button color="inherit" onClick={() => {iconActive('news'); history.push('/news/test')}}><NotificationImportantIcon style={active.news ? { color: activeColor } : { color: inActiveColor }} /></Button>
+                  <Button color="inherit" onClick={() => {iconActive('news'); history.push(`/news/${user}`)}}><NotificationImportantIcon style={active.news ? { color: activeColor } : { color: inActiveColor }} /></Button>
                 </Tooltip>
                 <Tooltip title="ログアウト" classes={{tooltip: classes.tooltip}}>
                   <Button color="inherit" onClick={async () => {

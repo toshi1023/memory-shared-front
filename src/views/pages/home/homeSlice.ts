@@ -260,12 +260,16 @@ export const homeSlice = createSlice({
     extraReducers: (builder) => {
         // ログイン処理
         builder.addCase(fetchAsyncLogin.fulfilled, (state, action: PayloadAction<LOGIN_RES>) => {
-            if(action.payload.info_message) localStorage.setItem('loginId', String(action.payload.user));
+            if(action.payload.info_message) {
+                localStorage.setItem('loginId', String(action.payload.id));
+                localStorage.setItem('loginName', String(action.payload.name));
+            }
         });
         // ログアウト処理
         builder.addCase(fetchAsyncLogout.fulfilled, (state, action: PayloadAction<LOGOUT_RES>) => {
             if(action.payload.info_message) {
                 localStorage.removeItem('loginId');
+                localStorage.removeItem('loginName');
                 localStorage.setItem('infoMessage', action.payload.info_message);
             }
         });

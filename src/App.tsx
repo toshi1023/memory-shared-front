@@ -101,19 +101,19 @@ const App: React.FC = () => {
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/register" component={UserRegister} />
                   <PrivateRoute exact path="/" component={Home} />
-                  <PrivateRoute exact path="/test/editer" component={UserEditer} />
-                  <PrivateRoute exact path="/talk/test2" component={Talk} />
+                  <PrivateRoute exact path="/:name/editer" component={UserEditer} />
+                  <PrivateRoute exact path="/talk/:name" component={Talk} />
                   <PrivateRoute exact path="/users" component={UserList} />
-                  <PrivateRoute exact path="/users/test" component={UserDetail} />
+                  <PrivateRoute exact path="/users/:name" component={UserDetail} />
                   <PrivateRoute exact path="/groups" component={GroupList} />
                   <PrivateRoute exact path="/groups/register" component={GroupRegister} />
-                  <PrivateRoute exact path="/groups/test" component={GroupDetail} />
-                  <PrivateRoute exact path="/groups/test/editer" component={GroupEditer} />
-                  <PrivateRoute exact path="/groups/test/post/register" component={PostRegister} />
-                  <PrivateRoute exact path="/groups/test/albums/test" component={AlbumDetail} />
-                  <PrivateRoute exact path="/groups/test/albums/register" component={AlbumRegister} />
-                  <PrivateRoute exact path="/groups/test/albums/test/editer" component={AlbumEditer} />
-                  <PrivateRoute exact path="/news/test" component={NewsDetail} />
+                  <PrivateRoute exact path="/groups/:name" component={GroupDetail} />
+                  <PrivateRoute exact path="/groups/:name/editer" component={GroupEditer} />
+                  <PrivateRoute exact path="/groups/:name/post/register" component={PostRegister} />
+                  <PrivateRoute exact path="/groups/:name/albums/test" component={AlbumDetail} />
+                  <PrivateRoute exact path="/groups/:name/albums/register" component={AlbumRegister} />
+                  <PrivateRoute exact path="/groups/:name/albums/test/editer" component={AlbumEditer} />
+                  <PrivateRoute exact path="/news/:name" component={NewsDetail} />
 
                   {/* スマホ用フッタータブとの連携ページ */}
                   <PrivateRoute exact path="/mobile/myfamily" component={MobileMyFamily} />
