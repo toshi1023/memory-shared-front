@@ -19,17 +19,13 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const SearchText = (props: SEARCH<string>) => {
     const classes = useStyles();
-    const [value, setValue] = useState<string | null>(null);
+    const [value, setValue] = useState<string>('');
 
     /**
      * 検索の実行
      * @param word 
      */
-    const searchHandler = (word: string | null) => {
-        if (!word) {
-            console.log('nullは実行できません');
-            return;
-        }
+    const searchHandler = (word: string) => {
         props.callback(word);
         return;
     }

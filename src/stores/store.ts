@@ -3,11 +3,13 @@ import { useSelector as rawUseSelector, TypedUseSelectorHook } from 'react-redux
 import SessionCheck from '../middleware/sessionCheck';
 import appReducer from '../views/pages/appSlice';
 import homeReducer from '../views/pages/home/homeSlice';
+import userReducer from '../views/pages/users/userSlice';
 
 export const store = configureStore({
   reducer: {
     app: appReducer,
-    home: homeReducer
+    home: homeReducer,
+    user: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

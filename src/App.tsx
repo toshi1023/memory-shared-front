@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import './App.css';
 import { selectInfoMessage, selectErrorMessage } from './views/pages/appSlice';
-import useWindowDimensions from './functions/WindowDimensions';
+import useWindowDimensions from './functions/windowDimensions';
 import { BrowserRouter, Route, Redirect, RouteProps, Switch } from 'react-router-dom';
 import AppMainBar from './views/components/common/AppMainBar';
 import MobileFooterTab from './views/components/common/MobileFooterTab';

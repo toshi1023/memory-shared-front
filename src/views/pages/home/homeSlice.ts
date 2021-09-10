@@ -30,7 +30,7 @@ export const fetchAsyncLogin = createAsyncThunk<LOGIN_RES, LOGIN_PROPS>(
             if (!err.response) {
                 throw err
             }
-            console.log(err.response);
+            
             return err.response.data as LOGIN_RES;
         }
   }

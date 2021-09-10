@@ -42,20 +42,20 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
                 <ListItem key={value.id} button className={classes.listItem} onClick={() => history.push('users/test')}>
                     <ListItemAvatar>
                         <Avatar
-                            alt={`Avatar n°${value.id + 1}`}
-                            src={value.image_file}
+                            alt={value.image_file}
+                            src={value.image_url}
                         />
                     </ListItemAvatar>
                     <ListItemText id={labelId} primary={value.name} />
                     <ListItemSecondaryAction>
                         {
-                            value.talk_id ? 
+                            value.message_relations1 && value.message_relations1.length > 0 || value.message_relations2 && value.message_relations2.length > 0 ? 
                                 <Chip label="トーク中" className={componentStyles.chip} color="primary" />
                             :
                                 ''
                         }
                         {
-                            value.family_id ? 
+                            value.families1 && value.families1.length > 0 || value.families2 && value.families2.length > 0 ? 
                                 <Chip label="ファミリー" className={componentStyles.chip && componentStyles.yellow} />
                             :
                                 ''
