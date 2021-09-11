@@ -78,7 +78,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
     useEffect(() => {
         const renderGroupModal = async() => {
             // 招待用グループ情報を取得
-            const igroupsRes = await dispatch(fetchAsyncGetInviteGroups({ id: +localStorage.loginId }));
+            const igroupsRes = await dispatch(fetchAsyncGetInviteGroups({ id: +id }));
             if(fetchAsyncGetInviteGroups.fulfilled.match(igroupsRes) && igroupsRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(igroupsRes.payload.error_message));
                 return;
