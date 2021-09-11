@@ -10,7 +10,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
-import sappolo from '../../../image/sappolo.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -42,19 +41,18 @@ const WelcomeGroupListData: React.FC<WELCOME_GROUP_LIST_DATA> = (props) => {
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}
-                                    image={sappolo}
-                                    // image="/static/images/cards/contemplative-reptile.jpg"
-                                    title="Contemplative Reptile"
+                                    image={value.image_url}
+                                    title={value.image_file}
                                 />
                                 <CardContent>
                                     <Typography gutterBottom variant="h6" component="h4">
                                         {value.name}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" component="p" className={componentStyles.albums}>
-                                        {value.album_count}<span className={componentStyles.unit}>個のアルバムを作成中</span>
+                                        {value.albums ? value.albums.length : 0}<span className={componentStyles.unit}>個のアルバムを作成中</span>
                                     </Typography>
                                     <Typography component="p" className={componentStyles.participants}>
-                                        {value.participants}<span className={componentStyles.unit}>人参加中</span>
+                                        {value.group_histories ? value.group_histories.length : 0}<span className={componentStyles.unit}>人参加中</span>
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
@@ -73,19 +71,18 @@ const WelcomeGroupListData: React.FC<WELCOME_GROUP_LIST_DATA> = (props) => {
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}
-                                    image={sappolo}
-                                    // image="/static/images/cards/contemplative-reptile.jpg"
-                                    title="Contemplative Reptile"
+                                    image={value.image_url}
+                                    title={value.image_file}
                                 />
                                 <CardContent>
                                     <Typography gutterBottom variant="h6" component="h4">
                                         {value.name}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" component="p" className={componentStyles.albums}>
-                                        {value.album_count}<span className={componentStyles.unit}>個のアルバムを作成中</span>
+                                        {value.albums ? value.albums.length : 0}<span className={componentStyles.unit}>個のアルバムを作成中</span>
                                     </Typography>
                                     <Typography component="p" className={componentStyles.participants}>
-                                        {value.participants}<span className={componentStyles.unit}>人参加中</span>
+                                        {value.group_histories ? value.group_histories.length : 0}<span className={componentStyles.unit}>人参加中</span>
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>

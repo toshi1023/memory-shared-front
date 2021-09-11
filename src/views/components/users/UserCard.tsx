@@ -57,7 +57,7 @@ const UserCard: React.FC<USER_CARD> = (props) => {
       <CardContent>
         <Grid container spacing={1}>
           <Grid item xs={4} md={3}>
-            <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} />
+            <Avatar src={props.data.image_url} className={componentStyles.imageAvatar} />
           </Grid>
           <Grid item xs={8} md={9}>
             <Grid container>
@@ -119,13 +119,13 @@ const UserCard: React.FC<USER_CARD> = (props) => {
       </CardActions>
       <CardActions className={componentStyles.footerContainer}>
         {
-            props.data.talk_id ? 
+            props.data.message_relations1 && props.data.message_relations1.length > 0 || props.data.message_relations2 && props.data.message_relations2.length > 0 ? 
                 <Chip label="トーク中" className={componentStyles.chip} color="primary" />
             :
                 ''
         }
         {
-            props.data.family_id ? 
+            props.data.families1 && props.data.families1.length > 0 || props.data.families2 && props.data.families2.length > 0 ? 
                 <Chip label="ファミリー" className={componentStyles.chip && componentStyles.yellow} />
             :
                 ''

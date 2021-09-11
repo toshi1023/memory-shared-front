@@ -1,20 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import '../../../styles/home/home.scss';
 import '../../../styles/common/common.scss';
 import '../../../styles/groups/groups.scss';
+import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
+import { fetchAsyncGetUserInfo, selectUser, selectWgoups, selectPgoups } from './userSlice';
 import UserCard from '../../components/users/UserCard';
 import GroupListData from '../../components/users/GroupListData';
 import WelcomeGroupListData from '../../components/users/WelcomGroupListData';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
 import { Grid, Typography, Hidden } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
-
-import group_list from '../../../data/group_list_data.json';
+import { AppDispatch } from '../../../stores/store';
 
 const UserDetail: React.FC = () => {
     const displayStyles = DisplayStyles();
+    const history = useHistory();
+    const { id } = useParams<{id: string}>();
     // スマホ用の画面切り替えを管理
     const [view, setView] = useState(0);
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+    const user = useSelector(selectUser);
+    const wgroups = useSelector(selectWgoups);
+    const pgroups = useSelector(selectPgoups);
+
+    useEffect(() => {
+        const renderUserDetail = async () => {
+            const userInfoRes = await dispatch(fetchAsyncGetUserInfo({id: +id}));
+            if(fetchAsyncGetUserInfo.fulfilled.match(userInfoRes) && userInfoRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(userInfoRes.payload.error_message));
+                return;
+            }
+            dispatch(fetchGetUrl(history.location.pathname));
+        }
+        renderUserDetail();
+    }, [dispatch]);
 
     // MobileHeaderTab用のラベルを設定
     const label = {
@@ -37,11 +59,11 @@ const UserDetail: React.FC = () => {
             <Grid container justify="center">
                 <Grid item xs={11} className="c_title_space center">
                     <Typography className="c_title">
-                        {profile.name}さんのプロフィール
+                        {user.name}さんのプロフィール
                     </Typography>
                 </Grid>
                 <Grid item xs={11}>
-                    <UserCard data={profile} />
+                    <UserCard data={user} />
                 </Grid>
                 <Grid item xs={11} className="group_list">
                     <hr className="app_hr" />
@@ -51,7 +73,7 @@ const UserDetail: React.FC = () => {
                         </Typography>
                     </div>
                     
-                    <WelcomeGroupListData data={group_list} />
+                    <WelcomeGroupListData data={wgroups} />
                 </Grid>
             </Grid>
         );
@@ -70,21 +92,10 @@ const UserDetail: React.FC = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11}>
-                    <GroupListData data={group_list} />
+                    <GroupListData data={pgroups} />
                 </Grid>
             </Grid>
         );
-    }
-    
-    const profile = {
-        id: 2,
-        name: 'test',
-        image_file: '',
-        hobby: '映画鑑賞',
-        gender: true,
-        description: 'バスケと映画鑑賞が好きな会社員です。アクティブな付き合いをしたいです。',
-        family_id: 1,
-        talk_id: 1,
     }
 
     return (
@@ -98,10 +109,10 @@ const UserDetail: React.FC = () => {
                         {/* Content */}
                         <Grid item md={6} className="c_content_space center">
                             <Typography className="c_title">
-                                {profile.name}さんのプロフィール
+                                {user.name}さんのプロフィール
                             </Typography>
 
-                            <UserCard data={profile} />
+                            <UserCard data={user} />
 
                             <br />
                             <hr className="app_hr" />
@@ -111,14 +122,14 @@ const UserDetail: React.FC = () => {
                                 </Typography>
                             </div>
                             
-                            <WelcomeGroupListData data={group_list} />
+                            <WelcomeGroupListData data={wgroups} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center c_side_area">
                             <Typography className="c_title">
                                 参加中のグループ
                             </Typography>
 
-                            <GroupListData data={group_list} />
+                            <GroupListData data={pgroups} />
                         </Grid>
                     </Grid>
                 </Hidden>
@@ -128,10 +139,10 @@ const UserDetail: React.FC = () => {
                         {/* Content */}
                         <Grid item sm={7} className="c_content_space center">
                             <Typography className="c_title">
-                                {profile.name}さんのプロフィール
+                                {user.name}さんのプロフィール
                             </Typography>
 
-                            <UserCard data={profile} />
+                            <UserCard data={user} />
 
                             <br />
                             <hr className="app_hr" />
@@ -141,14 +152,14 @@ const UserDetail: React.FC = () => {
                                 </Typography>
                             </div>
 
-                            <WelcomeGroupListData data={group_list} />
+                            <WelcomeGroupListData data={wgroups} />
                         </Grid>
                         <Grid item sm={4} className="c_content_space center c_side_area">
                             <Typography className="c_title">
                                 参加中のグループ
                             </Typography>
 
-                            <GroupListData data={group_list} />
+                            <GroupListData data={pgroups} />
                         </Grid>
                     </Grid>
                 </Hidden>

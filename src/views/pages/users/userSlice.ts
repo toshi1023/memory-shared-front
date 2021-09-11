@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../stores/store";
 import axios from "axios";
 import {
-    USERS_PROPS, USERS_RES 
+    USERS_PROPS, USERS_RES, USER_INFO_PROPS, USER_INFO_RES, 
 } from '../../types/usersTypes';
 
 const apiUrl = process.env.REACT_APP_MSA_API_URL;
@@ -34,6 +34,32 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
               }
               
               return err.response.data as USERS_RES;
+          }
+    }
+);
+
+/**
+ * ユーザ詳細情報取得の非同期関数
+ */
+ export const fetchAsyncGetUserInfo = createAsyncThunk<USER_INFO_RES, USER_INFO_PROPS>(
+    "user_info",
+    async (props: USER_INFO_PROPS) => {
+          try {
+              const res = await axios.get(`${apiUrl}/users/${props.id}`, {
+                  headers: {
+                      "Accept": "application/json"
+                  },
+                  withCredentials: true
+              });
+              
+              return res.data as USER_INFO_RES;
+  
+          } catch (err: any) {
+              if (!err.response) {
+                  throw err
+              }
+              
+              return err.response.data as USER_INFO_RES;
           }
     }
 );
@@ -86,20 +112,51 @@ export const userSlice = createSlice({
                 ],
             }
         ],
-        // ファミリーを管理
-        families: [
-            {
-                id: 0,
-                name: "",
-                hobby: "",
-                gender: 0,
-                description: "",
-                status: 1,
-                image_file: "",
-                image_url: "",
-            },
-        ],
-        participants: [
+        // ユーザ詳細情報を管理
+        user: {
+            id: 0,
+            name: "",
+            hobby: "",
+            gender: 0,
+            description: "",
+            status: 1,
+            image_file: "",
+            image_url: "",
+            families1: [
+                {
+                    user_id1: 0,
+                    user_id2: 0,
+                    created_at: '',
+                    updated_at: '',
+                }
+            ],
+            families2: [
+                {
+                    user_id1: 0,
+                    user_id2: 0,
+                    created_at: '',
+                    updated_at: '',
+                }
+            ],
+            message_relations1: [
+                {
+                    user_id1: 0,
+                    user_id2: 0,
+                    created_at: '',
+                    updated_at: '',
+                }
+            ],
+            message_relations2: [
+                {
+                    user_id1: 0,
+                    user_id2: 0,
+                    created_at: '',
+                    updated_at: '',
+                }
+            ],
+        },
+        // 参加歓迎中グループ
+        wgroups: [
             {
                 id: 0,
                 name: "",
@@ -128,47 +185,57 @@ export const userSlice = createSlice({
                 ]
             }
         ],
-        talklist: [
+        // 参加中グループ
+        pgroups: [
             {
                 id: 0,
-                content: '',
-                own_id: 0,
-                user_id: 0,
-                update_user_id: 0,
-                created_at: '',
-                updated_at: '',
-                deleted_at: null,
-                otherid: 0,
-                messangers_id: 0,
-                other: {
-                    id: 0,
-                    name: '',
-                    image_file: '',
-                    image_url: ''
-                }
+                name: "",
+                image_file: "",
+                image_url: ""
             }
         ],
         page: {
             // ユーザ一覧
             ui_currentpage: 0,
             ui_lastpage: 0,
-            // ユーザ詳細
-            ud_currentpage: 0,
-            ud_lastpage: 0,
+            // 参加歓迎中グループ
+            wg_currentpage: 0,
+            wg_lastpage: 0,
+            // 参加中グループ
+            pg_currentpage: 0,
+            pg_lastpage: 0,
         }
     },
     reducers: {},
     // 非同期関数の後処理を設定
     extraReducers: (builder) => {
-        // プロフィール取得処理
+        // ユーザ一覧取得処理
         builder.addCase(fetchAsyncGetUsers.fulfilled, (state, action: PayloadAction<USERS_RES>) => {
             state.users = action.payload.users.data;
             state.page.ui_currentpage = action.payload.users.current_page;
             state.page.ui_lastpage = action.payload.users.last_page;
         });
+        // ユーザ詳細情報取得処理
+        builder.addCase(fetchAsyncGetUserInfo.fulfilled, (state, action: PayloadAction<USER_INFO_RES>) => {
+            // ユーザ詳細情報取得
+            state.user = action.payload.user;
+            
+            // 参加歓迎中グループの取得
+            state.wgroups = action.payload.wgroups.data;
+            state.page.wg_currentpage = action.payload.wgroups.current_page;
+            state.page.wg_lastpage = action.payload.wgroups.last_page;
+            
+            // 参加中のグループを取得
+            state.pgroups = action.payload.pgroups.data;
+            state.page.pg_currentpage = action.payload.pgroups.current_page;
+            state.page.pg_lastpage = action.payload.pgroups.last_page;
+        });
     },
 });
 
 export const selectUsers = (state: RootState) => state.user.users;
+export const selectUser = (state: RootState) => state.user.user;
+export const selectWgoups = (state: RootState) => state.user.wgroups;
+export const selectPgoups = (state: RootState) => state.user.pgroups;
 
 export default userSlice.reducer;
