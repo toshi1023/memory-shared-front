@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../stores/store";
 import axios from "axios";
 import {
-    USERS_PROPS, USERS_RES, USER_INFO_PROPS, USER_INFO_RES, 
+    USERS_PROPS, USERS_RES, API_USER_PROPS, USER_RES, 
+    WGROUPS_RES, PGROUPS_RES, IGROUPS_RES, API_GROUP_INVITE_PROPS, GROUP_INVITE_RES 
 } from '../../types/usersTypes';
 
 const apiUrl = process.env.REACT_APP_MSA_API_URL;
@@ -13,56 +14,161 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
  export const fetchAsyncGetUsers = createAsyncThunk<USERS_RES, USERS_PROPS>(
     "users",
     async (props: USERS_PROPS) => {
-          try {
-              // 検索条件によってURLを変更
-              let url = `${apiUrl}/users?name@like=${props.s_namelike}`;
-              if(props.o_name) url = url + `&sort_name=${props.o_name}`;
-              if(props.o_created_at) url = url + `&sort_created_at=${props.o_created_at}`;
+        try {
+            // 検索条件によってURLを変更
+            let url = `${apiUrl}/users?name@like=${props.s_namelike}`;
+            if(props.o_name) url = url + `&sort_name=${props.o_name}`;
+            if(props.o_created_at) url = url + `&sort_created_at=${props.o_created_at}`;
 
-              const res = await axios.get(url, {
-                  headers: {
-                      "Accept": "application/json"
-                  },
-                  withCredentials: true
-              });
-              
-              return res.data as USERS_RES;
-  
-          } catch (err: any) {
-              if (!err.response) {
-                  throw err
-              }
-              
-              return err.response.data as USERS_RES;
-          }
+            const res = await axios.get(url, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as USERS_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as USERS_RES;
+        }
     }
 );
 
 /**
  * ユーザ詳細情報取得の非同期関数
  */
- export const fetchAsyncGetUserInfo = createAsyncThunk<USER_INFO_RES, USER_INFO_PROPS>(
-    "user_info",
-    async (props: USER_INFO_PROPS) => {
-          try {
-              const res = await axios.get(`${apiUrl}/users/${props.id}`, {
-                  headers: {
-                      "Accept": "application/json"
-                  },
-                  withCredentials: true
-              });
-              
-              return res.data as USER_INFO_RES;
-  
-          } catch (err: any) {
-              if (!err.response) {
-                  throw err
-              }
-              
-              return err.response.data as USER_INFO_RES;
-          }
+ export const fetchAsyncGetUser = createAsyncThunk<USER_RES, API_USER_PROPS>(
+    "user",
+    async (props: API_USER_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/users/${props.id}`, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as USER_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as USER_RES;
+        }
     }
 );
+
+/**
+ * 参加歓迎中グループ情報取得の非同期関数
+ */
+ export const fetchAsyncGetWelcomeGroups = createAsyncThunk<WGROUPS_RES, API_USER_PROPS>(
+    "welcome_groups",
+    async (props: API_USER_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/users/${props.id}/wgroups`, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as WGROUPS_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as WGROUPS_RES;
+        }
+    }
+);
+
+/**
+ * 参加中グループ情報取得の非同期関数
+ */
+ export const fetchAsyncGetParticipatingGroups = createAsyncThunk<PGROUPS_RES, API_USER_PROPS>(
+    "participating_groups",
+    async (props: API_USER_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/users/${props.id}/pgroups`, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as PGROUPS_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as PGROUPS_RES;
+        }
+    }
+);
+
+/**
+ * 招待用グループ情報取得の非同期関数
+ */
+ export const fetchAsyncGetInviteGroups = createAsyncThunk<IGROUPS_RES, API_USER_PROPS>(
+    "invite_groups",
+    async (props: API_USER_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/users/${props.id}/igroups`, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as IGROUPS_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as IGROUPS_RES;
+        }
+    }
+);
+
+/**
+ * グループ招待用の非同期関数
+ */
+ export const fetchAsyncPostInviteGroup = createAsyncThunk<GROUP_INVITE_RES, API_GROUP_INVITE_PROPS>(
+    "group_invite",
+    async (props: API_GROUP_INVITE_PROPS) => {
+        try {
+            const res = await axios.post(`${apiUrl}/groups/${props.group_id}/history`, props, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as GROUP_INVITE_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as GROUP_INVITE_RES;
+        }
+    }
+  );
 
 export const userSlice = createSlice({
     name: "user",
@@ -194,6 +300,16 @@ export const userSlice = createSlice({
                 image_url: ""
             }
         ],
+        // 招待用グループ
+        igroups: [
+            {
+                id: 0,
+                name: "",
+                image_file: "",
+                image_url: "",
+                private_flg: 0
+            }
+        ],
         page: {
             // ユーザ一覧
             ui_currentpage: 0,
@@ -204,6 +320,9 @@ export const userSlice = createSlice({
             // 参加中グループ
             pg_currentpage: 0,
             pg_lastpage: 0,
+            // 招待用グループ
+            ig_currentpage: 0,
+            ig_lastpage: 0,
         }
     },
     reducers: {},
@@ -216,19 +335,26 @@ export const userSlice = createSlice({
             state.page.ui_lastpage = action.payload.users.last_page;
         });
         // ユーザ詳細情報取得処理
-        builder.addCase(fetchAsyncGetUserInfo.fulfilled, (state, action: PayloadAction<USER_INFO_RES>) => {
-            // ユーザ詳細情報取得
+        builder.addCase(fetchAsyncGetUser.fulfilled, (state, action: PayloadAction<USER_RES>) => {
             state.user = action.payload.user;
-            
-            // 参加歓迎中グループの取得
+        });
+        // 参加歓迎中グループ情報取得処理
+        builder.addCase(fetchAsyncGetWelcomeGroups.fulfilled, (state, action: PayloadAction<WGROUPS_RES>) => {
             state.wgroups = action.payload.wgroups.data;
             state.page.wg_currentpage = action.payload.wgroups.current_page;
             state.page.wg_lastpage = action.payload.wgroups.last_page;
-            
-            // 参加中のグループを取得
+        });
+        // 参加中グループ情報取得処理
+        builder.addCase(fetchAsyncGetParticipatingGroups.fulfilled, (state, action: PayloadAction<PGROUPS_RES>) => {
             state.pgroups = action.payload.pgroups.data;
             state.page.pg_currentpage = action.payload.pgroups.current_page;
             state.page.pg_lastpage = action.payload.pgroups.last_page;
+        });
+        // 招待用グループ情報取得処理
+        builder.addCase(fetchAsyncGetInviteGroups.fulfilled, (state, action: PayloadAction<IGROUPS_RES>) => {
+            state.igroups = action.payload.igroups.data;
+            state.page.ig_currentpage = action.payload.igroups.current_page;
+            state.page.ig_lastpage = action.payload.igroups.last_page;
         });
     },
 });
@@ -237,5 +363,6 @@ export const selectUsers = (state: RootState) => state.user.users;
 export const selectUser = (state: RootState) => state.user.user;
 export const selectWgoups = (state: RootState) => state.user.wgroups;
 export const selectPgoups = (state: RootState) => state.user.pgroups;
+export const selectIgoups = (state: RootState) => state.user.igroups;
 
 export default userSlice.reducer;

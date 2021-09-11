@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import _ from 'lodash';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { fetchGetErrorMessages, fetchGetInfoMessages, fetchCredStart, fetchCredEnd } from '../../pages/appSlice';
+import { fetchAsyncGetInviteGroups, selectIgoups, fetchAsyncPostInviteGroup } from '../../pages/users/userSlice';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -11,9 +14,10 @@ import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import CloseIcon from '@material-ui/icons/Close';
-import { GROUP_MODAL } from '../../types/usersTypes';
-
-import group_list from '../../../data/group_list_data.json';
+import _ from 'lodash';
+import Loading from '../common/Loading';
+import { GROUP_MODAL, API_GROUP_INVITE_PROPS } from '../../types/usersTypes';
+import { AppDispatch } from '../../../stores/store';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -63,7 +67,29 @@ const useStyles = makeStyles((theme: Theme) =>
 const GroupModal: React.FC<GROUP_MODAL> = (props) => {
     const classes = useStyles();
     const componentStyles = ComponentStyles();
-    const [selectedValue, setSelectedValue] = useState(group_list[0].id);
+    const history = useHistory();
+    const { id } = useParams<{id: string}>();
+    const [disabled, setDisabled] = useState(false);
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+    const igroups = useSelector(selectIgoups);
+    const [selectedValue, setSelectedValue] = useState(igroups[0].id ? igroups[0].id : 0);
+
+    useEffect(() => {
+        const renderGroupModal = async() => {
+            // 招待用グループ情報を取得
+            const igroupsRes = await dispatch(fetchAsyncGetInviteGroups({ id: +localStorage.loginId }));
+            if(fetchAsyncGetInviteGroups.fulfilled.match(igroupsRes) && igroupsRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(igroupsRes.payload.error_message));
+                return;
+            }
+        }
+        renderGroupModal();
+    }, [dispatch]);
+
+    useEffect(() => {
+        setSelectedValue(igroups[0].id ? igroups[0].id : 0);
+    }, [igroups]);
 
     /**
      * グループの選択変更
@@ -72,6 +98,33 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
     const handleChange = (value: number) => {
         setSelectedValue(value);
     };
+
+    /**
+     * グループ招待処理
+     */
+    const handleSubmit = async() => {
+        setDisabled(true);
+        await dispatch(fetchCredStart());
+
+        const data: API_GROUP_INVITE_PROPS = {
+            group_id: selectedValue,
+            user_id: +id,
+            status: 2
+        }
+
+        const result = await dispatch(fetchAsyncPostInviteGroup(data));
+        if(fetchAsyncPostInviteGroup.fulfilled.match(result)) {
+            if(result.payload.info_message) {
+                dispatch(fetchGetInfoMessages(result.payload.info_message));
+                await dispatch(fetchCredEnd());
+                props.callback(false);
+                return;
+            }
+            dispatch(fetchGetErrorMessages(result.payload.error_message));
+        }
+        await dispatch(fetchCredEnd());
+        setDisabled(false);
+    }
 
     return (
         <Grid container justify="center">
@@ -95,7 +148,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                             <Typography className={classes.title}>招待するグループを選択してください</Typography>
                             <div className={classes.groupListFrame}>
                                 {
-                                    _.map(group_list, value => (
+                                    _.map(igroups, value => (
                                         <div 
                                             className={classes.groupListBox} 
                                             key={value.id} 
@@ -103,7 +156,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                             style={selectedValue === value.id ? { background: '#f8cf77', color: 'white' } : undefined}
                                         >
                                             <div style={{ width: '15%' }}>
-                                                <Avatar src={value.image_file} className={classes.avatar} />
+                                                <Avatar src={value.image_url} className={classes.avatar} />
                                             </div>
                                             <div className={classes.groupInfo} style={{ width: '75%' }}>
                                                 <Typography>{value.name}</Typography>
@@ -112,9 +165,9 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                                 <Typography>
                                                     {
                                                         value.private_flg ? 
-                                                            <span className={classes.privateTrue}>公開</span>
-                                                        :
                                                             <span className={classes.privateFalse}>非公開</span>
+                                                        :
+                                                            <span className={classes.privateTrue}>公開</span>
                                                     }
                                                 </Typography>
                                             </div>
@@ -123,9 +176,16 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                 }
                             </div>
                             <div className={classes.submitArea}>
-                                <Button className={componentStyles.submitButton} style={{ width: '50%' }}>
-                                    招待
-                                </Button>
+                                {
+                                    disabled ? 
+                                        <Button className={componentStyles.disabledButton} style={{ width: '50%' }} disabled={disabled}>
+                                            招待中<Loading />
+                                        </Button>
+                                    :
+                                        <Button onClick={handleSubmit} className={componentStyles.submitButton} style={{ width: '50%' }}>
+                                            招待
+                                        </Button>
+                                }
                             </div>
                         </div>
                         </Fade>
@@ -152,7 +212,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                             <Typography className={classes.title}>招待するグループを選択してください</Typography>
                             <div className={classes.groupListFrame}>
                                 {
-                                    _.map(group_list, value => (
+                                    _.map(igroups, value => (
                                         <div 
                                             className={classes.groupListBox} 
                                             key={value.id} 
@@ -160,7 +220,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                             style={selectedValue === value.id ? { background: '#f8cf77', color: 'white' } : undefined}
                                         >
                                             <div style={{ width: '20%' }}>
-                                                <Avatar src={value.image_file} className={classes.avatar} />
+                                                <Avatar src={value.image_url} className={classes.avatar} />
                                             </div>
                                             <div className={classes.groupInfo} style={{ width: '60%' }}>
                                                 <Typography>{value.name}</Typography>
@@ -169,9 +229,9 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                                 <Typography>
                                                     {
                                                         value.private_flg ? 
-                                                            <span className={classes.privateTrue}>公開</span>
-                                                        :
                                                             <span className={classes.privateFalse}>非公開</span>
+                                                        :
+                                                            <span className={classes.privateTrue}>公開</span>
                                                     }
                                                 </Typography>
                                             </div>
@@ -180,9 +240,16 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                 }
                             </div>
                             <div className={classes.submitArea}>
-                                <Button className={componentStyles.submitButton} style={{ width: '50%' }}>
-                                    招待
-                                </Button>
+                                {
+                                    disabled ? 
+                                        <Button className={componentStyles.disabledButton} style={{ width: '50%' }} disabled={disabled}>
+                                            招待中<Loading />
+                                        </Button>
+                                    :
+                                        <Button onClick={handleSubmit} className={componentStyles.submitButton} style={{ width: '50%' }}>
+                                            招待
+                                        </Button>
+                                }
                             </div>
                         </div>
                         </Fade>
@@ -209,7 +276,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                 <Typography className={classes.title}>招待するグループを選択してください</Typography>
                                 <div className={classes.groupListFrame}>
                                     {
-                                        _.map(group_list, value => (
+                                        _.map(igroups, value => (
                                             <div 
                                                 className={classes.groupListBox} 
                                                 key={value.id} 
@@ -217,7 +284,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                                 style={selectedValue === value.id ? { background: '#f8cf77', color: 'white' } : undefined}
                                             >
                                                 <div style={{ width: '20%' }}>
-                                                    <Avatar src={value.image_file} className={classes.avatar} />
+                                                    <Avatar src={value.image_url} className={classes.avatar} />
                                                 </div>
                                                 <div className={classes.groupInfo} style={{ width: '55%' }}>
                                                     <Typography>{value.name}</Typography>
@@ -226,9 +293,9 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                                     <Typography>
                                                         {
                                                             value.private_flg ? 
-                                                                <span className={classes.privateTrue}>公開</span>
-                                                            :
                                                                 <span className={classes.privateFalse}>非公開</span>
+                                                            :
+                                                                <span className={classes.privateTrue}>公開</span>
                                                         }
                                                     </Typography>
                                                 </div>
@@ -237,9 +304,16 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                     }
                                 </div>
                                 <div className={classes.submitArea}>
-                                    <Button className={componentStyles.submitButton} style={{ width: '70%' }}>
-                                        招待
-                                    </Button>
+                                    {
+                                        disabled ? 
+                                            <Button className={componentStyles.disabledButton} style={{ width: '70%' }} disabled={disabled}>
+                                                招待中<Loading />
+                                            </Button>
+                                        :
+                                            <Button onClick={handleSubmit} className={componentStyles.submitButton} style={{ width: '70%' }}>
+                                                招待
+                                            </Button>
+                                    }
                                 </div>
                             </div>
                         </Fade>

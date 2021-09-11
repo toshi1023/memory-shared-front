@@ -190,15 +190,15 @@ export interface USERS_RES {
 }
 
 /**
- * user_info用のデータ型定義
+ * user用のデータ型定義
  */
- export interface USER_INFO_PROPS {
+ export interface API_USER_PROPS {
     id: number
 }
 /**
- * AsyncThunk用(user_info用)
+ * AsyncThunk用(user用)
  */
-export interface USER_INFO_RES {
+export interface USER_RES {
     user: {
         id: number,
         name: string,
@@ -233,6 +233,14 @@ export interface USER_INFO_RES {
             updated_at: string,
         }[],
     },
+
+    error_message: string,
+}
+
+/**
+ * AsyncThunk用(wgroups用)
+ */
+export interface WGROUPS_RES {
     wgroups: {
         data: {
             id: number,
@@ -260,6 +268,14 @@ export interface USER_INFO_RES {
         current_page: number,
         last_page: number,
     },
+
+    error_message: string,
+}
+
+/**
+ * AsyncThunk用(pgroups用)
+ */
+export interface PGROUPS_RES {
     pgroups: {
         data: {
             id: number,
@@ -271,5 +287,40 @@ export interface USER_INFO_RES {
         last_page: number,
     },
 
+    error_message: string,
+}
+
+/**
+ * AsyncThunk用(igroups用)
+ */
+export interface IGROUPS_RES {
+    igroups: {
+        data: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string,
+            private_flg: number,
+        }[],
+        current_page: number,
+        last_page: number,
+    },
+
+    error_message: string,
+}
+
+/**
+ * group_invite用のデータ型定義
+ */
+export interface API_GROUP_INVITE_PROPS {
+    group_id: number,
+    user_id: number,
+    status: number
+}
+/**
+ * AsyncThunk用(group_invite用)
+ */
+ export interface GROUP_INVITE_RES {
+    info_message: string,
     error_message: string,
 }

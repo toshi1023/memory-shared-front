@@ -154,6 +154,18 @@ const ComponentStyles = makeStyles((theme: Theme) =>
         }
     },
 
+    disabledButton: {
+        margin: '20px 0 20px 0',
+        width: '80%',
+        height: '50px',
+        background: '#e6e1e1',
+        border: '1px solid #e6e1e1',
+        borderRadius: '30px',
+        boxSizing: 'border-box',
+        fontSize: '16px',
+        fontWeight: 'bold',
+    },
+
     modal: {
       display: 'flex',
       alignItems: 'center',

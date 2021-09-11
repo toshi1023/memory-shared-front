@@ -5,7 +5,10 @@ import '../../../styles/home/home.scss';
 import '../../../styles/common/common.scss';
 import '../../../styles/groups/groups.scss';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
-import { fetchAsyncGetUserInfo, selectUser, selectWgoups, selectPgoups } from './userSlice';
+import { 
+    fetchAsyncGetUser, selectUser, fetchAsyncGetWelcomeGroups, selectWgoups, 
+    fetchAsyncGetParticipatingGroups, selectPgoups 
+} from './userSlice';
 import UserCard from '../../components/users/UserCard';
 import GroupListData from '../../components/users/GroupListData';
 import WelcomeGroupListData from '../../components/users/WelcomGroupListData';
@@ -28,9 +31,22 @@ const UserDetail: React.FC = () => {
 
     useEffect(() => {
         const renderUserDetail = async () => {
-            const userInfoRes = await dispatch(fetchAsyncGetUserInfo({id: +id}));
-            if(fetchAsyncGetUserInfo.fulfilled.match(userInfoRes) && userInfoRes.payload.error_message) {
-                dispatch(fetchGetErrorMessages(userInfoRes.payload.error_message));
+            // ユーザ詳細情報取得
+            const userRes = await dispatch(fetchAsyncGetUser({id: +id}));
+            if(fetchAsyncGetUser.fulfilled.match(userRes) && userRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(userRes.payload.error_message));
+                return;
+            }
+            // 参加歓迎中グループ情報取得
+            const wgroupsRes = await dispatch(fetchAsyncGetWelcomeGroups({id: +id}));
+            if(fetchAsyncGetWelcomeGroups.fulfilled.match(wgroupsRes) && wgroupsRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(wgroupsRes.payload.error_message));
+                return;
+            }
+            // 参加中グループ情報取得
+            const pgroupsRes = await dispatch(fetchAsyncGetParticipatingGroups({id: +id}));
+            if(fetchAsyncGetParticipatingGroups.fulfilled.match(pgroupsRes) && pgroupsRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(pgroupsRes.payload.error_message));
                 return;
             }
             dispatch(fetchGetUrl(history.location.pathname));
