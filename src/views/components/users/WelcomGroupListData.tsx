@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import ComponentStyles from '../../../styles/common/componentStyle';
 import _ from 'lodash';
 import { WELCOME_GROUP_LIST_DATA } from '../../types/usersTypes';
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const WelcomeGroupListData: React.FC<WELCOME_GROUP_LIST_DATA> = (props) => {
     const classes = useStyles();
     const componentStyles = ComponentStyles();
+    const history = useHistory();
 
     return (
         <div>
@@ -37,7 +39,7 @@ const WelcomeGroupListData: React.FC<WELCOME_GROUP_LIST_DATA> = (props) => {
                 <Grid container spacing={2}>
                 {_.map(props.data, value => (
                     <Grid item sm={6} lg={4} key={value.id}>
-                        <Card className={classes.root}>
+                        <Card className={classes.root} onClick={() => history.push(`/groups/${value.name}/${value.id}`)}>
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}

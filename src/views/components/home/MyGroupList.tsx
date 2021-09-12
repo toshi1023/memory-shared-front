@@ -1,5 +1,6 @@
 import React from 'react';
 import ComponentStyles from '../../../styles/common/componentStyle';
+import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { GROUP_LIST } from '../../types/homeTypes';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -10,7 +11,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import sappolo from '../../../image/sappolo.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -30,12 +30,13 @@ const useStyles = makeStyles((theme: Theme) =>
 const MyGroupList: React.FC<GROUP_LIST> = (props) => {
   const classes = useStyles();
   const componentStyles = ComponentStyles();
+  const history = useHistory();
 
   return (
       <div>
           <Grid container spacing={2}>
             {_.map(props.data, value => (
-                <Grid item xs={12} sm={6} lg={4} key={value.id}>
+                <Grid item xs={12} sm={6} lg={4} key={value.id} onClick={() => history.push(`/groups/${value.name}/${value.id}`)}>
                     <Card className={classes.root}>
                         <CardActionArea>
                             <CardMedia
