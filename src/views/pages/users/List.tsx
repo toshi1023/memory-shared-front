@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../../../styles/users/users.scss';
+import DisplayStyles from '../../../styles/common/displayMode';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
 import { fetchAsyncGetUsers, selectUsers } from './userSlice';
 import SearchText from '../../components/common/SearchText';
@@ -13,6 +14,7 @@ import { AppDispatch } from '../../../stores/store';
 
 const UserList: React.FC = () => {
     const history = useHistory();
+    const displayStyles = DisplayStyles();
     // users取得条件
     const [searchProps, setSearchProps] = useState('');
     // redux
@@ -61,19 +63,41 @@ const UserList: React.FC = () => {
 
     return (
         <div id="user_list">
-            <Grid container justify="center">
-                <Grid item xs={8} sm={5} md={3}>
-                    <SearchText callback={searchCallback} label="ユーザ名で検索" />
+
+            {/* PC版 & iPad版 */}
+            <div className={displayStyles.sectionDesktop}>
+                <Grid container justify="center">
+                    <Grid item sm={5} md={4} lg={3}>
+                        <SearchText callback={searchCallback} label="ユーザ名で検索" />
+                    </Grid>
+                    <Grid item sm={2} md={2} lg={2}>
+                        <SelectBox callback={selectCallback} label="並び替え" />
+                    </Grid>
                 </Grid>
-                <Grid item xs={4} sm={2} md={1}>
-                    <SelectBox callback={selectCallback} label="並び替え" />
+                <Grid container justify="center" className="list_box">
+                    <Grid item sm={7} md={6} lg={5}>
+                        <UserListData data={users} />
+                    </Grid>
                 </Grid>
-            </Grid>
-            <Grid container justify="center" className="list_box">
-                <Grid item xs={11} sm={7} md={5}>
-                    <UserListData data={users} />
+            </div>
+
+            {/* スマホ版 */}
+            <div className={displayStyles.sectionMobile}>
+                <Grid container justify="center">
+                    <Grid item xs={8}>
+                        <SearchText callback={searchCallback} label="ユーザ名で検索" />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <SelectBox callback={selectCallback} label="並び替え" />
+                    </Grid>
                 </Grid>
-            </Grid>
+                <Grid container justify="center" className="list_box">
+                    <Grid item xs={11}>
+                        <UserListData data={users} />
+                    </Grid>
+                </Grid>
+            </div>
+
         </div>
     )
 }
