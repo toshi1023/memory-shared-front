@@ -45,7 +45,7 @@ const AlbumListData: React.FC<ALBUM_LIST_DATA> = (props) => {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image={value.image_file}
+                                image={value.image_url}
                                 title={value.name}
                             />
                             <CardContent>

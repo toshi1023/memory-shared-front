@@ -42,15 +42,39 @@
  */
 export interface GROUP_CARD {
     data: {
-        id: number;
-        name: string;
-        image_file: string;
-        description: string;
-        status_type: string | null;
-        participants: number;
-        album_count: number;
-        private_flg: boolean;
-        count: number;
+        id: number,
+        name: string,
+        description: string,
+        private_flg: number,
+        welcome_flg: number,
+        image_file: string,
+        image_url: string,
+        host_user_id: number,
+        memo: string,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        users: {
+            id: number,
+            name: string,
+            gender: number,
+            image_file: string,
+            image_url: string
+            pivot: {
+                group_id: number,
+                user_id: number,
+                status: number,
+                created_at: string,
+                updated_at: string,
+            }
+        }[],
+        group_histories: {
+            id: number,
+            group_id: number,
+            user_id: number,
+            status: number
+        }[]
     }
 }
 
@@ -59,11 +83,10 @@ export interface GROUP_CARD {
  */
  export interface USER_LIST_DATA {
     data: { 
-        id: number;
-        name: string;
-        image_file: string;
-        family_id: number | null;
-        talk_id: number | null;
+        id: number,
+        name: string,
+        image_file: string,
+        image_url: string,
     }[]
 }
 
@@ -72,9 +95,12 @@ export interface GROUP_CARD {
  */
  export interface ALBUM_LIST_DATA {
     data: { 
-        id: number;
-        name: string;
-        image_file: string;
+        id: number,
+        name: string,
+        group_id: number,
+        image_file: string,
+        image_url: string,
+        host_user_id: number
     }[]
 }
 
@@ -159,6 +185,93 @@ export interface MODAL_DATA {
                     updated_at: string,
                 }
             }[]
+        }[],
+        current_page: number,
+        last_page: number,
+    },
+
+    error_message: string,
+}
+
+/**
+ * group用のデータ型定義
+ */
+ export interface API_GROUP_PROPS {
+    id: number
+}
+/**
+ * AsyncThunk用(group用)
+ */
+export interface GROUP_RES {
+    group: {
+        id: number,
+        name: string,
+        description: string,
+        private_flg: number,
+        welcome_flg: number,
+        image_file: string,
+        image_url: string,
+        host_user_id: number,
+        memo: string,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        users: {
+            id: number,
+            name: string,
+            gender: number,
+            image_file: string,
+            image_url: string
+            pivot: {
+                group_id: number,
+                user_id: number,
+                status: number,
+                created_at: string,
+                updated_at: string,
+            }
+        }[],
+        group_histories: {
+            id: number,
+            group_id: number,
+            user_id: number,
+            status: number
+        }[]
+    },
+
+    error_message: string,
+}
+
+/**
+ * AsyncThunk用(pusers用)
+ */
+ export interface PUSERS_RES {
+    pusers: {
+        data: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string,
+        }[],
+        current_page: number,
+        last_page: number,
+    },
+
+    error_message: string,
+}
+
+/**
+ * AsyncThunk用(albums用)
+ */
+ export interface ALBUMS_RES {
+    albums: {
+        data: {
+            id: number,
+            name: string,
+            group_id: number,
+            image_file: string,
+            image_url: string,
+            host_user_id: number
         }[],
         current_page: number,
         last_page: number,

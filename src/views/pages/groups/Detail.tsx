@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/groups/groups.scss';
 import '../../../styles/home/home.scss';
+import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
+import { 
+    fetchAsyncGetGroup, selectGroup, fetchAsyncGetPusers, 
+    selectPusers, fetchAsyncGetAlbums, selectAlbums 
+} from './groupSlice';
 import GroupCard from '../../components/groups/GroupCard';
 import UserListData from '../../components/groups/UserListData';
 import AlbumListData from '../../components/groups/AlbumListData';
@@ -10,15 +16,44 @@ import MobileHeaderTab from '../../components/common/MobileHeaderTab';
 import { Grid, Typography, Hidden, Button } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-
-import user_list from '../../../data/user_list_data.json';
-import album_list from '../../../data/album_list_data.json';
+import { AppDispatch } from '../../../stores/store';
 
 const GroupDetail: React.FC = () => {
     const history = useHistory();
     const displayStyles = DisplayStyles();
+    const { id } = useParams<{id: string}>();
     // スマホ用の画面切り替えを管理
     const [view, setView] = useState(0);
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+    const group = useSelector(selectGroup);
+    const pusers = useSelector(selectPusers);
+    const albums = useSelector(selectAlbums);
+
+    useEffect(() => {
+        const renderGroupDetail = async () => {
+            // グループ詳細情報取得
+            const groupRes = await dispatch(fetchAsyncGetGroup({id: +id}));
+            if(fetchAsyncGetGroup.fulfilled.match(groupRes) && groupRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(groupRes.payload.error_message));
+                return;
+            }
+            // 参加者情報取得
+            const pusersRes = await dispatch(fetchAsyncGetPusers({id: +id}));
+            if(fetchAsyncGetPusers.fulfilled.match(pusersRes) && pusersRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(pusersRes.payload.error_message));
+                return;
+            }
+            // アルバム情報取得
+            const albumsRes = await dispatch(fetchAsyncGetAlbums({id: +id}));
+            if(fetchAsyncGetAlbums.fulfilled.match(albumsRes) && albumsRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(albumsRes.payload.error_message));
+                return;
+            }
+            dispatch(fetchGetUrl(history.location.pathname));
+        }
+        renderGroupDetail();
+    }, [dispatch]);
 
     // MobileHeaderTab用のラベルを設定
     const label = {
@@ -55,7 +90,7 @@ const GroupDetail: React.FC = () => {
                         </Typography>
                     </div>
                     <Button className="albumcreate_button mobile" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
-                    <AlbumListData data={album_list} />
+                    <AlbumListData data={albums} />
                 </Grid>
             </Grid>
         );
@@ -74,22 +109,10 @@ const GroupDetail: React.FC = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11}>
-                    <UserListData data={user_list} />
+                    <UserListData data={pusers} />
                 </Grid>
             </Grid>
         );
-    }
-    
-    const group = {
-        id: 2,
-        name: 'test',
-        image_file: '',
-        participants: 4,
-        album_count: 6,
-        private_flg: true,
-        status_type: 'ホスト',
-        description: '梅田カフェ巡り！ほっと一息つけるカフェタイムを楽しみにでかけるグループです！',
-        count: 1
     }
 
     return (
@@ -116,14 +139,14 @@ const GroupDetail: React.FC = () => {
                                 </Typography>
                             </div>
                             <Button className="albumcreate_button" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
-                            <AlbumListData data={album_list} />
+                            <AlbumListData data={albums} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center c_side_area">
                             <Typography className="c_title">
                                 参加ユーザ
                             </Typography>
                             
-                            <UserListData data={user_list} />
+                            <UserListData data={pusers} />
                         </Grid>
                     </Grid>
                 </Hidden>
@@ -146,7 +169,7 @@ const GroupDetail: React.FC = () => {
                                 </Typography>
                             </div>
                             <Button className="albumcreate_button ipad" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
-                            <AlbumListData data={album_list} />
+                            <AlbumListData data={albums} />
                             
                         </Grid>
                         <Grid item sm={4} className="c_content_space center c_side_area">
@@ -154,7 +177,7 @@ const GroupDetail: React.FC = () => {
                                 参加ユーザ
                             </Typography>
 
-                            <UserListData data={user_list} />
+                            <UserListData data={pusers} />
                         </Grid>
                     </Grid>
                 </Hidden>

@@ -36,11 +36,16 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
         {_.map(props.data, value => {
             const labelId = `user-list-${value.id}`;
             return (
-                <ListItem key={value.id} button className={classes.listItem} onClick={() => history.push('/groups/test')}>
+                <ListItem key={value.id} button className={classes.listItem} onClick={() => {
+                    value.id === +localStorage.loginId ? 
+                        history.push('/')
+                    :
+                        history.push(`/users/${value.name}/${value.id}`)
+                }}>
                     <ListItemAvatar>
                         <Avatar
-                            alt={`Avatar n°${value.id + 1}`}
-                            src={value.image_file}
+                            alt={value.image_file}
+                            src={value.image_url}
                         />
                     </ListItemAvatar>
                     <ListItemText id={labelId} primary={value.name} />

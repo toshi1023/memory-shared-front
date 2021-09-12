@@ -165,7 +165,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
               </Grid>
               <Grid item xs={7} md={9}>
                 <Typography component="p" className={componentStyles.participants}>
-                    {props.data.participants}<span className={componentStyles.unit}>人参加中</span>
+                    {props.data.group_histories ? props.data.group_histories.length : 0}<span className={componentStyles.unit}>人参加中</span>
                 </Typography>
               </Grid>
               
@@ -181,7 +181,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
         </Grid>
       </CardContent>
       {
-        props.data.status_type === 'ホスト' ?
+        props.data.host_user_id === +localStorage.loginId ?
           <>
             <CardActions className={componentStyles.footerContainer}>
               <Typography component="p">
@@ -200,21 +200,16 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                 グループを編集する
               </Button>  
               <div className={componentStyles.offset}></div>
-              {
-                props.data.count ? 
-                  <Button 
-                    className={classes.postButton}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                  >
-                    投稿を確認
-                    <ExpandMoreIcon className={clsx(classes.expand, {
-                      [classes.expandOpen]: expanded,
-                    })} />
-                  </Button>
-                :
-                  <Button><Chip label="申請する" className={componentStyles.chip && componentStyles.chipButton} color="primary" /></Button>
-              }
+              <Button 
+                className={classes.postButton}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+              >
+                投稿を確認
+                <ExpandMoreIcon className={clsx(classes.expand, {
+                  [classes.expandOpen]: expanded,
+                })} />
+              </Button>
             </CardActions>
           </>
         :
@@ -226,26 +221,17 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
             </CardActions>
             <CardActions className={componentStyles.footerContainer}>
               {
-                  props.data.status_type === 'ホスト' ? 
-                      <Chip label="ホスト" className={componentStyles.chip} color="secondary" />
+                  props.data.users && props.data.users[0] !== undefined &&  props.data.users[0].pivot.status === 2 ? 
+                    <Chip label="メンバー" className={componentStyles.chip && componentStyles.green} />
                   :
-                      ''
-              }
-              {
-                  props.data.status_type === 'メンバー' ? 
-                      <Chip label="メンバー" className={componentStyles.chip && componentStyles.green} />
-                  :
-                      ''
-              }
-              {
-                  props.data.status_type === '申請中' ? 
+                    props.data.users && props.data.users[0] !== undefined &&  props.data.users[0].pivot.status === 1 ? 
                       <Chip label="申請中" className={componentStyles.chip && componentStyles.yellow} />
-                  :
+                    :
                       ''
               }
               <div className={componentStyles.offset}></div>
               {
-                props.data.count ? 
+                props.data.users && props.data.users[0] !== undefined &&  props.data.users[0].pivot.status === 2 ? 
                   <Button 
                     className={classes.postButton}
                     onClick={handleExpandClick}
@@ -257,7 +243,10 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                     })} />
                   </Button>
                 :
-                  <Button><Chip label="申請する" className={componentStyles.chip && componentStyles.chipButton} color="primary" /></Button>
+                  props.data.users && props.data.users[0] !== undefined &&  props.data.users[0].pivot.status === 1 ? 
+                    ''
+                  :
+                    <Button><Chip label="申請する" className={componentStyles.chip && componentStyles.chipButton} color="primary" /></Button>
               }
             </CardActions>
           </>
