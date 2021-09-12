@@ -168,7 +168,7 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
             return err.response.data as GROUP_INVITE_RES;
         }
     }
-  );
+);
 
 export const userSlice = createSlice({
     name: "user",
@@ -355,6 +355,13 @@ export const userSlice = createSlice({
             state.igroups = action.payload.igroups.data;
             state.page.ig_currentpage = action.payload.igroups.current_page;
             state.page.ig_lastpage = action.payload.igroups.last_page;
+        });
+        // グループ招待後の処理
+        builder.addCase(fetchAsyncPostInviteGroup.fulfilled, (state, action: PayloadAction<GROUP_INVITE_RES>) => {
+            return {
+                ...state,
+                pgroups: [...state.pgroups, action.payload.group],
+            };
         });
     },
 });

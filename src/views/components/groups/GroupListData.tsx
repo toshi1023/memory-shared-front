@@ -10,7 +10,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
-import Button from '@material-ui/core/Button';
 import { GROUP_LIST_DATA } from '../../types/groupsTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,29 +39,26 @@ const GroupListData: React.FC<GROUP_LIST_DATA> = (props) => {
         {_.map(props.data, value => {
             const labelId = `group-list-${value.id}`;
             return (
-                <ListItem key={value.id} button className={classes.listItem} onClick={() => history.push('groups/test')}>
+                <ListItem key={value.id} button className={classes.listItem} onClick={() => history.push(`groups/${value.name}/${value.id}`)}>
                     <ListItemAvatar>
                         <Avatar
-                            alt={`Avatar n°${value.id + 1}`}
-                            src={value.image_file}
+                            alt={value.image_file}
+                            src={value.image_url}
                         />
                     </ListItemAvatar>
                     <ListItemText id={labelId} primary={value.name} />
                     <ListItemSecondaryAction>
                         {
-                            value.status_type === 'ホスト' ? 
+                            value.host_user_id === +localStorage.loginId ? 
                                 <Chip label="ホスト" className={componentStyles.chip} color="secondary" />
                             :
-                                ''
+                                value.users && value.users[0] !== undefined && value.users[0].pivot.status === 2 ? 
+                                    <Chip label="メンバー" className={componentStyles.chip && componentStyles.green} />
+                                :
+                                    ''
                         }
                         {
-                            value.status_type === 'メンバー' ? 
-                                <Chip label="メンバー" className={componentStyles.chip && componentStyles.green} />
-                            :
-                                ''
-                        }
-                        {
-                            value.status_type === '申請中' ? 
+                            value.users && value.users[0] !== undefined && value.users[0].pivot.status === 1 ? 
                                 <Chip label="申請中" className={componentStyles.chip && componentStyles.yellow} />
                             :
                                 ''

@@ -81,11 +81,11 @@ const UserCard: React.FC<USER_CARD> = (props) => {
                 {
                   props.data.gender ? 
                     <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
-                        男性
+                        女性
                     </Typography>
                   :
                     <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
-                        女性
+                        男性
                     </Typography>
                 }
               </Grid>

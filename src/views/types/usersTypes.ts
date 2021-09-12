@@ -321,6 +321,13 @@ export interface API_GROUP_INVITE_PROPS {
  * AsyncThunk用(group_invite用)
  */
  export interface GROUP_INVITE_RES {
+    group: {
+        id: number,
+        name: string,
+        image_file: string,
+        image_url: string,
+    },
+
     info_message: string,
     error_message: string,
 }

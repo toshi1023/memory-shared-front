@@ -4,12 +4,14 @@ import SessionCheck from '../middleware/sessionCheck';
 import appReducer from '../views/pages/appSlice';
 import homeReducer from '../views/pages/home/homeSlice';
 import userReducer from '../views/pages/users/userSlice';
+import groupReducer from '../views/pages/groups/groupSlice';
 
 export const store = configureStore({
   reducer: {
     app: appReducer,
     home: homeReducer,
     user: userReducer,
+    group: groupReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

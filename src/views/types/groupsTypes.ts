@@ -1,12 +1,39 @@
+/************************************************
+ *  components用の型設定
+ ************************************************/
+
 /**
  * GroupListData用のデータ型定義
  */
  export interface GROUP_LIST_DATA {
     data: { 
-        id: number;
-        name: string;
-        image_file: string;
-        status_type: string | null;
+        id: number,
+        name: string,
+        description: string,
+        private_flg: number,
+        welcome_flg: number,
+        image_file: string,
+        image_url: string,
+        host_user_id: number,
+        memo: string,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        users: {
+            id: number,
+            name: string,
+            gender: number,
+            image_file: string,
+            image_url: string
+            pivot: {
+                group_id: number,
+                user_id: number,
+                status: number,
+                created_at: string,
+                updated_at: string,
+            }
+        }[]
     }[]
 }
 
@@ -85,4 +112,57 @@ export interface MODAL_DATA {
         user_name: string;
         updated_at: string;
     }[] | null
+}
+
+/************************************************
+ *  slice用の型設定
+ ************************************************/
+
+/**
+ * groups用のデータ型定義
+ */
+ export interface GROUPS_PROPS {
+    s_namelike: string | null,
+    o_name: string,
+    o_created_at: string
+}
+/**
+ * AsyncThunk用(groups用)
+ */
+ export interface GROUPS_RES {
+    groups: {
+        data: {
+            id: number,
+            name: string,
+            description: string,
+            private_flg: number,
+            welcome_flg: number,
+            image_file: string,
+            image_url: string,
+            host_user_id: number,
+            memo: string,
+            update_user_id: number,
+            created_at: string,
+            updated_at: string,
+            deleted_at: null,
+            users: {
+                id: number,
+                name: string,
+                gender: number,
+                image_file: string,
+                image_url: string
+                pivot: {
+                    group_id: number,
+                    user_id: number,
+                    status: number,
+                    created_at: string,
+                    updated_at: string,
+                }
+            }[]
+        }[],
+        current_page: number,
+        last_page: number,
+    },
+
+    error_message: string,
 }

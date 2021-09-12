@@ -107,7 +107,7 @@ const App: React.FC = () => {
                   <PrivateRoute exact path="/users/:name/:id" component={UserDetail} />
                   <PrivateRoute exact path="/groups" component={GroupList} />
                   <PrivateRoute exact path="/groups/register" component={GroupRegister} />
-                  <PrivateRoute exact path="/groups/:name" component={GroupDetail} />
+                  <PrivateRoute exact path="/groups/:name/:id" component={GroupDetail} />
                   <PrivateRoute exact path="/groups/:name/editer" component={GroupEditer} />
                   <PrivateRoute exact path="/groups/:name/post/register" component={PostRegister} />
                   <PrivateRoute exact path="/groups/:name/albums/test" component={AlbumDetail} />
