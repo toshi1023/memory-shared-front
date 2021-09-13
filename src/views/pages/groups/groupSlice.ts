@@ -229,25 +229,33 @@ export const groupSlice = createSlice({
     extraReducers: (builder) => {
         // グループ一覧取得処理
         builder.addCase(fetchAsyncGetGroups.fulfilled, (state, action: PayloadAction<GROUPS_RES>) => {
-            state.groups = action.payload.groups.data;
-            state.page.gi_currentpage = action.payload.groups.current_page;
-            state.page.gi_lastpage = action.payload.groups.last_page;
+            if(!action.payload.error_message) {
+                state.groups = action.payload.groups.data;
+                state.page.gi_currentpage = action.payload.groups.current_page;
+                state.page.gi_lastpage = action.payload.groups.last_page;
+            }
         });
         // グループ詳細取得処理
         builder.addCase(fetchAsyncGetGroup.fulfilled, (state, action: PayloadAction<GROUP_RES>) => {
-            state.group = action.payload.group;
+            if(!action.payload.error_message) {
+                state.group = action.payload.group;
+            }
         });
         // グループ参加者取得処理
         builder.addCase(fetchAsyncGetPusers.fulfilled, (state, action: PayloadAction<PUSERS_RES>) => {
-            state.pusers = action.payload.pusers.data;
-            state.page.u_currentpage = action.payload.pusers.current_page;
-            state.page.u_lastpage = action.payload.pusers.last_page;
+            if(!action.payload.error_message) {
+                state.pusers = action.payload.pusers.data;
+                state.page.u_currentpage = action.payload.pusers.current_page;
+                state.page.u_lastpage = action.payload.pusers.last_page;
+            }
         });
         // アルバム一覧取得処理
         builder.addCase(fetchAsyncGetAlbums.fulfilled, (state, action: PayloadAction<ALBUMS_RES>) => {
-            state.albums = action.payload.albums.data;
-            state.page.a_currentpage = action.payload.albums.current_page;
-            state.page.a_lastpage = action.payload.albums.last_page;
+            if(!action.payload.error_message) {
+                state.albums = action.payload.albums.data;
+                state.page.a_currentpage = action.payload.albums.current_page;
+                state.page.a_lastpage = action.payload.albums.last_page;
+            }
         });
     },
 });

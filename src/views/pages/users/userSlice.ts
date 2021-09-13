@@ -367,42 +367,56 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         // ユーザ一覧取得処理
         builder.addCase(fetchAsyncGetUsers.fulfilled, (state, action: PayloadAction<USERS_RES>) => {
-            state.users = action.payload.users.data;
-            state.page.ui_currentpage = action.payload.users.current_page;
-            state.page.ui_lastpage = action.payload.users.last_page;
+            if(!action.payload.error_message) {
+                state.users = action.payload.users.data;
+                state.page.ui_currentpage = action.payload.users.current_page;
+                state.page.ui_lastpage = action.payload.users.last_page;
+            }
         });
         // ユーザ詳細情報取得処理
         builder.addCase(fetchAsyncGetUser.fulfilled, (state, action: PayloadAction<USER_RES>) => {
-            state.user = action.payload.user;
+            if(!action.payload.error_message) {
+                state.user = action.payload.user;
+            }
         });
         // 参加歓迎中グループ情報取得処理
         builder.addCase(fetchAsyncGetWelcomeGroups.fulfilled, (state, action: PayloadAction<WGROUPS_RES>) => {
-            state.wgroups = action.payload.wgroups.data;
-            state.page.wg_currentpage = action.payload.wgroups.current_page;
-            state.page.wg_lastpage = action.payload.wgroups.last_page;
+            if(!action.payload.error_message) {
+                state.wgroups = action.payload.wgroups.data;
+                state.page.wg_currentpage = action.payload.wgroups.current_page;
+                state.page.wg_lastpage = action.payload.wgroups.last_page;
+            }
         });
         // 参加中グループ情報取得処理
         builder.addCase(fetchAsyncGetParticipatingGroups.fulfilled, (state, action: PayloadAction<PGROUPS_RES>) => {
-            state.pgroups = action.payload.pgroups.data;
-            state.page.pg_currentpage = action.payload.pgroups.current_page;
-            state.page.pg_lastpage = action.payload.pgroups.last_page;
+            if(!action.payload.error_message) {
+                state.pgroups = action.payload.pgroups.data;
+                state.page.pg_currentpage = action.payload.pgroups.current_page;
+                state.page.pg_lastpage = action.payload.pgroups.last_page;
+            }
         });
         // 招待用グループ情報取得処理
         builder.addCase(fetchAsyncGetInviteGroups.fulfilled, (state, action: PayloadAction<IGROUPS_RES>) => {
-            state.igroups = action.payload.igroups.data;
-            state.page.ig_currentpage = action.payload.igroups.current_page;
-            state.page.ig_lastpage = action.payload.igroups.last_page;
+            if(!action.payload.error_message) {
+                state.igroups = action.payload.igroups.data;
+                state.page.ig_currentpage = action.payload.igroups.current_page;
+                state.page.ig_lastpage = action.payload.igroups.last_page;
+            }
         });
         // グループ招待後の処理
         builder.addCase(fetchAsyncPostInviteGroup.fulfilled, (state, action: PayloadAction<GROUP_INVITE_RES>) => {
-            return {
-                ...state,
-                pgroups: [...state.pgroups, action.payload.group],
-            };
+            if(!action.payload.error_message) {
+                return {
+                    ...state,
+                    pgroups: [...state.pgroups, action.payload.group],
+                };
+            }
         });
         // 編集用ユーザ情報取得処理
         builder.addCase(fetchAsyncGetEditUser.fulfilled, (state, action: PayloadAction<EDIT_USER_RES>) => {
-            state.edituser = action.payload.edituser;
+            if(!action.payload.error_message) {
+                state.edituser = action.payload.edituser;
+            }
         });
     },
 });

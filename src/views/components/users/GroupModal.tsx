@@ -73,7 +73,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
     // redux
     const dispatch: AppDispatch = useDispatch();
     const igroups = useSelector(selectIgoups);
-    const [selectedValue, setSelectedValue] = useState(igroups[0].id ? igroups[0].id : 0);
+    const [selectedValue, setSelectedValue] = useState(igroups[0] ? igroups[0].id : 0);
 
     useEffect(() => {
         const renderGroupModal = async() => {
@@ -88,7 +88,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
     }, [dispatch]);
 
     useEffect(() => {
-        setSelectedValue(igroups[0].id ? igroups[0].id : 0);
+        setSelectedValue(igroups[0] ? igroups[0].id : 0);
     }, [igroups]);
 
     /**
