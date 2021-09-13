@@ -107,7 +107,7 @@ const MyProfileCard: React.FC<PROFILE_CARD> = (props) => {
         <Button 
           size="small" 
           className={componentStyles.editButton}
-          onClick={() => history.push(`/${props.data.name}/editer`)}
+          onClick={() => history.push(`/${props.data.name}/${props.data.id}/editer`)}
         >
           プロフィールを編集する
         </Button>

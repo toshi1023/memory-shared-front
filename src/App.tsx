@@ -101,14 +101,14 @@ const App: React.FC = () => {
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/register" component={UserRegister} />
                   <PrivateRoute exact path="/" component={Home} />
-                  <PrivateRoute exact path="/:name/editer" component={UserEditer} />
+                  <PrivateRoute exact path="/:name/:id/editer" component={UserEditer} />
                   <PrivateRoute exact path="/talk/:name" component={Talk} />
                   <PrivateRoute exact path="/users" component={UserList} />
                   <PrivateRoute exact path="/users/:name/:id" component={UserDetail} />
                   <PrivateRoute exact path="/groups" component={GroupList} />
                   <PrivateRoute exact path="/groups/register" component={GroupRegister} />
                   <PrivateRoute exact path="/groups/:name/:id" component={GroupDetail} />
-                  <PrivateRoute exact path="/groups/:name/editer" component={GroupEditer} />
+                  <PrivateRoute exact path="/groups/:name/:id/editer" component={GroupEditer} />
                   <PrivateRoute exact path="/groups/:name/post/register" component={PostRegister} />
                   <PrivateRoute exact path="/groups/:name/albums/test" component={AlbumDetail} />
                   <PrivateRoute exact path="/groups/:name/albums/register" component={AlbumRegister} />

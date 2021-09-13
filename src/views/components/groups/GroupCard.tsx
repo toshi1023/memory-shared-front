@@ -195,7 +195,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
               <Button 
                 size="small" 
                 className={componentStyles.editButton}
-                onClick={() => history.push('/groups/test/editer')}
+                onClick={() => history.push(`/groups/${props.data.name}/${props.data.id}/editer`)}
               >
                 グループを編集する
               </Button>  
