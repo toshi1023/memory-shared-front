@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import '../../../styles/users/users.scss';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
+import { fetchAsyncGetEditUser, selectEditUser } from './userSlice';
 import { 
     Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, 
     CardContent, Input, Radio, Button, TextField
@@ -26,20 +27,36 @@ const UserEditer: React.FC = () => {
     const classes = useStyles();
     const displayStyles = DisplayStyles();
     const history = useHistory();
-    const [selectedValue, setSelectedValue] = React.useState('男性');
-    const [selectedValue2, setSelectedValue2] = React.useState('変更しない');
+    const { id } = useParams<{ id: string }>();
     // redux
     const dispatch: AppDispatch = useDispatch();
+    const edituser = useSelector(selectEditUser);
+    const [selectedValue, setSelectedValue] = React.useState(0);
+    const [selectedValue2, setSelectedValue2] = React.useState(1);
 
     useEffect(() => {
-        dispatch(fetchGetUrl(history.location.pathname));
+        const renderUserEditer = async () => {
+            // 編集用ユーザ情報取得
+            const edituserRes = await dispatch(fetchAsyncGetEditUser({id: +id}));
+            if(fetchAsyncGetEditUser.fulfilled.match(edituserRes) && edituserRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(edituserRes.payload.error_message));
+                return;
+            }
+
+            dispatch(fetchGetUrl(history.location.pathname));
+        }
+        renderUserEditer();
     }, [dispatch]);
 
+    useEffect(() => {
+        setSelectedValue(edituser.gender);
+    }, [edituser]);
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedValue(event.target.value);
+        setSelectedValue(+event.target.value);
     };
     const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedValue2(event.target.value);
+        setSelectedValue2(+event.target.value);
     };
 
     return (
@@ -61,28 +78,28 @@ const UserEditer: React.FC = () => {
                             <CardContent>
                                 <form>
                                     <div className="c_labelarea"><span className="c_label">ユーザーネーム</span></div>
-                                    <Input placeholder="test user" className="c_textfield" inputProps={{ 'name': 'name' }} />
+                                    <Input placeholder="test user" className="c_textfield" inputProps={{ 'name': 'name' }} value={edituser.name} />
                                     <div className="c_labelarea"><span className="c_label">メールアドレス</span></div>
-                                    <Input placeholder="test@xxx.co.jp" className="c_textfield" inputProps={{ 'name': 'email' }} />
+                                    <Input placeholder="test@xxx.co.jp" className="c_textfield" inputProps={{ 'name': 'email' }} value={edituser.email} />
 
                                     <div className="c_labelarea"><span className="c_label">パスワード変更</span></div>
                                     <div className="c_radioarea">
                                         <Radio
-                                            checked={selectedValue2 === '変更する'}
+                                            checked={selectedValue2 === 0}
                                             onChange={handleChange2}
-                                            value='変更する'
+                                            value={0}
                                             classes={{root: classes.radio, checked: classes.checked}}
                                         />
                                         <span className="glabel">変更する</span>
                                         <Radio
-                                            checked={selectedValue2 === '変更しない'}
+                                            checked={selectedValue2 === 1}
                                             onChange={handleChange2}
-                                            value='変更しない'
+                                            value={1}
                                         />
                                         <span className="glabel">変更しない</span>
                                     </div>
                                     {
-                                        selectedValue2 === '変更する' ?
+                                        !selectedValue2 ?
                                             <>
                                                 <div className="c_labelarea"><span className="c_label">パスワード</span></div>
                                                 <Input className="c_textfield" inputProps={{ 'name': 'password', 'type': 'password' }} />
@@ -96,24 +113,24 @@ const UserEditer: React.FC = () => {
                                     <div className="c_labelarea"><span className="c_label">性別</span></div>
                                     <div className="c_radioarea">
                                         <Radio
-                                            checked={selectedValue === '男性'}
+                                            checked={selectedValue === 0}
                                             onChange={handleChange}
-                                            value='男性'
+                                            value={0}
                                             name="gender"
                                             classes={{root: classes.radio, checked: classes.checked}}
                                         />
                                         <span className="glabel">男性</span>
                                         <Radio
-                                            checked={selectedValue === '女性'}
+                                            checked={selectedValue === 1}
                                             onChange={handleChange}
-                                            value='女性'
+                                            value={1}
                                             name="gender"
                                         />
                                         <span className="glabel">女性</span>
                                     </div>
 
                                     <div className="c_labelarea"><span className="c_label">趣味</span></div>
-                                    <Input placeholder="スポーツ観戦...etc" className="c_textfield" inputProps={{ 'name': 'hobby' }} />
+                                    <Input placeholder="スポーツ観戦...etc" className="c_textfield" inputProps={{ 'name': 'hobby' }} value={edituser.hobby} />
 
                                     <div className="c_labelarea"><span className="c_label">紹介文</span></div>
                                     <TextField
@@ -123,6 +140,7 @@ const UserEditer: React.FC = () => {
                                         rows={10}
                                         placeholder="ここに紹介文を記載してください"
                                         variant="outlined"
+                                        value={edituser.description}
                                     />
 
                                     <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
@@ -155,28 +173,28 @@ const UserEditer: React.FC = () => {
                             <CardContent>
                                 <form>
                                     <div className="c_labelarea"><span className="c_label">ユーザーネーム</span></div>
-                                    <Input placeholder="test user" className="c_textfield" inputProps={{ 'name': 'name' }} />
+                                    <Input placeholder="test user" className="c_textfield" inputProps={{ 'name': 'name' }} value={edituser.name} />
                                     <div className="c_labelarea"><span className="c_label">メールアドレス</span></div>
-                                    <Input placeholder="test@xxx.co.jp" className="c_textfield" inputProps={{ 'name': 'email' }} />
+                                    <Input placeholder="test@xxx.co.jp" className="c_textfield" inputProps={{ 'name': 'email' }} value={edituser.email} />
 
                                     <div className="c_labelarea"><span className="c_label">パスワード変更</span></div>
                                     <div className="c_radioarea">
                                         <Radio
-                                            checked={selectedValue2 === '変更する'}
+                                            checked={selectedValue2 === 0}
                                             onChange={handleChange2}
-                                            value='変更する'
+                                            value={0}
                                             classes={{root: classes.radio, checked: classes.checked}}
                                         />
                                         <span className="glabel">変更する</span>
                                         <Radio
-                                            checked={selectedValue2 === '変更しない'}
+                                            checked={selectedValue2 === 1}
                                             onChange={handleChange2}
-                                            value='変更しない'
+                                            value={1}
                                         />
                                         <span className="glabel">変更しない</span>
                                     </div>
                                     {
-                                        selectedValue2 === '変更する' ?
+                                        !selectedValue2 ?
                                             <>
                                                 <div className="c_labelarea"><span className="c_label">パスワード</span></div>
                                                 <Input className="c_textfield" inputProps={{ 'name': 'password', 'type': 'password' }} />
@@ -190,24 +208,24 @@ const UserEditer: React.FC = () => {
                                     <div className="c_labelarea"><span className="c_label">性別</span></div>
                                     <div className="c_radioarea">
                                         <Radio
-                                            checked={selectedValue === '男性'}
+                                            checked={selectedValue === 0}
                                             onChange={handleChange}
-                                            value='男性'
+                                            value={0}
                                             name="gender"
                                             classes={{root: classes.radio, checked: classes.checked}}
                                         />
                                         <span className="glabel">男性</span>
                                         <Radio
-                                            checked={selectedValue === '女性'}
+                                            checked={selectedValue === 1}
                                             onChange={handleChange}
-                                            value='女性'
+                                            value={1}
                                             name="gender"
                                         />
                                         <span className="glabel">女性</span>
                                     </div>
 
                                     <div className="c_labelarea"><span className="c_label">趣味</span></div>
-                                    <Input placeholder="スポーツ観戦...etc" className="c_textfield" inputProps={{ 'name': 'hobby' }} />
+                                    <Input placeholder="スポーツ観戦...etc" className="c_textfield" inputProps={{ 'name': 'hobby' }} value={edituser.hobby} />
 
                                     <div className="c_labelarea"><span className="c_label">紹介文</span></div>
                                     <TextField
@@ -217,6 +235,7 @@ const UserEditer: React.FC = () => {
                                         rows={10}
                                         placeholder="ここに紹介文を記載してください"
                                         variant="outlined"
+                                        value={edituser.description}
                                     />
 
                                     <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>

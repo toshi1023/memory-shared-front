@@ -3,7 +3,7 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import {
     USERS_PROPS, USERS_RES, API_USER_PROPS, USER_RES, 
-    WGROUPS_RES, PGROUPS_RES, IGROUPS_RES, API_GROUP_INVITE_PROPS, GROUP_INVITE_RES 
+    WGROUPS_RES, PGROUPS_RES, IGROUPS_RES, API_GROUP_INVITE_PROPS, GROUP_INVITE_RES, EDIT_USER_RES 
 } from '../../types/usersTypes';
 
 const apiUrl = process.env.REACT_APP_MSA_API_URL;
@@ -170,6 +170,32 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
     }
 );
 
+/**
+ * 編集用ユーザ情報取得の非同期関数
+ */
+ export const fetchAsyncGetEditUser = createAsyncThunk<EDIT_USER_RES, API_USER_PROPS>(
+    "edituser",
+    async (props: API_USER_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/users/${props.id}/edit`, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as EDIT_USER_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as EDIT_USER_RES;
+        }
+    }
+);
+
 export const userSlice = createSlice({
     name: "user",
     initialState: {
@@ -323,6 +349,17 @@ export const userSlice = createSlice({
             // 招待用グループ
             ig_currentpage: 0,
             ig_lastpage: 0,
+        },
+        edituser: {
+            id: 0,
+            name: "",
+            email: "",
+            hobby: "",
+            gender: 0,
+            description: "",
+            status: 1,
+            image_file: "",
+            image_url: "",
         }
     },
     reducers: {},
@@ -363,6 +400,10 @@ export const userSlice = createSlice({
                 pgroups: [...state.pgroups, action.payload.group],
             };
         });
+        // 編集用ユーザ情報取得処理
+        builder.addCase(fetchAsyncGetEditUser.fulfilled, (state, action: PayloadAction<EDIT_USER_RES>) => {
+            state.edituser = action.payload.edituser;
+        });
     },
 });
 
@@ -371,5 +412,6 @@ export const selectUser = (state: RootState) => state.user.user;
 export const selectWgoups = (state: RootState) => state.user.wgroups;
 export const selectPgoups = (state: RootState) => state.user.pgroups;
 export const selectIgoups = (state: RootState) => state.user.igroups;
+export const selectEditUser = (state: RootState) => state.user.edituser;
 
 export default userSlice.reducer;

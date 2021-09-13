@@ -1,6 +1,9 @@
 import React from 'react';
 import '../../../styles/groups/groups.scss';
-import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, TextField, Radio, Button } from '@material-ui/core';
+import { 
+    Grid, Theme, makeStyles, createStyles,Typography, Card, 
+    CardHeader, CardContent, Input, TextField, Radio, Button 
+} from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 

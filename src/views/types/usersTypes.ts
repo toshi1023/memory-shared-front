@@ -331,3 +331,22 @@ export interface API_GROUP_INVITE_PROPS {
     info_message: string,
     error_message: string,
 }
+
+/**
+ * AsyncThunk用(edituser用)
+ */
+ export interface EDIT_USER_RES {
+    edituser: {
+        id: number,
+        name: string,
+        email: string,
+        hobby: string,
+        gender: number,
+        description: string,
+        status: number,
+        image_file: string,
+        image_url: string,
+    },
+
+    error_message: string,
+}
