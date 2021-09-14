@@ -6,8 +6,8 @@ import '../../../styles/groups/groups.scss';
 import '../../../styles/home/home.scss';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
 import { 
-    fetchAsyncGetGroup, selectGroup, fetchAsyncGetPusers, 
-    selectPusers, fetchAsyncGetAlbums, selectAlbums 
+    fetchAsyncGetGroup, selectGroup, fetchAsyncGetPusers, selectPusers, 
+    fetchAsyncGetAlbums, selectAlbums, fetchAsyncGetPosts, selectPosts 
 } from './groupSlice';
 import GroupCard from '../../components/groups/GroupCard';
 import UserListData from '../../components/groups/UserListData';

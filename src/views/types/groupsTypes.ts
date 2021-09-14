@@ -109,35 +109,13 @@ export interface GROUP_CARD {
  */
 export interface POST_MODAL {
     data: {
-        id: number | null;
-        content: string | null;
-        user_id: number | null;
-        user_name: string | null;
-        updated_at: string | null;
-        comment: {
-            id: number;
-            content: string;
-            user_id: number;
-            user_name: string;
-            updated_at: string;
-        }[] | null
+        content: string;
     }
     open: boolean;
     callback: (value: boolean) => void;
 }
 export interface MODAL_DATA {
-    id: number | null;
-    content: string | null;
-    user_id: number | null;
-    user_name: string | null;
-    updated_at: string | null;
-    comment: {
-        id: number;
-        content: string;
-        user_id: number;
-        user_name: string;
-        updated_at: string;
-    }[] | null
+    content: string;
 }
 
 /************************************************
@@ -272,6 +250,69 @@ export interface GROUP_RES {
             image_file: string,
             image_url: string,
             host_user_id: number
+        }[],
+        current_page: number,
+        last_page: number,
+    },
+
+    error_message: string,
+}
+
+/**
+ * AsyncThunk用(posts用)
+ */
+ export interface POSTS_RES {
+    posts: {
+        data: {
+            id: number,
+            content: string,
+            user_id: number,
+            group_id: number,
+            update_user_id: number,
+            created_at: string,
+            updated_at: string,
+            deleted_at: null,
+            user: {
+                id: number,
+                name: string,
+                image_file: string,
+                image_url: string
+            }
+        }[],
+        current_page: number,
+        last_page: number,
+    },
+
+    error_message: string,
+}
+
+/**
+ * comments用のデータ型定義
+ */
+export interface COMMENTS_PROPS {
+    id: number,
+    post_id: number
+}
+/**
+ * AsyncThunk用(comments用)
+ */
+export interface COMMENTS_RES {
+    comments: {
+        data: {
+            id: number,
+            content: string,
+            user_id: number,
+            post_id: number,
+            update_user_id: number,
+            created_at: string,
+            updated_at: string,
+            deleted_at: null,
+            user: {
+                id: number,
+                name: string,
+                image_file: string,
+                image_url: string
+            }
         }[],
         current_page: number,
         last_page: number,

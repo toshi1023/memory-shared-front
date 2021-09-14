@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { useHistory } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { fetchGetErrorMessages } from '../../pages/appSlice';
+import { fetchAsyncGetPosts, selectPosts, fetchAsyncGetComments, selectComments } from '../../pages/groups/groupSlice';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -17,9 +20,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import { GROUP_CARD, MODAL_DATA } from '../../types/groupsTypes';
 import PostModal from './PostModal';
+import { AppDispatch } from '../../../stores/store';
 
-import post_list from '../../../data/post_list_data.json';
-
+type GET_COMMENTS = {
+  post_id: number,
+  group_id: number
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -93,19 +99,23 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState<MODAL_DATA>({
-    id: null,
-    content: null,
-    user_id: null,
-    user_name: null,
-    updated_at: null,
-    comment: null
+      content: '',
   });
+  // redux
+  const dispatch: AppDispatch = useDispatch();
+  const posts = useSelector(selectPosts);
 
   /**
    * 投稿掲示板表示関数
    */
-  const handleExpandClick = () => {
+  const handleExpandClick = async () => {
       setExpanded(!expanded);
+      // 投稿情報取得
+      const postsRes = await dispatch(fetchAsyncGetPosts({id: props.data.id}));
+      if(fetchAsyncGetPosts.fulfilled.match(postsRes) && postsRes.payload.error_message) {
+          dispatch(fetchGetErrorMessages(postsRes.payload.error_message));
+          return;
+      }
   };
 
   /**
@@ -115,6 +125,19 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
   const handleOpen = (value: boolean) => {
       setOpen(value);
   };
+
+  /**
+   * コメント情報取得
+   * @param value 
+   * @returns 
+   */
+  const asyncGetComments = async (value: GET_COMMENTS) => {
+    const commentsRes = await dispatch(fetchAsyncGetComments({ id: value.group_id, post_id: value.post_id }));
+    if(fetchAsyncGetComments.fulfilled.match(commentsRes) && commentsRes.payload.error_message) {
+        dispatch(fetchGetErrorMessages(commentsRes.payload.error_message));
+        return;
+    }
+  }
 
   return (
     <Card className={classes.root}>
@@ -261,14 +284,18 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
           <Typography paragraph className={classes.postTitle}>投稿</Typography>
           <div className={classes.postFrame}>
             {
-              _.map(post_list, value => (
+              _.map(posts, value => (
                 <>
-                  <div className={classes.postList} key={value.id} onClick={() => { handleOpen(true); setModalData(value); }}>
+                  <div className={classes.postList} key={value.id} onClick={() => { 
+                      handleOpen(true); 
+                      asyncGetComments({group_id: value.group_id, post_id: value.id}); 
+                      setModalData({content: value.content}); 
+                  }}>
                     <div className={classes.postMeta}>
-                      <Avatar src={props.data.image_file} />
-                      <Typography style={{ marginLeft: '8px', fontSize: '1.1rem' }}>{value.user_name}</Typography>
+                      <Avatar src={value.user.image_file} />
+                      <Typography style={{ marginLeft: '8px', fontSize: '1.1rem' }}>{value.user.name}</Typography>
                     </div>
-                    <div className={classes.postBox} key={value.id}>
+                    <div className={classes.postBox}>
                       <Typography className={classes.postContent} color="textSecondary">{value.content}</Typography>
                     </div>
                     <Typography>{value.updated_at}</Typography>

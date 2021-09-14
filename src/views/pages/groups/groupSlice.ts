@@ -3,7 +3,7 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     GROUPS_PROPS, GROUPS_RES, API_GROUP_PROPS, GROUP_RES, 
-    PUSERS_RES, ALBUMS_RES 
+    PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES  
 } from "../../types/groupsTypes";
 
 const apiUrl = process.env.REACT_APP_MSA_API_URL;
@@ -117,6 +117,58 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
     }
 );
 
+/**
+ * 投稿一覧取得の非同期関数
+ */
+ export const fetchAsyncGetPosts = createAsyncThunk<POSTS_RES, API_GROUP_PROPS>(
+    "posts",
+    async (props: API_GROUP_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/groups/${props.id}/posts`, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as POSTS_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as POSTS_RES;
+        }
+    }
+);
+
+/**
+ * コメント一覧取得の非同期関数
+ */
+ export const fetchAsyncGetComments = createAsyncThunk<COMMENTS_RES, COMMENTS_PROPS>(
+    "comments",
+    async (props: COMMENTS_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/groups/${props.id}/posts/${props.post_id}/comments`, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as COMMENTS_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as COMMENTS_RES;
+        }
+    }
+);
+
 export const groupSlice = createSlice({
     name: "group",
     initialState: {
@@ -212,6 +264,42 @@ export const groupSlice = createSlice({
                 host_user_id: 0
             }
         ],
+        posts: [
+            {
+                id: 0,
+                content: '',
+                user_id: 0,
+                group_id: 0,
+                update_user_id: 0,
+                created_at: '',
+                updated_at: '',
+                deleted_at: null,
+                user: {
+                    id: 0,
+                    name: '',
+                    image_file: '',
+                    image_url: '',
+                }
+            }
+        ],
+        comments: [
+            {
+                id: 0,
+                content: '',
+                user_id: 0,
+                post_id: 0,
+                update_user_id: 0,
+                created_at: '',
+                updated_at: '',
+                deleted_at: null,
+                user: {
+                    id: 0,
+                    name: '',
+                    image_file: '',
+                    image_url: '',
+                }
+            }
+        ],
         page: {
             // グループ一覧
             gi_currentpage: 0,
@@ -221,7 +309,13 @@ export const groupSlice = createSlice({
             u_lastpage: 0,
             // アルバム一覧
             a_currentpage: 0,
-            a_lastpage: 0
+            a_lastpage: 0,
+            // 投稿一覧
+            p_currentpage: 0,
+            p_lastpage: 0,
+            // コメント一覧
+            c_currentpage: 0,
+            c_lastpage: 0
         }
     },
     reducers: {},
@@ -257,6 +351,22 @@ export const groupSlice = createSlice({
                 state.page.a_lastpage = action.payload.albums.last_page;
             }
         });
+        // 投稿一覧取得処理
+        builder.addCase(fetchAsyncGetPosts.fulfilled, (state, action: PayloadAction<POSTS_RES>) => {
+            if(!action.payload.error_message) {
+                state.posts = action.payload.posts.data;
+                state.page.p_currentpage = action.payload.posts.current_page;
+                state.page.p_lastpage = action.payload.posts.last_page;
+            }
+        });
+        // コメント一覧取得処理
+        builder.addCase(fetchAsyncGetComments.fulfilled, (state, action: PayloadAction<COMMENTS_RES>) => {
+            if(!action.payload.error_message) {
+                state.comments = action.payload.comments.data;
+                state.page.c_currentpage = action.payload.comments.current_page;
+                state.page.c_lastpage = action.payload.comments.last_page;
+            }
+        });
     },
 });
 
@@ -264,5 +374,7 @@ export const selectGroups = (state: RootState) => state.group.groups;
 export const selectGroup = (state: RootState) => state.group.group;
 export const selectPusers = (state: RootState) => state.group.pusers;
 export const selectAlbums = (state: RootState) => state.group.albums;
+export const selectPosts = (state: RootState) => state.group.posts;
+export const selectComments = (state: RootState) => state.group.comments;
 
 export default groupSlice.reducer;

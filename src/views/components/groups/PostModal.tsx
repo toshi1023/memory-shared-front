@@ -1,7 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { fetchGetErrorMessages, fetchGetInfoMessages, fetchCredStart, fetchCredEnd } from '../../pages/appSlice';
+import { selectComments } from '../../pages/groups/groupSlice';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -66,6 +69,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const PostModal: React.FC<POST_MODAL> = (props) => {
     const classes = useStyles();
     const componentStyles = ComponentStyles();
+    // redux
+    const comments = useSelector(selectComments);
 
     return (
         <Grid container justify="center">
@@ -91,11 +96,11 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                             <Typography className={classes.title}>コメント</Typography>
                             <div className={classes.commentFrame}>
                                 {
-                                    _.map(props.data.comment, value => (
+                                    _.map(comments, value => (
                                         <div className={classes.commentArea} key={value.id}>
                                             <div style={{ width: '10%' }}>
-                                                <Avatar src="" />
-                                                <Typography>{value.user_name}</Typography>
+                                                <Avatar src={value.user.image_url} />
+                                                <Typography>{value.user.name}</Typography>
                                             </div>
                                             <div className={classes.commentBox} style={{ width: '90%' }}>
                                                 <Typography className={classes.comment}>{value.content}</Typography>
@@ -146,11 +151,11 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                             <Typography className={classes.title}>コメント</Typography>
                             <div className={classes.commentFrame}>
                                 {
-                                    _.map(props.data.comment, value => (
+                                    _.map(comments, value => (
                                         <div className={classes.commentArea} key={value.id}>
                                             <div style={{ width: '14%' }}>
-                                                <Avatar src="" />
-                                                <Typography>{value.user_name}</Typography>
+                                                <Avatar src={value.user.image_url} />
+                                                <Typography>{value.user.name}</Typography>
                                             </div>
                                             <div className={classes.commentBox} style={{ width: '86%' }}>
                                                 <Typography className={classes.comment}>{value.content}</Typography>
@@ -201,11 +206,11 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                 <Typography className={classes.title}>コメント</Typography>
                                 <div className={classes.commentFrame}>
                                     {
-                                        _.map(props.data.comment, value => (
+                                        _.map(comments, value => (
                                             <div className={classes.commentArea} key={value.id}>
                                                 <div style={{ width: '17%' }}>
-                                                    <Avatar src="" />
-                                                    <Typography>{value.user_name}</Typography>
+                                                    <Avatar src={value.user.image_url} />
+                                                    <Typography>{value.user.name}</Typography>
                                                 </div>
                                                 <div className={classes.commentBox} style={{ width: '83%' }}>
                                                     <Typography className={classes.comment} style={{ fontSize: '0.9rem' }}>{value.content}</Typography>
