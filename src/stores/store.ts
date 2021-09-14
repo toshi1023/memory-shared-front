@@ -5,6 +5,7 @@ import appReducer from '../views/pages/appSlice';
 import homeReducer from '../views/pages/home/homeSlice';
 import userReducer from '../views/pages/users/userSlice';
 import groupReducer from '../views/pages/groups/groupSlice';
+import newsReducer from '../views/pages/news/newsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     home: homeReducer,
     user: userReducer,
     group: groupReducer,
+    news: newsReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

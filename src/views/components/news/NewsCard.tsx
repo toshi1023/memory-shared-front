@@ -1,9 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { selectNewsInfo } from '../../pages/news/newsSlice';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { NEWS_CARD } from '../../types/newsTypes';
 
 const useStyles = makeStyles({
     root: {
@@ -20,17 +21,18 @@ const useStyles = makeStyles({
     }
 });
 
-const NewsCard: React.FC<NEWS_CARD> = (props) => {
+const NewsCard: React.FC = () => {
     const classes = useStyles();
+    const newsinfo = useSelector(selectNewsInfo);
 
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography className={classes.title}>
-                    {props.data.title}
+                    {newsinfo.title}
                 </Typography>
                 <Typography className={classes.content} color="textSecondary">
-                    {props.data.content}
+                    {newsinfo.content}
                 </Typography>
             </CardContent>
         </Card>

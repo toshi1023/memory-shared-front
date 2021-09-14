@@ -1,20 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/news/news.scss';
+import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
+import { fetchAsyncGetNews, selectNews, fetchGetNewsInfo } from './newsSlice';
 import NewsCard from '../../components/news/NewsCard';
 import NewsListData from '../../components/news/NewsListData';
 import GroupListData from '../../components/news/GroupListData';
 import { Grid, Typography, Hidden } from '@material-ui/core';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
 import DisplayStyles from '../../../styles/common/displayMode';
+import { AppDispatch } from '../../../stores/store';
 
-import news_list from '../../../data/news_list_data.json';
 import group_list from '../../../data/group_list_data.json';
 
 const NewsDetail: React.FC = () => {
+    const history = useHistory();
     const displayStyles = DisplayStyles();
     // スマホ用の画面切り替えを管理
     const [view, setView] = useState(0);
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+    const news = useSelector(selectNews);
+
+    useEffect(() => {
+        const renderNewsDetail = async () => {
+            // ニュース一覧情報取得
+            const newsRes = await dispatch(fetchAsyncGetNews());
+            if(fetchAsyncGetNews.fulfilled.match(newsRes) && newsRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(newsRes.payload.error_message));
+                return;
+            }
+            dispatch(fetchGetUrl(history.location.pathname));
+        }
+        renderNewsDetail();
+    }, [dispatch]);
 
     // MobileHeaderTab用のラベルを設定
     const label = {
@@ -37,17 +58,17 @@ const NewsDetail: React.FC = () => {
             <Grid container justify="center">
                 <Grid item xs={11} className="c_title_space center">
                     <Typography className="c_title">
-                        {profile.name}さんへの通知
+                        通知内容
                     </Typography>
                 </Grid>
                 <Grid item xs={11}>
-                    <NewsCard data={news} />
+                    <NewsCard />
                 </Grid>
                 <Grid item xs={11} className="news_list">
                     <hr className="app_hr" />
                     <br />
 
-                    <NewsListData data={news_list} />
+                    <NewsListData data={news} />
                 </Grid>
             </Grid>
         );
@@ -93,12 +114,6 @@ const NewsDetail: React.FC = () => {
         talk_id: 1,
     }
 
-    const news = {
-        id: 1,
-        title: '本日よりオープン！',
-        content: 'プライベートな画像・動画共有サイトをオープンしました！'
-    }
-
     return (
         <div id="news_detail">
             
@@ -110,7 +125,7 @@ const NewsDetail: React.FC = () => {
                         {/* Title */}
                         <Grid item md={5} className="c_title_space">
                             <Typography className="c_title">
-                                {profile.name}さんへの通知
+                                通知内容
                             </Typography>
                         </Grid>
                         <Grid item md={3} className="c_title_space center">
@@ -120,13 +135,13 @@ const NewsDetail: React.FC = () => {
                         </Grid>
                         {/* Content */}
                         <Grid item md={5} className="c_content_space center">
-                            <NewsCard data={news} />
+                            <NewsCard />
 
                             <br />
                             <hr className="app_hr" />
                             <br />
 
-                            <NewsListData data={news_list} />
+                            <NewsListData data={news} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center">
                             <GroupListData data={group_list} />
@@ -149,7 +164,7 @@ const NewsDetail: React.FC = () => {
                         {/* Title */}
                         <Grid item sm={7} className="c_title_space">
                             <Typography className="c_title">
-                                {profile.name}さんへの通知
+                                通知内容
                             </Typography>
                         </Grid>
                         <Grid item sm={4} className="c_title_space center">
@@ -159,13 +174,13 @@ const NewsDetail: React.FC = () => {
                         </Grid>
                         {/* Content */}
                         <Grid item sm={7} className="c_content_space center">
-                            <NewsCard data={news} />
+                            <NewsCard />
 
                             <br />
                             <hr className="app_hr" />
                             <br />
 
-                            <NewsListData data={news_list} />
+                            <NewsListData data={news} />
                         </Grid>
                         <Grid item sm={4} className="c_content_space center">
                             <GroupListData data={group_list} />
