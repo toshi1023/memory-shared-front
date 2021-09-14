@@ -161,10 +161,10 @@ const Login: React.FC = () => {
                             <Hidden lgUp xsDown>
                                 <Grid container justify="center" className="formcontainer">
                                     <Grid item sm={12} md={12} className="login_image_area_ipad">
-                                        <img src={loginpage_back2} className="loginpage_back_ipad" />
-                                        <img src={loginpage_front2} className="loginpage_front_ipad" />
-                                        {/* <img src={loginpage_back1} className="loginpage_back_ipad" />
-                                        <img src={loginpage_front1} className="loginpage_front_ipad" /> */}
+                                        <img src={loginpage_back2} className="loginpage_back_ipad after" />
+                                        <img src={loginpage_front2} className="loginpage_front_ipad after" />
+                                        <img src={loginpage_back1} className="loginpage_back_ipad" />
+                                        <img src={loginpage_front1} className="loginpage_front_ipad" />
                                         <Typography className="wf-merienda ipad">
                                             MemoryShareApp
                                         </Typography>

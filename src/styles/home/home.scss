@@ -66,15 +66,24 @@
     .loginpage_image_area {
         position: relative;
 
-        img {
-            animation-name: loginpage_image;
-            -webkit-animation-name: loginpage_image;
-            animation-duration: 10s;
-            -webkit-animation-duration: 10s;
-            animation-iteration-count: infinite;
-            -webkit-animation-iteration-count: infinite;
-            opacity: 0;
-        }
+        // .loginpage_back {
+        //     animation-name: loginpage_image;
+        //     -webkit-animation-name: loginpage_image;
+        //     animation-duration: 10s;
+        //     -webkit-animation-duration: 10s;
+        //     animation-iteration-count: infinite;
+        //     -webkit-animation-iteration-count: infinite;
+        //     opacity: 0;
+        // }
+        // .loginpage_front {
+        //     animation-name: loginpage_image;
+        //     -webkit-animation-name: loginpage_image;
+        //     animation-duration: 10s;
+        //     -webkit-animation-duration: 10s;
+        //     animation-iteration-count: infinite;
+        //     -webkit-animation-iteration-count: infinite;
+        //     opacity: 0;
+        // }
     }
     .loginpage_back {
         position: absolute;
@@ -82,6 +91,7 @@
         left: 22%;
         height: auto;
         width: 450px;
+        animation: loginpage_image 10s infinite;
 
         &.after {
             animation-delay:5s;
@@ -94,6 +104,7 @@
         left: 11%;
         height: auto;
         width: 450px;
+        animation: loginpage_image 10s infinite;
 
         &.after {
             animation-delay:5s;
@@ -102,36 +113,16 @@
     }
     
     @keyframes loginpage_image {
-        0% {
-            opacity: 0;
-        }
-        
-        12.5% {
-            opacity: 1;
-        }
-    
-        37.5% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 0;
-        }
+        0% { opacity: 0; }
+        25% { opacity: 1; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
     }
     @-webkit-keyframes loginpage_image {
-        0% {
-            opacity: 0;
-        }
-        
-        12.5% {
-            opacity: 1;
-        }
-    
-        37.5% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 0;
-        }
+        0% { opacity: 0; }
+        25% { opacity: 1; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
     }
 
     // iPad版
@@ -144,6 +135,12 @@
         left: 38%;
         height: auto;
         width: 350px;
+        animation: loginpage_image 10s infinite;
+
+        &.after {
+            animation-delay:5s;
+            -webkit-animation-delay:5s;
+        }
     }
     .loginpage_front_ipad {
         position: absolute;
@@ -151,6 +148,12 @@
         left: 18%;
         height: auto;
         width: 350px;
+        animation: loginpage_image 10s infinite;
+
+        &.after {
+            animation-delay:5s;
+            -webkit-animation-delay:5s;
+        }
     }
     .card_ipad {
         background-color: white;
