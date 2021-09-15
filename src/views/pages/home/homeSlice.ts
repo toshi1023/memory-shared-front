@@ -235,6 +235,7 @@ export const homeSlice = createSlice({
                 deleted_at: null,
                 otherid: 0,
                 messangers_id: 0,
+                mcount: 0,
                 other: {
                     id: 0,
                     name: '',
@@ -275,25 +276,33 @@ export const homeSlice = createSlice({
         });
         // プロフィール取得処理
         builder.addCase(fetchAsyncGetProfile.fulfilled, (state, action: PayloadAction<PROFILE_RES>) => {
-            state.profile = action.payload.user;
+            if(!action.payload.error_message) {
+                state.profile = action.payload.user;
+            }
         });
         // ファミリー取得処理
         builder.addCase(fetchAsyncGetFamily.fulfilled, (state, action: PayloadAction<FAMILY_RES>) => {
-            state.families = action.payload.families.data;
-            state.page.f_currentpage = action.payload.families.current_page;
-            state.page.f_lastpage = action.payload.families.last_page;
+            if(!action.payload.error_message) {
+                state.families = action.payload.families.data;
+                state.page.f_currentpage = action.payload.families.current_page;
+                state.page.f_lastpage = action.payload.families.last_page;
+            }
         });
         // 参加グループ取得処理
         builder.addCase(fetchAsyncGetParticipant.fulfilled, (state, action: PayloadAction<PARTICIPANT_RES>) => {
-            state.participants = action.payload.participants.data;
-            state.page.g_currentpage = action.payload.participants.current_page;
-            state.page.g_lastpage = action.payload.participants.last_page;
+            if(!action.payload.error_message) {
+                state.participants = action.payload.participants.data;
+                state.page.g_currentpage = action.payload.participants.current_page;
+                state.page.g_lastpage = action.payload.participants.last_page;
+            }
         });
         // トーク一覧取得処理
         builder.addCase(fetchAsyncGetTalklist.fulfilled, (state, action: PayloadAction<TALKLIST_RES>) => {
-            state.talklist = action.payload.talklist.data;
-            state.page.g_currentpage = action.payload.talklist.current_page;
-            state.page.g_lastpage = action.payload.talklist.last_page;
+            if(!action.payload.error_message) {
+                state.talklist = action.payload.talklist.data;
+                state.page.g_currentpage = action.payload.talklist.current_page;
+                state.page.g_lastpage = action.payload.talklist.last_page;
+            }
         });
     },
 });

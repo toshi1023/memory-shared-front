@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from "react-router-dom";
 import _ from 'lodash';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import { List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Grid, Typography } from '@material-ui/core';
+import { List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Grid, Typography, Badge } from '@material-ui/core';
 import { TALK_LIST } from '../../types/homeTypes';
 import noimage from '../../../image/no-image2.jpg';
 
@@ -38,7 +38,14 @@ const MyTalkList: React.FC<TALK_LIST> = (props) => {
                         <List className={classes.root}>
                             <ListItem alignItems="flex-start" className={classes.talklist} onClick={() => history.push(`/talk/${value.other.name}`)}>
                                 <ListItemAvatar>
-                                    <Avatar alt={value.other ? value.other.image_file : ''} src={value.other ? value.other.image_url : ''} />
+                                    {
+                                        value.mcount ? 
+                                            <Badge badgeContent={value.mcount} color="secondary">
+                                                <Avatar alt={value.other ? value.other.image_file : ''} src={value.other ? value.other.image_url : ''} />
+                                            </Badge>
+                                        :
+                                            <Avatar alt={value.other ? value.other.image_file : ''} src={value.other ? value.other.image_url : ''} />
+                                    }
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={value.other ? value.other.name : ''}

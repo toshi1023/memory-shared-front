@@ -78,6 +78,7 @@ export interface GROUP_LIST {
         deleted_at: null,
         otherid: number,
         messangers_id: number,
+        mcount: number,
         other: {
             id: number,
             name: string,
@@ -220,15 +221,23 @@ export interface TALKLIST_RES {
             deleted_at: null,
             otherid: number,
             messangers_id: number,
+            mcount: number,
             other: {
                 id: number,
                 name: string,
                 image_file: string,
                 image_url: string
-            }
+            },
+            mread: {
+                message_id: number,
+                own_id: number,
+                user_id: number,
+                created_at: string,
+                updated_at: string,
+            }[]
         }[],
         current_page: number,
-        last_page: number,
+        last_page: number
     },
 
     error_message: string,
