@@ -227,14 +227,41 @@ export interface TALKLIST_RES {
                 name: string,
                 image_file: string,
                 image_url: string
+            }
+        }[],
+        current_page: number,
+        last_page: number
+    },
+
+    error_message: string,
+}
+
+/**
+ * AsyncThunk用(talks用)
+ */
+export interface TALKS_RES {
+    talks: {
+        data: {
+            id: number,
+            content: string,
+            own_id: number,
+            user_id: number,
+            update_user_id: number,
+            created_at: string,
+            updated_at: string,
+            deleted_at: null,
+            own: {
+                id: number,
+                name: string,
+                image_file: string,
+                image_url: string
             },
-            mread: {
-                message_id: number,
-                own_id: number,
-                user_id: number,
-                created_at: string,
-                updated_at: string,
-            }[]
+            user: {
+                id: number,
+                name: string,
+                image_file: string,
+                image_url: string
+            }
         }[],
         current_page: number,
         last_page: number

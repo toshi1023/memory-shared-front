@@ -3,7 +3,7 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     LOGIN_PROPS, LOGIN_RES, LOGOUT_PROPS, LOGOUT_RES, API_USERS_PROPS, PROFILE_RES, 
-    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES 
+    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES 
 } from "../../types/homeTypes";
 
 const webUrl = process.env.REACT_APP_MSA_WEB_URL;
@@ -167,6 +167,32 @@ export const fetchAsyncGetTalklist = createAsyncThunk<TALKLIST_RES, API_USERS_PR
     }
 );
 
+/**
+ * トーク履歴情報取得の非同期関数
+ */
+export const fetchAsyncGetTalks = createAsyncThunk<TALKS_RES, API_USERS_PROPS>(
+    "talks",
+    async (props: API_USERS_PROPS) => {
+          try {
+              const res = await axios.get(`${apiUrl}/${props.id}/messages`, {
+                  headers: {
+                      "Accept": "application/json"
+                  },
+                  withCredentials: true
+              });
+              
+              return res.data as TALKS_RES;
+  
+          } catch (err: any) {
+              if (!err.response) {
+                  throw err
+              }
+              
+              return err.response.data as TALKS_RES;
+          }
+    }
+);
+
 export const homeSlice = createSlice({
     name: "home",
     initialState: {
@@ -244,6 +270,30 @@ export const homeSlice = createSlice({
                 }
             }
         ],
+        talks: [
+            {
+                id: 0,
+                content: '',
+                own_id: 0,
+                user_id: 0,
+                update_user_id: 0,
+                created_at: '',
+                updated_at: '',
+                deleted_at: null,
+                own: {
+                    id: 0,
+                    name: '',
+                    image_file: '',
+                    image_url: ''
+                },
+                user: {
+                    id: 0,
+                    name: '',
+                    image_file: '',
+                    image_url: ''
+                }
+            }
+        ],
         page: {
             // ファミリー
             f_currentpage: 0,
@@ -253,7 +303,10 @@ export const homeSlice = createSlice({
             g_lastpage: 0,
             // トーク
             t_currentpage: 0,
-            t_lastpage: 0
+            t_lastpage: 0,
+            // トーク履歴
+            ti_currentpage: 0,
+            ti_lastpage: 0
         }
     },
     reducers: {},
@@ -300,8 +353,16 @@ export const homeSlice = createSlice({
         builder.addCase(fetchAsyncGetTalklist.fulfilled, (state, action: PayloadAction<TALKLIST_RES>) => {
             if(!action.payload.error_message) {
                 state.talklist = action.payload.talklist.data;
-                state.page.g_currentpage = action.payload.talklist.current_page;
-                state.page.g_lastpage = action.payload.talklist.last_page;
+                state.page.t_currentpage = action.payload.talklist.current_page;
+                state.page.t_lastpage = action.payload.talklist.last_page;
+            }
+        });
+        // トーク履歴取得処理
+        builder.addCase(fetchAsyncGetTalks.fulfilled, (state, action: PayloadAction<TALKS_RES>) => {
+            if(!action.payload.error_message) {
+                state.talks = action.payload.talks.data;
+                state.page.ti_currentpage = action.payload.talks.current_page;
+                state.page.ti_lastpage = action.payload.talks.last_page;
             }
         });
     },
@@ -311,6 +372,7 @@ export const selectProfile = (state: RootState) => state.home.profile;
 export const selectFamily = (state: RootState) => state.home.families;
 export const selectParticipant = (state: RootState) => state.home.participants;
 export const selectTalklist = (state: RootState) => state.home.talklist;
+export const selectTalks = (state: RootState) => state.home.talks;
 export const selectHomePage = (state: RootState) => state.home.page;
 
 export default homeSlice.reducer;

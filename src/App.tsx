@@ -102,7 +102,7 @@ const App: React.FC = () => {
                   <Route exact path="/register" component={UserRegister} />
                   <PrivateRoute exact path="/" component={Home} />
                   <PrivateRoute exact path="/:name/:id/editer" component={UserEditer} />
-                  <PrivateRoute exact path="/talk/:name" component={Talk} />
+                  <PrivateRoute exact path="/talk/:name/:id" component={Talk} />
                   <PrivateRoute exact path="/users" component={UserList} />
                   <PrivateRoute exact path="/users/:name/:id" component={UserDetail} />
                   <PrivateRoute exact path="/groups" component={GroupList} />

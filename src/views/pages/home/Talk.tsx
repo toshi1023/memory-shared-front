@@ -1,45 +1,55 @@
 import React, { useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
+import { fetchAsyncGetTalks, selectTalks } from './homeSlice';
 import { Grid, Typography, Hidden, Button, Box, Avatar, CardContent, IconButton, TextField } from '@material-ui/core';
 import ReplyIcon from '@material-ui/icons/Reply';
 import _ from 'lodash';
 import { AppDispatch } from '../../../stores/store';
 
-import talk_list from '../../../data/talk_list_data.json';
-
 const Talk: React.FC = () => {
     const history = useHistory();
-    const dispatch: AppDispatch = useDispatch();
+    const { id } = useParams<{id: string}>();
     const messageArea = useRef<HTMLDivElement>(null);
-    const loginId = 1;
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+    const talks = useSelector(selectTalks);
 
     useEffect(() => {
-        // スクロールが存在する場合、メッセージ表示部分のスクロールを最下層に初期値として設定
-        if(messageArea.current !== null) {
-            messageArea.current.scrollTop = messageArea.current?.clientHeight;
-        }
-        dispatch(fetchGetUrl(history.location.pathname));
-    }, []);
+        // トーク履歴を取得
+        const renderTalk = async () => {
+            const talkRes = await dispatch(fetchAsyncGetTalks({id: +id}));
+            if(fetchAsyncGetTalks.fulfilled.match(talkRes) && talkRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(talkRes.payload.error_message));
+                return;
+            }
+            // スクロールが存在する場合、メッセージ表示部分のスクロールを最下層に初期値として設定
+            if(messageArea.current !== null) {
+                messageArea.current.scrollTop = messageArea.current?.clientHeight;
+            }
+            dispatch(fetchGetUrl(history.location.pathname));
+        }        
+        renderTalk();
+    }, [dispatch]);
 
     return (
         <div id="talk">
             <Grid container justify="center">
                 <Grid item xs={11} sm={8} md={7} className="message_area" ref={messageArea}>
                     {
-                        _.map(talk_list, value => (
+                        _.map(talks, value => (
                             <div className="message_box">
                                 {
-                                    value.own_id === loginId ? 
+                                    value.own_id === +localStorage.loginId ? 
                                         <Box component="div" key={value.id} m={1} borderRadius={16} className="right-box">
                                             <div className="avatar_area">
                                                 <Avatar
-                                                    src={value.image_file}
+                                                    src={value.own.image_url}
                                                     className="avatar"
                                                 />
                                                 <Typography className="avatar_name">
-                                                    {value.user_name}
+                                                    {value.own.name}
                                                 </Typography>
                                             </div>
                                             <div className="content_area">
@@ -50,11 +60,11 @@ const Talk: React.FC = () => {
                                         <Box component="div" key={value.id} m={1} borderRadius={16} className="left-box">
                                             <div className="avatar_area">
                                                 <Avatar
-                                                    src={value.image_file}
+                                                    src={value.own.image_url}
                                                     className="avatar"
                                                 />
                                                 <Typography className="avatar_name left">
-                                                    {value.user_name}
+                                                    {value.own.name}
                                                 </Typography>
                                             </div>
                                             <div className="content_area">

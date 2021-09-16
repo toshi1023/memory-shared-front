@@ -36,7 +36,7 @@ const MyTalkList: React.FC<TALK_LIST> = (props) => {
                 <Grid container justify="center" key={value.id}>
                     <Grid item xs={12} sm={11}>
                         <List className={classes.root}>
-                            <ListItem alignItems="flex-start" className={classes.talklist} onClick={() => history.push(`/talk/${value.other.name}`)}>
+                            <ListItem alignItems="flex-start" className={classes.talklist} onClick={() => history.push(`/talk/${value.other.name}/${value.other.id}`)}>
                                 <ListItemAvatar>
                                     {
                                         value.mcount ? 
