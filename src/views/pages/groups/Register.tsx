@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../../styles/groups/groups.scss';
 import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, TextField, Radio, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
@@ -16,8 +16,9 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 const GroupRegister: React.FC = () => {
-    const [selectedValue, setSelectedValue] = React.useState('公開');
-    const [selectedValue2, setSelectedValue2] = React.useState('する');
+    const [selectedValue, setSelectedValue] = useState('公開');
+    const [selectedValue2, setSelectedValue2] = useState('する');
+    const [file, setFile] = useState<File | null>(null);
     const classes = useStyles();
     const displayStyles = DisplayStyles();
 
@@ -27,6 +28,13 @@ const GroupRegister: React.FC = () => {
     const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedValue2(event.target.value);
     };
+
+    /**
+     * 画像情報の取得用コールバック関数
+     */
+    const handleSetFile = (props: File | null) => {
+        if(props) setFile(props);
+    }
 
     return (
         <div id="group_register">
@@ -106,7 +114,7 @@ const GroupRegister: React.FC = () => {
 
                                     <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                     <div className="c_imagearea">
-                                        <SingleImageRegister />
+                                        <SingleImageRegister data={null} callback={handleSetFile} />
                                     </div>
 
                                     <Button className="c_button small">登録</Button>
@@ -192,7 +200,7 @@ const GroupRegister: React.FC = () => {
 
                                     <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                     <div className="c_imagearea">
-                                        <SingleImageRegister />
+                                        <SingleImageRegister data={null} callback={handleSetFile} />
                                     </div>
                                     <Button className="c_button small">登録</Button>
                                 </form>

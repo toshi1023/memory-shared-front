@@ -52,3 +52,11 @@ export interface MOBILE_HEADER_TAB {
     infoOpen: boolean,
     errorOpen: boolean
 }
+
+/**
+ * SingleImageRegister用のデータ型定義
+ */
+export interface SINGLE_IMAGE_REGISTER {
+    data: string | null,
+    callback: (value: File | null) => void,
+}

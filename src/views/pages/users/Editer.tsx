@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import '../../../styles/users/users.scss';
@@ -28,6 +28,7 @@ const UserEditer: React.FC = () => {
     const displayStyles = DisplayStyles();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
+    const [file, setFile] = useState<File | null>(null);
     // redux
     const dispatch: AppDispatch = useDispatch();
     const edituser = useSelector(selectEditUser);
@@ -58,6 +59,13 @@ const UserEditer: React.FC = () => {
     const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedValue2(+event.target.value);
     };
+
+    /**
+     * 画像情報の取得用コールバック関数
+     */
+    const handleSetFile = (props: File | null) => {
+        if(props) setFile(props);
+    }
 
     return (
         <div id="user_editer">
@@ -145,7 +153,7 @@ const UserEditer: React.FC = () => {
 
                                     <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
                                     <div className="c_imagearea">
-                                        <SingleImageRegister />
+                                        <SingleImageRegister data={edituser.image_url} callback={handleSetFile} />
                                     </div>
 
                                     <Button className="c_button small">登録</Button>
@@ -240,7 +248,7 @@ const UserEditer: React.FC = () => {
 
                                     <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
                                     <div className="c_imagearea">
-                                        <SingleImageRegister />
+                                        <SingleImageRegister data={edituser.image_url} callback={handleSetFile} />
                                     </div>
 
                                     <Button className="c_button small">更新</Button>

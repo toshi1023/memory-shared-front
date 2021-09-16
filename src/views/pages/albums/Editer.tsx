@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../../styles/albums/albums.scss';
 import { Grid, Typography, Card, CardHeader, CardContent, Input, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
@@ -6,6 +6,14 @@ import DisplayStyles from '../../../styles/common/displayMode';
 
 const AlbumEditer: React.FC = () => {
     const displayStyles = DisplayStyles();
+    const [file, setFile] = useState<File | null>(null);
+
+    /**
+     * 画像情報の取得用コールバック関数
+     */
+    const handleSetFile = (props: File | null) => {
+        if(props) setFile(props);
+    }
 
     return (
         <div id="album_editer">
@@ -31,7 +39,7 @@ const AlbumEditer: React.FC = () => {
                                     <Input name="name" placeholder="test album" className="c_textfield" />
                                     <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                     <div className="c_imagearea">
-                                        <SingleImageRegister />
+                                        <SingleImageRegister data={null} callback={handleSetFile} />
                                     </div>
                                     <Button className="c_button small">更新</Button>
                                 </form>
@@ -63,7 +71,7 @@ const AlbumEditer: React.FC = () => {
                                     <Input name="name" placeholder="test album" className="c_textfield" />
                                     <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                     <div className="c_imagearea">
-                                        <SingleImageRegister />
+                                        <SingleImageRegister data={null} callback={handleSetFile} />
                                     </div>
                                     <Button className="c_button small">更新</Button>
                                 </form>

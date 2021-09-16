@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../../../styles/home/home.scss';
 import '../../../styles/common/common.scss';
 import { Button } from '@material-ui/core';
+import { SINGLE_IMAGE_REGISTER } from '../../types/commonTypes';
 
 /**
  * ファイル選択画面の表示
@@ -65,9 +66,9 @@ const confirmImageFormat = (file: ArrayBuffer) => {
 /**
  * ドラッグアンドドロップ
  * @param fileArea 
+ * @param props
  */
-const draggable = (fileArea: HTMLDivElement) => {
-    console.log('start')
+const draggable = (fileArea: HTMLDivElement, props: SINGLE_IMAGE_REGISTER) => {
     fileArea.addEventListener('dragover', function(evt: DragEvent){
         evt.preventDefault();
         fileArea.classList.add('dragover');
@@ -95,17 +96,17 @@ const draggable = (fileArea: HTMLDivElement) => {
             }
             
             fileInput!.files = files;
-            photoPreview(files[0]);
+            photoPreview(files[0], props);
         }
     });
 }
 
 /**
  * 画像のプレビュー表示
- * @param event 
  * @param f 
+ * @param props 
  */
-const photoPreview = async (f: File) => {
+const photoPreview = async (f: File, props: SINGLE_IMAGE_REGISTER) => {
     let file = f;
     if(file !== null) {
         // 画像かどうか判定
@@ -124,7 +125,7 @@ const photoPreview = async (f: File) => {
             preview.removeChild(previewImage);
         }
         reader.onload = function() {
-            var img = document.createElement("img");
+            const img = document.createElement("img");
             if(reader.result !== null) {
                 img.setAttribute("src", reader.result as string);
                 img.setAttribute("id", "previewImage");
@@ -133,10 +134,11 @@ const photoPreview = async (f: File) => {
             }
         };
         reader.readAsDataURL(file);
+        props.callback(file);
     }
 }
 
-const photoChangePreview = async (event: React.ChangeEvent<HTMLInputElement>) => {
+const photoChangePreview = async (event: React.ChangeEvent<HTMLInputElement>, props: SINGLE_IMAGE_REGISTER) => {
     let file: File;
 
     // ファイルが1つ以上でなければ実行しない
@@ -164,7 +166,7 @@ const photoChangePreview = async (event: React.ChangeEvent<HTMLInputElement>) =>
             preview.removeChild(previewImage);
         }
         reader.onload = function() {
-            var img = document.createElement("img");
+            const img = document.createElement("img");
             if(reader.result !== null) {
                 img.setAttribute("src", reader.result as string);
                 img.setAttribute("id", "previewImage");
@@ -173,6 +175,7 @@ const photoChangePreview = async (event: React.ChangeEvent<HTMLInputElement>) =>
             }
         };
         reader.readAsDataURL(file);
+        props.callback(file);
     }
 }
 
@@ -180,25 +183,31 @@ const photoChangePreview = async (event: React.ChangeEvent<HTMLInputElement>) =>
  * 画像のドラッグ&ドロップ + 画像のプレビュー表示用関数
  * @returns 
  */
-const SingleImageRegister: React.FC = () => {
-    const fileArea = document.getElementById('dragDropArea') as HTMLDivElement;
+const SingleImageRegister: React.FC<SINGLE_IMAGE_REGISTER> = (props) => {
+    const fileArea = useRef<HTMLDivElement>(null);
 
     // ドラッグ&ドロップのイベント定義
     useEffect(() => {
-        if(fileArea !== null) {
-            console.log('effect')
-            draggable(fileArea);
+        if(fileArea.current !== null) {
+            draggable(fileArea.current, props);
         }
     }, [fileArea]);
 
     return (
-        <div id="dragDropArea" onClick={() => handleFileClick()}>
+        <div id="dragDropArea" ref={fileArea} onClick={() => handleFileClick()}>
             <div className="drag-drop-inside">
                 <p className="drag-drop-info">ここにファイルをドロップ</p>
                 <p className="drag-drop-buttons">
-                    <input id="fileInput" type="file" accept="image/*" name="photo" onChange={(event) => photoChangePreview(event)} style={{ display: 'none' }} />
+                    <input id="fileInput" type="file" accept="image/*" name="photo" onChange={(event) => photoChangePreview(event, props)} style={{ display: 'none' }} />
                 </p>
-                <div id="previewArea"></div>
+                <div id="previewArea">
+                    {
+                        props.data ? 
+                            <img src={props.data} id="previewImage" className="c_imagesize" />
+                        :
+                            ''
+                    }
+                </div>
                 <Button id="fileClear" className="c_clear clear_button_place" onClick={(event) => handleFileClear(event)}>クリア</Button>
             </div>
         </div>
