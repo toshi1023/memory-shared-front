@@ -439,7 +439,12 @@ export const userSlice = createSlice({
             image_url: "",
         }
     },
-    reducers: {},
+    reducers: {
+        // バリデーションのリセット
+        fetchResetValidation(state, action: PayloadAction<USER_VALIDATE_RES>) {
+            state.validation = action.payload;
+        },
+    },
     // 非同期関数の後処理を設定
     extraReducers: (builder) => {
         // ユーザ一覧取得処理
@@ -501,6 +506,10 @@ export const userSlice = createSlice({
         });
     },
 });
+
+export const {
+    fetchResetValidation
+} = userSlice.actions;
 
 export const selectUsers = (state: RootState) => state.user.users;
 export const selectUser = (state: RootState) => state.user.user;

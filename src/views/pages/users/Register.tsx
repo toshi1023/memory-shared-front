@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import '../../../styles/users/users.scss';
 import { fetchGetInfoMessages, fetchGetErrorMessages, fetchCredStart, fetchCredEnd, fetchAsyncGetToken } from '../appSlice';
-import { fetchAsyncPostUser, fetchAsyncPostUserValidation, selectUserValidation } from './userSlice';
+import { fetchAsyncPostUser, fetchAsyncPostUserValidation, selectUserValidation, fetchResetValidation } from './userSlice';
 import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, Radio, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
@@ -34,6 +34,19 @@ const UserRegister: React.FC = () => {
     // redux
     const dispatch: AppDispatch = useDispatch();
     const validation = useSelector(selectUserValidation);
+
+    useEffect(() => {
+        dispatch(fetchResetValidation({
+            errors: {
+                name: [''],
+                email: [''],
+                password: [''],
+                password_confirmation: [''],
+                image_file: ['']
+            },
+            validate_status: '',
+        }));
+    }, [dispatch]);
 
     // ラジオボタンの値の切り替え
     const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,15 +107,15 @@ const UserRegister: React.FC = () => {
                         }
                     }
 
-                    // const ruserRes = await dispatch(fetchAsyncPostUser(values));
-                    // if(fetchAsyncPostUser.fulfilled.match(ruserRes)) {
-                    //     ruserRes.payload.info_message ? 
-                    //         dispatch(fetchGetInfoMessages(ruserRes.payload.info_message))
-                    //     :
-                    //         dispatch(fetchGetErrorMessages(ruserRes.payload.error_message))
+                    const ruserRes = await dispatch(fetchAsyncPostUser(values));
+                    if(fetchAsyncPostUser.fulfilled.match(ruserRes)) {
+                        ruserRes.payload.info_message ? 
+                            dispatch(fetchGetInfoMessages(ruserRes.payload.info_message))
+                        :
+                            dispatch(fetchGetErrorMessages(ruserRes.payload.error_message))
 
-                    //     if(ruserRes.payload.info_message) history.push('/login');
-                    // }
+                        if(ruserRes.payload.info_message) history.push('/login');
+                    }
                     await dispatch(fetchCredEnd());
                     setDisabled(false);
                 }}
