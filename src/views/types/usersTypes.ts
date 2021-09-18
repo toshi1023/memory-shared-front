@@ -364,7 +364,7 @@ export interface API_GROUP_INVITE_PROPS {
 }
 
 /**
- * register用のデータ型定義
+ * register/validation用のデータ型定義
  */
 export interface REGISTER_USER_PROPS {
     name: string,
@@ -380,4 +380,18 @@ export interface REGISTER_USER_PROPS {
 export interface REGISTER_USER_RES {
     info_message: string,
     error_message: string,
+}
+/**
+ * AsyncThunk用(validation用)
+ */
+export interface USER_VALIDATE_RES {
+    errors: {
+        name: string[],
+        email: string[],
+        password: string[],
+        password_confirmation: string[],
+        image_file: string[]
+    }
+
+    validate_status: string
 }

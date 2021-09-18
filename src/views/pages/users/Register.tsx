@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import '../../../styles/users/users.scss';
 import { fetchGetInfoMessages, fetchGetErrorMessages, fetchCredStart, fetchCredEnd, fetchAsyncGetToken } from '../appSlice';
-import { fetchAsyncPostUsers } from './userSlice';
+import { fetchAsyncPostUser, fetchAsyncPostUserValidation, selectUserValidation } from './userSlice';
 import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, Radio, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
@@ -12,7 +12,6 @@ import * as Yup from "yup";
 import { AppDispatch } from '../../../stores/store';
 import Loading from '../../components/common/Loading';
 import { FORMIK_RUSER } from '../../types/usersTypes';
-import generateFormData from '../../../functions/generateFormData';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,7 +31,9 @@ const UserRegister: React.FC = () => {
     const [selectedValue, setSelectedValue] = useState(0);
     const [disabled, setDisabled] = useState(false);
     const [file, setFile] = useState<File | null>(null);
+    // redux
     const dispatch: AppDispatch = useDispatch();
+    const validation = useSelector(selectUserValidation);
 
     // ラジオボタンの値の切り替え
     const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +45,10 @@ const UserRegister: React.FC = () => {
      */
     const handleSetFile = (props: File | null) => {
         if(props) setFile(props);
+    }
+
+    const handleValidate = async (value: FORMIK_RUSER) => {
+        await dispatch(fetchAsyncPostUserValidation(value));
     }
 
     /**
@@ -78,16 +83,26 @@ const UserRegister: React.FC = () => {
                     // ユーザ登録処理
                     values.gender = selectedValue;
                     values.image_file = file;
-
-                    const ruserRes = await dispatch(fetchAsyncPostUsers(values));
-                    if(fetchAsyncPostUsers.fulfilled.match(ruserRes)) {
-                        ruserRes.payload.info_message ? 
-                            dispatch(fetchGetInfoMessages(ruserRes.payload.info_message))
-                        :
-                            dispatch(fetchGetErrorMessages(ruserRes.payload.error_message))
-
-                        if(ruserRes.payload.info_message) history.push('/login');
+                    // バリデーションチェック
+                    const uvalidateRes = await dispatch(fetchAsyncPostUserValidation(values));
+                    if(fetchAsyncPostUserValidation.fulfilled.match(uvalidateRes)) {
+                        if(!uvalidateRes.payload.validate_status) {
+                            dispatch(fetchGetErrorMessages('登録内容に不備があります'));
+                            await dispatch(fetchCredEnd());
+                            setDisabled(false);
+                            return;
+                        }
                     }
+
+                    // const ruserRes = await dispatch(fetchAsyncPostUser(values));
+                    // if(fetchAsyncPostUser.fulfilled.match(ruserRes)) {
+                    //     ruserRes.payload.info_message ? 
+                    //         dispatch(fetchGetInfoMessages(ruserRes.payload.info_message))
+                    //     :
+                    //         dispatch(fetchGetErrorMessages(ruserRes.payload.error_message))
+
+                    //     if(ruserRes.payload.info_message) history.push('/login');
+                    // }
                     await dispatch(fetchCredEnd());
                     setDisabled(false);
                 }}
@@ -97,7 +112,8 @@ const UserRegister: React.FC = () => {
                              .max(15, '※15文字以上は設定できません'),
                     email: Yup.string()
                               .required("※メールアドレスの入力は必須です")
-                              .email('※メールアドレスの形式で入力してください'),
+                              .email('※メールアドレスの形式で入力してください')
+                              .max(30, '※30文字以上は設定できません'),
                     password: Yup.string()
                                  .required("※パスワードの入力は必須です")
                                  .min(6, '※6文字以上を入れてください'),
@@ -145,6 +161,14 @@ const UserRegister: React.FC = () => {
                                                     <div className="c_errmessage">{errors.name}</div>
                                                 : null
                                             }
+                                            {
+                                                validation.errors !== undefined && validation.errors.name !== undefined && validation.errors.name[0] ? 
+                                                    validation.errors.name.map(val => {
+                                                        return <div className="c_errmessage" key={val}>{val}</div>
+                                                    })
+                                                :
+                                                    ''
+                                            }
                                             <div className="c_labelarea"><span className="c_label">メールアドレス</span></div>
                                             <Input 
                                                 placeholder="test@xxx.co.jp" 
@@ -159,6 +183,14 @@ const UserRegister: React.FC = () => {
                                                     <div className="c_errmessage">{errors.email}</div>
                                                 : null
                                             }
+                                            {
+                                                validation.errors !== undefined && validation.errors.email !== undefined && validation.errors.email[0] ? 
+                                                    validation.errors.email.map(val => {
+                                                        return <div className="c_errmessage" key={val}>{val}</div>
+                                                    })
+                                                :
+                                                    ''
+                                            }
                                             <div className="c_labelarea"><span className="c_label">パスワード</span></div>
                                             <Input 
                                                 className="c_textfield" 
@@ -172,6 +204,14 @@ const UserRegister: React.FC = () => {
                                                     <div className="c_errmessage">{errors.password}</div>
                                                 : null
                                             }
+                                            {
+                                                validation.errors !== undefined && validation.errors.password !== undefined && validation.errors.password[0] ? 
+                                                    validation.errors.password.map(val => {
+                                                        return <div className="c_errmessage" key={val}>{val}</div>
+                                                    })
+                                                :
+                                                    ''
+                                            }
                                             <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
                                             <Input 
                                                 className="c_textfield" 
@@ -184,6 +224,14 @@ const UserRegister: React.FC = () => {
                                                 touched.password_confirmation && errors.password_confirmation ? 
                                                     <div className="c_errmessage">{errors.password_confirmation}</div>
                                                 : null
+                                            }
+                                            {
+                                                validation.errors !== undefined && validation.errors.password_confirmation !== undefined && validation.errors.password_confirmation[0] ? 
+                                                    validation.errors.password_confirmation.map(val => {
+                                                        return <div className="c_errmessage" key={val}>{val}</div>
+                                                    })
+                                                :
+                                                    ''
                                             }
                                             <div className="c_labelarea"><span className="c_label">性別</span></div>
                                             <div className="c_radioarea">
@@ -206,6 +254,14 @@ const UserRegister: React.FC = () => {
                                             <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
                                             <div className="c_imagearea">
                                                 <SingleImageRegister data={null} callback={handleSetFile} />
+                                                {
+                                                    validation.errors !== undefined && validation.errors.image_file !== undefined && validation.errors.image_file[0] ? 
+                                                        validation.errors.image_file.map(val => {
+                                                            return <div className="c_errmessage" key={val}>{val}</div>
+                                                        })
+                                                    :
+                                                        ''
+                                                }
                                             </div>
                                             {
                                                 disabled ? 
@@ -249,6 +305,14 @@ const UserRegister: React.FC = () => {
                                                     <div className="c_errmessage">{errors.name}</div>
                                                 : null
                                             }
+                                            {
+                                                validation.errors !== undefined && validation.errors.email !== undefined && validation.errors.email[0] ? 
+                                                    validation.errors.email.map(val => {
+                                                        return <div className="c_errmessage" key={val}>{val}</div>
+                                                    })
+                                                :
+                                                    ''
+                                            }
                                             <div className="c_labelarea"><span className="c_label">メールアドレス</span></div>
                                             <Input 
                                                 placeholder="test@xxx.co.jp" 
@@ -263,6 +327,14 @@ const UserRegister: React.FC = () => {
                                                     <div className="c_errmessage">{errors.email}</div>
                                                 : null
                                             }
+                                            {
+                                                validation.errors !== undefined && validation.errors.email !== undefined && validation.errors.email[0] ? 
+                                                    validation.errors.email.map(val => {
+                                                        return <div className="c_errmessage" key={val}>{val}</div>
+                                                    })
+                                                :
+                                                    ''
+                                            }
                                             <div className="c_labelarea"><span className="c_label">パスワード</span></div>
                                             <Input 
                                                 className="c_textfield" 
@@ -276,6 +348,14 @@ const UserRegister: React.FC = () => {
                                                     <div className="c_errmessage">{errors.password}</div>
                                                 : null
                                             }
+                                            {
+                                                validation.errors !== undefined && validation.errors.password !== undefined && validation.errors.password[0] ? 
+                                                    validation.errors.password.map(val => {
+                                                        return <div className="c_errmessage" key={val}>{val}</div>
+                                                    })
+                                                :
+                                                    ''
+                                            }
                                             <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
                                             <Input 
                                                 className="c_textfield" 
@@ -288,6 +368,14 @@ const UserRegister: React.FC = () => {
                                                 touched.password_confirmation && errors.password_confirmation ? 
                                                     <div className="c_errmessage">{errors.password_confirmation}</div>
                                                 : null
+                                            }
+                                            {
+                                                validation.errors !== undefined && validation.errors.password_confirmation !== undefined && validation.errors.password_confirmation[0] ? 
+                                                    validation.errors.password_confirmation.map(val => {
+                                                        return <div className="c_errmessage" key={val}>{val}</div>
+                                                    })
+                                                :
+                                                    ''
                                             }
                                             <div className="c_labelarea"><span className="c_label">性別</span></div>
                                             <div className="c_radioarea">
@@ -310,6 +398,14 @@ const UserRegister: React.FC = () => {
                                             <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
                                             <div className="c_imagearea">
                                                 <SingleImageRegister data={null} callback={handleSetFile} />
+                                                {
+                                                    validation.errors !== undefined && validation.errors.image_file !== undefined && validation.errors.image_file[0] ? 
+                                                        validation.errors.image_file.map(val => {
+                                                            return <div className="c_errmessage" key={val}>{val}</div>
+                                                        })
+                                                    :
+                                                        ''
+                                                }
                                             </div>
                                             {
                                                 disabled ? 

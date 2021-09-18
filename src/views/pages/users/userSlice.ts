@@ -4,8 +4,7 @@ import axios from "axios";
 import {
     USERS_PROPS, USERS_RES, API_USER_PROPS, USER_RES, WGROUPS_RES, PGROUPS_RES, 
     IGROUPS_RES, API_GROUP_INVITE_PROPS, GROUP_INVITE_RES, EDIT_USER_RES, 
-    REGISTER_USER_PROPS,
-    REGISTER_USER_RES, 
+    REGISTER_USER_PROPS, REGISTER_USER_RES, USER_VALIDATE_RES 
 } from '../../types/usersTypes';
 import generateFormData from "../../../functions/generateFormData";
 
@@ -201,9 +200,41 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 );
 
 /**
+ * ユーザ登録のバリデーションチェック非同期関数
+ */
+ export const fetchAsyncPostUserValidation = createAsyncThunk<USER_VALIDATE_RES, REGISTER_USER_PROPS>(
+    "validation",
+    async (props: REGISTER_USER_PROPS) => {
+        try {
+            const fd = generateFormData<REGISTER_USER_PROPS>(props);
+            if(!props.image_file) {
+                // 画像が設定されていない場合はFormDataから除去
+                fd.delete('image_file');
+            }
+
+            const res = await axios.post(`${webUrl}/validate`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as USER_VALIDATE_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            return err.response.data as USER_VALIDATE_RES;
+        }
+    }
+);
+
+/**
  * ユーザ登録処理の非同期関数
  */
- export const fetchAsyncPostUsers = createAsyncThunk<REGISTER_USER_RES, REGISTER_USER_PROPS>(
+ export const fetchAsyncPostUser = createAsyncThunk<REGISTER_USER_RES, REGISTER_USER_PROPS>(
     "register",
     async (props: REGISTER_USER_PROPS) => {
         try {
@@ -386,6 +417,16 @@ export const userSlice = createSlice({
             ig_currentpage: 0,
             ig_lastpage: 0,
         },
+        validation: {
+            errors: {
+                name: [''],
+                email: [''],
+                password: [''],
+                password_confirmation: [''],
+                image_file: ['']
+            },
+            validate_status: '',
+        },
         edituser: {
             id: 0,
             name: "",
@@ -454,6 +495,10 @@ export const userSlice = createSlice({
                 state.edituser = action.payload.edituser;
             }
         });
+        // バリデーション結果取得処理
+        builder.addCase(fetchAsyncPostUserValidation.fulfilled, (state, action: PayloadAction<USER_VALIDATE_RES>) => {
+            state.validation = action.payload;
+        });
     },
 });
 
@@ -463,5 +508,6 @@ export const selectWgoups = (state: RootState) => state.user.wgroups;
 export const selectPgoups = (state: RootState) => state.user.pgroups;
 export const selectIgoups = (state: RootState) => state.user.igroups;
 export const selectEditUser = (state: RootState) => state.user.edituser;
+export const selectUserValidation = (state: RootState) => state.user.validation;
 
 export default userSlice.reducer;
