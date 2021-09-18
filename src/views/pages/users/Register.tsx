@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import '../../../styles/users/users.scss';
-import { fetchGetInfoMessages, fetchGetErrorMessages, fetchCredStart, fetchCredEnd } from '../appSlice';
+import { fetchGetInfoMessages, fetchGetErrorMessages, fetchCredStart, fetchCredEnd, fetchAsyncGetToken } from '../appSlice';
+import { fetchAsyncPostUsers } from './userSlice';
 import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, Radio, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
@@ -10,6 +11,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { AppDispatch } from '../../../stores/store';
 import Loading from '../../components/common/Loading';
+import { FORMIK_RUSER } from '../../types/usersTypes';
+import generateFormData from '../../../functions/generateFormData';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -25,13 +28,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const UserRegister: React.FC = () => {
     const classes = useStyles();
     const displayStyles = DisplayStyles();
+    const history = useHistory();
     const [selectedValue, setSelectedValue] = useState(0);
     const [disabled, setDisabled] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     const dispatch: AppDispatch = useDispatch();
 
     // ラジオボタンの値の切り替え
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedValue(+event.target.value);
     };
 
@@ -42,6 +46,18 @@ const UserRegister: React.FC = () => {
         if(props) setFile(props);
     }
 
+    /**
+     * フォームデータ
+     */
+    const initialValues: FORMIK_RUSER = {
+        name: "", 
+        email: "", 
+        password: "", 
+        password_confirmation: "",
+        gender: 0,
+        image_file: null
+    }
+
     return (
         <div id="user_register">
 
@@ -50,15 +66,28 @@ const UserRegister: React.FC = () => {
                     name: "required",
                     email: "required", 
                     password: "required", 
-                    password_confirm: "required", 
+                    password_confirmation: "required", 
                 }}
-                initialValues={{ name: "", email: "", password: "", password_confirm: "" }}
+                initialValues={initialValues}
                 onSubmit={async (values) => {
                     // ボタンを非活性化
                     setDisabled(true);
                     await dispatch(fetchCredStart());
+                    // XSRF-TOKENの取得
+                    await dispatch(fetchAsyncGetToken());
                     // ユーザ登録処理
-                    
+                    values.gender = selectedValue;
+                    values.image_file = file;
+
+                    const ruserRes = await dispatch(fetchAsyncPostUsers(values));
+                    if(fetchAsyncPostUsers.fulfilled.match(ruserRes)) {
+                        ruserRes.payload.info_message ? 
+                            dispatch(fetchGetInfoMessages(ruserRes.payload.info_message))
+                        :
+                            dispatch(fetchGetErrorMessages(ruserRes.payload.error_message))
+
+                        if(ruserRes.payload.info_message) history.push('/login');
+                    }
                     await dispatch(fetchCredEnd());
                     setDisabled(false);
                 }}
@@ -67,16 +96,16 @@ const UserRegister: React.FC = () => {
                              .required("※ユーザーネームの入力は必須です")
                              .max(15, '※15文字以上は設定できません'),
                     email: Yup.string()
-                            .required("※メールアドレスの入力は必須です")
-                            .email('※メールアドレスの形式で入力してください'),
+                              .required("※メールアドレスの入力は必須です")
+                              .email('※メールアドレスの形式で入力してください'),
                     password: Yup.string()
-                                .required("※パスワードの入力は必須です")
-                                .min(6, '※6文字以上を入れてください'),
-                    password_confirm: Yup.string()
-                                         .required("※パスワード(確認)の入力は必須です")
-                                         .min(6, '※6文字以上を入れてください'),
+                                 .required("※パスワードの入力は必須です")
+                                 .min(6, '※6文字以上を入れてください'),
+                    password_confirmation: Yup.string()
+                                              .required("※パスワード(確認)の入力は必須です")
+                                              .min(6, '※6文字以上を入れてください'),
                 })}
-                >
+            >
                 {({
                     handleSubmit,
                     handleChange,
@@ -146,21 +175,21 @@ const UserRegister: React.FC = () => {
                                             <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
                                             <Input 
                                                 className="c_textfield" 
-                                                inputProps={{ 'type': 'password', 'name': 'password_confirm' }}
+                                                inputProps={{ 'type': 'password', 'name': 'password_confirmation' }}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                value={values.password_confirm} 
+                                                value={values.password_confirmation} 
                                             />
                                             {
-                                                touched.password_confirm && errors.password_confirm ? 
-                                                    <div className="c_errmessage">{errors.password_confirm}</div>
+                                                touched.password_confirmation && errors.password_confirmation ? 
+                                                    <div className="c_errmessage">{errors.password_confirmation}</div>
                                                 : null
                                             }
                                             <div className="c_labelarea"><span className="c_label">性別</span></div>
                                             <div className="c_radioarea">
                                                 <Radio
                                                     checked={selectedValue === 0}
-                                                    onChange={handleChange}
+                                                    onChange={handleChangeRadio}
                                                     value={0}
                                                     name="gender"
                                                     classes={{root: classes.radio, checked: classes.checked}}
@@ -168,7 +197,7 @@ const UserRegister: React.FC = () => {
                                                 <span className="glabel">男性</span>
                                                 <Radio
                                                     checked={selectedValue === 1}
-                                                    onChange={handleChange}
+                                                    onChange={handleChangeRadio}
                                                     value={1}
                                                     name="gender"
                                                 />
@@ -180,7 +209,7 @@ const UserRegister: React.FC = () => {
                                             </div>
                                             {
                                                 disabled ? 
-                                                    <Button className="c_disabled_button" disabled={disabled}>
+                                                    <Button className="c_disabled_button small" disabled={disabled}>
                                                         登録中<Loading />
                                                     </Button>
                                                 :
@@ -250,21 +279,21 @@ const UserRegister: React.FC = () => {
                                             <div className="c_labelarea"><span className="c_label">パスワード(確認)</span></div>
                                             <Input 
                                                 className="c_textfield" 
-                                                inputProps={{ 'type': 'password', 'name': 'password_confirm' }}
+                                                inputProps={{ 'type': 'password', 'name': 'password_confirmation' }}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                value={values.password_confirm} 
+                                                value={values.password_confirmation} 
                                             />
                                             {
-                                                touched.password_confirm && errors.password_confirm ? 
-                                                    <div className="c_errmessage">{errors.password_confirm}</div>
+                                                touched.password_confirmation && errors.password_confirmation ? 
+                                                    <div className="c_errmessage">{errors.password_confirmation}</div>
                                                 : null
                                             }
                                             <div className="c_labelarea"><span className="c_label">性別</span></div>
                                             <div className="c_radioarea">
                                                 <Radio
                                                     checked={selectedValue === 0}
-                                                    onChange={handleChange}
+                                                    onChange={handleChangeRadio}
                                                     value={0}
                                                     name="gender"
                                                     classes={{root: classes.radio, checked: classes.checked}}
@@ -272,7 +301,7 @@ const UserRegister: React.FC = () => {
                                                 <span className="glabel">男性</span>
                                                 <Radio
                                                     checked={selectedValue === 1}
-                                                    onChange={handleChange}
+                                                    onChange={handleChangeRadio}
                                                     value={1}
                                                     name="gender"
                                                 />
@@ -284,7 +313,7 @@ const UserRegister: React.FC = () => {
                                             </div>
                                             {
                                                 disabled ? 
-                                                    <Button className="c_disabled_button" disabled={disabled}>
+                                                    <Button className="c_disabled_button small" disabled={disabled}>
                                                         登録中<Loading />
                                                     </Button>
                                                 :

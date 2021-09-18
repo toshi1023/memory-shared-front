@@ -131,6 +131,18 @@ export interface GROUP_LIST_DATA {
     callback: (value: boolean) => void;
 }
 
+/**
+ * Register(Formik)用のデータ型定義
+ */
+export interface FORMIK_RUSER {
+    name: string,
+    email: string,
+    password: string,
+    password_confirmation: string,
+    gender: number,
+    image_file: File | null
+}
+
 /************************************************
  *  slice用の型設定
  ************************************************/
@@ -348,5 +360,24 @@ export interface API_GROUP_INVITE_PROPS {
         image_url: string,
     },
 
+    error_message: string,
+}
+
+/**
+ * register用のデータ型定義
+ */
+export interface REGISTER_USER_PROPS {
+    name: string,
+    email: string,
+    password: string,
+    password_confirmation: string,
+    gender: number,
+    image_file: File | null
+}
+/**
+ * AsyncThunk用(register用)
+ */
+export interface REGISTER_USER_RES {
+    info_message: string,
     error_message: string,
 }

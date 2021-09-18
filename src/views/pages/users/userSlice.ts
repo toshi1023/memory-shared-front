@@ -2,10 +2,14 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../stores/store";
 import axios from "axios";
 import {
-    USERS_PROPS, USERS_RES, API_USER_PROPS, USER_RES, 
-    WGROUPS_RES, PGROUPS_RES, IGROUPS_RES, API_GROUP_INVITE_PROPS, GROUP_INVITE_RES, EDIT_USER_RES 
+    USERS_PROPS, USERS_RES, API_USER_PROPS, USER_RES, WGROUPS_RES, PGROUPS_RES, 
+    IGROUPS_RES, API_GROUP_INVITE_PROPS, GROUP_INVITE_RES, EDIT_USER_RES, 
+    REGISTER_USER_PROPS,
+    REGISTER_USER_RES, 
 } from '../../types/usersTypes';
+import generateFormData from "../../../functions/generateFormData";
 
+const webUrl = process.env.REACT_APP_MSA_WEB_URL;
 const apiUrl = process.env.REACT_APP_MSA_API_URL;
 
 /**
@@ -192,6 +196,38 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
             }
             
             return err.response.data as EDIT_USER_RES;
+        }
+    }
+);
+
+/**
+ * ユーザ登録処理の非同期関数
+ */
+ export const fetchAsyncPostUsers = createAsyncThunk<REGISTER_USER_RES, REGISTER_USER_PROPS>(
+    "register",
+    async (props: REGISTER_USER_PROPS) => {
+        try {
+            const fd = generateFormData<REGISTER_USER_PROPS>(props);
+            if(!props.image_file) {
+                // 画像が設定されていない場合はFormDataから除去
+                fd.delete('image_file');
+            }
+
+            const res = await axios.post(`${webUrl}/register`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as REGISTER_USER_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            return err.response.data as REGISTER_USER_RES;
         }
     }
 );

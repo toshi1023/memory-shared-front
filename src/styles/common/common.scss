@@ -143,6 +143,10 @@ form {
         box-sizing: border-box;
         font-size: 16px;
         font-weight: bold;
+
+        &.small {
+            width: 40%
+        }
     }
 
     .c_clear {

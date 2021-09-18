@@ -148,9 +148,9 @@ const Login: React.FC = () => {
                                                 <Typography>
                                                     アカウントを新規で登録しますか？
                                                 </Typography>
-                                                <a href="/register">
+                                                <Typography className="pagetransition_event" onClick={() => history.push('/register')}>
                                                     登録する
-                                                </a>
+                                                </Typography>
                                             </CardContent>
                                         </Card>
                                     </Grid>
@@ -225,9 +225,9 @@ const Login: React.FC = () => {
                                                 <Typography>
                                                     アカウントを新規で登録しますか？
                                                 </Typography>
-                                                <a href="/register">
+                                                <Typography className="pagetransition_event" onClick={() => history.push('/register')}>
                                                     登録する
-                                                </a>
+                                                </Typography>
                                             </CardContent>
                                         </Card>
                                     </Grid>
@@ -300,9 +300,9 @@ const Login: React.FC = () => {
                                             <Typography>
                                                 アカウントを新規で登録しますか？
                                             </Typography>
-                                            <a href="/register">
+                                            <Typography className="pagetransition_event" onClick={() => history.push('/register')}>
                                                 登録する
-                                            </a>
+                                            </Typography>
                                         </CardContent>
                                     </Card>
                                 </Grid>
