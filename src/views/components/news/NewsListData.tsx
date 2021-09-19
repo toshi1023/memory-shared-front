@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { fetchGetNewsInfo } from '../../pages/news/newsSlice';
+import { fetchGetErrorMessages } from '../../pages/appSlice';
+import { fetchGetNewsInfo, fetchAsyncDeleteNreads } from '../../pages/news/newsSlice';
 import _ from 'lodash';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import MailIcon from '@material-ui/icons/Mail';
 import DraftsIcon from '@material-ui/icons/Drafts';
-import { NEWS_LIST_DATA, NEWS_REDUCER } from '../../types/newsTypes';
+import { NEWS_LIST_DATA, NEWS_REDUCER, DELETE_NREADS_PROPS } from '../../types/newsTypes';
 import { AppDispatch } from '../../../stores/store';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -25,16 +26,19 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const NewsListData: React.FC<NEWS_LIST_DATA> = (props) => {
     const classes = useStyles();
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
     // redux
     const dispatch: AppDispatch = useDispatch();
 
-    const handleListItemClick = (
-        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-        index: number,
-    ) => {
-        setSelectedIndex(index);
-    };
+    /**
+     * 未読データ削除処理
+     */
+    const handleListItemClick = async (props: DELETE_NREADS_PROPS) => {
+        const dnreadsRes = await dispatch(fetchAsyncDeleteNreads(props));
+        if(fetchAsyncDeleteNreads.fulfilled.match(dnreadsRes) && dnreadsRes.payload.error_message) {
+            dispatch(fetchGetErrorMessages(dnreadsRes.payload.error_message));
+        }
+        return;
+    }
 
     /**
      * クリックしたニュースの詳細情報を取得
@@ -49,20 +53,48 @@ const NewsListData: React.FC<NEWS_LIST_DATA> = (props) => {
             <List component="nav" aria-label="main mailbox folders">
             {_.map(props.data, value => {
                 return (
-                    <ListItem
-                        button
-                        selected={selectedIndex === 0}
-                        onClick={(event) => {
-                            handleListItemClick(event, 0);
-                            getNewsInfo(value);
-                        }}
-                        key={`${value.user_id}${value.news_id}`}
-                    >
-                        <ListItemIcon>
-                            <MailIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={<Typography color="textSecondary">{value.title}</Typography>} />
-                    </ListItem>
+                    <>
+                        {
+                            value.read_user_id ? 
+                                <ListItem
+                                    button
+                                    selected={false}
+                                    onClick={() => {
+                                        handleListItemClick({
+                                            id: value.news_id,
+                                            news_user_id: value.user_id,
+                                            user_id: value.read_user_id
+                                        });
+                                        getNewsInfo(value);
+                                    }}
+                                    key={`${value.user_id}${value.news_id}`}
+                                >
+                                    <ListItemIcon>
+                                        <MailIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={<Typography color="textSecondary">{value.title}</Typography>} />
+                                </ListItem>
+                            :
+                                <ListItem
+                                    button
+                                    selected={true}
+                                    onClick={() => {
+                                        handleListItemClick({
+                                            id: value.news_id,
+                                            news_user_id: value.user_id,
+                                            user_id: value.read_user_id
+                                        });
+                                        getNewsInfo(value);
+                                    }}
+                                    key={`${value.user_id}${value.news_id}`}
+                                >
+                                    <ListItemIcon>
+                                        <DraftsIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={<Typography color="textSecondary">{value.title}</Typography>} />
+                                </ListItem>
+                        }
+                    </>
                 )
             })}
             </List>

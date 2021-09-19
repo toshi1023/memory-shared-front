@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../stores/store";
 import axios from "axios";
-import { NEWS_PROPS, NEWS_RES, NEWS_REDUCER } from "../../types/newsTypes";
+import { NEWS_PROPS, NEWS_RES, NEWS_REDUCER, DELETE_NREADS_RES, DELETE_NREADS_PROPS } from "../../types/newsTypes";
 import { 
     GROUPS_PROPS, GROUPS_RES, API_GROUP_PROPS, GROUP_RES, 
     PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES  
@@ -31,6 +31,33 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
             }
             
             return err.response.data as NEWS_RES;
+        }
+    }
+);
+
+/**
+ * ニュース未読データ削除処理の非同期関数
+ */
+ export const fetchAsyncDeleteNreads = createAsyncThunk<DELETE_NREADS_RES, DELETE_NREADS_PROPS>(
+    "delete_nreads",
+    async (props) => {
+        try {
+            const res = await axios.post(`${apiUrl}/news/${props.id}/nread`, props, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as DELETE_NREADS_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as DELETE_NREADS_RES;
         }
     }
 );
@@ -82,6 +109,20 @@ export const newsSlice = createSlice({
                 state.news = action.payload.news.data;
                 state.page.ni_currentpage = action.payload.news.current_page;
                 state.page.ni_lastpage = action.payload.news.last_page;
+            }
+        });
+        // ニュース未読データ削除処理
+        builder.addCase(fetchAsyncDeleteNreads.fulfilled, (state, action: PayloadAction<DELETE_NREADS_RES>) => {
+            if(!action.payload.error_message) {
+                return {
+                    ...state,
+                    news: state.news.map((news) =>
+                        news.news_id === action.payload.news.news_id && news.user_id === action.payload.news.user_id ? 
+                            action.payload.news 
+                        : 
+                            news
+                    ),
+                }
             }
         });
     },

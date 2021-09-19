@@ -74,3 +74,29 @@
     updated_at: string,
     read_user_id: number
 }
+
+/**
+ * delete_nreads用のデータ型定義
+ */
+ export interface DELETE_NREADS_PROPS {
+    id: number,
+    news_user_id: number,
+    user_id: number
+}
+/**
+ * AsyncThunk用(delete_nreads用)
+ */
+ export interface DELETE_NREADS_RES {
+    news: {
+        user_id: number,
+        news_id: number,
+        title: string,
+        content: string,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        read_user_id: number
+    },
+
+    error_message: string,
+}

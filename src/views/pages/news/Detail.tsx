@@ -58,7 +58,7 @@ const NewsDetail: React.FC = () => {
             <Grid container justify="center">
                 <Grid item xs={11} className="c_title_space center">
                     <Typography className="c_title">
-                        通知内容
+                        {localStorage.loginName}さんへの通知内容
                     </Typography>
                 </Grid>
                 <Grid item xs={11}>
@@ -125,7 +125,7 @@ const NewsDetail: React.FC = () => {
                         {/* Title */}
                         <Grid item md={5} className="c_title_space">
                             <Typography className="c_title">
-                                通知内容
+                                {localStorage.loginName}さんへの通知内容
                             </Typography>
                         </Grid>
                         <Grid item md={3} className="c_title_space center">
@@ -164,7 +164,7 @@ const NewsDetail: React.FC = () => {
                         {/* Title */}
                         <Grid item sm={7} className="c_title_space">
                             <Typography className="c_title">
-                                通知内容
+                                {localStorage.loginName}さんへの通知内容
                             </Typography>
                         </Grid>
                         <Grid item sm={4} className="c_title_space center">
