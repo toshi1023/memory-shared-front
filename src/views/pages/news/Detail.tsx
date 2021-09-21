@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/news/news.scss';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
-import { fetchAsyncGetNews, selectNews, fetchGetNewsInfo } from './newsSlice';
+import { fetchAsyncGetNews, selectNews, fetchAsyncGetGroupHistories, selectGroupHistories } from './newsSlice';
 import NewsCard from '../../components/news/NewsCard';
 import NewsListData from '../../components/news/NewsListData';
 import GroupListData from '../../components/news/GroupListData';
@@ -23,6 +23,7 @@ const NewsDetail: React.FC = () => {
     // redux
     const dispatch: AppDispatch = useDispatch();
     const news = useSelector(selectNews);
+    const group_histories = useSelector(selectGroupHistories);
 
     useEffect(() => {
         const renderNewsDetail = async () => {
@@ -30,6 +31,12 @@ const NewsDetail: React.FC = () => {
             const newsRes = await dispatch(fetchAsyncGetNews());
             if(fetchAsyncGetNews.fulfilled.match(newsRes) && newsRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(newsRes.payload.error_message));
+                return;
+            }
+            // グループ情報取得
+            const ghRes = await dispatch(fetchAsyncGetGroupHistories());
+            if(fetchAsyncGetGroupHistories.fulfilled.match(ghRes) && ghRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(ghRes.payload.error_message));
                 return;
             }
             dispatch(fetchGetUrl(history.location.pathname));
@@ -87,31 +94,10 @@ const NewsDetail: React.FC = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11}>
-                    <GroupListData data={group_list} />
-
-                    <br />
-                    <hr className="app_hr" />
-                    <div className="c_title_space">
-                        <Typography className="c_title">
-                            承認済みのグループ
-                        </Typography>
-                    </div>
-
-                    <GroupListData data={group_list} />
+                    <GroupListData data={group_histories} />
                 </Grid>
             </Grid>
         );
-    }
-
-    const profile = {
-        id: 2,
-        name: 'test',
-        image_file: '',
-        hobby: '映画鑑賞',
-        gender: true,
-        description: 'バスケと映画鑑賞が好きな会社員です。アクティブな付き合いをしたいです。',
-        family_id: 1,
-        talk_id: 1,
     }
 
     return (
@@ -144,17 +130,7 @@ const NewsDetail: React.FC = () => {
                             <NewsListData data={news} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center">
-                            <GroupListData data={group_list} />
-
-                            <br />
-                            <hr className="app_hr" />
-                            <div className="c_title_space">
-                                <Typography className="c_title">
-                                    承認済みのグループ
-                                </Typography>
-                            </div>
-
-                            <GroupListData data={group_list} />
+                            <GroupListData data={group_histories} />
                         </Grid>
                     </Grid>
                 </Hidden>
@@ -183,17 +159,7 @@ const NewsDetail: React.FC = () => {
                             <NewsListData data={news} />
                         </Grid>
                         <Grid item sm={4} className="c_content_space center">
-                            <GroupListData data={group_list} />
-
-                            <br />
-                            <hr className="app_hr" />
-                            <div className="c_title_space">
-                                <Typography className="c_title">
-                                    承認済みのグループ
-                                </Typography>
-                            </div>
-
-                            <GroupListData data={group_list} />
+                            <GroupListData data={group_histories} />
                         </Grid>
                     </Grid>
                 </Hidden>

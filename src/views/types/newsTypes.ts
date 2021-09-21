@@ -23,10 +23,21 @@
  */
  export interface GROUP_LIST_DATA {
     data: { 
-        id: number;
-        name: string;
-        image_file: string;
-        status_type: string | null;
+        id: number,
+        user_id: number,
+        group_id: number,
+        status: number,
+        memo: string,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        group: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string
+        }
     }[]
 }
 
@@ -97,6 +108,31 @@
         updated_at: string,
         read_user_id: number
     },
+
+    error_message: string,
+}
+
+/**
+ * AsyncThunk用(group_histories用)
+ */
+ export interface GROUP_HISTORIES_RES {
+    group_histories: {
+       id: number,
+       user_id: number,
+       group_id: number,
+       status: number,
+       memo: string,
+       update_user_id: number,
+       created_at: string,
+       updated_at: string,
+       deleted_at: null,
+       group: {
+           id: number,
+           name: string,
+           image_file: string,
+           image_url: string
+       }
+    }[],
 
     error_message: string,
 }

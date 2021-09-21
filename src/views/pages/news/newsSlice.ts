@@ -1,11 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../stores/store";
 import axios from "axios";
-import { NEWS_PROPS, NEWS_RES, NEWS_REDUCER, DELETE_NREADS_RES, DELETE_NREADS_PROPS } from "../../types/newsTypes";
 import { 
-    GROUPS_PROPS, GROUPS_RES, API_GROUP_PROPS, GROUP_RES, 
-    PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES  
-} from "../../types/groupsTypes";
+    NEWS_PROPS, NEWS_RES, NEWS_REDUCER, DELETE_NREADS_RES, DELETE_NREADS_PROPS, GROUP_HISTORIES_RES
+} from "../../types/newsTypes";
 
 const apiUrl = process.env.REACT_APP_MSA_API_URL;
 
@@ -62,6 +60,32 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
     }
 );
 
+/**
+ * 申請中・申請完了済みのグループ一覧取得の非同期関数
+ */
+ export const fetchAsyncGetGroupHistories = createAsyncThunk<GROUP_HISTORIES_RES>(
+    "group_histories",
+    async () => {
+        try {
+            const res = await axios.get(`${apiUrl}/history?@not_equalstatus=3`, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as GROUP_HISTORIES_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as GROUP_HISTORIES_RES;
+        }
+    }
+);
+
 export const newsSlice = createSlice({
     name: "news",
     initialState: {
@@ -89,6 +113,25 @@ export const newsSlice = createSlice({
             updated_at: '',
             read_user_id: 0
         },
+        group_histories: [
+            {
+                id: 0,
+                user_id: 0,
+                group_id: 0,
+                status: 0,
+                memo: '',
+                update_user_id: 0,
+                created_at: '',
+                updated_at: '',
+                deleted_at: null,
+                group: {
+                    id: 0,
+                    name: '',
+                    image_file: '',
+                    image_url: ''
+                }
+            }
+        ],
         page: {
             // ニュース一覧
             ni_currentpage: 0,
@@ -125,6 +168,12 @@ export const newsSlice = createSlice({
                 }
             }
         });
+        // 申請中・承認済みグループ一覧取得処理
+        builder.addCase(fetchAsyncGetGroupHistories.fulfilled, (state, action: PayloadAction<GROUP_HISTORIES_RES>) => {
+            if(!action.payload.error_message) {
+                state.group_histories = action.payload.group_histories;
+            }
+        });
     },
 });
 
@@ -134,5 +183,6 @@ export const {
 
 export const selectNews = (state: RootState) => state.news.news;
 export const selectNewsInfo = (state: RootState) => state.news.newsinfo;
+export const selectGroupHistories = (state: RootState) => state.news.group_histories;
 
 export default newsSlice.reducer;
