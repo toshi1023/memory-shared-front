@@ -19,7 +19,7 @@ const Talk: React.FC = () => {
     useEffect(() => {
         // トーク履歴を取得
         const renderTalk = async () => {
-            const talkRes = await dispatch(fetchAsyncGetTalks({id: +id}));
+            const talkRes = await dispatch(fetchAsyncGetTalks({id: +localStorage.loginId, user_id: +id}));
             if(fetchAsyncGetTalks.fulfilled.match(talkRes) && talkRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(talkRes.payload.error_message));
                 return;

@@ -3,7 +3,7 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     LOGIN_PROPS, LOGIN_RES, LOGOUT_PROPS, LOGOUT_RES, API_USERS_PROPS, PROFILE_RES, 
-    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES 
+    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS 
 } from "../../types/homeTypes";
 
 const webUrl = process.env.REACT_APP_MSA_WEB_URL;
@@ -170,11 +170,11 @@ export const fetchAsyncGetTalklist = createAsyncThunk<TALKLIST_RES, API_USERS_PR
 /**
  * トーク履歴情報取得の非同期関数
  */
-export const fetchAsyncGetTalks = createAsyncThunk<TALKS_RES, API_USERS_PROPS>(
+export const fetchAsyncGetTalks = createAsyncThunk<TALKS_RES, API_TALKS_PROPS>(
     "talks",
-    async (props: API_USERS_PROPS) => {
+    async (props: API_TALKS_PROPS) => {
           try {
-              const res = await axios.get(`${apiUrl}/${props.id}/messages`, {
+              const res = await axios.get(`${apiUrl}/${props.id}/messages?user_id=${props.user_id}`, {
                   headers: {
                       "Accept": "application/json"
                   },

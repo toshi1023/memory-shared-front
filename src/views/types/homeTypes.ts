@@ -237,6 +237,13 @@ export interface TALKLIST_RES {
 }
 
 /**
+ * talks用のデータ型定義
+ */
+export interface API_TALKS_PROPS {
+    id: number,
+    user_id: number
+}
+/**
  * AsyncThunk用(talks用)
  */
 export interface TALKS_RES {

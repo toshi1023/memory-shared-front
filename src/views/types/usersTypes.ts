@@ -143,6 +143,21 @@ export interface FORMIK_RUSER {
     image_file: File | null
 }
 
+/**
+ * Editer(Formik)用のデータ型定義
+ */
+export interface FORMIK_UUSER {
+    id: number,
+    name: string,
+    email: string,
+    password: string,
+    password_confirmation: string,
+    gender: number,
+    hobby: string,
+    description: string,
+    image_file: File | null
+}
+
 /************************************************
  *  slice用の型設定
  ************************************************/
@@ -394,4 +409,38 @@ export interface USER_VALIDATE_RES {
     }
 
     validate_status: string
+}
+
+/**
+ * update用のデータ型定義
+ */
+export interface UPDATE_USER_PROPS {
+    id: number,
+    name: string,
+    email: string,
+    password: string,
+    password_confirmation: string,
+    gender: number,
+    hobby: string,
+    description: string,
+    image_file: File | null,
+}
+/**
+ * AsyncThunk用(update用)
+ */
+export interface UPDATE_USER_RES {
+    edituser: {
+        id: number,
+        name: string,
+        email: string,
+        hobby: string,
+        gender: number,
+        description: string,
+        status: number,
+        image_file: string,
+        image_url: string,
+    },
+
+    info_message: string,
+    error_message: string,
 }

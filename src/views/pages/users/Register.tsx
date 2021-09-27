@@ -60,10 +60,6 @@ const UserRegister: React.FC = () => {
         if(props) setFile(props);
     }
 
-    const handleValidate = async (value: FORMIK_RUSER) => {
-        await dispatch(fetchAsyncPostUserValidation(value));
-    }
-
     /**
      * フォームデータ
      */

@@ -4,7 +4,8 @@ import axios from "axios";
 import {
     USERS_PROPS, USERS_RES, API_USER_PROPS, USER_RES, WGROUPS_RES, PGROUPS_RES, 
     IGROUPS_RES, API_GROUP_INVITE_PROPS, GROUP_INVITE_RES, EDIT_USER_RES, 
-    REGISTER_USER_PROPS, REGISTER_USER_RES, USER_VALIDATE_RES 
+    REGISTER_USER_PROPS, REGISTER_USER_RES, USER_VALIDATE_RES, 
+    UPDATE_USER_PROPS, UPDATE_USER_RES 
 } from '../../types/usersTypes';
 import generateFormData from "../../../functions/generateFormData";
 
@@ -263,6 +264,40 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
     }
 );
 
+/**
+ * ユーザ更新処理の非同期関数
+ */
+ export const fetchAsyncPostEditUser = createAsyncThunk<UPDATE_USER_RES, UPDATE_USER_PROPS>(
+    "update",
+    async (props: UPDATE_USER_PROPS) => {
+        try {
+            const fd = generateFormData<UPDATE_USER_PROPS>(props);
+            if(!props.image_file) {
+                // 画像が設定されていない場合はFormDataから除去
+                fd.delete('image_file');
+            }
+            // 編集フラグを設定
+            fd.append('register_mode', 'edit');
+
+            const res = await axios.post(`${apiUrl}/users/${props.id}`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as UPDATE_USER_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            return err.response.data as UPDATE_USER_RES;
+        }
+    }
+);
+
 export const userSlice = createSlice({
     name: "user",
     initialState: {
@@ -503,6 +538,12 @@ export const userSlice = createSlice({
         // バリデーション結果取得処理
         builder.addCase(fetchAsyncPostUserValidation.fulfilled, (state, action: PayloadAction<USER_VALIDATE_RES>) => {
             state.validation = action.payload;
+        });
+        // ユーザ更新後のユーザ情報取得処理
+        builder.addCase(fetchAsyncPostEditUser.fulfilled, (state, action: PayloadAction<UPDATE_USER_RES>) => {
+            if(!action.payload.error_message) {
+                state.edituser = action.payload.edituser;
+            }
         });
     },
 });
