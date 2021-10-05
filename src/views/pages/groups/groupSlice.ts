@@ -3,8 +3,10 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     GROUPS_PROPS, GROUPS_RES, API_GROUP_PROPS, GROUP_RES, 
-    PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES  
+    PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
+    REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES
 } from "../../types/groupsTypes";
+import generateFormData from "../../../functions/generateFormData";
 
 const apiUrl = process.env.REACT_APP_MSA_API_URL;
 
@@ -169,6 +171,70 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
     }
 );
 
+/**
+ * グループ登録のバリデーションチェック非同期関数
+ */
+ export const fetchAsyncPostGroupValidation = createAsyncThunk<GROUP_VALIDATE_RES, REGISTER_GROUP_PROPS>(
+    "registervalidation",
+    async (props: REGISTER_GROUP_PROPS) => {
+        try {
+            const fd = generateFormData<REGISTER_GROUP_PROPS>(props);
+            if(!props.image_file) {
+                // 画像が設定されていない場合はFormDataから除去
+                fd.delete('image_file');
+            }
+
+            const res = await axios.post(`${apiUrl}/groups/validate`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as GROUP_VALIDATE_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            return err.response.data as GROUP_VALIDATE_RES;
+        }
+    }
+);
+
+/**
+ * グループ作成の非同期関数
+ */
+export const fetchAsyncPostGroup = createAsyncThunk<REGISTER_GROUP_RES, REGISTER_GROUP_PROPS>(
+    "register",
+    async (props: REGISTER_GROUP_PROPS) => {
+        try {
+            const fd = generateFormData<REGISTER_GROUP_PROPS>(props);
+            if(!props.image_file) {
+                // 画像が設定されていない場合はFormDataから除去
+                fd.delete('image_file');
+            }
+            const res = await axios.post(`${apiUrl}/groups`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as REGISTER_GROUP_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as REGISTER_GROUP_RES;
+        }
+    }
+);
+
 export const groupSlice = createSlice({
     name: "group",
     initialState: {
@@ -300,6 +366,14 @@ export const groupSlice = createSlice({
                 }
             }
         ],
+        validation: {
+            errors: {
+                name: [''],
+                image_file: [''],
+                host_user_id: ['']
+            },
+            validate_status: '',
+        },
         page: {
             // グループ一覧
             gi_currentpage: 0,
@@ -318,7 +392,12 @@ export const groupSlice = createSlice({
             c_lastpage: 0
         }
     },
-    reducers: {},
+    reducers: {
+        // バリデーションのリセット
+        fetchResetValidation(state, action: PayloadAction<GROUP_VALIDATE_RES>) {
+            state.validation = action.payload;
+        },
+    },
     // 非同期関数の後処理を設定
     extraReducers: (builder) => {
         // グループ一覧取得処理
@@ -367,8 +446,16 @@ export const groupSlice = createSlice({
                 state.page.c_lastpage = action.payload.comments.last_page;
             }
         });
+        // バリデーション結果取得処理
+        builder.addCase(fetchAsyncPostGroupValidation.fulfilled, (state, action: PayloadAction<GROUP_VALIDATE_RES>) => {
+            state.validation = action.payload;
+        });
     },
 });
+
+export const {
+    fetchResetValidation
+} = groupSlice.actions;
 
 export const selectGroups = (state: RootState) => state.group.groups;
 export const selectGroup = (state: RootState) => state.group.group;
@@ -376,5 +463,6 @@ export const selectPusers = (state: RootState) => state.group.pusers;
 export const selectAlbums = (state: RootState) => state.group.albums;
 export const selectPosts = (state: RootState) => state.group.posts;
 export const selectComments = (state: RootState) => state.group.comments;
+export const selectGroupValidation = (state: RootState) => state.group.validation;
 
 export default groupSlice.reducer;

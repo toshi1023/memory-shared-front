@@ -397,7 +397,7 @@ export interface REGISTER_USER_RES {
     error_message: string,
 }
 /**
- * AsyncThunk用(validation用)
+ * AsyncThunk用(registervalidation/updatevalidation用)
  */
 export interface USER_VALIDATE_RES {
     errors: {

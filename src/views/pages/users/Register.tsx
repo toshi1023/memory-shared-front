@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import '../../../styles/users/users.scss';
-import { fetchGetInfoMessages, fetchGetErrorMessages, fetchCredStart, fetchCredEnd, fetchAsyncGetToken } from '../appSlice';
+import { fetchGetInfoMessages, fetchGetErrorMessages, fetchCredStart, fetchCredEnd, fetchAsyncGetToken, fetchGetUrl } from '../appSlice';
 import { fetchAsyncPostUser, fetchAsyncPostUserValidation, selectUserValidation, fetchResetValidation } from './userSlice';
 import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, Radio, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
@@ -46,6 +46,7 @@ const UserRegister: React.FC = () => {
             },
             validate_status: '',
         }));
+        dispatch(fetchGetUrl(history.location.pathname));
     }, [dispatch]);
 
     // ラジオボタンの値の切り替え

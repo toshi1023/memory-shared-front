@@ -118,6 +118,18 @@ export interface MODAL_DATA {
     content: string;
 }
 
+/**
+ * Register(Formik)用のデータ型定義
+ */
+ export interface FORMIK_RGROUP {
+    name: string,
+    description: string,
+    private_flg: number,
+    welcome_flg: number,
+    image_file: File | null,
+    host_user_id: number
+}
+
 /************************************************
  *  slice用の型設定
  ************************************************/
@@ -319,4 +331,35 @@ export interface COMMENTS_RES {
     },
 
     error_message: string,
+}
+
+/**
+ * register/validation用のデータ型定義
+ */
+ export interface REGISTER_GROUP_PROPS {
+    name: string,
+    description: string,
+    private_flg: number,
+    welcome_flg: number,
+    image_file: File | null,
+    host_user_id: number
+}
+/**
+ * AsyncThunk用(register用)
+ */
+export interface REGISTER_GROUP_RES {
+    info_message: string,
+    error_message: string,
+}
+/**
+ * AsyncThunk用(registervalidation/updatevalidation用)
+ */
+ export interface GROUP_VALIDATE_RES {
+    errors: {
+        name: string[],
+        image_file: string[],
+        host_user_id: string[]
+    }
+
+    validate_status: string
 }

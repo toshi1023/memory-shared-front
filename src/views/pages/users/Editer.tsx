@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import '../../../styles/users/users.scss';
 import { fetchGetInfoMessages, fetchGetErrorMessages, fetchCredStart, fetchCredEnd, fetchGetUrl } from '../appSlice';
 import { 
-    fetchAsyncGetEditUser, selectEditUser, fetchAsyncPostEditUser, fetchAsyncPostUserValidation, 
+    fetchAsyncGetEditUser, selectEditUser, fetchAsyncPostEditUser, fetchAsyncPostEditUserValidation, 
     selectUserValidation, fetchResetValidation  
 } from './userSlice';
 import { 
@@ -122,8 +122,8 @@ const UserEditer: React.FC = () => {
                     values.gender = selectedValue;
                     values.image_file = file;
                     // バリデーションチェック
-                    const uvalidateRes = await dispatch(fetchAsyncPostUserValidation(values));
-                    if(fetchAsyncPostUserValidation.fulfilled.match(uvalidateRes)) {
+                    const uvalidateRes = await dispatch(fetchAsyncPostEditUserValidation(values));
+                    if(fetchAsyncPostEditUserValidation.fulfilled.match(uvalidateRes)) {
                         if(!uvalidateRes.payload.validate_status) {
                             dispatch(fetchGetErrorMessages('登録内容に不備があります'));
                             await dispatch(fetchCredEnd());

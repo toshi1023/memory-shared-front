@@ -203,8 +203,8 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 /**
  * ユーザ登録のバリデーションチェック非同期関数
  */
- export const fetchAsyncPostUserValidation = createAsyncThunk<USER_VALIDATE_RES, REGISTER_USER_PROPS>(
-    "validation",
+export const fetchAsyncPostUserValidation = createAsyncThunk<USER_VALIDATE_RES, REGISTER_USER_PROPS>(
+    "registervalidation",
     async (props: REGISTER_USER_PROPS) => {
         try {
             const fd = generateFormData<REGISTER_USER_PROPS>(props);
@@ -265,6 +265,39 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 );
 
 /**
+ * ユーザ更新のバリデーションチェック非同期関数
+ */
+ export const fetchAsyncPostEditUserValidation = createAsyncThunk<USER_VALIDATE_RES, UPDATE_USER_PROPS>(
+    "updatevalidation",
+    async (props: UPDATE_USER_PROPS) => {
+        try {
+            const fd = generateFormData<UPDATE_USER_PROPS>(props);
+            if(!props.image_file) fd.delete('image_file');
+            if(!props.password) fd.delete('password');
+            if(!props.password_confirmation) fd.delete('password_confirmation');
+            // 編集フラグを設定
+            fd.append('register_mode', 'edit');
+
+            const res = await axios.post(`${webUrl}/validate`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as USER_VALIDATE_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            return err.response.data as USER_VALIDATE_RES;
+        }
+    }
+);
+
+/**
  * ユーザ更新処理の非同期関数
  */
  export const fetchAsyncPostEditUser = createAsyncThunk<UPDATE_USER_RES, UPDATE_USER_PROPS>(
@@ -272,14 +305,13 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
     async (props: UPDATE_USER_PROPS) => {
         try {
             const fd = generateFormData<UPDATE_USER_PROPS>(props);
-            if(!props.image_file) {
-                // 画像が設定されていない場合はFormDataから除去
-                fd.delete('image_file');
-            }
+            if(!props.image_file) fd.delete('image_file');
+            if(!props.password) fd.delete('password');
+            if(!props.password_confirmation) fd.delete('password_confirmation');
             // 編集フラグを設定
             fd.append('register_mode', 'edit');
 
-            const res = await axios.post(`${apiUrl}/users/${props.id}`, fd, {
+            const res = await axios.put(`${apiUrl}/users/${props.id}`, fd, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
@@ -537,6 +569,10 @@ export const userSlice = createSlice({
         });
         // バリデーション結果取得処理
         builder.addCase(fetchAsyncPostUserValidation.fulfilled, (state, action: PayloadAction<USER_VALIDATE_RES>) => {
+            state.validation = action.payload;
+        });
+        // バリデーション結果取得処理
+        builder.addCase(fetchAsyncPostEditUserValidation.fulfilled, (state, action: PayloadAction<USER_VALIDATE_RES>) => {
             state.validation = action.payload;
         });
         // ユーザ更新後のユーザ情報取得処理
