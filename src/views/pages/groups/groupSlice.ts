@@ -4,7 +4,7 @@ import axios from "axios";
 import { 
     GROUPS_PROPS, GROUPS_RES, API_GROUP_PROPS, GROUP_RES, 
     PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
-    REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES
+    REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, UPDATE_GROUP_RES, UPDATE_GROUP_PROPS
 } from "../../types/groupsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -235,6 +235,38 @@ export const fetchAsyncPostGroup = createAsyncThunk<REGISTER_GROUP_RES, REGISTER
     }
 );
 
+/**
+ * グループ更新の非同期関数
+ */
+export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE_GROUP_PROPS>(
+    "update",
+    async (props: UPDATE_GROUP_PROPS) => {
+        try {
+            const fd = generateFormData<UPDATE_GROUP_PROPS>(props);
+            if(!props.image_file) {
+                // 画像が設定されていない場合はFormDataから除去
+                fd.delete('image_file');
+            }
+            const res = await axios.put(`${apiUrl}/groups/${props.id}`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as UPDATE_GROUP_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as UPDATE_GROUP_RES;
+        }
+    }
+);
+
 export const groupSlice = createSlice({
     name: "group",
     initialState: {
@@ -310,6 +342,21 @@ export const groupSlice = createSlice({
                     status: 0
                 }
             ]
+        },
+        editgroup: {
+            id: 0,
+            name: "",
+            description: "",
+            private_flg: 0,
+            welcome_flg: 0,
+            image_file: "",
+            image_url: "",
+            host_user_id: 0,
+            memo: "",
+            update_user_id: 0,
+            created_at: "",
+            updated_at: "",
+            deleted_at: null,
         },
         // 参加者詳細情報を管理
         pusers: [

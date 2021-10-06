@@ -129,6 +129,18 @@ export interface MODAL_DATA {
     image_file: File | null,
     host_user_id: number
 }
+/**
+ * Editer(Formik)用のデータ型定義
+ */
+export interface FORMIK_UGROUP {
+    id: number,
+    name: string,
+    description: string,
+    private_flg: number,
+    welcome_flg: number,
+    image_file: File | null,
+    host_user_id: number
+}
 
 /************************************************
  *  slice用の型設定
@@ -334,7 +346,7 @@ export interface COMMENTS_RES {
 }
 
 /**
- * register/validation用のデータ型定義
+ * register用のデータ型定義
  */
  export interface REGISTER_GROUP_PROPS {
     name: string,
@@ -362,4 +374,24 @@ export interface REGISTER_GROUP_RES {
     }
 
     validate_status: string
+}
+
+/**
+ * update用のデータ型定義
+ */
+export interface UPDATE_GROUP_PROPS {
+    id: number,
+    name: string,
+    description: string,
+    private_flg: number,
+    welcome_flg: number,
+    image_file: File | null,
+    host_user_id: number
+}
+/**
+ * AsyncThunk用(update用)
+ */
+export interface UPDATE_GROUP_RES {
+    info_message: string,
+    error_message: string,
 }
