@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import ComponentStyles from '../../../styles/common/componentStyle';
 import _ from 'lodash';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -35,13 +35,14 @@ const AlbumListData: React.FC<ALBUM_LIST_DATA> = (props) => {
     const classes = useStyles();
     const componentStyles = ComponentStyles();
     const history = useHistory();
+    const { id, name } = useParams<{ id: string, name: string }>();
 
     return (
         <div>
             <Grid container spacing={2}>
             {_.map(props.data, value => (
                 <Grid item xs={6} sm={6} lg={4} key={value.id}>
-                    <Card className={classes.root} onClick={() => history.push('/groups/test/albums/test')}>
+                    <Card className={classes.root} onClick={() => history.push(`/groups/${name}/${id}/albums/${value.name}/${value.id}`)}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}

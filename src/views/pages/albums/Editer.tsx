@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import '../../../styles/albums/albums.scss';
+import { useHistory, useParams } from "react-router-dom";
 import { Grid, Typography, Card, CardHeader, CardContent, Input, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 
 const AlbumEditer: React.FC = () => {
     const displayStyles = DisplayStyles();
+    const history = useHistory();
+    const { id, name, albumname, albumid } = useParams<{ id: string, name: string, albumname: string, albumid: string }>();
     const [file, setFile] = useState<File | null>(null);
 
     /**
@@ -34,7 +37,7 @@ const AlbumEditer: React.FC = () => {
                             <CardContent>
                                 <form>
                                     <div className="c_labelarea"><span className="c_label">グループ名</span></div>
-                                    <Typography className="c_typography">test group</Typography>
+                                    <Typography className="c_typography">{name}</Typography>
                                     <div className="c_labelarea"><span className="c_label">アルバム名</span></div>
                                     <Input name="name" placeholder="test album" className="c_textfield" />
                                     <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
@@ -66,7 +69,7 @@ const AlbumEditer: React.FC = () => {
                             <CardContent>
                                 <form>
                                     <div className="c_labelarea"><span className="c_label">グループ名</span></div>
-                                    <Typography className="c_typography">test group</Typography>
+                                    <Typography className="c_typography">{name}</Typography>
                                     <div className="c_labelarea"><span className="c_label">アルバム名</span></div>
                                     <Input name="name" placeholder="test album" className="c_textfield" />
                                     <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>

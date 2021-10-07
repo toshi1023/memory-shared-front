@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../../styles/albums/albums.scss';
 import '../../../styles/common/common.scss';
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip, Button } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import ComponentStyles from '../../../styles/common/componentStyle';
@@ -18,9 +18,10 @@ import media_list from '../../../data/media_list_data.json';
  * @returns 
  */
 const AlbumDetail: React.FC = () => {
-    const history = useHistory();
     const displayStyles = DisplayStyles();
     const componentStyles = ComponentStyles();
+    const history = useHistory();
+    const { id, name, albumname, albumid } = useParams<{ id: string, name: string, albumname: string, albumid: string }>();
     // 画面切り替えを管理
     const [view, setView] = useState(0);
 
@@ -81,13 +82,13 @@ const AlbumDetail: React.FC = () => {
                 <Grid container justify="center">
                     <Grid item sm={10} md={8} lg={7} className="c_title_space">
                         <Typography className="c_title">
-                          album1
+                          {albumname}
                         </Typography>
                     </Grid>
                     <Grid item sm={10} md={8} lg={7} className="pos_relative">
                         <Button 
                             className="edit_button pos_left pos_vertical_center"
-                            onClick={() => history.push('/groups/test/albums/test/editer')}
+                            onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/editer`)}
                         >
                             アルバムを編集する
                         </Button>
@@ -127,13 +128,13 @@ const AlbumDetail: React.FC = () => {
                 <Grid container justify="center">
                     <Grid item xs={11} className="c_title_space pos_relative">
                         <Typography className="c_title mobile_title">
-                            album1
+                            {albumname}
                         </Typography>
                     </Grid>
                     <Grid item xs={11} className="pos_relative">
                         <Button
                             className="edit_button mobile pos_left"
-                            onClick={() => history.push('/groups/test/albums/test/editer')}
+                            onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/editer`)}
                         >
                             アルバムを編集する
                         </Button>

@@ -87,7 +87,7 @@ const GroupRegister: React.FC = () => {
                     await dispatch(fetchCredStart());
                     // XSRF-TOKENの取得
                     await dispatch(fetchAsyncGetToken());
-                    // ユーザ登録処理
+                    // グループ登録処理
                     values.private_flg = selectedValue;
                     values.welcome_flg = selectedValue2;
                     values.image_file = file;

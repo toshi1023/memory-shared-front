@@ -89,7 +89,7 @@ const GroupDetail: React.FC = () => {
                             アルバム
                         </Typography>
                     </div>
-                    <Button className="albumcreate_button mobile" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                    <Button className="albumcreate_button mobile" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
                     <AlbumListData data={albums} />
                 </Grid>
             </Grid>
@@ -138,7 +138,7 @@ const GroupDetail: React.FC = () => {
                                     アルバム
                                 </Typography>
                             </div>
-                            <Button className="albumcreate_button" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                            <Button className="albumcreate_button" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
                             <AlbumListData data={albums} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center c_side_area">
@@ -168,7 +168,7 @@ const GroupDetail: React.FC = () => {
                                     アルバム
                                 </Typography>
                             </div>
-                            <Button className="albumcreate_button ipad" onClick={() => history.push('/groups/test/albums/register')}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                            <Button className="albumcreate_button ipad" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
                             <AlbumListData data={albums} />
                             
                         </Grid>

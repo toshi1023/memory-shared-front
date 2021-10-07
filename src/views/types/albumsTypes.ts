@@ -1,3 +1,7 @@
+/************************************************
+ *  components用の型設定
+ ************************************************/
+
 /**
  * ImageListData用のデータ型定義
  */
@@ -39,4 +43,82 @@
         label1: string,
         label2: string
     }
+}
+
+/**
+ * Register(Formik)用のデータ型定義
+ */
+export interface FORMIK_RALBUM {
+    name: string,
+    group_id: number,
+    image_file: File | null,
+    host_user_id: number
+}
+/**
+ * Editer(Formik)用のデータ型定義
+ */
+export interface FORMIK_UALBUM {
+    id: number,
+    name: string,
+    group_id: number,
+    image_file: File | null,
+    host_user_id: number
+}
+
+/************************************************
+ *  slice用の型設定
+ ************************************************/
+
+/**
+ * album用のデータ型定義
+ */
+ export interface API_ALBUM_PROPS {
+    id: number
+}
+
+/**
+ * register用のデータ型定義
+ */
+export interface REGISTER_ALBUM_PROPS {
+    name: string,
+    group_id: number,
+    image_file: File | null,
+    host_user_id: number
+}
+/**
+ * AsyncThunk用(register用)
+ */
+export interface REGISTER_ALBUM_RES {
+    info_message: string,
+    error_message: string,
+}
+/**
+ * AsyncThunk用(registervalidation/updatevalidation用)
+ */
+export interface ALBUM_VALIDATE_RES {
+    errors: {
+        name: string[],
+        image_file: string[],
+        host_user_id: string[]
+    }
+
+    validate_status: string
+}
+
+/**
+ * update用のデータ型定義
+ */
+export interface UPDATE_ALBUM_PROPS {
+    id: number,
+    name: string,
+    group_id: number,
+    image_file: File | null,
+    host_user_id: number
+}
+/**
+ * AsyncThunk用(update用)
+ */
+export interface UPDATE_ALBUM_RES {
+    info_message: string,
+    error_message: string,
 }
