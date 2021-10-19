@@ -20,6 +20,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import { GROUP_CARD, MODAL_DATA } from '../../types/groupsTypes';
 import PostModal from './PostModal';
+import DateFormat from '../../../functions/dateFormat';
 import { AppDispatch } from '../../../stores/store';
 
 type GET_COMMENTS = {
@@ -145,7 +146,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
         
         <Grid container spacing={1}>
           <Grid item xs={4} md={3}>
-            <Avatar src={props.data.image_file} className={componentStyles.imageAvatar} />
+            <Avatar src={props.data.image_url} className={componentStyles.imageAvatar} />
           </Grid>
           <Grid item xs={8} md={9}>
             <Grid container>
@@ -170,11 +171,11 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                 <Typography className={componentStyles.content} color="textSecondary" gutterBottom>
                   {
                     props.data.private_flg ? 
-                        <Typography className={componentStyles.privateFlgTrue}>
+                        <Typography component="span" className={componentStyles.privateFlgTrue}>
                             非公開
                         </Typography>
                     :
-                        <Typography className={componentStyles.privateFlgFalse}>
+                        <Typography component="span" className={componentStyles.privateFlgFalse}>
                             公開
                         </Typography>
                   }
@@ -292,15 +293,14 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                       setModalData({content: value.content}); 
                   }}>
                     <div className={classes.postMeta}>
-                      <Avatar src={value.user.image_file} />
+                      <Avatar src={value.user.image_url} />
                       <Typography style={{ marginLeft: '8px', fontSize: '1.1rem' }}>{value.user.name}</Typography>
                     </div>
                     <div className={classes.postBox}>
                       <Typography className={classes.postContent} color="textSecondary">{value.content}</Typography>
                     </div>
-                    <Typography>{value.updated_at}</Typography>
+                    <Typography style={{ textAlign: 'right' }}>{DateFormat(value.updated_at)}</Typography>
                   </div>
-
                 </>
               ))
             }

@@ -45,6 +45,7 @@ const AlbumListData: React.FC<ALBUM_LIST_DATA> = (props) => {
                     <Card className={classes.root} onClick={() => history.push(`/groups/${name}/${id}/albums/${value.name}/${value.id}`)}>
                         <CardActionArea>
                             <CardMedia
+                                component="img"
                                 className={classes.media}
                                 image={value.image_url}
                                 title={value.name}

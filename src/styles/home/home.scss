@@ -175,6 +175,21 @@
             color: white;
         }
     }
+    .card_ipadpro {
+        background-color: white;
+        max-height: 350px;
+        margin-top: 90%;
+        
+        .header {
+            background-color: rgb(253, 200, 103);
+            height: 5%;
+        }
+        .header_title {
+            font-family: 'Merienda', 'cursive';
+            font-size: 1.2rem;
+            color: white;
+        }
+    }
 
     // iPhone版
     .loginpage_image_area_iphone {

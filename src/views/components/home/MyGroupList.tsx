@@ -40,6 +40,7 @@ const MyGroupList: React.FC<GROUP_LIST> = (props) => {
                     <Card className={classes.root}>
                         <CardActionArea>
                             <CardMedia
+                                component="img"
                                 className={classes.media}
                                 image={value.image_url}
                                 title={value.image_file}

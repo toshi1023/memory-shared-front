@@ -75,7 +75,7 @@ const Login: React.FC = () => {
                 }) => (
                     <form onSubmit={handleSubmit}>
                         
-                        {/* PC版 & iPad版 */}
+                        {/* PC版 */}
                         <div className={displayStyles.sectionDesktop}>
                             {/* PC版 */}
                             <Hidden mdDown>
@@ -158,9 +158,9 @@ const Login: React.FC = () => {
                             </Hidden>
 
                             {/* iPad版 */}
-                            <Hidden lgUp xsDown>
+                            <Hidden lgUp smDown>
                                 <Grid container justify="center" className="formcontainer">
-                                    <Grid item sm={12} md={12} className="login_image_area_ipad">
+                                    <Grid item md={12} className="login_image_area_ipad">
                                         <img src={loginpage_back2} className="loginpage_back_ipad after" />
                                         <img src={loginpage_front2} className="loginpage_front_ipad after" />
                                         <img src={loginpage_back1} className="loginpage_back_ipad" />
@@ -172,7 +172,83 @@ const Login: React.FC = () => {
                                             仲間と一緒に思い出を共有しよう
                                         </Typography> */}
                                     </Grid>
-                                    <Grid item sm={6} md={6}>
+                                    <Grid item md={6}>
+                                        <Card className="card_ipadpro">
+                                            <CardHeader 
+                                                title={
+                                                    <Typography className="header_title">
+                                                        Login
+                                                    </Typography>
+                                                }
+                                                className="header">
+                                            </CardHeader>
+                                            <CardContent>
+                                                <Input 
+                                                    placeholder="メールアドレス" 
+                                                    className="textfield" 
+                                                    inputProps={{ 'name': 'email' }} 
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.email}
+                                                />
+                                                {
+                                                    touched.email && errors.email ? 
+                                                        <div className="c_errmessage">{errors.email}</div>
+                                                    : null
+                                                }
+                                                <Input 
+                                                    placeholder="パスワード" 
+                                                    className="textfield" 
+                                                    inputProps={{ 'name': 'password', 'type': 'password' }} 
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.password}
+                                                />
+                                                {
+                                                    touched.password && errors.password ? 
+                                                        <div className="c_errmessage">{errors.password}</div>
+                                                    : null
+                                                }
+                                                {
+                                                    disabled ? 
+                                                        <Button className="c_disabled_button" disabled={disabled}>
+                                                            ログイン中<Loading />
+                                                        </Button>
+                                                    :
+                                                        <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
+                                                }
+                                            </CardContent>
+                                        </Card>
+
+                                        <Card className="pagetransition_card">
+                                            <CardContent>
+                                                <Typography>
+                                                    アカウントを新規で登録しますか？
+                                                </Typography>
+                                                <Typography className="pagetransition_event" onClick={() => history.push('/register')}>
+                                                    登録する
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                </Grid>
+                            </Hidden>
+
+                            <Hidden mdUp xsDown>
+                                <Grid container justify="center" className="formcontainer">
+                                    <Grid item sm={12} className="login_image_area_ipad">
+                                        <img src={loginpage_back2} className="loginpage_back_ipad after" />
+                                        <img src={loginpage_front2} className="loginpage_front_ipad after" />
+                                        <img src={loginpage_back1} className="loginpage_back_ipad" />
+                                        <img src={loginpage_front1} className="loginpage_front_ipad" />
+                                        <Typography className="wf-merienda ipad">
+                                            MemoryShareApp
+                                        </Typography>
+                                        {/* <Typography className="wf-roundedmplus1c_ipad">
+                                            仲間と一緒に思い出を共有しよう
+                                        </Typography> */}
+                                    </Grid>
+                                    <Grid item sm={6}>
                                         <Card className="card_ipad">
                                             <CardHeader 
                                                 title={

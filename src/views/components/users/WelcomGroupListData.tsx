@@ -42,6 +42,7 @@ const WelcomeGroupListData: React.FC<WELCOME_GROUP_LIST_DATA> = (props) => {
                         <Card className={classes.root} onClick={() => history.push(`/groups/${value.name}/${value.id}`)}>
                             <CardActionArea>
                                 <CardMedia
+                                    component="img"
                                     className={classes.media}
                                     image={value.image_url}
                                     title={value.image_file}
