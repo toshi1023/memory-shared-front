@@ -6,6 +6,7 @@ import { fetchAsyncGetTalks, selectTalks } from './homeSlice';
 import { Grid, Typography, Hidden, Button, Box, Avatar, CardContent, IconButton, TextField } from '@material-ui/core';
 import ReplyIcon from '@material-ui/icons/Reply';
 import _ from 'lodash';
+import DateFormat from '../../../functions/dateFormat';
 import { AppDispatch } from '../../../stores/store';
 
 const Talk: React.FC = () => {
@@ -55,6 +56,7 @@ const Talk: React.FC = () => {
                                             <div className="content_area">
                                                 <Typography key={value.id} className="content">{value.content}</Typography>
                                             </div>
+                                            <Typography style={{ textAlign: 'right', marginRight: '1rem', color: '#fff', fontSize: '0.7rem' }}>{DateFormat(value.created_at, true)}</Typography>
                                         </Box>
                                     :
                                         <Box component="div" key={value.id} m={1} borderRadius={16} className="left-box">
@@ -70,6 +72,7 @@ const Talk: React.FC = () => {
                                             <div className="content_area">
                                                 <Typography key={value.id} className="content">{value.content}</Typography>
                                             </div>
+                                            <Typography style={{ textAlign: 'right', marginRight: '1rem', color: 'rgb(179, 165, 165)', fontSize: '0.7rem' }}>{DateFormat(value.created_at, true)}</Typography>
                                         </Box>
                                 }
                             </div>
@@ -87,6 +90,7 @@ const Talk: React.FC = () => {
                     <IconButton 
                         color="primary" 
                         aria-label="add"
+                        className="sendbutton"
                     >
                         <ReplyIcon className="reply_icon" />
                     </IconButton>

@@ -37,6 +37,17 @@ const DateFormat = (dateval: string, ispast: boolean = false, is12hours: boolean
         if(monthval >= 3 && 6 > monthval) return '3カ月前';
         if(monthval >= 6 && 9 > monthval) return '6カ月前';
         if(monthval >= 9) return '9カ月前';
+        // 日にち・週表記
+        const dayval = nday - day;
+        if(dayval === 1) return '1日前';
+        if(dayval === 2) return '2日前';
+        if(dayval === 3) return '3日前';
+        if(dayval === 4) return '4日前';
+        if(dayval === 5) return '5日前';
+        if(dayval === 5) return '6日前';
+        if(dayval >= 7 && 14 > dayval) return '1週間前';
+        if(dayval >= 14 && 21 > dayval) return '2週間前';
+        if(dayval >= 21 && 28 > dayval) return '3週間前';
         // 時間表記
         const hoursval = nhours - hours;
         if(hoursval >= 1) {

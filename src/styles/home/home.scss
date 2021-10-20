@@ -335,7 +335,7 @@
 
         .reply_icon {
             font-size: 1.5rem;
-            color: blue;
+            color: #fff;
             width: 100%;
         }
 
@@ -348,5 +348,10 @@
     .message_box {
         // メッセージを1データごとに改行させる
         overflow: hidden
+    }
+
+    .sendbutton {
+        background-color: rgb(253, 200, 103);
+        margin-left: 3px;
     }
 }

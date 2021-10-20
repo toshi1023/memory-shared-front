@@ -16,6 +16,7 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import ReplyIcon from '@material-ui/icons/Reply';
 import CloseIcon from '@material-ui/icons/Close';
+import DateFormat from '../../../functions/dateFormat';
 import { POST_MODAL } from '../../types/groupsTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -97,14 +98,17 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                             <div className={classes.commentFrame}>
                                 {
                                     _.map(comments, value => (
-                                        <div className={classes.commentArea} key={value.id}>
-                                            <div style={{ width: '10%' }}>
-                                                <Avatar src={value.user.image_url} />
-                                                <Typography>{value.user.name}</Typography>
+                                        <div key={value.id}>
+                                            <div className={classes.commentArea}>
+                                                <div style={{ width: '10%' }}>
+                                                    <Avatar src={value.user.image_url} />
+                                                    <Typography>{value.user.name}</Typography>
+                                                </div>
+                                                <div className={classes.commentBox} style={{ width: '90%' }}>
+                                                    <Typography className={classes.comment}>{value.content}</Typography>
+                                                </div>
                                             </div>
-                                            <div className={classes.commentBox} style={{ width: '90%' }}>
-                                                <Typography className={classes.comment}>{value.content}</Typography>
-                                            </div>
+                                            <Typography style={{ textAlign: 'right', marginRight: '1rem' }}>{DateFormat(value.created_at, true)}</Typography>
                                         </div>
                                     ))
                                 }
@@ -152,14 +156,17 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                             <div className={classes.commentFrame}>
                                 {
                                     _.map(comments, value => (
-                                        <div className={classes.commentArea} key={value.id}>
-                                            <div style={{ width: '14%' }}>
-                                                <Avatar src={value.user.image_url} />
-                                                <Typography>{value.user.name}</Typography>
+                                        <div key={value.id}>
+                                            <div className={classes.commentArea}>
+                                                <div style={{ width: '14%' }}>
+                                                    <Avatar src={value.user.image_url} />
+                                                    <Typography>{value.user.name}</Typography>
+                                                </div>
+                                                <div className={classes.commentBox} style={{ width: '86%' }}>
+                                                    <Typography className={classes.comment}>{value.content}</Typography>
+                                                </div>
                                             </div>
-                                            <div className={classes.commentBox} style={{ width: '86%' }}>
-                                                <Typography className={classes.comment}>{value.content}</Typography>
-                                            </div>
+                                            <Typography style={{ textAlign: 'right', marginRight: '1rem' }}>{DateFormat(value.created_at, true)}</Typography>
                                         </div>
                                     ))
                                 }
@@ -207,14 +214,17 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                 <div className={classes.commentFrame}>
                                     {
                                         _.map(comments, value => (
-                                            <div className={classes.commentArea} key={value.id}>
-                                                <div style={{ width: '17%' }}>
-                                                    <Avatar src={value.user.image_url} />
-                                                    <Typography>{value.user.name}</Typography>
+                                            <div key={value.id}>
+                                                <div className={classes.commentArea}>
+                                                    <div style={{ width: '17%' }}>
+                                                        <Avatar src={value.user.image_url} />
+                                                        <Typography>{value.user.name}</Typography>
+                                                    </div>
+                                                    <div className={classes.commentBox} style={{ width: '83%' }}>
+                                                        <Typography className={classes.comment} style={{ fontSize: '0.9rem' }}>{value.content}</Typography>
+                                                    </div>
                                                 </div>
-                                                <div className={classes.commentBox} style={{ width: '83%' }}>
-                                                    <Typography className={classes.comment} style={{ fontSize: '0.9rem' }}>{value.content}</Typography>
-                                                </div>
+                                                <Typography style={{ textAlign: 'right', marginRight: '1rem', fontSize: '0.8rem' }}>{DateFormat(value.created_at, true)}</Typography>
                                             </div>
                                         ))
                                     }
