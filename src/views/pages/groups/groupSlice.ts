@@ -4,7 +4,7 @@ import axios from "axios";
 import { 
     GROUPS_PROPS, GROUPS_RES, API_GROUP_PROPS, GROUP_RES, 
     PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
-    REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, UPDATE_GROUP_RES, UPDATE_GROUP_PROPS
+    REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS
 } from "../../types/groupsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -263,6 +263,35 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
             }
             
             return err.response.data as UPDATE_GROUP_RES;
+        }
+    }
+);
+
+/**
+ * 投稿作成の非同期関数
+ */
+ export const fetchAsyncPostPost = createAsyncThunk<REGISTER_POST_RES, REGISTER_POST_PROPS>(
+    "post_register",
+    async (props: REGISTER_POST_PROPS) => {
+        try {
+            const fd = generateFormData<REGISTER_POST_PROPS>(props);
+
+            const res = await axios.post(`${apiUrl}/groups/${props.group_id}/posts`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as REGISTER_POST_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as REGISTER_POST_RES;
         }
     }
 );

@@ -279,7 +279,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
       {/* 掲示板 */}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Button className={componentStyles.registerButton} onClick={() => history.push('/groups/test/post/register')}>
+          <Button className={componentStyles.registerButton} onClick={() => history.push(`/groups/${props.data.name}/${props.data.id}/post/register`)}>
             <PostAddIcon className={componentStyles.registerIcon} />投稿を作成
           </Button>
           <Typography paragraph className={classes.postTitle}>投稿</Typography>

@@ -141,6 +141,14 @@ export interface FORMIK_UGROUP {
     image_file: File | null,
     host_user_id: number
 }
+/**
+ * PostRegister(Formik)用のデータ型定義
+ */
+export interface FORMIK_RPOST {
+    content: string,
+    user_id: number,
+    group_id: number
+}
 
 /************************************************
  *  slice用の型設定
@@ -392,6 +400,22 @@ export interface UPDATE_GROUP_PROPS {
  * AsyncThunk用(update用)
  */
 export interface UPDATE_GROUP_RES {
+    info_message: string,
+    error_message: string,
+}
+
+/**
+ * post_register用のデータ型定義
+ */
+export interface REGISTER_POST_PROPS {
+    content: string,
+    user_id: number,
+    group_id: number
+}
+/**
+ * AsyncThunk用(post_register用)
+ */
+export interface REGISTER_POST_RES {
     info_message: string,
     error_message: string,
 }
