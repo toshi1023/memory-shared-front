@@ -91,7 +91,7 @@ const PostRegister: React.FC = () => {
                                         </CardHeader>
                                         <CardContent>
                                             <div className="c_labelarea"><span className="c_label">グループ名</span></div>
-                                            <Typography className="c_typography">test group</Typography>
+                                            <Typography className="c_typography">{name}</Typography>
                                             
                                             <div className="c_labelarea"><span className="c_label">投稿文</span></div>
                                             <TextField
@@ -140,9 +140,9 @@ const PostRegister: React.FC = () => {
                                         </CardHeader>
                                         <CardContent>
                                             <div className="c_labelarea"><span className="c_label">グループ名</span></div>
-                                            <Typography className="c_typography">test group</Typography>
+                                            <Typography className="c_typography">{name}</Typography>
                                             
-                                            <div className="c_labelarea"><span className="c_label">紹介文</span></div>
+                                            <div className="c_labelarea"><span className="c_label">投稿文</span></div>
                                             <TextField
                                                 name="content"
                                                 className="c_textfield"

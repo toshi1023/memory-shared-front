@@ -101,6 +101,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState<MODAL_DATA>({
       content: '',
+      user_id: 0
   });
   // redux
   const dispatch: AppDispatch = useDispatch();
@@ -290,7 +291,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                   <div className={classes.postList} key={value.id} onClick={() => { 
                       handleOpen(true); 
                       asyncGetComments({group_id: value.group_id, post_id: value.id}); 
-                      setModalData({content: value.content}); 
+                      setModalData({content: value.content, user_id: value.user_id}); 
                   }}>
                     <div className={classes.postMeta}>
                       <Avatar src={value.user.image_url} />

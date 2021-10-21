@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import ReplyIcon from '@material-ui/icons/Reply';
 import CloseIcon from '@material-ui/icons/Close';
 import DateFormat from '../../../functions/dateFormat';
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     content: {
         textAlign: 'left',
-        padding: '10px 0 20px 0'
+        padding: '10px 0 20px 0',
+        whiteSpace: 'pre-line'
     },
     commentFrame: {
         width: '100%',
@@ -44,6 +46,12 @@ const useStyles = makeStyles((theme: Theme) =>
         borderRadius: '10px',
         margin: '0 auto',
     },
+    mycommentBox: {
+        background: 'white',
+        borderRadius: '10px',
+        margin: '0 auto',
+        cursor: 'pointer'
+    },
     comment: {
         padding: '5px 10px 5px 10px'
     },
@@ -55,14 +63,27 @@ const useStyles = makeStyles((theme: Theme) =>
         alignItems: 'center',
         justifyContent: 'center'
     },
+    iconButton: {
+        backgroundColor: 'rgb(253, 200, 103)',
+        marginLeft: '3px'
+    },
     replyIcon: {
         fontSize: '1.5rem',
-        color: 'blue',
+        color: '#fff',
         width: '100%'
     },
     textfield: {
         width: '85%',
         backgroundColor: 'white'
+    },
+    deleteButton: {
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '40%',
+        borderRadius: '30px',
+        fontWeight: 'bold',
+        justifyContent: 'center'
     }
   }),
 );
@@ -72,6 +93,16 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
     const componentStyles = ComponentStyles();
     // redux
     const comments = useSelector(selectComments);
+
+    /**
+     * コメント削除
+     * @param id 
+     */
+    const handleDeleteComment = (id: number) => {
+        if(window.confirm('コメントを削除しますか？')) {
+            // コメントを削除
+        }
+    }
 
     return (
         <Grid container justify="center">
@@ -104,9 +135,16 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                                     <Avatar src={value.user.image_url} />
                                                     <Typography>{value.user.name}</Typography>
                                                 </div>
-                                                <div className={classes.commentBox} style={{ width: '90%' }}>
-                                                    <Typography className={classes.comment}>{value.content}</Typography>
-                                                </div>
+                                                {
+                                                    value.user_id === +localStorage.loginId ? 
+                                                        <div className={classes.mycommentBox} style={{ width: '90%' }} onClick={() => handleDeleteComment(value.id)}>
+                                                            <Typography className={classes.comment}>{value.content}</Typography>
+                                                        </div>
+                                                    :
+                                                        <div className={classes.commentBox} style={{ width: '90%' }}>
+                                                            <Typography className={classes.comment}>{value.content}</Typography>
+                                                        </div>
+                                                }
                                             </div>
                                             <Typography style={{ textAlign: 'right', marginRight: '1rem' }}>{DateFormat(value.created_at, true)}</Typography>
                                         </div>
@@ -124,10 +162,17 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                 <IconButton 
                                     color="primary" 
                                     aria-label="add"
+                                    className={classes.iconButton}
                                 >
                                     <ReplyIcon className={classes.replyIcon} />
                                 </IconButton>
                             </div>
+                            {
+                                props.data.user_id === +localStorage.loginId ? 
+                                    <Button variant="contained" color="secondary" className={classes.deleteButton}>投稿を削除する</Button>
+                                :
+                                    ''
+                            }
                         </div>
                         </Fade>
                     </Modal>
@@ -162,9 +207,16 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                                     <Avatar src={value.user.image_url} />
                                                     <Typography>{value.user.name}</Typography>
                                                 </div>
-                                                <div className={classes.commentBox} style={{ width: '86%' }}>
-                                                    <Typography className={classes.comment}>{value.content}</Typography>
-                                                </div>
+                                                {
+                                                    value.user_id === +localStorage.loginId ? 
+                                                        <div className={classes.mycommentBox} style={{ width: '90%' }} onClick={() => handleDeleteComment(value.id)}>
+                                                            <Typography className={classes.comment}>{value.content}</Typography>
+                                                        </div>
+                                                    :
+                                                        <div className={classes.commentBox} style={{ width: '90%' }}>
+                                                            <Typography className={classes.comment}>{value.content}</Typography>
+                                                        </div>
+                                                }
                                             </div>
                                             <Typography style={{ textAlign: 'right', marginRight: '1rem' }}>{DateFormat(value.created_at, true)}</Typography>
                                         </div>
@@ -182,10 +234,17 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                 <IconButton 
                                     color="primary" 
                                     aria-label="add"
+                                    className={classes.iconButton}
                                 >
                                     <ReplyIcon className={classes.replyIcon} />
                                 </IconButton>
                             </div>
+                            {
+                                props.data.user_id === +localStorage.loginId ? 
+                                    <Button variant="contained" color="secondary" className={classes.deleteButton}>投稿を削除する</Button>
+                                :
+                                    ''
+                            }
                         </div>
                         </Fade>
                     </Modal>
@@ -220,9 +279,16 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                                         <Avatar src={value.user.image_url} />
                                                         <Typography>{value.user.name}</Typography>
                                                     </div>
-                                                    <div className={classes.commentBox} style={{ width: '83%' }}>
-                                                        <Typography className={classes.comment} style={{ fontSize: '0.9rem' }}>{value.content}</Typography>
-                                                    </div>
+                                                    {
+                                                        value.user_id === +localStorage.loginId ? 
+                                                            <div className={classes.mycommentBox} style={{ width: '90%' }} onClick={() => handleDeleteComment(value.id)}>
+                                                                <Typography className={classes.comment}>{value.content}</Typography>
+                                                            </div>
+                                                        :
+                                                            <div className={classes.commentBox} style={{ width: '90%' }}>
+                                                                <Typography className={classes.comment}>{value.content}</Typography>
+                                                            </div>
+                                                    }
                                                 </div>
                                                 <Typography style={{ textAlign: 'right', marginRight: '1rem', fontSize: '0.8rem' }}>{DateFormat(value.created_at, true)}</Typography>
                                             </div>
@@ -240,10 +306,17 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                     <IconButton 
                                         color="primary" 
                                         aria-label="add"
+                                        className={classes.iconButton}
                                     >
                                         <ReplyIcon className={classes.replyIcon} />
                                     </IconButton>
                                 </div>
+                                {
+                                    props.data.user_id === +localStorage.loginId ? 
+                                        <Button variant="contained" color="secondary" className={classes.deleteButton} style={{ width: '50%' }}>投稿を削除する</Button>
+                                    :
+                                        ''
+                                }
                             </div>
                         </Fade>
                     </Modal>

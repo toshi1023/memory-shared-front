@@ -110,12 +110,14 @@ export interface GROUP_CARD {
 export interface POST_MODAL {
     data: {
         content: string;
+        user_id: number;
     }
     open: boolean;
     callback: (value: boolean) => void;
 }
 export interface MODAL_DATA {
     content: string;
+    user_id: number;
 }
 
 /**
