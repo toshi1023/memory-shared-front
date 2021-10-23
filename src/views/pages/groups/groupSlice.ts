@@ -4,7 +4,7 @@ import axios from "axios";
 import { 
     GROUPS_PROPS, GROUPS_RES, API_GROUP_PROPS, GROUP_RES, 
     PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
-    REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS
+    REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS, REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS
 } from "../../types/groupsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -296,6 +296,37 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
     }
 );
 
+/**
+ * コメント作成の非同期関数
+ */
+ export const fetchAsyncPostComment = createAsyncThunk<REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS>(
+    "comment_register",
+    async (props: REGISTER_COMMENT_PROPS) => {
+        try {
+            const fd = generateFormData<REGISTER_COMMENT_PROPS>(props);
+            // group_idは保存対象でないため、fdから除外
+            fd.delete('group_id');
+
+            const res = await axios.post(`${apiUrl}/groups/${props.group_id}/posts/${props.post_id}/comments`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as REGISTER_COMMENT_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as REGISTER_COMMENT_RES;
+        }
+    }
+);
+
 export const groupSlice = createSlice({
     name: "group",
     initialState: {
@@ -463,9 +494,6 @@ export const groupSlice = createSlice({
             // 投稿一覧
             p_currentpage: 0,
             p_lastpage: 0,
-            // コメント一覧
-            c_currentpage: 0,
-            c_lastpage: 0
         }
     },
     reducers: {
@@ -517,14 +545,18 @@ export const groupSlice = createSlice({
         // コメント一覧取得処理
         builder.addCase(fetchAsyncGetComments.fulfilled, (state, action: PayloadAction<COMMENTS_RES>) => {
             if(!action.payload.error_message) {
-                state.comments = action.payload.comments.data;
-                state.page.c_currentpage = action.payload.comments.current_page;
-                state.page.c_lastpage = action.payload.comments.last_page;
+                state.comments = action.payload.comments;
             }
         });
         // バリデーション結果取得処理
         builder.addCase(fetchAsyncPostGroupValidation.fulfilled, (state, action: PayloadAction<GROUP_VALIDATE_RES>) => {
             state.validation = action.payload;
+        });
+        // コメント登録後処理
+        builder.addCase(fetchAsyncPostComment.fulfilled, (state, action: PayloadAction<REGISTER_COMMENT_RES>) => {
+            if(!action.payload.error_message) {
+                state.comments = action.payload.comments;
+            }
         });
     },
 });

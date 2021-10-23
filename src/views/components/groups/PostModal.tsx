@@ -1,10 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from "react-router-dom";
 import _ from 'lodash';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { fetchGetErrorMessages, fetchGetInfoMessages, fetchCredStart, fetchCredEnd } from '../../pages/appSlice';
-import { selectComments } from '../../pages/groups/groupSlice';
+import { fetchAsyncGetToken, fetchGetErrorMessages, fetchGetInfoMessages, fetchCredStart, fetchCredEnd } from '../../pages/appSlice';
+import { selectComments, fetchAsyncPostComment } from '../../pages/groups/groupSlice';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -19,6 +20,7 @@ import ReplyIcon from '@material-ui/icons/Reply';
 import CloseIcon from '@material-ui/icons/Close';
 import DateFormat from '../../../functions/dateFormat';
 import { POST_MODAL } from '../../types/groupsTypes';
+import { AppDispatch } from '../../../stores/store';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,12 +32,17 @@ const useStyles = makeStyles((theme: Theme) =>
     content: {
         textAlign: 'left',
         padding: '10px 0 20px 0',
-        whiteSpace: 'pre-line'
+        whiteSpace: 'pre-line',
+        maxHeight: '18vh',
+        overflow: 'auto',
+        marginBottom: '10px'
     },
     commentFrame: {
         width: '100%',
         borderRadius: '5px',
-        background: 'rgb(243, 239, 239)'
+        background: 'rgb(243, 239, 239)',
+        maxHeight: '42vh',
+        overflow: 'auto'
     },
     commentArea: {
         display: 'flex',
@@ -65,7 +72,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     iconButton: {
         backgroundColor: 'rgb(253, 200, 103)',
-        marginLeft: '3px'
+        marginLeft: '3px',
+        '&:hover': {
+            backgroundColor: 'rgb(253, 200, 103)',
+        }
     },
     replyIcon: {
         fontSize: '1.5rem',
@@ -91,7 +101,11 @@ const useStyles = makeStyles((theme: Theme) =>
 const PostModal: React.FC<POST_MODAL> = (props) => {
     const classes = useStyles();
     const componentStyles = ComponentStyles();
+    const [value, setValue] = useState<string>('');
+    const { id } = useParams<{ id: string }>();
+    const commentInput = React.useRef<HTMLInputElement>(null);
     // redux
+    const dispatch: AppDispatch = useDispatch();
     const comments = useSelector(selectComments);
 
     /**
@@ -101,6 +115,40 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
     const handleDeleteComment = (id: number) => {
         if(window.confirm('コメントを削除しますか？')) {
             // コメントを削除
+        }
+    }
+
+    /**
+     * コメント登録
+     * @param val 
+     */
+    const handleSubmit = async (val: string) => {
+        if(!val) {
+            dispatch(fetchGetErrorMessages('コメントが入力されていません'));
+            return;
+        }
+
+        // 保存データの生成
+        const data = {
+            content: val,
+            user_id: +localStorage.loginId,
+            post_id: props.data.id,
+            group_id: +id
+        }
+
+        // XSRF-TOKENの取得
+        await dispatch(fetchAsyncGetToken());
+        // コメント登録処理
+        const rcommentRes = await dispatch(fetchAsyncPostComment(data));
+        if(fetchAsyncPostComment.fulfilled.match(rcommentRes)) {
+            rcommentRes.payload.info_message ? 
+                dispatch(fetchGetInfoMessages(rcommentRes.payload.info_message))
+            :
+                dispatch(fetchGetErrorMessages(rcommentRes.payload.error_message))
+
+            // コメント入力欄の値をリセット
+            commentInput.current!.value = '';
+            setValue('');
         }
     }
 
@@ -158,11 +206,14 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                     label="コメントを投稿"
                                     variant="outlined"
                                     multiline
+                                    onChange={(e) => setValue(e.target.value)}
+                                    ref={commentInput}
                                 />
                                 <IconButton 
                                     color="primary" 
                                     aria-label="add"
                                     className={classes.iconButton}
+                                    onClick={() => handleSubmit(value)}
                                 >
                                     <ReplyIcon className={classes.replyIcon} />
                                 </IconButton>
@@ -230,11 +281,14 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                     label="コメントを投稿"
                                     variant="outlined"
                                     multiline
+                                    onChange={(e) => setValue(e.target.value)}
+                                    ref={commentInput}
                                 />
                                 <IconButton 
                                     color="primary" 
                                     aria-label="add"
                                     className={classes.iconButton}
+                                    onClick={() => handleSubmit(value)}
                                 >
                                     <ReplyIcon className={classes.replyIcon} />
                                 </IconButton>
@@ -302,11 +356,14 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                         label="コメントを投稿"
                                         variant="outlined"
                                         multiline
+                                        onChange={(e) => setValue(e.target.value)}
+                                        ref={commentInput}
                                     />
                                     <IconButton 
                                         color="primary" 
                                         aria-label="add"
                                         className={classes.iconButton}
+                                        onClick={() => handleSubmit(value)}
                                     >
                                         <ReplyIcon className={classes.replyIcon} />
                                     </IconButton>

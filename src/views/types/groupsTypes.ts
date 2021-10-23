@@ -109,6 +109,7 @@ export interface GROUP_CARD {
  */
 export interface POST_MODAL {
     data: {
+        id: number;
         content: string;
         user_id: number;
     }
@@ -116,6 +117,7 @@ export interface POST_MODAL {
     callback: (value: boolean) => void;
 }
 export interface MODAL_DATA {
+    id: number;
     content: string;
     user_id: number;
 }
@@ -332,25 +334,21 @@ export interface COMMENTS_PROPS {
  */
 export interface COMMENTS_RES {
     comments: {
-        data: {
+        id: number,
+        content: string,
+        user_id: number,
+        post_id: number,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        user: {
             id: number,
-            content: string,
-            user_id: number,
-            post_id: number,
-            update_user_id: number,
-            created_at: string,
-            updated_at: string,
-            deleted_at: null,
-            user: {
-                id: number,
-                name: string,
-                image_file: string,
-                image_url: string
-            }
-        }[],
-        current_page: number,
-        last_page: number,
-    },
+            name: string,
+            image_file: string,
+            image_url: string
+        }
+    }[],
 
     error_message: string,
 }
@@ -418,6 +416,39 @@ export interface REGISTER_POST_PROPS {
  * AsyncThunk用(post_register用)
  */
 export interface REGISTER_POST_RES {
+    info_message: string,
+    error_message: string,
+}
+
+/**
+ * comment_register用のデータ型定義
+ */
+export interface REGISTER_COMMENT_PROPS {
+    content: string,
+    user_id: number,
+    post_id: number,
+    group_id: number
+}
+/**
+ * AsyncThunk用(comment_register用)
+ */
+export interface REGISTER_COMMENT_RES {
+    comments: {
+        id: number,
+        content: string,
+        user_id: number,
+        post_id: number,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        user: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string
+        }
+    }[],
     info_message: string,
     error_message: string,
 }

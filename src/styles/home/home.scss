@@ -353,5 +353,8 @@
     .sendbutton {
         background-color: rgb(253, 200, 103);
         margin-left: 3px;
+        &:hover {
+            background-color: rgb(253, 200, 103);
+        }
     }
 }
