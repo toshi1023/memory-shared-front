@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import _ from 'lodash';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { fetchAsyncGetToken, fetchGetErrorMessages, fetchGetInfoMessages, fetchCredStart, fetchCredEnd } from '../../pages/appSlice';
-import { selectComments, fetchAsyncPostComment } from '../../pages/groups/groupSlice';
+import { fetchAsyncGetToken, fetchGetErrorMessages, fetchGetInfoMessages } from '../../pages/appSlice';
+import { selectComments, fetchAsyncPostComment, fetchAsyncDeleteComment } from '../../pages/groups/groupSlice';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -112,9 +112,27 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
      * コメント削除
      * @param id 
      */
-    const handleDeleteComment = (id: number) => {
-        if(window.confirm('コメントを削除しますか？')) {
-            // コメントを削除
+    const handleDeleteComment = async (comment_id: number, content: string) => {
+        if(window.confirm(`
+            コメントを削除しますか？
+            内容: ${content}
+        `)) {
+            // 引数データの生成
+            const data = {
+                id: comment_id,
+                post_id: props.data.id,
+                group_id: +id
+            }
+            // XSRF-TOKENの取得
+            await dispatch(fetchAsyncGetToken());
+            // コメント削除処理
+            const dcommentRes = await dispatch(fetchAsyncDeleteComment(data));
+            if(fetchAsyncDeleteComment.fulfilled.match(dcommentRes)) {
+                dcommentRes.payload.info_message ? 
+                    dispatch(fetchGetInfoMessages(dcommentRes.payload.info_message))
+                :
+                    dispatch(fetchGetErrorMessages(dcommentRes.payload.error_message))
+            }
         }
     }
 
@@ -185,7 +203,7 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                                 </div>
                                                 {
                                                     value.user_id === +localStorage.loginId ? 
-                                                        <div className={classes.mycommentBox} style={{ width: '90%' }} onClick={() => handleDeleteComment(value.id)}>
+                                                        <div className={classes.mycommentBox} style={{ width: '90%' }} onClick={() => handleDeleteComment(value.id, value.content)}>
                                                             <Typography className={classes.comment}>{value.content}</Typography>
                                                         </div>
                                                     :
@@ -260,7 +278,7 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                                 </div>
                                                 {
                                                     value.user_id === +localStorage.loginId ? 
-                                                        <div className={classes.mycommentBox} style={{ width: '90%' }} onClick={() => handleDeleteComment(value.id)}>
+                                                        <div className={classes.mycommentBox} style={{ width: '90%' }} onClick={() => handleDeleteComment(value.id, value.content)}>
                                                             <Typography className={classes.comment}>{value.content}</Typography>
                                                         </div>
                                                     :
@@ -335,7 +353,7 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                                     </div>
                                                     {
                                                         value.user_id === +localStorage.loginId ? 
-                                                            <div className={classes.mycommentBox} style={{ width: '90%' }} onClick={() => handleDeleteComment(value.id)}>
+                                                            <div className={classes.mycommentBox} style={{ width: '90%' }} onClick={() => handleDeleteComment(value.id, value.content)}>
                                                                 <Typography className={classes.comment}>{value.content}</Typography>
                                                             </div>
                                                         :

@@ -452,3 +452,35 @@ export interface REGISTER_COMMENT_RES {
     info_message: string,
     error_message: string,
 }
+
+/**
+ * comment_delete用のデータ型定義
+ */
+export interface DELETE_COMMENT_PROPS {
+    id: number,
+    post_id: number,
+    group_id: number
+}
+/**
+ * AsyncThunk用(comment_delete用)
+ */
+export interface DELETE_COMMENT_RES {
+    comments: {
+        id: number,
+        content: string,
+        user_id: number,
+        post_id: number,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        user: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string
+        }
+    }[],
+    info_message: string,
+    error_message: string,
+}

@@ -4,7 +4,9 @@ import axios from "axios";
 import { 
     GROUPS_PROPS, GROUPS_RES, API_GROUP_PROPS, GROUP_RES, 
     PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
-    REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS, REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS
+    REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, 
+    UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS, 
+    REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS
 } from "../../types/groupsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -327,6 +329,33 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
     }
 );
 
+/**
+ * コメント削除の非同期関数
+ */
+ export const fetchAsyncDeleteComment = createAsyncThunk<DELETE_COMMENT_RES, DELETE_COMMENT_PROPS>(
+    "comment_delete",
+    async (props: DELETE_COMMENT_PROPS) => {
+        try {
+            const res = await axios.delete(`${apiUrl}/groups/${props.group_id}/posts/${props.post_id}/comments/${props.id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as DELETE_COMMENT_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as DELETE_COMMENT_RES;
+        }
+    }
+);
+
 export const groupSlice = createSlice({
     name: "group",
     initialState: {
@@ -554,6 +583,12 @@ export const groupSlice = createSlice({
         });
         // コメント登録後処理
         builder.addCase(fetchAsyncPostComment.fulfilled, (state, action: PayloadAction<REGISTER_COMMENT_RES>) => {
+            if(!action.payload.error_message) {
+                state.comments = action.payload.comments;
+            }
+        });
+        // コメント削除後処理
+        builder.addCase(fetchAsyncDeleteComment.fulfilled, (state, action: PayloadAction<DELETE_COMMENT_RES>) => {
             if(!action.payload.error_message) {
                 state.comments = action.payload.comments;
             }
