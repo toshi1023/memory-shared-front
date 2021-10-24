@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { fetchGetErrorMessages } from '../../pages/appSlice';
+import { fetchGetErrorMessages, fetchAsyncGetNreadCount } from '../../pages/appSlice';
 import { fetchGetNewsInfo, fetchAsyncDeleteNreads } from '../../pages/news/newsSlice';
 import _ from 'lodash';
 import List from '@material-ui/core/List';
@@ -36,8 +36,14 @@ const NewsListData: React.FC<NEWS_LIST_DATA> = (props) => {
         const dnreadsRes = await dispatch(fetchAsyncDeleteNreads(props));
         if(fetchAsyncDeleteNreads.fulfilled.match(dnreadsRes) && dnreadsRes.payload.error_message) {
             dispatch(fetchGetErrorMessages(dnreadsRes.payload.error_message));
+            return;
         }
-        return;
+        // ニュース未読数の取得
+        const nreadCountRes = await dispatch(fetchAsyncGetNreadCount());
+        if(fetchAsyncGetNreadCount.fulfilled.match(nreadCountRes) && nreadCountRes.payload.error_message) {
+            dispatch(fetchGetErrorMessages(nreadCountRes.payload.error_message));
+            return;
+        }
     }
 
     /**

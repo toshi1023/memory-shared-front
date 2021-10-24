@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
-import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
+import { fetchGetErrorMessages, fetchGetUrl, fetchAsyncGetNreadCount } from '../appSlice';
 import { fetchAsyncGetParticipant, selectParticipant } from './homeSlice';
 import PageNotFound from '../../components/common/PageNotFound';
 import MyGroupList from '../../components/home/MyGroupList';
@@ -29,6 +29,12 @@ const MobileMyGroup: React.FC = () => {
             const participantRes = await dispatch(fetchAsyncGetParticipant({ id: +localStorage.loginId }));
             if(fetchAsyncGetParticipant.fulfilled.match(participantRes) && participantRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(participantRes.payload.error_message));
+                return;
+            }
+            // ニュース未読数の取得
+            const nreadCountRes = await dispatch(fetchAsyncGetNreadCount());
+            if(fetchAsyncGetNreadCount.fulfilled.match(nreadCountRes) && nreadCountRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(nreadCountRes.payload.error_message));
                 return;
             }
             dispatch(fetchGetUrl(history.location.pathname));

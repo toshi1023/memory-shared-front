@@ -60,3 +60,11 @@ export interface SINGLE_IMAGE_REGISTER {
     data: string | null,
     callback: (value: File | null) => void,
 }
+
+/**
+ * AsyncThunk用(nread_count用)のデータ型定義
+ */
+export interface NREAD_COUNT_RES {
+    nread_count: number,
+    error_message: string
+}

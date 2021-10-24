@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
-import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
+import { fetchGetErrorMessages, fetchGetUrl, fetchAsyncGetNreadCount } from '../appSlice';
 import { 
     fetchAsyncGetProfile, selectProfile, fetchAsyncGetFamily, selectFamily, 
     fetchAsyncGetParticipant, selectParticipant, fetchAsyncGetTalklist, selectTalklist 
@@ -56,6 +56,14 @@ const Home: React.FC = () => {
                 dispatch(fetchGetErrorMessages(talklistRes.payload.error_message));
                 return;
             }
+
+            // ニュース未読数の取得
+            const nreadCountRes = await dispatch(fetchAsyncGetNreadCount());
+            if(fetchAsyncGetNreadCount.fulfilled.match(nreadCountRes) && nreadCountRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(nreadCountRes.payload.error_message));
+                return;
+            }
+
             dispatch(fetchGetUrl(history.location.pathname));
         }
         renderHome();

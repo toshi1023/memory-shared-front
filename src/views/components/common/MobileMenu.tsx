@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectNreadCount } from '../../pages/appSlice';
 import { fetchAsyncLogout } from '../../pages/home/homeSlice';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Badge from '@material-ui/core/Badge';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
@@ -36,6 +38,7 @@ const MobileMenu: React.FC<MOBILE_MENU_ICON> = (props) => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch: AppDispatch = useDispatch();
+    const nreadCount = useSelector(selectNreadCount);
     const [state, setState] = useState(false);
     const user = localStorage.loginName;
 
@@ -99,7 +102,14 @@ const MobileMenu: React.FC<MOBILE_MENU_ICON> = (props) => {
                         <ListItemIcon>
                             {index === 0 ? <EmojiPeopleIcon /> : ''}
                             {index === 1 ? <SupervisedUserCircleIcon /> : ''}
-                            {index === 2 ? <NotificationImportantIcon /> : ''}
+                            {
+                                index === 2 ? 
+                                    <Badge badgeContent={nreadCount} color="secondary">
+                                        <NotificationImportantIcon />
+                                    </Badge>
+                                : 
+                                    ''
+                            }
                         </ListItemIcon>
                         <ListItemText primary={text} onClick={() => handleMenuClick(index)} />
                     </ListItem>

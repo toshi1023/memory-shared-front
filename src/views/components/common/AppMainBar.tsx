@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchAsyncLogout } from '../../pages/home/homeSlice';
-import { fetchGetErrorMessages } from '../../pages/appSlice';
+import { fetchGetErrorMessages, selectNreadCount } from '../../pages/appSlice';
 import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Toolbar, Typography, Tooltip, Button, IconButton, Grid  } from '@material-ui/core';
+import { Toolbar, Typography, Tooltip, Button, IconButton, Grid, Badge } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
@@ -64,6 +64,7 @@ const AppMainBar: React.FC = () => {
     const history = useHistory();
     const displayStyles = DisplayStyles();
     const dispatch: AppDispatch = useDispatch();
+    const nreadCount = useSelector(selectNreadCount);
     const [active, setActive] = useState<ICON_ACTIVE>({
         home: false,
         user: false,
@@ -132,7 +133,11 @@ const AppMainBar: React.FC = () => {
                   <Button color="inherit" onClick={() => {iconActive('group'); history.push('/groups')}}><SupervisedUserCircleIcon style={active.group ? { color: activeColor } : { color: inActiveColor }} /></Button>
                 </Tooltip>
                 <Tooltip title="お知らせ" classes={{tooltip: classes.tooltip}}>
-                  <Button color="inherit" onClick={() => {iconActive('news'); history.push(`/news/${user}`)}}><NotificationImportantIcon style={active.news ? { color: activeColor } : { color: inActiveColor }} /></Button>
+                  <Button color="inherit" onClick={() => {iconActive('news'); history.push(`/news/${user}`)}}>
+                    <Badge badgeContent={nreadCount} color="secondary">
+                      <NotificationImportantIcon style={active.news ? { color: activeColor } : { color: inActiveColor }} />
+                    </Badge>
+                  </Button>
                 </Tooltip>
                 <Tooltip title="ログアウト" classes={{tooltip: classes.tooltip}}>
                   <Button color="inherit" onClick={async () => {

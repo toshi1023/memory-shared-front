@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
-import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
+import { fetchGetErrorMessages, fetchGetUrl, fetchAsyncGetNreadCount } from '../appSlice';
 import { fetchAsyncGetFamily, selectFamily } from './homeSlice';
 import PageNotFound from '../../components/common/PageNotFound';
 import MyFamilyList from '../../components/home/MyFamilyList';
@@ -25,6 +25,12 @@ const MobileMyFamily: React.FC = () => {
             const familyRes = await dispatch(fetchAsyncGetFamily({ id: +localStorage.loginId }));
             if(fetchAsyncGetFamily.fulfilled.match(familyRes) && familyRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(familyRes.payload.error_message));
+                return;
+            }
+            // ニュース未読数の取得
+            const nreadCountRes = await dispatch(fetchAsyncGetNreadCount());
+            if(fetchAsyncGetNreadCount.fulfilled.match(nreadCountRes) && nreadCountRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(nreadCountRes.payload.error_message));
                 return;
             }
             dispatch(fetchGetUrl(history.location.pathname));
