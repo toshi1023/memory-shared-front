@@ -421,6 +421,41 @@ export interface REGISTER_POST_RES {
 }
 
 /**
+ * post_delete用のデータ型定義
+ */
+ export interface DELETE_POST_PROPS {
+    id: number,
+    group_id: number
+}
+/**
+ * AsyncThunk用(post_delete用)
+ */
+export interface DELETE_POST_RES {
+    posts: {
+        data: {
+            id: number,
+            content: string,
+            user_id: number,
+            group_id: number,
+            update_user_id: number,
+            created_at: string,
+            updated_at: string,
+            deleted_at: null,
+            user: {
+                id: number,
+                name: string,
+                image_file: string,
+                image_url: string
+            }
+        }[],
+        current_page: number,
+        last_page: number,
+    },
+    info_message: string,
+    error_message: string,
+}
+
+/**
  * comment_register用のデータ型定義
  */
 export interface REGISTER_COMMENT_PROPS {

@@ -6,7 +6,7 @@ import {
     PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
     REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, 
     UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS, 
-    REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS
+    REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS, DELETE_POST_RES, DELETE_POST_PROPS
 } from "../../types/groupsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -299,6 +299,33 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
 );
 
 /**
+ * 投稿削除の非同期関数
+ */
+ export const fetchAsyncDeletePost = createAsyncThunk<DELETE_POST_RES, DELETE_POST_PROPS>(
+    "post_delete",
+    async (props: DELETE_POST_PROPS) => {
+        try {
+            const res = await axios.delete(`${apiUrl}/groups/${props.group_id}/posts/${props.id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as DELETE_POST_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as DELETE_POST_RES;
+        }
+    }
+);
+
+/**
  * コメント作成の非同期関数
  */
  export const fetchAsyncPostComment = createAsyncThunk<REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS>(
@@ -580,6 +607,14 @@ export const groupSlice = createSlice({
         // バリデーション結果取得処理
         builder.addCase(fetchAsyncPostGroupValidation.fulfilled, (state, action: PayloadAction<GROUP_VALIDATE_RES>) => {
             state.validation = action.payload;
+        });
+        // 投稿削除後処理
+        builder.addCase(fetchAsyncDeletePost.fulfilled, (state, action: PayloadAction<DELETE_POST_RES>) => {
+            if(!action.payload.error_message) {
+                state.posts = action.payload.posts.data;
+                state.page.p_currentpage = action.payload.posts.current_page;
+                state.page.p_lastpage = action.payload.posts.last_page;
+            }
         });
         // コメント登録後処理
         builder.addCase(fetchAsyncPostComment.fulfilled, (state, action: PayloadAction<REGISTER_COMMENT_RES>) => {

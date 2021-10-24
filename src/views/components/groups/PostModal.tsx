@@ -5,7 +5,7 @@ import _ from 'lodash';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { fetchAsyncGetToken, fetchGetErrorMessages, fetchGetInfoMessages } from '../../pages/appSlice';
-import { selectComments, fetchAsyncPostComment, fetchAsyncDeleteComment } from '../../pages/groups/groupSlice';
+import { selectComments, fetchAsyncPostComment, fetchAsyncDeletePost, fetchAsyncDeleteComment } from '../../pages/groups/groupSlice';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -107,6 +107,33 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
     // redux
     const dispatch: AppDispatch = useDispatch();
     const comments = useSelector(selectComments);
+
+    /**
+     * 投稿削除
+     * @param id 
+     */
+     const handleDeletePost = async () => {
+        if(window.confirm('投稿を削除しますか？')) {
+            // 引数データの生成
+            const data = {
+                id: props.data.id,
+                group_id: +id
+            }
+            // XSRF-TOKENの取得
+            await dispatch(fetchAsyncGetToken());
+            // 投稿削除処理
+            const dpostRes = await dispatch(fetchAsyncDeletePost(data));
+            if(fetchAsyncDeletePost.fulfilled.match(dpostRes)) {
+                dpostRes.payload.info_message ? 
+                    dispatch(fetchGetInfoMessages(dpostRes.payload.info_message))
+                :
+                    dispatch(fetchGetErrorMessages(dpostRes.payload.error_message))
+            }
+
+            // モーダルを強制クローズ
+            props.callback(false);
+        }
+    }
 
     /**
      * コメント削除
@@ -238,7 +265,14 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                             </div>
                             {
                                 props.data.user_id === +localStorage.loginId ? 
-                                    <Button variant="contained" color="secondary" className={classes.deleteButton}>投稿を削除する</Button>
+                                    <Button 
+                                        variant="contained" 
+                                        color="secondary" 
+                                        className={classes.deleteButton}
+                                        onClick={handleDeletePost}
+                                    >
+                                        投稿を削除する
+                                    </Button>
                                 :
                                     ''
                             }
@@ -313,7 +347,14 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                             </div>
                             {
                                 props.data.user_id === +localStorage.loginId ? 
-                                    <Button variant="contained" color="secondary" className={classes.deleteButton}>投稿を削除する</Button>
+                                    <Button 
+                                        variant="contained" 
+                                        color="secondary" 
+                                        className={classes.deleteButton}
+                                        onClick={handleDeletePost}
+                                    >
+                                        投稿を削除する
+                                    </Button>
                                 :
                                     ''
                             }
@@ -388,7 +429,15 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                 </div>
                                 {
                                     props.data.user_id === +localStorage.loginId ? 
-                                        <Button variant="contained" color="secondary" className={classes.deleteButton} style={{ width: '50%' }}>投稿を削除する</Button>
+                                        <Button 
+                                            variant="contained" 
+                                            color="secondary" 
+                                            className={classes.deleteButton} 
+                                            style={{ width: '50%' }}
+                                            onClick={handleDeletePost}
+                                        >
+                                            投稿を削除する
+                                        </Button>
                                     :
                                         ''
                                 }
