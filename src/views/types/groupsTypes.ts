@@ -405,6 +405,57 @@ export interface UPDATE_GROUP_RES {
 }
 
 /**
+ * history_register用のデータ型定義
+ */
+ export interface REGISTER_HISTORY_PROPS {
+    user_id: number,
+    group_id: number,
+    status: number
+}
+/**
+ * AsyncThunk用(history_register用)
+ */
+export interface REGISTER_HISTORY_RES {
+    group: {
+        id: number,
+        name: string,
+        description: string,
+        private_flg: number,
+        welcome_flg: number,
+        image_file: string,
+        image_url: string,
+        host_user_id: number,
+        memo: string,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        users: {
+            id: number,
+            name: string,
+            gender: number,
+            image_file: string,
+            image_url: string
+            pivot: {
+                group_id: number,
+                user_id: number,
+                status: number,
+                created_at: string,
+                updated_at: string,
+            }
+        }[],
+        group_histories: {
+            id: number,
+            group_id: number,
+            user_id: number,
+            status: number
+        }[]
+    },
+    info_message: string,
+    error_message: string,
+}
+
+/**
  * post_register用のデータ型定義
  */
 export interface REGISTER_POST_PROPS {

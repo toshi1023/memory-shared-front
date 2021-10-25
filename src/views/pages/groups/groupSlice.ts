@@ -6,7 +6,7 @@ import {
     PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
     REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, 
     UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS, 
-    REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS, DELETE_POST_RES, DELETE_POST_PROPS
+    REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS, DELETE_POST_RES, DELETE_POST_PROPS, REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS
 } from "../../types/groupsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -265,6 +265,34 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
             }
             
             return err.response.data as UPDATE_GROUP_RES;
+        }
+    }
+);
+
+/**
+ * グループ参加申請の非同期関数
+ */
+ export const fetchAsyncPostGroupHistory = createAsyncThunk<REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS>(
+    "history_register",
+    async (props: REGISTER_HISTORY_PROPS) => {
+        try {
+            const fd = generateFormData<REGISTER_HISTORY_PROPS>(props);
+            const res = await axios.post(`${apiUrl}/groups/${props.group_id}/history`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as REGISTER_HISTORY_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as REGISTER_HISTORY_RES;
         }
     }
 );
@@ -607,6 +635,12 @@ export const groupSlice = createSlice({
         // バリデーション結果取得処理
         builder.addCase(fetchAsyncPostGroupValidation.fulfilled, (state, action: PayloadAction<GROUP_VALIDATE_RES>) => {
             state.validation = action.payload;
+        });
+        // グループ参加申請後処理
+        builder.addCase(fetchAsyncPostGroupHistory.fulfilled, (state, action: PayloadAction<REGISTER_HISTORY_RES>) => {
+            if(!action.payload.error_message) {
+                state.group = action.payload.group;
+            }
         });
         // 投稿削除後処理
         builder.addCase(fetchAsyncDeletePost.fulfilled, (state, action: PayloadAction<DELETE_POST_RES>) => {

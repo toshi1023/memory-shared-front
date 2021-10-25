@@ -5,7 +5,7 @@ import ComponentStyles from '../../../styles/common/componentStyle';
 import { useHistory } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { fetchGetErrorMessages } from '../../pages/appSlice';
-import { fetchAsyncGetPosts, selectPosts, fetchAsyncGetComments, selectComments } from '../../pages/groups/groupSlice';
+import { fetchAsyncGetPosts, selectPosts, fetchAsyncGetComments, fetchAsyncPostGroupHistory } from '../../pages/groups/groupSlice';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -21,6 +21,7 @@ import PostAddIcon from '@material-ui/icons/PostAdd';
 import { GROUP_CARD, MODAL_DATA } from '../../types/groupsTypes';
 import PostModal from './PostModal';
 import DateFormat from '../../../functions/dateFormat';
+import Loading from '../common/Loading';
 import { AppDispatch } from '../../../stores/store';
 
 type GET_COMMENTS = {
@@ -85,6 +86,14 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '10px',
       textAlign: 'left',
       whiteSpace: 'pre-line'
+    },
+    disabledButton: {
+      background: '#e6e1e1',
+      border: '1px solid #e6e1e1',
+      borderRadius: '30px',
+      boxSizing: 'border-box',
+      fontSize: '16px',
+      fontWeight: 'bold',
     }
 }));
 
@@ -97,6 +106,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
   const history = useHistory();
   const classes = useStyles();
   const componentStyles = ComponentStyles();
+  const [disabled, setDisabled] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState<MODAL_DATA>({
@@ -120,6 +130,27 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
           return;
       }
   };
+
+  /**
+   * グループ参加申請処理
+   * @returns 
+   */
+  const asyncPostGroupHistory = async () => {
+    // ボタンを非活性化
+    setDisabled(true);
+
+    const data = {
+      user_id: +localStorage.loginId,
+      group_id: props.data.id,
+      status: 1
+    }
+    const ghRes = await dispatch(fetchAsyncPostGroupHistory(data));
+    if(fetchAsyncPostGroupHistory.fulfilled.match(ghRes) && ghRes.payload.error_message) {
+      dispatch(fetchGetErrorMessages(ghRes.payload.error_message));
+      return;
+    }
+    setDisabled(false);
+  }
 
   /**
    * モーダル表示制御用関数
@@ -272,7 +303,12 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                   props.data.users && props.data.users[0] !== undefined &&  props.data.users[0].pivot.status === 1 ? 
                     ''
                   :
-                    <Button><Chip label="申請する" className={componentStyles.chip && componentStyles.chipButton} color="primary" /></Button>
+                    disabled ? 
+                      <Button className={classes.disabledButton} disabled={disabled}>
+                        申請中<Loading />
+                      </Button>
+                    :
+                      <Button onClick={asyncPostGroupHistory}><Chip label="申請する" className={componentStyles.chip && componentStyles.chipButton} color="primary" /></Button>
               }
             </CardActions>
           </>
