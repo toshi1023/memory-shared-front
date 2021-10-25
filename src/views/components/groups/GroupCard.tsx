@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { useHistory } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { fetchGetErrorMessages } from '../../pages/appSlice';
+import { fetchGetErrorMessages, fetchAsyncGetNreadCount } from '../../pages/appSlice';
 import { fetchAsyncGetPosts, selectPosts, fetchAsyncGetComments, fetchAsyncPostGroupHistory } from '../../pages/groups/groupSlice';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -148,6 +148,12 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
     if(fetchAsyncPostGroupHistory.fulfilled.match(ghRes) && ghRes.payload.error_message) {
       dispatch(fetchGetErrorMessages(ghRes.payload.error_message));
       return;
+    }
+    // ニュース未読数の取得
+    const nreadCountRes = await dispatch(fetchAsyncGetNreadCount());
+    if(fetchAsyncGetNreadCount.fulfilled.match(nreadCountRes) && nreadCountRes.payload.error_message) {
+        dispatch(fetchGetErrorMessages(nreadCountRes.payload.error_message));
+        return;
     }
     setDisabled(false);
   }
