@@ -141,6 +141,24 @@ export interface MODAL_DATA {
 }
 
 /**
+ * HistoryUpdateModal用のデータ型定義
+ */
+ export interface HISTORY_UPDATE_MODAL {
+    data: {
+        id: number;
+        user_name: string;
+        image_url: string;
+    }
+    open: boolean;
+    callback: (value: boolean) => void;
+}
+export interface HISTORY_UPDATE_MODAL_DATA {
+    id: number;
+    user_name: string;
+    image_url: string;
+}
+
+/**
  * Register(Formik)用のデータ型定義
  */
  export interface FORMIK_RGROUP {

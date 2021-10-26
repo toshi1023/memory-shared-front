@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import '../../../styles/common/common.scss';
+import ComponentStyles from '../../../styles/common/componentStyle';
 import _ from 'lodash';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Chip from '@material-ui/core/Chip';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import { USER_LIST_DATA } from '../../types/groupsTypes';
+import { HISTORY_UPDATE_MODAL_DATA, USER_LIST_DATA } from '../../types/groupsTypes';
+import HistoryUpdateModal from './HistoryUpdateModal';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,6 +34,21 @@ const useStyles = makeStyles((theme: Theme) =>
 const UserListData: React.FC<USER_LIST_DATA> = (props) => {
     const classes = useStyles();
     const history = useHistory();
+    const componentStyles = ComponentStyles();
+    const [open, setOpen] = useState(false);
+    const [modalData, setModalData] = useState<HISTORY_UPDATE_MODAL_DATA>({
+        id: 0,
+        user_name: '',
+        image_url: ''
+    });
+
+    /**
+     * chipをクリックした際に、モーダルを表示する
+     * @param value
+     */
+    const handleOpen = (value: boolean) => {
+        setOpen(value);
+    }
 
     return (
         <>
@@ -46,7 +63,7 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
                                         value.id === +localStorage.loginId ? 
                                             history.push('/')
                                         :
-                                            history.push(`/users/${value.user.name}/${value.id}`)
+                                            history.push(`/users/${value.user.name}/${value.user.id}`)
                                     }}>
                                         <ListItemAvatar>
                                             <Avatar
@@ -55,6 +72,16 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
                                             />
                                         </ListItemAvatar>
                                         <ListItemText id={labelId} primary={value.user.name} />
+                                        <Chip 
+                                            label="回答する" 
+                                            className={componentStyles.chip && componentStyles.yellow} 
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={(e) =>{
+                                                e.stopPropagation();
+                                                handleOpen(true);
+                                                setModalData({id: value.id, user_name: value.user.name, image_url: value.user.image_url}); 
+                                            }}
+                                        />
                                     </ListItem>
                                 );
                             })}
@@ -92,6 +119,9 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
                     );
                 })}
             </List>
+
+            {/* グループ参加申請回答用モーダル */}
+            <HistoryUpdateModal callback={handleOpen} data={modalData} open={open} />
         </>
     );
 }
