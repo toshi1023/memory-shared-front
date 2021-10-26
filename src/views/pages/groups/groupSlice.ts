@@ -6,7 +6,8 @@ import {
     PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
     REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, 
     UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS, 
-    REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS, DELETE_POST_RES, DELETE_POST_PROPS, REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS
+    REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS, 
+    DELETE_POST_RES, DELETE_POST_PROPS, REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS, GH_USERS_RES, GH_USERS_PROPS
 } from "../../types/groupsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -15,7 +16,7 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 /**
  * グループ一覧取得の非同期関数
  */
- export const fetchAsyncGetGroups = createAsyncThunk<GROUPS_RES, GROUPS_PROPS>(
+export const fetchAsyncGetGroups = createAsyncThunk<GROUPS_RES, GROUPS_PROPS>(
     "groups",
     async (props: GROUPS_PROPS) => {
         try {
@@ -46,7 +47,7 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 /**
  * グループ詳細情報取得の非同期関数
  */
- export const fetchAsyncGetGroup = createAsyncThunk<GROUP_RES, API_GROUP_PROPS>(
+export const fetchAsyncGetGroup = createAsyncThunk<GROUP_RES, API_GROUP_PROPS>(
     "group",
     async (props: API_GROUP_PROPS) => {
         try {
@@ -72,7 +73,7 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 /**
  * グループ参加者情報取得の非同期関数
  */
- export const fetchAsyncGetPusers = createAsyncThunk<PUSERS_RES, API_GROUP_PROPS>(
+export const fetchAsyncGetPusers = createAsyncThunk<PUSERS_RES, API_GROUP_PROPS>(
     "pusers",
     async (props: API_GROUP_PROPS) => {
         try {
@@ -96,9 +97,35 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 );
 
 /**
+ * グループ履歴申請者情報取得の非同期関数
+ */
+export const fetchAsyncGetGhUsers = createAsyncThunk<GH_USERS_RES, GH_USERS_PROPS>(
+    "gh_users",
+    async (props: GH_USERS_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/history?group_id=${props.group_id}&status=${props.status}&sort_created_at=${props.sort_created_at}`, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as GH_USERS_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as GH_USERS_RES;
+        }
+    }
+);
+
+/**
  * アルバム一覧取得の非同期関数
  */
- export const fetchAsyncGetAlbums = createAsyncThunk<ALBUMS_RES, API_GROUP_PROPS>(
+export const fetchAsyncGetAlbums = createAsyncThunk<ALBUMS_RES, API_GROUP_PROPS>(
     "albums",
     async (props: API_GROUP_PROPS) => {
         try {
@@ -124,7 +151,7 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 /**
  * 投稿一覧取得の非同期関数
  */
- export const fetchAsyncGetPosts = createAsyncThunk<POSTS_RES, API_GROUP_PROPS>(
+export const fetchAsyncGetPosts = createAsyncThunk<POSTS_RES, API_GROUP_PROPS>(
     "posts",
     async (props: API_GROUP_PROPS) => {
         try {
@@ -150,7 +177,7 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 /**
  * コメント一覧取得の非同期関数
  */
- export const fetchAsyncGetComments = createAsyncThunk<COMMENTS_RES, COMMENTS_PROPS>(
+export const fetchAsyncGetComments = createAsyncThunk<COMMENTS_RES, COMMENTS_PROPS>(
     "comments",
     async (props: COMMENTS_PROPS) => {
         try {
@@ -176,7 +203,7 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 /**
  * グループ登録のバリデーションチェック非同期関数
  */
- export const fetchAsyncPostGroupValidation = createAsyncThunk<GROUP_VALIDATE_RES, REGISTER_GROUP_PROPS>(
+export const fetchAsyncPostGroupValidation = createAsyncThunk<GROUP_VALIDATE_RES, REGISTER_GROUP_PROPS>(
     "registervalidation",
     async (props: REGISTER_GROUP_PROPS) => {
         try {
@@ -272,7 +299,7 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
 /**
  * グループ参加申請の非同期関数
  */
- export const fetchAsyncPostGroupHistory = createAsyncThunk<REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS>(
+export const fetchAsyncPostGroupHistory = createAsyncThunk<REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS>(
     "history_register",
     async (props: REGISTER_HISTORY_PROPS) => {
         try {
@@ -300,7 +327,7 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
 /**
  * 投稿作成の非同期関数
  */
- export const fetchAsyncPostPost = createAsyncThunk<REGISTER_POST_RES, REGISTER_POST_PROPS>(
+export const fetchAsyncPostPost = createAsyncThunk<REGISTER_POST_RES, REGISTER_POST_PROPS>(
     "post_register",
     async (props: REGISTER_POST_PROPS) => {
         try {
@@ -329,7 +356,7 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
 /**
  * 投稿削除の非同期関数
  */
- export const fetchAsyncDeletePost = createAsyncThunk<DELETE_POST_RES, DELETE_POST_PROPS>(
+export const fetchAsyncDeletePost = createAsyncThunk<DELETE_POST_RES, DELETE_POST_PROPS>(
     "post_delete",
     async (props: DELETE_POST_PROPS) => {
         try {
@@ -356,7 +383,7 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
 /**
  * コメント作成の非同期関数
  */
- export const fetchAsyncPostComment = createAsyncThunk<REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS>(
+export const fetchAsyncPostComment = createAsyncThunk<REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS>(
     "comment_register",
     async (props: REGISTER_COMMENT_PROPS) => {
         try {
@@ -387,7 +414,7 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
 /**
  * コメント削除の非同期関数
  */
- export const fetchAsyncDeleteComment = createAsyncThunk<DELETE_COMMENT_RES, DELETE_COMMENT_PROPS>(
+export const fetchAsyncDeleteComment = createAsyncThunk<DELETE_COMMENT_RES, DELETE_COMMENT_PROPS>(
     "comment_delete",
     async (props: DELETE_COMMENT_PROPS) => {
         try {
@@ -511,6 +538,26 @@ export const groupSlice = createSlice({
                 image_url: "",
             }
         ],
+        // グループ履歴にあるユーザ情報を管理
+        ghusers: [
+            {
+                id: 0,
+                user_id: 0,
+                group_id: 0,
+                status: 1,
+                memo: "",
+                update_user_id: 0,
+                created_at: "",
+                updated_at: "",
+                deleted_at: null,
+                user: {
+                    id: 0,
+                    name: "",
+                    image_file: "",
+                    image_url: "",
+                }
+            }
+        ],
         albums: [
             {
                 id: 0,
@@ -610,6 +657,12 @@ export const groupSlice = createSlice({
                 state.page.u_lastpage = action.payload.pusers.last_page;
             }
         });
+        // グループ履歴申請者情報取得処理
+        builder.addCase(fetchAsyncGetGhUsers.fulfilled, (state, action: PayloadAction<GH_USERS_RES>) => {
+            if(!action.payload.error_message) {
+                state.ghusers = action.payload.ghusers;
+            }
+        });
         // アルバム一覧取得処理
         builder.addCase(fetchAsyncGetAlbums.fulfilled, (state, action: PayloadAction<ALBUMS_RES>) => {
             if(!action.payload.error_message) {
@@ -672,6 +725,7 @@ export const {
 export const selectGroups = (state: RootState) => state.group.groups;
 export const selectGroup = (state: RootState) => state.group.group;
 export const selectPusers = (state: RootState) => state.group.pusers;
+export const selectGhusers = (state: RootState) => state.group.ghusers;
 export const selectAlbums = (state: RootState) => state.group.albums;
 export const selectPosts = (state: RootState) => state.group.posts;
 export const selectComments = (state: RootState) => state.group.comments;

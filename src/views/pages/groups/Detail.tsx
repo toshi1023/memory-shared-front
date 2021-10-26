@@ -7,7 +7,7 @@ import '../../../styles/home/home.scss';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
 import { 
     fetchAsyncGetGroup, selectGroup, fetchAsyncGetPusers, selectPusers, 
-    fetchAsyncGetAlbums, selectAlbums, fetchAsyncGetPosts, selectPosts 
+    fetchAsyncGetAlbums, selectAlbums, fetchAsyncGetGhUsers, selectGhusers 
 } from './groupSlice';
 import GroupCard from '../../components/groups/GroupCard';
 import UserListData from '../../components/groups/UserListData';
@@ -28,6 +28,7 @@ const GroupDetail: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const group = useSelector(selectGroup);
     const pusers = useSelector(selectPusers);
+    const ghusers = useSelector(selectGhusers);
     const albums = useSelector(selectAlbums);
 
     useEffect(() => {
@@ -42,6 +43,12 @@ const GroupDetail: React.FC = () => {
             const pusersRes = await dispatch(fetchAsyncGetPusers({id: +id}));
             if(fetchAsyncGetPusers.fulfilled.match(pusersRes) && pusersRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(pusersRes.payload.error_message));
+                return;
+            }
+            // グループ履歴参加申請情報取得
+            const ghusersRes = await dispatch(fetchAsyncGetGhUsers({group_id: +id, status: 1, sort_created_at: 'desc'}));
+            if(fetchAsyncGetGhUsers.fulfilled.match(ghusersRes) && ghusersRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(ghusersRes.payload.error_message));
                 return;
             }
             // アルバム情報取得
@@ -103,13 +110,22 @@ const GroupDetail: React.FC = () => {
     const renderMobileUserList = () => {
         return (
             <Grid container justify="center">
-                <Grid item xs={11} className="c_title_space center">
-                    <Typography className="c_title">
-                        参加ユーザ
-                    </Typography>
-                </Grid>
+                {
+                    group.host_user_id === +localStorage.loginId ? 
+                        <Grid item xs={11} className="c_title_space center">
+                            <Typography className="c_title">
+                                参加申請中ユーザ
+                            </Typography>
+                        </Grid>
+                    :
+                        <Grid item xs={11} className="c_title_space center">
+                            <Typography className="c_title">
+                                参加ユーザ
+                            </Typography>
+                        </Grid>
+                }
                 <Grid item xs={11}>
-                    <UserListData data={pusers} />
+                    <UserListData data={pusers} subdata={ghusers} host_user_id={group.host_user_id} />
                 </Grid>
             </Grid>
         );
@@ -142,11 +158,18 @@ const GroupDetail: React.FC = () => {
                             <AlbumListData data={albums} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center c_side_area">
-                            <Typography className="c_title">
-                                参加ユーザ
-                            </Typography>
+                            {
+                                group.host_user_id === +localStorage.loginId ? 
+                                    <Typography className="c_title">
+                                        参加申請中ユーザ
+                                    </Typography>
+                                :
+                                    <Typography className="c_title">
+                                        参加ユーザ
+                                    </Typography>
+                            }
                             
-                            <UserListData data={pusers} />
+                            <UserListData data={pusers} subdata={ghusers} host_user_id={group.host_user_id} />
                         </Grid>
                     </Grid>
                 </Hidden>
@@ -173,11 +196,18 @@ const GroupDetail: React.FC = () => {
                             
                         </Grid>
                         <Grid item sm={4} className="c_content_space center c_side_area">
-                            <Typography className="c_title">
-                                参加ユーザ
-                            </Typography>
+                            {
+                                group.host_user_id === +localStorage.loginId ? 
+                                    <Typography className="c_title">
+                                        参加申請中ユーザ
+                                    </Typography>
+                                :
+                                    <Typography className="c_title">
+                                        参加ユーザ
+                                    </Typography>
+                            }
 
-                            <UserListData data={pusers} />
+                            <UserListData data={pusers} subdata={ghusers} host_user_id={group.host_user_id} />
                         </Grid>
                     </Grid>
                 </Hidden>

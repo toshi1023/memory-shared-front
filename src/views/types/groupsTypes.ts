@@ -87,7 +87,25 @@ export interface GROUP_CARD {
         name: string,
         image_file: string,
         image_url: string,
-    }[]
+    }[],
+    subdata: {
+        id: number,
+        user_id: number,
+        group_id: number,
+        status: number,
+        memo: string,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        user: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string,
+        }
+    }[],
+    host_user_id: number
 }
 
 /**
@@ -270,6 +288,39 @@ export interface GROUP_RES {
         current_page: number,
         last_page: number,
     },
+
+    error_message: string,
+}
+
+/**
+ * gh_users用のデータ型定義
+ */
+export interface GH_USERS_PROPS {
+    group_id: number,
+    status: number,
+    sort_created_at: string
+}
+/**
+ * AsyncThunk用(gh_users用)
+ */
+export interface GH_USERS_RES {
+    ghusers: {
+        id: number,
+        user_id: number,
+        group_id: number,
+        status: number,
+        memo: string,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        user: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string,
+        }
+    }[],
 
     error_message: string,
 }
