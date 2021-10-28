@@ -7,7 +7,7 @@ import {
     REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, 
     UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS, 
     REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS, 
-    DELETE_POST_RES, DELETE_POST_PROPS, REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS, GH_USERS_RES, GH_USERS_PROPS
+    DELETE_POST_RES, DELETE_POST_PROPS, REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS, GH_USERS_RES, GH_USERS_PROPS, UPDATE_HISTORY_PROPS, UPDATE_HISTORY_RES
 } from "../../types/groupsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -320,6 +320,33 @@ export const fetchAsyncPostGroupHistory = createAsyncThunk<REGISTER_HISTORY_RES,
             }
             
             return err.response.data as REGISTER_HISTORY_RES;
+        }
+    }
+);
+
+/**
+ * グループ参加申請の回答処理用非同期関数
+ */
+export const fetchAsyncPutGroupHistory = createAsyncThunk<UPDATE_HISTORY_RES, UPDATE_HISTORY_PROPS>(
+    "history_update",
+    async (props: UPDATE_HISTORY_PROPS) => {
+        try {
+            const res = await axios.put(`${apiUrl}/groups/${props.group_id}/history/${props.id}`, props, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as UPDATE_HISTORY_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as UPDATE_HISTORY_RES;
         }
     }
 );
@@ -693,6 +720,15 @@ export const groupSlice = createSlice({
         builder.addCase(fetchAsyncPostGroupHistory.fulfilled, (state, action: PayloadAction<REGISTER_HISTORY_RES>) => {
             if(!action.payload.error_message) {
                 state.group = action.payload.group;
+            }
+        });
+        // グループ参加申請承認・却下後処理
+        builder.addCase(fetchAsyncPutGroupHistory.fulfilled, (state, action: PayloadAction<UPDATE_HISTORY_RES>) => {
+            if(!action.payload.error_message) {
+                // 承認されていない限りpusersは更新しない
+                if(action.payload.pusers) state.pusers = action.payload.pusers.data;
+                // 承認・却下のどちらでも申請中ユーザ一覧は変動する
+                state.ghusers = action.payload.ghusers;
             }
         });
         // 投稿削除後処理

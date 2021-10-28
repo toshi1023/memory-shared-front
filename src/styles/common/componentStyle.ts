@@ -186,6 +186,11 @@ const ComponentStyles = makeStyles((theme: Theme) =>
         top: 2,
         cursor: 'pointer'
     },
+    submitArea: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
   }));
 
 export default ComponentStyles;

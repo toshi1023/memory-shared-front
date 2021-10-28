@@ -38,6 +38,7 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
     const [open, setOpen] = useState(false);
     const [modalData, setModalData] = useState<HISTORY_UPDATE_MODAL_DATA>({
         id: 0,
+        user_id: 0,
         user_name: '',
         image_url: ''
     });
@@ -79,7 +80,7 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
                                             onClick={(e) =>{
                                                 e.stopPropagation();
                                                 handleOpen(true);
-                                                setModalData({id: value.id, user_name: value.user.name, image_url: value.user.image_url}); 
+                                                setModalData({id: value.id, user_id: value.user.id, user_name: value.user.name, image_url: value.user.image_url}); 
                                             }}
                                         />
                                     </ListItem>

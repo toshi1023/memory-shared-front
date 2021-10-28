@@ -146,6 +146,7 @@ export interface MODAL_DATA {
  export interface HISTORY_UPDATE_MODAL {
     data: {
         id: number;
+        user_id: number;
         user_name: string;
         image_url: string;
     }
@@ -154,6 +155,7 @@ export interface MODAL_DATA {
 }
 export interface HISTORY_UPDATE_MODAL_DATA {
     id: number;
+    user_id: number;
     user_name: string;
     image_url: string;
 }
@@ -474,7 +476,7 @@ export interface UPDATE_GROUP_RES {
 }
 
 /**
- * history_register用のデータ型定義
+ * history_register用のデータ型定義(新規登録時)
  */
  export interface REGISTER_HISTORY_PROPS {
     user_id: number,
@@ -520,6 +522,50 @@ export interface REGISTER_HISTORY_RES {
             status: number
         }[]
     },
+    info_message: string,
+    error_message: string,
+}
+
+/**
+ * history_update用のデータ型定義(更新時)
+ */
+export interface UPDATE_HISTORY_PROPS {
+    id: number,
+    group_id: number,
+    status: number
+}
+/**
+ * AsyncThunk用(history_update用)
+ */
+ export interface UPDATE_HISTORY_RES {
+    ghusers: {
+        id: number,
+        user_id: number,
+        group_id: number,
+        status: number,
+        memo: string,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        user: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string,
+        }
+    }[],
+    pusers: {
+        data: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string,
+        }[],
+        current_page: number,
+        last_page: number,
+    },
+
     info_message: string,
     error_message: string,
 }

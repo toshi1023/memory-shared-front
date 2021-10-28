@@ -55,11 +55,6 @@ const useStyles = makeStyles((theme: Theme) =>
         color: 'red',
         fontSize: '0.9rem',
         paddingRight: '5px'
-    },
-    submitArea: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
     }
   }),
 );
@@ -175,7 +170,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                     ))
                                 }
                             </div>
-                            <div className={classes.submitArea}>
+                            <div className={componentStyles.submitArea}>
                                 {
                                     disabled ? 
                                         <Button className={componentStyles.disabledButton} style={{ width: '50%' }} disabled={disabled}>
@@ -239,7 +234,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                     ))
                                 }
                             </div>
-                            <div className={classes.submitArea}>
+                            <div className={componentStyles.submitArea}>
                                 {
                                     disabled ? 
                                         <Button className={componentStyles.disabledButton} style={{ width: '50%' }} disabled={disabled}>
@@ -303,7 +298,7 @@ const GroupModal: React.FC<GROUP_MODAL> = (props) => {
                                         ))
                                     }
                                 </div>
-                                <div className={classes.submitArea}>
+                                <div className={componentStyles.submitArea}>
                                     {
                                         disabled ? 
                                             <Button className={componentStyles.disabledButton} style={{ width: '70%' }} disabled={disabled}>
