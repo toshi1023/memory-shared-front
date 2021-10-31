@@ -311,10 +311,11 @@ export const fetchAsyncPostUserValidation = createAsyncThunk<USER_VALIDATE_RES, 
             // 編集フラグを設定
             fd.append('register_mode', 'edit');
 
-            const res = await axios.put(`${apiUrl}/users/${props.id}`, fd, {
+            const res = await axios.post(`${apiUrl}/users/${props.id}`, fd, {
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json"
+                    "Accept": "application/json",
+                    'X-HTTP-Method-Override': 'PUT',
                 },
                 withCredentials: true
             });

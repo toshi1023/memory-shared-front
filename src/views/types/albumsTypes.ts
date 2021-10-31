@@ -106,6 +106,29 @@ export interface ALBUM_VALIDATE_RES {
 }
 
 /**
+ * edit用のデータ型定義
+ */
+export interface EDIT_ALBUM_PROPS {
+    id: number,
+    group_id: number,
+}
+/**
+ * AsyncThunk用(edit用)
+ */
+export interface EDIT_ALBUM_RES {
+    album: {
+        id: number,
+        name: string,
+        group_id: number,
+        image_file: string,
+        image_url: string,
+        host_user_id: number
+    },
+    info_message: string,
+    error_message: string,
+}
+
+/**
  * update用のデータ型定義
  */
 export interface UPDATE_ALBUM_PROPS {
@@ -119,6 +142,21 @@ export interface UPDATE_ALBUM_PROPS {
  * AsyncThunk用(update用)
  */
 export interface UPDATE_ALBUM_RES {
+    info_message: string,
+    error_message: string,
+}
+
+/**
+ * delete用のデータ型定義
+ */
+ export interface DELETE_ALBUM_PROPS {
+    id: number,
+    group_id: number
+}
+/**
+ * AsyncThunk用(delete用)
+ */
+export interface DELETE_ALBUM_RES {
     info_message: string,
     error_message: string,
 }

@@ -7,7 +7,7 @@ import {
     REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, 
     UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS, 
     REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS, 
-    DELETE_POST_RES, DELETE_POST_PROPS, REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS, GH_USERS_RES, GH_USERS_PROPS, UPDATE_HISTORY_PROPS, UPDATE_HISTORY_RES
+    DELETE_POST_RES, DELETE_POST_PROPS, REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS, GH_USERS_RES, GH_USERS_PROPS, UPDATE_HISTORY_PROPS, UPDATE_HISTORY_RES, DELETE_GROUP_RES
 } from "../../types/groupsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -276,10 +276,11 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
                 // 画像が設定されていない場合はFormDataから除去
                 fd.delete('image_file');
             }
-            const res = await axios.put(`${apiUrl}/groups/${props.id}`, fd, {
+            const res = await axios.post(`${apiUrl}/groups/${props.id}`, fd, {
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json"
+                    "Accept": "application/json",
+                    'X-HTTP-Method-Override': 'PUT',
                 },
                 withCredentials: true
             });
@@ -292,6 +293,33 @@ export const fetchAsyncPostEditGroup = createAsyncThunk<UPDATE_GROUP_RES, UPDATE
             }
             
             return err.response.data as UPDATE_GROUP_RES;
+        }
+    }
+);
+
+/**
+ * グループ削除の非同期関数
+ */
+ export const fetchAsyncDeleteGroup = createAsyncThunk<DELETE_GROUP_RES, API_GROUP_PROPS>(
+    "delete",
+    async (props: API_GROUP_PROPS) => {
+        try {
+            const res = await axios.delete(`${apiUrl}/groups/${props.id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as DELETE_GROUP_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as DELETE_GROUP_RES;
         }
     }
 );
@@ -331,10 +359,11 @@ export const fetchAsyncPutGroupHistory = createAsyncThunk<UPDATE_HISTORY_RES, UP
     "history_update",
     async (props: UPDATE_HISTORY_PROPS) => {
         try {
-            const res = await axios.put(`${apiUrl}/groups/${props.group_id}/history/${props.id}`, props, {
+            const res = await axios.post(`${apiUrl}/groups/${props.group_id}/history/${props.id}`, props, {
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json"
+                    "Accept": "application/json",
+                    'X-HTTP-Method-Override': 'PUT',
                 },
                 withCredentials: true
             });

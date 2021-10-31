@@ -476,6 +476,14 @@ export interface UPDATE_GROUP_RES {
 }
 
 /**
+ * AsyncThunk用(delete用)
+ */
+export interface DELETE_GROUP_RES {
+    info_message: string,
+    error_message: string,
+}
+
+/**
  * history_register用のデータ型定義(新規登録時)
  */
  export interface REGISTER_HISTORY_PROPS {

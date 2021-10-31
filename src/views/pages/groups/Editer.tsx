@@ -11,7 +11,7 @@ import DisplayStyles from '../../../styles/common/displayMode';
 import { fetchGetUrl, fetchAsyncGetToken, fetchCredStart, fetchCredEnd, fetchGetInfoMessages, fetchGetErrorMessages } from '../appSlice';
 import { 
     fetchAsyncGetGroup, selectGroup, fetchAsyncPostGroupValidation, selectGroupValidation, 
-    fetchResetValidation, fetchAsyncPostEditGroup 
+    fetchResetValidation, fetchAsyncPostEditGroup, fetchAsyncDeleteGroup 
 } from './groupSlice';
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -39,6 +39,7 @@ const GroupEditer: React.FC = () => {
     const [selectedValue2, setSelectedValue2] = useState(1);
     const [file, setFile] = useState<File | null>(null);
     const [disabled, setDisabled] = useState(false);
+    const [dbDisabled, setDbDisabled] = useState(false);
     // redux
     const dispatch: AppDispatch = useDispatch();
     const validation = useSelector(selectGroupValidation);
@@ -88,6 +89,29 @@ const GroupEditer: React.FC = () => {
     }
 
     /**
+     * グループ削除処理
+     */
+    const handleDelete = async () => {
+        if(window.confirm('グループを削除しますか?')) {
+            // ボタンを非活性化
+            setDbDisabled(true);
+            // グループ削除処理
+            const dgroupRes = await dispatch(fetchAsyncDeleteGroup({id: +id}));
+            if(fetchAsyncDeleteGroup.fulfilled.match(dgroupRes) && dgroupRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(dgroupRes.payload.error_message));
+                setDbDisabled(false);
+                return;
+            }
+            if(fetchAsyncDeleteGroup.fulfilled.match(dgroupRes) && dgroupRes.payload.info_message) {
+                dispatch(fetchGetInfoMessages(dgroupRes.payload.info_message));
+                history.push(`/`);
+            }
+            setDbDisabled(false);
+            return;
+        }
+    }
+
+    /**
      * フォームデータ
      */
     const initialValues: FORMIK_UGROUP = {
@@ -103,6 +127,7 @@ const GroupEditer: React.FC = () => {
     return (
         <div id="group_editer">
             <Formik
+                enableReinitialize={true}
                 initialErrors={{ 
                     name: "required",
                 }}
@@ -255,7 +280,7 @@ const GroupEditer: React.FC = () => {
 
                                             <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                             <div className="c_imagearea">
-                                                <SingleImageRegister data={null} callback={handleSetFile} />
+                                                <SingleImageRegister data={editgroup.image_url} callback={handleSetFile} />
                                             </div>
 
                                             {
@@ -268,7 +293,14 @@ const GroupEditer: React.FC = () => {
                                             }
                                         </CardContent>
                                     </Card>
-                                    <Button variant="contained" color="secondary" className="delete_button">グループを削除する</Button>
+                                    {
+                                        dbDisabled ? 
+                                            <Button className="c_disabled_button" disabled={dbDisabled}>
+                                                削除中
+                                            </Button>
+                                        :
+                                            <Button variant="contained" color="secondary" className="delete_button" onClick={handleDelete}>グループを削除する</Button>
+                                    }
                                 </Grid>
                             </Grid>
                         </div>
@@ -370,7 +402,7 @@ const GroupEditer: React.FC = () => {
 
                                             <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                             <div className="c_imagearea">
-                                                <SingleImageRegister data={null} callback={handleSetFile} />
+                                                <SingleImageRegister data={editgroup.image_url} callback={handleSetFile} />
                                             </div>
                                             {
                                                 disabled ? 
@@ -382,7 +414,14 @@ const GroupEditer: React.FC = () => {
                                             }
                                         </CardContent>
                                     </Card>
-                                    <Button variant="contained" color="secondary" className="delete_button">グループを削除する</Button>
+                                    {
+                                        dbDisabled ? 
+                                            <Button className="c_disabled_button" disabled={dbDisabled}>
+                                                削除中
+                                            </Button>
+                                        :
+                                            <Button variant="contained" color="secondary" className="delete_button" onClick={handleDelete}>グループを削除する</Button>
+                                    }
                                 </Grid>
                             </Grid>
                         </div>

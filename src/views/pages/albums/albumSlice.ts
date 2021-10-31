@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { API_GROUP_PROPS } from "../../types/groupsTypes";
-import { ALBUM_VALIDATE_RES, API_ALBUM_PROPS, REGISTER_ALBUM_PROPS, REGISTER_ALBUM_RES } from "../../types/albumsTypes";
+import { ALBUM_VALIDATE_RES, API_ALBUM_PROPS, DELETE_ALBUM_PROPS, DELETE_ALBUM_RES, EDIT_ALBUM_PROPS, EDIT_ALBUM_RES, REGISTER_ALBUM_PROPS, REGISTER_ALBUM_RES, UPDATE_ALBUM_PROPS, UPDATE_ALBUM_RES } from "../../types/albumsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
 const apiUrl = process.env.REACT_APP_MSA_API_URL;
@@ -40,7 +40,7 @@ export const fetchAsyncPostAlbumValidation = createAsyncThunk<ALBUM_VALIDATE_RES
 );
 
 /**
- * アルバム登録取得の非同期関数
+ * アルバム登録の非同期関数
  */
  export const fetchAsyncPostAlbum = createAsyncThunk<REGISTER_ALBUM_RES, REGISTER_ALBUM_PROPS>(
     "register",
@@ -71,6 +71,93 @@ export const fetchAsyncPostAlbumValidation = createAsyncThunk<ALBUM_VALIDATE_RES
     }
 );
 
+/**
+ * 編集用アルバム情報取得の非同期関数
+ */
+ export const fetchAsyncGetEditAlbum = createAsyncThunk<EDIT_ALBUM_RES, EDIT_ALBUM_PROPS>(
+    "edit",
+    async (props: EDIT_ALBUM_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/groups/${props.group_id}/albums/${props.id}/edit`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as EDIT_ALBUM_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as EDIT_ALBUM_RES;
+        }
+    }
+);
+
+/**
+ * アルバム更新の非同期関数
+ */
+ export const fetchAsyncPutAlbum = createAsyncThunk<UPDATE_ALBUM_RES, UPDATE_ALBUM_PROPS>(
+    "update",
+    async (props: UPDATE_ALBUM_PROPS) => {
+        try {
+            const fd = generateFormData<UPDATE_ALBUM_PROPS>(props);
+            if(!props.image_file) {
+                // 画像が設定されていない場合はFormDataから除去
+                fd.delete('image_file');
+            }
+            const res = await axios.post(`${apiUrl}/groups/${props.group_id}/albums/${props.id}`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    'X-HTTP-Method-Override': 'PUT',
+                },
+                withCredentials: true
+            });
+            
+            return res.data as UPDATE_ALBUM_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as UPDATE_ALBUM_RES;
+        }
+    }
+);
+
+/**
+ * アルバム削除の非同期関数
+ */
+ export const fetchAsyncDeleteAlbum = createAsyncThunk<DELETE_ALBUM_RES, DELETE_ALBUM_PROPS>(
+    "delete",
+    async (props: DELETE_ALBUM_PROPS) => {
+        try {
+            const res = await axios.delete(`${apiUrl}/groups/${props.group_id}/albums/${props.id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as DELETE_ALBUM_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as DELETE_ALBUM_RES;
+        }
+    }
+);
+
 export const albumSlice = createSlice({
     name: "album",
     initialState: {
@@ -84,6 +171,14 @@ export const albumSlice = createSlice({
                 host_user_id: 0
             }
         ],
+        album: {
+            id: 0,
+            name: '',
+            group_id: 0,
+            image_file: '',
+            image_url: '',
+            host_user_id: 0
+        },
         validation: {
             errors: {
                 name: [''],
@@ -112,6 +207,10 @@ export const albumSlice = createSlice({
     },
     // 非同期関数の後処理を設定
     extraReducers: (builder) => {
+        // 編集用データ取得処理
+        builder.addCase(fetchAsyncGetEditAlbum.fulfilled, (state, action: PayloadAction<EDIT_ALBUM_RES>) => {
+            state.album = action.payload.album;
+        });
         // バリデーション結果取得処理
         builder.addCase(fetchAsyncPostAlbumValidation.fulfilled, (state, action: PayloadAction<ALBUM_VALIDATE_RES>) => {
             state.validation = action.payload;
@@ -123,6 +222,7 @@ export const {
     fetchResetValidation
 } = albumSlice.actions;
 
+export const selectAlbum = (state: RootState) => state.album.album;
 export const selectAlbumValidation = (state: RootState) => state.album.validation;
 
 export default albumSlice.reducer;

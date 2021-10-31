@@ -70,7 +70,7 @@ const WelcomeGroupListData: React.FC<WELCOME_GROUP_LIST_DATA> = (props) => {
                 <Grid container justify="center" spacing={2}>
                 {_.map(props.data, value => (
                     <Grid item xs={10} key={value.id}>
-                        <Card className={classes.root}>
+                        <Card className={classes.root} onClick={() => history.push(`/groups/${value.name}/${value.id}`)}>
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}
