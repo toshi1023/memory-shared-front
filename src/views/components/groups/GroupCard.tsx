@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { useHistory } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { fetchGetErrorMessages, fetchAsyncGetNreadCount } from '../../pages/appSlice';
+import { fetchGetErrorMessages, fetchAsyncGetNreadCount, fetchCredStart, fetchCredEnd } from '../../pages/appSlice';
 import { fetchAsyncGetPosts, selectPosts, fetchAsyncGetComments, fetchAsyncPostGroupHistory } from '../../pages/groups/groupSlice';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -138,6 +138,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
   const asyncPostGroupHistory = async () => {
     // ボタンを非活性化
     setDisabled(true);
+    await dispatch(fetchCredStart());
 
     const data = {
       user_id: +localStorage.loginId,
@@ -155,6 +156,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
         dispatch(fetchGetErrorMessages(nreadCountRes.payload.error_message));
         return;
     }
+    await dispatch(fetchCredEnd());
     setDisabled(false);
   }
 

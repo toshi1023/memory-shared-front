@@ -46,7 +46,12 @@ export const fetchAsyncPostAlbumValidation = createAsyncThunk<ALBUM_VALIDATE_RES
     "register",
     async (props: REGISTER_ALBUM_PROPS) => {
         try {
-            const res = await axios.post(`${apiUrl}/groups/${props.group_id}/albums`, {
+            const fd = generateFormData<REGISTER_ALBUM_PROPS>(props);
+            if(!props.image_file) {
+                // 画像が設定されていない場合はFormDataから除去
+                fd.delete('image_file');
+            }
+            const res = await axios.post(`${apiUrl}/groups/${props.group_id}/albums`, fd, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
