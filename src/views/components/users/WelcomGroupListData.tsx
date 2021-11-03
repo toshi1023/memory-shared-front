@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 background: "rgb(209, 208, 208)",
             },
             marginBottom: theme.spacing(2)
-        },
-        media: {
-            height: 130,
         }
     })
 );
@@ -43,7 +40,7 @@ const WelcomeGroupListData: React.FC<WELCOME_GROUP_LIST_DATA> = (props) => {
                             <CardActionArea>
                                 <CardMedia
                                     component="img"
-                                    className={classes.media}
+                                    className={componentStyles.imageSize}
                                     image={value.image_url}
                                     title={value.image_file}
                                 />
@@ -73,7 +70,7 @@ const WelcomeGroupListData: React.FC<WELCOME_GROUP_LIST_DATA> = (props) => {
                         <Card className={classes.root} onClick={() => history.push(`/groups/${value.name}/${value.id}`)}>
                             <CardActionArea>
                                 <CardMedia
-                                    className={classes.media}
+                                    className={componentStyles.imageSize}
                                     image={value.image_url}
                                     title={value.image_file}
                                 />

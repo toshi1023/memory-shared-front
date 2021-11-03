@@ -16,6 +16,11 @@ const ComponentStyles = makeStyles((theme: Theme) =>
       display: 'inline-block',
     },
 
+    imageSize: {
+      maxWidth: '100%',
+      maxHeight: '20vh',
+    },
+
     title: {
       fontSize: 14,
       textAlign: 'right'

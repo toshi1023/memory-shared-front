@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 background: "rgb(209, 208, 208)",
             },
             marginBottom: theme.spacing(2)
-        },
-        media: {
-            height: 130,
         }
     })
 );
@@ -41,7 +38,8 @@ const MyGroupList: React.FC<GROUP_LIST> = (props) => {
                         <CardActionArea>
                             <CardMedia
                                 component="img"
-                                className={classes.media}
+                                // className={classes.media}
+                                className={componentStyles.imageSize}
                                 image={value.image_url}
                                 title={value.image_file}
                             />

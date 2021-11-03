@@ -20,13 +20,12 @@ const handleFileClear = (event: React.MouseEvent) => {
     // 親要素のクリック発火関数を無効化
     event.stopPropagation(); 
 
-    const preview = document.getElementById("previewArea") as HTMLDivElement;
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     let previewImage = document.getElementById("previewImage");
 
     // 画像を空にする
     if(previewImage !== null) {
-        preview.removeChild(previewImage);
+        previewImage.remove();
         fileInput.value = '';
     }
 }
@@ -122,7 +121,7 @@ const photoPreview = async (f: File, props: SINGLE_IMAGE_REGISTER) => {
         let previewImage = document.getElementById("previewImage");
     
         if(previewImage !== null) {
-            preview.removeChild(previewImage);
+            previewImage.remove();
         }
         reader.onload = function() {
             const img = document.createElement("img");
@@ -163,7 +162,7 @@ const photoChangePreview = async (event: React.ChangeEvent<HTMLInputElement>, pr
         let previewImage = document.getElementById("previewImage");
 
         if(previewImage != null) {
-            preview.removeChild(previewImage);
+            previewImage.remove();
         }
         reader.onload = function() {
             const img = document.createElement("img");
