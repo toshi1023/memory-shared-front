@@ -444,3 +444,17 @@ export interface UPDATE_USER_RES {
     info_message: string,
     error_message: string,
 }
+
+/**
+ * delete用のデータ型定義
+ */
+ export interface DELETE_USER_PROPS {
+    id: number
+}
+/**
+ * AsyncThunk用(delete用)
+ */
+export interface DELETE_USER_RES {
+    info_message: string,
+    error_message: string,
+}

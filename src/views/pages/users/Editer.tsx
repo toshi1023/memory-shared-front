@@ -5,8 +5,9 @@ import '../../../styles/users/users.scss';
 import { fetchGetInfoMessages, fetchGetErrorMessages, fetchCredStart, fetchCredEnd, fetchGetUrl } from '../appSlice';
 import { 
     fetchAsyncGetEditUser, selectEditUser, fetchAsyncPostEditUser, fetchAsyncPostEditUserValidation, 
-    selectUserValidation, fetchResetValidation  
+    selectUserValidation, fetchResetValidation, fetchAsyncDeleteUser 
 } from './userSlice';
+import { fetchAsyncLogout } from '../home/homeSlice';
 import { 
     Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, 
     CardContent, Input, Radio, Button, TextField
@@ -36,6 +37,7 @@ const UserEditer: React.FC = () => {
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
     const [disabled, setDisabled] = useState(false);
+    const [dbDisabled, setDbDisabled] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     // redux
     const dispatch: AppDispatch = useDispatch();
@@ -80,6 +82,32 @@ const UserEditer: React.FC = () => {
     const handleChangeRadio2 = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedValue2(+event.target.value);
     };
+
+    /**
+     * アカウント退会処理
+     */
+     const handleDelete = async () => {
+        if(window.confirm('アカウントを退会しますか?')) {
+            // ボタンを非活性化
+            setDbDisabled(true);
+            // ユーザ削除処理
+            const duserRes = await dispatch(fetchAsyncDeleteUser({id: +id}));
+            if(fetchAsyncDeleteUser.fulfilled.match(duserRes) && duserRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(duserRes.payload.error_message));
+                setDbDisabled(false);
+                return;
+            }
+            if(fetchAsyncDeleteUser.fulfilled.match(duserRes) && duserRes.payload.info_message) {
+                // ログアウト処理
+                localStorage.removeItem('loginId');
+                localStorage.removeItem('loginName');
+                localStorage.setItem('infoMessage', duserRes.payload.info_message);
+                window.location.href = '/login';
+            }
+            setDbDisabled(false);
+            return;
+        }
+    }
 
     /**
      * 画像情報の取得用コールバック関数
@@ -345,7 +373,14 @@ const UserEditer: React.FC = () => {
                                             }
                                         </CardContent>
                                     </Card>
-                                    <Button variant="contained" color="secondary" className="delete_button">退会する</Button>
+                                    {
+                                        dbDisabled ? 
+                                            <Button className="c_disabled_button" disabled={dbDisabled}>
+                                                退会中
+                                            </Button>
+                                        :
+                                            <Button variant="contained" color="secondary" className="delete_button" onClick={handleDelete}>退会する</Button>
+                                    }
                                 </Grid>
                             </Grid>
                         </div>
@@ -530,7 +565,14 @@ const UserEditer: React.FC = () => {
                                             }
                                         </CardContent>
                                     </Card>
-                                    <Button variant="contained" color="secondary" className="delete_button">退会する</Button>
+                                    {
+                                        dbDisabled ? 
+                                            <Button className="c_disabled_button" disabled={dbDisabled}>
+                                                退会中
+                                            </Button>
+                                        :
+                                            <Button variant="contained" color="secondary" className="delete_button" onClick={handleDelete}>退会する</Button>
+                                    }
                                 </Grid>
                             </Grid>
                         </div>

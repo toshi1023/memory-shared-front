@@ -5,7 +5,7 @@ import {
     USERS_PROPS, USERS_RES, API_USER_PROPS, USER_RES, WGROUPS_RES, PGROUPS_RES, 
     IGROUPS_RES, API_GROUP_INVITE_PROPS, GROUP_INVITE_RES, EDIT_USER_RES, 
     REGISTER_USER_PROPS, REGISTER_USER_RES, USER_VALIDATE_RES, 
-    UPDATE_USER_PROPS, UPDATE_USER_RES 
+    UPDATE_USER_PROPS, UPDATE_USER_RES, DELETE_USER_RES, DELETE_USER_PROPS 
 } from '../../types/usersTypes';
 import generateFormData from "../../../functions/generateFormData";
 
@@ -327,6 +327,33 @@ export const fetchAsyncPostUserValidation = createAsyncThunk<USER_VALIDATE_RES, 
                 throw err
             }
             return err.response.data as UPDATE_USER_RES;
+        }
+    }
+);
+
+/**
+ * ユーザ削除の非同期関数
+ */
+export const fetchAsyncDeleteUser = createAsyncThunk<DELETE_USER_RES, DELETE_USER_PROPS>(
+    "delete",
+    async (props: DELETE_USER_PROPS) => {
+        try {
+            const res = await axios.delete(`${apiUrl}/users/${props.id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as DELETE_USER_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as DELETE_USER_RES;
         }
     }
 );
