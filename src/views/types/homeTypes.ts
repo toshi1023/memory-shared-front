@@ -276,3 +276,40 @@ export interface TALKS_RES {
 
     error_message: string,
 }
+
+/**
+ * register_talk用のデータ型定義
+ */
+export interface REGISTER_TALK_PROPS {
+    id: number,
+    user_id: number
+}
+/**
+ * AsyncThunk用(register_talk用)
+ */
+export interface REGISTER_TALK_RES {
+    talk: {
+        id: number,
+        content: string,
+        own_id: number,
+        user_id: number,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        own: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string
+        },
+        user: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string
+        }
+    },
+
+    error_message: string,
+}

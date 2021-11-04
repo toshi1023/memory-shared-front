@@ -148,7 +148,7 @@ export const fetchAsyncGetTalklist = createAsyncThunk<TALKLIST_RES, API_USERS_PR
     "talklist",
     async (props: API_USERS_PROPS) => {
           try {
-              const res = await axios.get(`${apiUrl}/users/${props.id}/messages`, {
+              const res = await axios.get(`${apiUrl}/users/${props.id}/messagelists`, {
                   headers: {
                       "Accept": "application/json"
                   },
@@ -174,7 +174,33 @@ export const fetchAsyncGetTalks = createAsyncThunk<TALKS_RES, API_TALKS_PROPS>(
     "talks",
     async (props: API_TALKS_PROPS) => {
           try {
-              const res = await axios.get(`${apiUrl}/${props.id}/messages?user_id=${props.user_id}`, {
+              const res = await axios.get(`${apiUrl}/users/${props.id}/messages?user_id=${props.user_id}`, {
+                  headers: {
+                      "Accept": "application/json"
+                  },
+                  withCredentials: true
+              });
+              
+              return res.data as TALKS_RES;
+  
+          } catch (err: any) {
+              if (!err.response) {
+                  throw err
+              }
+              
+              return err.response.data as TALKS_RES;
+          }
+    }
+);
+
+/**
+ * トーク保存の非同期関数
+ */
+export const fetchAsyncPostTalks = createAsyncThunk<TALKS_RES, API_TALKS_PROPS>(
+    "register_talk",
+    async (props: API_TALKS_PROPS) => {
+          try {
+              const res = await axios.get(`${apiUrl}/users/${props.id}/messages?user_id=${props.user_id}`, {
                   headers: {
                       "Accept": "application/json"
                   },
