@@ -24,6 +24,7 @@
     "formik-material-ui": "^4.0.0-alpha.1",
     "lodash": "^4.17.21",
     "node": "^16.1.0",
+    "pusher-js": "^7.0.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",

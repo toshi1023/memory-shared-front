@@ -3,8 +3,9 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     LOGIN_PROPS, LOGIN_RES, LOGOUT_PROPS, LOGOUT_RES, API_USERS_PROPS, PROFILE_RES, 
-    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS 
+    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS, REGISTER_TALK_PROPS, REGISTER_TALK_RES 
 } from "../../types/homeTypes";
+import generateFormData from "../../../functions/generateFormData";
 
 const webUrl = process.env.REACT_APP_MSA_WEB_URL;
 const apiUrl = process.env.REACT_APP_MSA_API_URL;
@@ -196,25 +197,26 @@ export const fetchAsyncGetTalks = createAsyncThunk<TALKS_RES, API_TALKS_PROPS>(
 /**
  * トーク保存の非同期関数
  */
-export const fetchAsyncPostTalks = createAsyncThunk<TALKS_RES, API_TALKS_PROPS>(
+export const fetchAsyncPostTalks = createAsyncThunk<REGISTER_TALK_RES, REGISTER_TALK_PROPS>(
     "register_talk",
-    async (props: API_TALKS_PROPS) => {
+    async (props: REGISTER_TALK_PROPS) => {
           try {
-              const res = await axios.get(`${apiUrl}/users/${props.id}/messages?user_id=${props.user_id}`, {
+              const fd = generateFormData<REGISTER_TALK_PROPS>(props);
+              const res = await axios.post(`${apiUrl}/users/${props.user_id}/messages`, fd, {
                   headers: {
                       "Accept": "application/json"
                   },
                   withCredentials: true
               });
               
-              return res.data as TALKS_RES;
+              return res.data as REGISTER_TALK_RES;
   
           } catch (err: any) {
               if (!err.response) {
                   throw err
               }
               
-              return err.response.data as TALKS_RES;
+              return err.response.data as REGISTER_TALK_RES;
           }
     }
 );
@@ -389,6 +391,15 @@ export const homeSlice = createSlice({
                 state.talks = action.payload.talks.data;
                 state.page.ti_currentpage = action.payload.talks.current_page;
                 state.page.ti_lastpage = action.payload.talks.last_page;
+            }
+        });
+        // トーク保存後処理
+        builder.addCase(fetchAsyncPostTalks.fulfilled, (state, action: PayloadAction<REGISTER_TALK_RES>) => {
+            if(!action.payload.error_message) {
+                return {
+                    ...state,
+                    talks: [...state.talks , action.payload.talk], 
+                }
             }
         });
     },

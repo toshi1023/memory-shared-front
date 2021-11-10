@@ -88,6 +88,34 @@ export interface GROUP_LIST {
     }[]
 }
 
+/**
+ * AsyncThunk用(pusher用)
+ */
+ export interface PUSHER_TALK_RES {
+    talk: {
+        id: number,
+        content: string,
+        own_id: number,
+        user_id: number,
+        update_user_id: number,
+        created_at: string,
+        updated_at: string,
+        deleted_at: null,
+        own: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string
+        },
+        user: {
+            id: number,
+            name: string,
+            image_file: string,
+            image_url: string
+        }
+    }
+}
+
 /************************************************
  *  slice用の型設定
  ************************************************/
@@ -281,8 +309,9 @@ export interface TALKS_RES {
  * register_talk用のデータ型定義
  */
 export interface REGISTER_TALK_PROPS {
-    id: number,
-    user_id: number
+    own_id: number,
+    user_id: number,
+    content: string
 }
 /**
  * AsyncThunk用(register_talk用)
