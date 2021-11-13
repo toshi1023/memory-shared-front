@@ -3,7 +3,7 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     GROUPS_PROPS, GROUPS_RES, API_GROUP_PROPS, GROUP_RES, 
-    PUSERS_RES, ALBUMS_RES, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
+    PUSERS_RES, ALBUMS_RES, POSTS_PROPS, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
     REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, 
     UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS, 
     REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS, 
@@ -151,11 +151,14 @@ export const fetchAsyncGetAlbums = createAsyncThunk<ALBUMS_RES, API_GROUP_PROPS>
 /**
  * 投稿一覧取得の非同期関数
  */
-export const fetchAsyncGetPosts = createAsyncThunk<POSTS_RES, API_GROUP_PROPS>(
+export const fetchAsyncGetPosts = createAsyncThunk<POSTS_RES, POSTS_PROPS>(
     "posts",
-    async (props: API_GROUP_PROPS) => {
+    async (props: POSTS_PROPS) => {
         try {
-            const res = await axios.get(`${apiUrl}/groups/${props.id}/posts`, {
+            let url = `${apiUrl}/groups/${props.id}/posts`;
+            if(props.page) url = `${apiUrl}/groups/${props.id}/posts?page=${props.page}`;
+
+            const res = await axios.get(url, {
                 headers: {
                     "Accept": "application/json"
                 },
@@ -795,5 +798,6 @@ export const selectAlbums = (state: RootState) => state.group.albums;
 export const selectPosts = (state: RootState) => state.group.posts;
 export const selectComments = (state: RootState) => state.group.comments;
 export const selectGroupValidation = (state: RootState) => state.group.validation;
+export const selectGroupPages = (state: RootState) => state.group.page;
 
 export default groupSlice.reducer;

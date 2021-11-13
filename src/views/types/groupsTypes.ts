@@ -366,6 +366,13 @@ export interface GH_USERS_RES {
 }
 
 /**
+ * posts用のデータ型定義
+ */
+export interface POSTS_PROPS {
+    id: number,
+    page: number | null
+}
+/**
  * AsyncThunk用(posts用)
  */
  export interface POSTS_RES {

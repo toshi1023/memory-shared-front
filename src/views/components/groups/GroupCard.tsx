@@ -5,7 +5,7 @@ import ComponentStyles from '../../../styles/common/componentStyle';
 import { useHistory } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { fetchGetErrorMessages, fetchAsyncGetNreadCount, fetchCredStart, fetchCredEnd } from '../../pages/appSlice';
-import { fetchAsyncGetPosts, selectPosts, fetchAsyncGetComments, fetchAsyncPostGroupHistory } from '../../pages/groups/groupSlice';
+import { fetchAsyncGetPosts, selectPosts, fetchAsyncGetComments, fetchAsyncPostGroupHistory, selectGroupPages } from '../../pages/groups/groupSlice';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -23,6 +23,7 @@ import PostModal from './PostModal';
 import DateFormat from '../../../functions/dateFormat';
 import Loading from '../common/Loading';
 import { AppDispatch } from '../../../stores/store';
+import BasePagination from '../common/BasePagination';
 
 type GET_COMMENTS = {
   post_id: number,
@@ -85,7 +86,9 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '1.1rem',
       padding: '10px',
       textAlign: 'left',
-      whiteSpace: 'pre-line'
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden'
     },
     disabledButton: {
       background: '#e6e1e1',
@@ -117,6 +120,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
   // redux
   const dispatch: AppDispatch = useDispatch();
   const posts = useSelector(selectPosts);
+  const groupPages = useSelector(selectGroupPages);
 
   /**
    * 投稿掲示板表示関数
@@ -124,7 +128,19 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
   const handleExpandClick = async () => {
       setExpanded(!expanded);
       // 投稿情報取得
-      const postsRes = await dispatch(fetchAsyncGetPosts({id: props.data.id}));
+      const postsRes = await dispatch(fetchAsyncGetPosts({id: props.data.id, page: null}));
+      if(fetchAsyncGetPosts.fulfilled.match(postsRes) && postsRes.payload.error_message) {
+          dispatch(fetchGetErrorMessages(postsRes.payload.error_message));
+          return;
+      }
+  };
+
+  /**
+   * 投稿データの取得処理(ページネーション処理)
+   */
+  const handleGetData = async (page: number) => {
+      // 投稿情報取得
+      const postsRes = await dispatch(fetchAsyncGetPosts({id: props.data.id, page: page}));
       if(fetchAsyncGetPosts.fulfilled.match(postsRes) && postsRes.payload.error_message) {
           dispatch(fetchGetErrorMessages(postsRes.payload.error_message));
           return;
@@ -350,6 +366,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                 </>
               ))
             }
+            <BasePagination count={groupPages.p_lastpage} callback={handleGetData} />
           </div>
           {/* 詳細表示モーダル */}
           <PostModal callback={handleOpen} data={modalData} open={open} />

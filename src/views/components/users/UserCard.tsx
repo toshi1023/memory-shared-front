@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import Card from '@material-ui/core/Card';
@@ -42,6 +43,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const UserCard: React.FC<USER_CARD> = (props) => {
   const classes = useStyles();
   const componentStyles = ComponentStyles();
+  const history = useHistory();
+  const { id, name } = useParams<{ id: string, name: string }>();
   const [open, setOpen] = useState(false);
 
   /**
@@ -141,7 +144,11 @@ const UserCard: React.FC<USER_CARD> = (props) => {
         </Button>  
         <div className={componentStyles.offset}></div>
         <Tooltip title="トークを始める" classes={{tooltip: componentStyles.tooltip}}>
-          <Button><Avatar className={classes.iconBackGround}><MailIcon /></Avatar></Button>  
+          <Button onClick={() => history.push(`/talk/${name}/${id}`)}>
+            <Avatar className={classes.iconBackGround}>
+              <MailIcon />
+            </Avatar>
+          </Button>  
         </Tooltip>
       </CardActions>
 
