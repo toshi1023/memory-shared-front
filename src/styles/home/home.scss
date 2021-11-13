@@ -317,12 +317,16 @@
         background-color: rgb(253, 200, 103); 
         color: white;
         float: right;
+        min-width: 20vw;
+        text-align: left;
     }
 
     .left-box {
         background-color: white;
         color: #1b2538;
         float: left;
+        min-width: 20vw;
+        text-align: left;
     }
 
     .message_field {

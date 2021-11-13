@@ -85,7 +85,7 @@ const AlbumEditer: React.FC = () => {
         name: album.name, 
         group_id: album.group_id,
         image_file: null,
-        host_user_id: album.host_user_id
+        host_user_id: +localStorage.loginId
     }
 
     return (

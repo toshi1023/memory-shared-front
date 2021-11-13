@@ -3,7 +3,7 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     LOGIN_PROPS, LOGIN_RES, LOGOUT_PROPS, LOGOUT_RES, API_USERS_PROPS, PROFILE_RES, 
-    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS, REGISTER_TALK_PROPS, REGISTER_TALK_RES 
+    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS, REGISTER_TALK_PROPS, REGISTER_TALK_RES, PUSHER_TALK_RES 
 } from "../../types/homeTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -337,7 +337,15 @@ export const homeSlice = createSlice({
             ti_lastpage: 0
         }
     },
-    reducers: {},
+    reducers: {
+        // Pusherから受け取ったデータを処理(新規追加)
+        fetchWebsocketMessage(state, action: PayloadAction<PUSHER_TALK_RES>) {
+            return {
+                ...state,
+                talks: [...state.talks, action.payload.talk]
+            }
+        },
+    },
     // 非同期関数の後処理を設定
     extraReducers: (builder) => {
         // ログイン処理
@@ -404,6 +412,10 @@ export const homeSlice = createSlice({
         });
     },
 });
+
+export const {
+    fetchWebsocketMessage
+} = homeSlice.actions;
 
 export const selectProfile = (state: RootState) => state.home.profile;
 export const selectFamily = (state: RootState) => state.home.families;

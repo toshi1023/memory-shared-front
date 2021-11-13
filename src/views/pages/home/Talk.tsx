@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
-import { fetchAsyncGetTalks, selectTalks, fetchAsyncPostTalks } from './homeSlice';
+import { fetchAsyncGetTalks, selectTalks, fetchAsyncPostTalks, fetchWebsocketMessage } from './homeSlice';
 import { Grid, Typography, Hidden, Button, Box, Avatar, CardContent, IconButton, TextField } from '@material-ui/core';
 import Pusher from 'pusher-js';
 import ReplyIcon from '@material-ui/icons/Reply';
@@ -50,7 +50,8 @@ const Talk: React.FC = () => {
     
         const channel = pusher.subscribe(appChannel);
         channel.bind(appEvent, function(data: PUSHER_TALK_RES) {
-            console.log(JSON.stringify(data));
+            // 自身がuser_idで設定されたとき(受け手)のみPusherからメッセージを取得
+            if (data.talk.user_id === +localStorage.loginId) dispatch(fetchWebsocketMessage(data));
         });
     }, [dispatch]);
 
