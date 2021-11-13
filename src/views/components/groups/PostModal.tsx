@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
 import _ from 'lodash';
@@ -103,7 +103,6 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
     const componentStyles = ComponentStyles();
     const [value, setValue] = useState<string>('');
     const { id } = useParams<{ id: string }>();
-    const commentInput = React.useRef<HTMLInputElement>(null);
     // redux
     const dispatch: AppDispatch = useDispatch();
     const comments = useSelector(selectComments);
@@ -192,7 +191,18 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                 dispatch(fetchGetErrorMessages(rcommentRes.payload.error_message))
 
             // コメント入力欄の値をリセット
-            commentInput.current!.value = '';
+            const pc_commentInput = document.getElementById('pc_comment_input') as HTMLTextAreaElement;
+            if(pc_commentInput !== null) {
+                pc_commentInput.value = '';
+            }
+            const ipad_commentInput = document.getElementById('ipad_comment_input') as HTMLTextAreaElement;
+            if(ipad_commentInput !== null) {
+                ipad_commentInput.value = '';
+            }
+            const mobile_commentInput = document.getElementById('mobile_comment_input') as HTMLTextAreaElement;
+            if(mobile_commentInput !== null) {
+                mobile_commentInput.value = '';
+            }
             setValue('');
         }
     }
@@ -246,13 +256,13 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                             </div>
                             <div className={classes.commentField}>
                                 <TextField
+                                    id="pc_comment_input"
                                     className={classes.textfield}
                                     name="message"
                                     label="コメントを投稿"
                                     variant="outlined"
                                     multiline
                                     onChange={(e) => setValue(e.target.value)}
-                                    ref={commentInput}
                                 />
                                 <IconButton 
                                     color="primary" 
@@ -328,13 +338,13 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                             </div>
                             <div className={classes.commentField}>
                                 <TextField
+                                    id="ipad_comment_input"
                                     className={classes.textfield}
                                     name="message"
                                     label="コメントを投稿"
                                     variant="outlined"
                                     multiline
                                     onChange={(e) => setValue(e.target.value)}
-                                    ref={commentInput}
                                 />
                                 <IconButton 
                                     color="primary" 
@@ -410,13 +420,13 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                 </div>
                                 <div className={classes.commentField}>
                                     <TextField
+                                        id="mobile_comment_input"
                                         className={classes.textfield}
                                         name="message"
                                         label="コメントを投稿"
                                         variant="outlined"
                                         multiline
                                         onChange={(e) => setValue(e.target.value)}
-                                        ref={commentInput}
                                     />
                                     <IconButton 
                                         color="primary" 
