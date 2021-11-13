@@ -166,7 +166,7 @@ const UserEditer: React.FC = () => {
                         :
                             dispatch(fetchGetErrorMessages(ruserRes.payload.error_message))
 
-                        if(ruserRes.payload.info_message) history.push('/login');
+                        if(ruserRes.payload.info_message) history.push('/');
                     }
                     await dispatch(fetchCredEnd());
                     setDisabled(false);

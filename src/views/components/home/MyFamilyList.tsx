@@ -52,7 +52,9 @@ const MyFamilyList: React.FC<FAMILY_LIST> = (props) => {
                         </Typography>
                     </Grid>
                     <Grid item xs={3}>
-                        <IconButton className={classes.iconBackGround}><MailIcon /></IconButton>
+                        <IconButton className={classes.iconBackGround} onClick={() => history.push(`/talk/${value.name}/${value.id}`)}>
+                            <MailIcon />
+                        </IconButton>
                     </Grid>
                 </Grid>
             ))}

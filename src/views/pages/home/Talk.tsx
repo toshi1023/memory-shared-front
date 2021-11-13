@@ -74,6 +74,12 @@ const Talk: React.FC = () => {
             dispatch(fetchGetErrorMessages(rtalkRes.payload.error_message));
             return;
         }
+        // TextFieldの値を空にする
+        setValue('');
+        const talkInput = document.getElementById('talk_input') as HTMLTextAreaElement;
+        if(talkInput !== null) {
+            talkInput.value = '';
+        }
     }
 
     return (
@@ -123,6 +129,7 @@ const Talk: React.FC = () => {
                 </Grid>
                 <Grid item xs={11} sm={8} md={7} className="message_field">
                     <TextField
+                        id="talk_input"
                         className="textfield"
                         name="message"
                         label="メッセージ"
