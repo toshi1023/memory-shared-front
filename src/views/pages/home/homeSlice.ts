@@ -3,8 +3,8 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     LOGIN_PROPS, LOGIN_RES, LOGOUT_PROPS, LOGOUT_RES, API_USERS_PROPS, PROFILE_RES, 
-    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS, REGISTER_TALK_PROPS, REGISTER_TALK_RES, 
-    PUSHER_TALK_RES, DELETE_MREADS_RES, DELETE_MREADS_PROPS
+    FAMILY_RES, PARTICIPANT_PROPS, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS, 
+    REGISTER_TALK_PROPS, REGISTER_TALK_RES, PUSHER_TALK_RES, DELETE_MREADS_RES, DELETE_MREADS_PROPS
 } from "../../types/homeTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -120,11 +120,15 @@ export const fetchAsyncGetFamily = createAsyncThunk<FAMILY_RES, API_USERS_PROPS>
 /**
  * 参加中グループ取得の非同期関数
  */
-export const fetchAsyncGetParticipant = createAsyncThunk<PARTICIPANT_RES, API_USERS_PROPS>(
+export const fetchAsyncGetParticipant = createAsyncThunk<PARTICIPANT_RES, PARTICIPANT_PROPS>(
     "participant",
-    async (props: API_USERS_PROPS) => {
+    async (props: PARTICIPANT_PROPS) => {
           try {
-              const res = await axios.get(`${apiUrl}/users/${props.id}/groups`, {
+              let url = `${apiUrl}/users/${props.id}/groups`;
+
+              if(props.page) url = `${apiUrl}/users/${props.id}/groups?page=${props.page}`;
+
+              const res = await axios.get(url, {
                   headers: {
                       "Accept": "application/json"
                   },

@@ -1,7 +1,10 @@
 import React from 'react';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
+import { fetchGetErrorMessages } from '../../pages/appSlice';
+import { fetchAsyncGetParticipant } from '../../pages/home/homeSlice';
 import { GROUP_LIST } from '../../types/homeTypes';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -11,6 +14,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import BasePagination from '../common/BasePagination';
+import { AppDispatch } from '../../../stores/store';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,6 +33,21 @@ const MyGroupList: React.FC<GROUP_LIST> = (props) => {
   const classes = useStyles();
   const componentStyles = ComponentStyles();
   const history = useHistory();
+  // redux
+  const dispatch: AppDispatch = useDispatch();
+
+  /**
+   * データの取得
+   * @param page 
+   */
+  const handleGetData = async (page: number) => {
+    // 参加中グループ情報を取得
+    const participantRes = await dispatch(fetchAsyncGetParticipant({ id: +localStorage.loginId, page: page }));
+    if(fetchAsyncGetParticipant.fulfilled.match(participantRes) && participantRes.payload.error_message) {
+        dispatch(fetchGetErrorMessages(participantRes.payload.error_message));
+        return;
+    }
+  }
 
   return (
       <div>
@@ -71,6 +91,7 @@ const MyGroupList: React.FC<GROUP_LIST> = (props) => {
                 </Grid>
             ))}
             </Grid>
+            <BasePagination count={props.page.last_page} callback={handleGetData} />
       </div>
   );
 }

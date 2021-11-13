@@ -8,8 +8,8 @@ const useStyles = makeStyles((theme) =>
         root: {
             '& > *': {
                 marginTop: theme.spacing(2),
-            },
-        },
+            }
+        }
     }),
 );
 
@@ -30,6 +30,7 @@ const BasePagination: React.FC<BASE_PAGINATION> = (props) => {
     return (
         <div className={classes.root}>
             <Pagination 
+                color="primary"
                 count={props.count} 
                 onChange={(e, page) => handleGetData(page)}
             />

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
 import { fetchGetErrorMessages, fetchGetUrl, fetchAsyncGetNreadCount } from '../appSlice';
-import { fetchAsyncGetParticipant, selectParticipant } from './homeSlice';
+import { fetchAsyncGetParticipant, selectParticipant, selectHomePage } from './homeSlice';
 import PageNotFound from '../../components/common/PageNotFound';
 import MyGroupList from '../../components/home/MyGroupList';
 import { Grid, Typography } from '@material-ui/core';
@@ -22,11 +22,12 @@ const MobileMyGroup: React.FC = () => {
     // redux
     const dispatch: AppDispatch = useDispatch();
     const participants = useSelector(selectParticipant);
+    const homePage = useSelector(selectHomePage);
 
     useEffect(() => {
         const renderMyFamily = async() => {
             // 参加中グループ情報を取得
-            const participantRes = await dispatch(fetchAsyncGetParticipant({ id: +localStorage.loginId }));
+            const participantRes = await dispatch(fetchAsyncGetParticipant({ id: +localStorage.loginId, page: null }));
             if(fetchAsyncGetParticipant.fulfilled.match(participantRes) && participantRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(participantRes.payload.error_message));
                 return;
@@ -56,7 +57,7 @@ const MobileMyGroup: React.FC = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={8}>
-                        <MyGroupList data={participants} />
+                        <MyGroupList data={participants} page={{current_page: homePage.g_currentpage, last_page: homePage.g_lastpage}} />
                     </Grid>
                 </Grid>
             </div>

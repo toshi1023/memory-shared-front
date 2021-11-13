@@ -6,7 +6,7 @@ import '../../../styles/home/home.scss';
 import { fetchGetErrorMessages, fetchGetUrl, fetchAsyncGetNreadCount } from '../appSlice';
 import { 
     fetchAsyncGetProfile, selectProfile, fetchAsyncGetFamily, selectFamily, 
-    fetchAsyncGetParticipant, selectParticipant, fetchAsyncGetTalklist, selectTalklist 
+    fetchAsyncGetParticipant, selectParticipant, fetchAsyncGetTalklist, selectTalklist, selectHomePage 
 } from './homeSlice';
 import MyProfileCard from '../../components/home/MyProfileCard';
 import MyGroupList from '../../components/home/MyGroupList';
@@ -26,6 +26,7 @@ const Home: React.FC = () => {
     const families = useSelector(selectFamily);
     const participants = useSelector(selectParticipant);
     const talklists = useSelector(selectTalklist);
+    const homePage = useSelector(selectHomePage);
 
     useEffect(() => {
         const renderHome = async() => {
@@ -44,7 +45,7 @@ const Home: React.FC = () => {
             }
             
             // 参加中グループ情報を取得
-            const participantRes = await dispatch(fetchAsyncGetParticipant({ id: +localStorage.loginId }));
+            const participantRes = await dispatch(fetchAsyncGetParticipant({ id: +localStorage.loginId, page: null }));
             if(fetchAsyncGetParticipant.fulfilled.match(participantRes) && participantRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(participantRes.payload.error_message));
                 return;
@@ -112,7 +113,7 @@ const Home: React.FC = () => {
                                 参加グループ一覧
                             </Typography>
                         </div>
-                        <MyGroupList data={participants} />
+                        <MyGroupList data={participants} page={{current_page: homePage.g_currentpage, last_page: homePage.g_lastpage}} />
                     </Grid>
                     <Grid item sm={3} className="c_title_space center c_side_area">
                         <Typography className="c_title">

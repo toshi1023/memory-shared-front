@@ -60,7 +60,11 @@ export interface GROUP_LIST {
             id: number,
             group_id: number
         }[]
-    }[]
+    }[],
+    page: {
+        current_page: number,
+        last_page: number
+    }
 }
 
 /**
@@ -196,6 +200,14 @@ export interface FAMILY_RES {
     },
 
     error_message: string,
+}
+
+/**
+ * participant用のデータ型定義
+ */
+export interface PARTICIPANT_PROPS {
+    id: number,
+    page: number | null
 }
 
 /**
