@@ -3,7 +3,8 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     LOGIN_PROPS, LOGIN_RES, LOGOUT_PROPS, LOGOUT_RES, API_USERS_PROPS, PROFILE_RES, 
-    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS, REGISTER_TALK_PROPS, REGISTER_TALK_RES, PUSHER_TALK_RES 
+    FAMILY_RES, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS, REGISTER_TALK_PROPS, REGISTER_TALK_RES, 
+    PUSHER_TALK_RES, DELETE_MREADS_RES, DELETE_MREADS_PROPS
 } from "../../types/homeTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -218,6 +219,33 @@ export const fetchAsyncPostTalks = createAsyncThunk<REGISTER_TALK_RES, REGISTER_
               
               return err.response.data as REGISTER_TALK_RES;
           }
+    }
+);
+
+/**
+ * トークの未読削除の非同期関数
+ */
+export const fetchAsyncDeleteMreads = createAsyncThunk<DELETE_MREADS_RES, DELETE_MREADS_PROPS>(
+    "delete_mreads",
+    async (props: DELETE_MREADS_PROPS) => {
+        try {
+            const res = await axios.post(`${apiUrl}/users/${props.user_id}/mread`, props, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as DELETE_MREADS_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as DELETE_MREADS_RES;
+        }
     }
 );
 

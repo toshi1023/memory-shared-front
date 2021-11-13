@@ -342,3 +342,16 @@ export interface REGISTER_TALK_RES {
 
     error_message: string,
 }
+
+/**
+ * delete_mreads用のデータ型定義
+ */
+ export interface DELETE_MREADS_PROPS {
+    user_id: number
+}
+/**
+ * AsyncThunk用(delete_mreads用)
+ */
+export interface DELETE_MREADS_RES {
+    error_message: string
+}

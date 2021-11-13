@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
-import { fetchAsyncGetTalks, selectTalks, fetchAsyncPostTalks, fetchWebsocketMessage } from './homeSlice';
-import { Grid, Typography, Hidden, Button, Box, Avatar, CardContent, IconButton, TextField } from '@material-ui/core';
+import { fetchGetErrorMessages, fetchGetUrl, fetchAsyncGetToken } from '../appSlice';
+import { fetchAsyncGetTalks, selectTalks, fetchAsyncPostTalks, fetchWebsocketMessage, fetchAsyncDeleteMreads } from './homeSlice';
+import { Grid, Typography, Box, Avatar, IconButton, TextField } from '@material-ui/core';
 import Pusher from 'pusher-js';
 import ReplyIcon from '@material-ui/icons/Reply';
 import _ from 'lodash';
@@ -56,6 +56,16 @@ const Talk: React.FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
+        // トークの未読数データを削除
+        const deleteMreads = async () => {
+            const mreadRes = await dispatch(fetchAsyncDeleteMreads({user_id: +id}));
+            if(fetchAsyncDeleteMreads.fulfilled.match(mreadRes) && mreadRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(mreadRes.payload.error_message));
+                return;
+            }
+        }
+        deleteMreads();
+
         // スクロールが存在する場合、メッセージ表示部分のスクロールを最下層に初期値として設定
         if(messageArea.current !== null) {
             messageArea.current.scrollTop = messageArea.current?.clientHeight;
