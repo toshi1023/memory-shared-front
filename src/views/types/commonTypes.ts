@@ -68,3 +68,11 @@ export interface NREAD_COUNT_RES {
     nread_count: number,
     error_message: string
 }
+
+/**
+ * BasePagination用のデータ型定義
+ */
+ export interface BASE_PAGINATION {
+    count: number,
+    callback: (value: number) => void
+}
