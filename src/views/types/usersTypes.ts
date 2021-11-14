@@ -108,7 +108,11 @@ export interface USER_CARD {
             id: number,
             group_id: number
         }[]
-    }[]
+    }[],
+    page: {
+        current_page: number,
+        last_page: number
+    }
 }
 
 export interface GROUP_LIST_DATA {
@@ -265,7 +269,14 @@ export interface USER_RES {
 }
 
 /**
- * AsyncThunk用(wgroups用)
+ * welcome_groups用のデータ型定義
+ */
+ export interface WGROUPS_PROPS {
+    id: number,
+    page: number | null
+}
+/**
+ * AsyncThunk用(welcome_groups用)
  */
 export interface WGROUPS_RES {
     wgroups: {

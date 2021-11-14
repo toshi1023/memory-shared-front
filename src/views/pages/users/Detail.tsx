@@ -7,7 +7,7 @@ import '../../../styles/groups/groups.scss';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
 import { 
     fetchAsyncGetUser, selectUser, fetchAsyncGetWelcomeGroups, selectWgoups, 
-    fetchAsyncGetParticipatingGroups, selectPgoups 
+    fetchAsyncGetParticipatingGroups, selectPgoups, selectUserPages 
 } from './userSlice';
 import UserCard from '../../components/users/UserCard';
 import GroupListData from '../../components/users/GroupListData';
@@ -28,6 +28,7 @@ const UserDetail: React.FC = () => {
     const user = useSelector(selectUser);
     const wgroups = useSelector(selectWgoups);
     const pgroups = useSelector(selectPgoups);
+    const userPages = useSelector(selectUserPages);
 
     useEffect(() => {
         const renderUserDetail = async () => {
@@ -38,7 +39,7 @@ const UserDetail: React.FC = () => {
                 return;
             }
             // 参加歓迎中グループ情報取得
-            const wgroupsRes = await dispatch(fetchAsyncGetWelcomeGroups({id: +id}));
+            const wgroupsRes = await dispatch(fetchAsyncGetWelcomeGroups({id: +id, page: null}));
             if(fetchAsyncGetWelcomeGroups.fulfilled.match(wgroupsRes) && wgroupsRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(wgroupsRes.payload.error_message));
                 return;
@@ -89,7 +90,7 @@ const UserDetail: React.FC = () => {
                         </Typography>
                     </div>
                     
-                    <WelcomeGroupListData data={wgroups} />
+                    <WelcomeGroupListData data={wgroups} page={{ current_page: userPages.wg_currentpage, last_page: userPages.wg_lastpage }} />
                 </Grid>
             </Grid>
         );
@@ -138,7 +139,7 @@ const UserDetail: React.FC = () => {
                                 </Typography>
                             </div>
                             
-                            <WelcomeGroupListData data={wgroups} />
+                            <WelcomeGroupListData data={wgroups} page={{ current_page: userPages.wg_currentpage, last_page: userPages.wg_lastpage }} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center c_side_area">
                             <Typography className="c_title">
@@ -168,7 +169,7 @@ const UserDetail: React.FC = () => {
                                 </Typography>
                             </div>
 
-                            <WelcomeGroupListData data={wgroups} />
+                            <WelcomeGroupListData data={wgroups} page={{ current_page: userPages.wg_currentpage, last_page: userPages.wg_lastpage }} />
                         </Grid>
                         <Grid item sm={4} className="c_content_space center c_side_area">
                             <Typography className="c_title">

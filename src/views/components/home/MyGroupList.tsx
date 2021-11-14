@@ -1,7 +1,7 @@
 import React from 'react';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import _ from 'lodash';
 import { fetchGetErrorMessages } from '../../pages/appSlice';
 import { fetchAsyncGetParticipant } from '../../pages/home/homeSlice';

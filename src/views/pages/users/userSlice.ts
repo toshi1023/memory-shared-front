@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../stores/store";
 import axios from "axios";
 import {
-    USERS_PROPS, USERS_RES, API_USER_PROPS, USER_RES, WGROUPS_RES, PGROUPS_RES, 
+    USERS_PROPS, USERS_RES, API_USER_PROPS, USER_RES, WGROUPS_PROPS, WGROUPS_RES, PGROUPS_RES, 
     IGROUPS_RES, API_GROUP_INVITE_PROPS, GROUP_INVITE_RES, EDIT_USER_RES, 
     REGISTER_USER_PROPS, REGISTER_USER_RES, USER_VALIDATE_RES, 
     UPDATE_USER_PROPS, UPDATE_USER_RES, DELETE_USER_RES, DELETE_USER_PROPS 
@@ -72,11 +72,13 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
 /**
  * 参加歓迎中グループ情報取得の非同期関数
  */
- export const fetchAsyncGetWelcomeGroups = createAsyncThunk<WGROUPS_RES, API_USER_PROPS>(
+ export const fetchAsyncGetWelcomeGroups = createAsyncThunk<WGROUPS_RES, WGROUPS_PROPS>(
     "welcome_groups",
-    async (props: API_USER_PROPS) => {
+    async (props: WGROUPS_PROPS) => {
         try {
-            const res = await axios.get(`${apiUrl}/users/${props.id}/wgroups`, {
+            let url = `${apiUrl}/users/${props.id}/wgroups`;
+            if (props.page) url = `${apiUrl}/users/${props.id}/wgroups?page=${props.page}`;
+            const res = await axios.get(url, {
                 headers: {
                     "Accept": "application/json"
                 },
@@ -623,5 +625,6 @@ export const selectPgoups = (state: RootState) => state.user.pgroups;
 export const selectIgoups = (state: RootState) => state.user.igroups;
 export const selectEditUser = (state: RootState) => state.user.edituser;
 export const selectUserValidation = (state: RootState) => state.user.validation;
+export const selectUserPages = (state: RootState) => state.user.page;
 
 export default userSlice.reducer;
