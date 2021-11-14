@@ -91,7 +91,12 @@ const MyGroupList: React.FC<GROUP_LIST> = (props) => {
                 </Grid>
             ))}
             </Grid>
-            <BasePagination count={props.page.last_page} callback={handleGetData} />
+            {
+                props.data.length === 0 ? 
+                    ''
+                :
+                    <BasePagination count={props.page.last_page} callback={handleGetData} />
+            }
       </div>
   );
 }

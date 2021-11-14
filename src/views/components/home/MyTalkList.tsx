@@ -13,6 +13,11 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: '36ch',
       backgroundColor: theme.palette.background.paper,
     },
+    talktext: {
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden'
+    },
     inline: {
       display: 'inline',
       fontSize: 12
@@ -49,6 +54,7 @@ const MyTalkList: React.FC<TALK_LIST> = (props) => {
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={value.other ? value.other.name : ''}
+                                    className={classes.talktext}
                                     secondary={
                                         <React.Fragment>
                                             <Typography

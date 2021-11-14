@@ -78,7 +78,12 @@ const AlbumListData: React.FC<ALBUM_LIST_DATA> = (props) => {
                 </Grid>
             ))}
             </Grid>
-            <BasePagination count={groupPages.a_lastpage} callback={handleGetData} />
+            {
+                props.data.length === 0 ? 
+                    ''
+                :
+                    <BasePagination count={groupPages.a_lastpage} callback={handleGetData} />
+            }
         </div>
     )
 }

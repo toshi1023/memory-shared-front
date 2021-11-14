@@ -196,7 +196,7 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
         return;
     }
   }
-
+  
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -366,7 +366,12 @@ const GroupCard: React.FC<GROUP_CARD> = (props) => {
                 </>
               ))
             }
-            <BasePagination count={groupPages.p_lastpage} callback={handleGetData} />
+            {
+              posts[0] === undefined ? 
+                ''
+              :
+                <BasePagination count={groupPages.p_lastpage} callback={handleGetData} />
+            }
           </div>
           {/* 詳細表示モーダル */}
           <PostModal callback={handleOpen} data={modalData} open={open} />
