@@ -52,7 +52,7 @@ const GroupDetail: React.FC = () => {
                 return;
             }
             // アルバム情報取得
-            const albumsRes = await dispatch(fetchAsyncGetAlbums({id: +id}));
+            const albumsRes = await dispatch(fetchAsyncGetAlbums({id: +id, page: null}));
             if(fetchAsyncGetAlbums.fulfilled.match(albumsRes) && albumsRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(albumsRes.payload.error_message));
                 return;

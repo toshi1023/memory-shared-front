@@ -3,11 +3,12 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     GROUPS_PROPS, GROUPS_RES, API_GROUP_PROPS, GROUP_RES, 
-    PUSERS_RES, ALBUMS_RES, POSTS_PROPS, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
+    PUSERS_RES, ALBUMS_PROPS, ALBUMS_RES, POSTS_PROPS, POSTS_RES, COMMENTS_PROPS, COMMENTS_RES, 
     REGISTER_GROUP_RES, REGISTER_GROUP_PROPS, GROUP_VALIDATE_RES, 
     UPDATE_GROUP_RES, UPDATE_GROUP_PROPS, REGISTER_POST_RES, REGISTER_POST_PROPS, 
     REGISTER_COMMENT_RES, REGISTER_COMMENT_PROPS, DELETE_COMMENT_RES, DELETE_COMMENT_PROPS, 
-    DELETE_POST_RES, DELETE_POST_PROPS, REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS, GH_USERS_RES, GH_USERS_PROPS, UPDATE_HISTORY_PROPS, UPDATE_HISTORY_RES, DELETE_GROUP_RES
+    DELETE_POST_RES, DELETE_POST_PROPS, REGISTER_HISTORY_RES, REGISTER_HISTORY_PROPS, 
+    GH_USERS_RES, GH_USERS_PROPS, UPDATE_HISTORY_PROPS, UPDATE_HISTORY_RES, DELETE_GROUP_RES
 } from "../../types/groupsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -125,11 +126,14 @@ export const fetchAsyncGetGhUsers = createAsyncThunk<GH_USERS_RES, GH_USERS_PROP
 /**
  * アルバム一覧取得の非同期関数
  */
-export const fetchAsyncGetAlbums = createAsyncThunk<ALBUMS_RES, API_GROUP_PROPS>(
+export const fetchAsyncGetAlbums = createAsyncThunk<ALBUMS_RES, ALBUMS_PROPS>(
     "albums",
-    async (props: API_GROUP_PROPS) => {
+    async (props: ALBUMS_PROPS) => {
         try {
-            const res = await axios.get(`${apiUrl}/groups/${props.id}/albums`, {
+            let url = `${apiUrl}/groups/${props.id}/albums`;
+            if(props.page) url = `${apiUrl}/groups/${props.id}/albums?page=${props.page}`;
+            
+            const res = await axios.get(url, {
                 headers: {
                     "Accept": "application/json"
                 },

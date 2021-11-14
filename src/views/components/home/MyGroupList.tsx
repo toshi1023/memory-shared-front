@@ -37,7 +37,7 @@ const MyGroupList: React.FC<GROUP_LIST> = (props) => {
   const dispatch: AppDispatch = useDispatch();
 
   /**
-   * データの取得
+   * データの取得(ページネーション処理)
    * @param page 
    */
   const handleGetData = async (page: number) => {

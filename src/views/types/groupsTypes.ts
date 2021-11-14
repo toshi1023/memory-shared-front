@@ -346,6 +346,13 @@ export interface GH_USERS_RES {
 }
 
 /**
+ * albums用のデータ型定義
+ */
+ export interface ALBUMS_PROPS {
+    id: number,
+    page: number | null
+}
+/**
  * AsyncThunk用(albums用)
  */
  export interface ALBUMS_RES {

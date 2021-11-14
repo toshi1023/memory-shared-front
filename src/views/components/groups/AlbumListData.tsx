@@ -1,8 +1,11 @@
 import React from 'react';
 import { useHistory, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import _ from 'lodash';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { fetchGetErrorMessages } from '../../pages/appSlice';
+import { fetchAsyncGetAlbums, selectGroupPages } from '../../pages/groups/groupSlice';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,6 +13,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { ALBUM_LIST_DATA } from '../../types/groupsTypes';
+import BasePagination from '../common/BasePagination';
+import { AppDispatch } from '../../../stores/store';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,6 +38,22 @@ const AlbumListData: React.FC<ALBUM_LIST_DATA> = (props) => {
     const componentStyles = ComponentStyles();
     const history = useHistory();
     const { id, name } = useParams<{ id: string, name: string }>();
+    // redux
+    const dispatch: AppDispatch = useDispatch();
+    const groupPages = useSelector(selectGroupPages);
+
+    /**
+     * データの取得(ページネーション処理)
+     * @param page 
+     */
+    const handleGetData = async (page: number) => {
+        // アルバム情報取得
+        const albumsRes = await dispatch(fetchAsyncGetAlbums({id: +id, page: page}));
+        if(fetchAsyncGetAlbums.fulfilled.match(albumsRes) && albumsRes.payload.error_message) {
+            dispatch(fetchGetErrorMessages(albumsRes.payload.error_message));
+            return;
+        }
+    }
 
     return (
         <div>
@@ -57,6 +78,7 @@ const AlbumListData: React.FC<ALBUM_LIST_DATA> = (props) => {
                 </Grid>
             ))}
             </Grid>
+            <BasePagination count={groupPages.a_lastpage} callback={handleGetData} />
         </div>
     )
 }
