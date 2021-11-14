@@ -7,6 +7,7 @@ import {
     CardHeader, CardContent, Input, TextField, Radio, Button 
 } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
+import MobileSingleImageRegister from '../../components/common/MobileSingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 import { fetchGetUrl, fetchAsyncGetToken, fetchCredStart, fetchCredEnd, fetchGetInfoMessages, fetchGetErrorMessages } from '../appSlice';
 import { 
@@ -402,7 +403,7 @@ const GroupEditer: React.FC = () => {
 
                                             <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                             <div className="c_imagearea">
-                                                <SingleImageRegister data={editgroup.image_url} callback={handleSetFile} />
+                                                <MobileSingleImageRegister data={editgroup.image_url} callback={handleSetFile} />
                                             </div>
                                             {
                                                 disabled ? 

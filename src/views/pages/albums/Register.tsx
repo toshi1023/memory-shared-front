@@ -4,6 +4,7 @@ import '../../../styles/albums/albums.scss';
 import { useHistory, useParams } from "react-router-dom";
 import { Grid, Typography, Card, CardHeader, CardContent, Input, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
+import MobileSingleImageRegister from '../../components/common/MobileSingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 import { fetchGetUrl, fetchAsyncGetToken, fetchCredStart, fetchCredEnd, fetchGetInfoMessages, fetchGetErrorMessages } from '../appSlice';
 import { fetchResetValidation, fetchAsyncPostAlbumValidation, selectAlbumValidation, fetchAsyncPostAlbum } from './albumSlice';
@@ -206,7 +207,7 @@ const AlbumRegister: React.FC = () => {
                                             }
                                             <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                             <div className="c_imagearea">
-                                                <SingleImageRegister data={null} callback={handleSetFile} />
+                                                <MobileSingleImageRegister data={null} callback={handleSetFile} />
                                             </div>
                                             {
                                                 disabled ? 

@@ -12,6 +12,7 @@ import {
     CardContent, Input, Radio, Button, TextField
 } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
+import MobileSingleImageRegister from '../../components/common/MobileSingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 import { AppDispatch } from '../../../stores/store';
 import { Formik } from "formik";
@@ -543,7 +544,7 @@ const UserEditer: React.FC = () => {
 
                                             <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
                                             <div className="c_imagearea">
-                                                <SingleImageRegister data={edituser.image_url} callback={handleSetFile} />
+                                                <MobileSingleImageRegister data={edituser.image_url} callback={handleSetFile} />
                                                 {
                                                     validation.errors !== undefined && validation.errors.image_file !== undefined && validation.errors.image_file[0] ? 
                                                         validation.errors.image_file.map(val => {

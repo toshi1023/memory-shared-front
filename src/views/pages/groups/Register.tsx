@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import '../../../styles/groups/groups.scss';
 import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, TextField, Radio, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
+import MobileSingleImageRegister from '../../components/common/MobileSingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 import { fetchGetUrl, fetchAsyncGetToken, fetchCredStart, fetchCredEnd, fetchGetInfoMessages, fetchGetErrorMessages } from '../appSlice';
 import { selectGroupValidation, fetchResetValidation, fetchAsyncPostGroupValidation, fetchAsyncPostGroup } from './groupSlice';
@@ -343,7 +344,7 @@ const GroupRegister: React.FC = () => {
 
                                             <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                             <div className="c_imagearea">
-                                                <SingleImageRegister data={null} callback={handleSetFile} />
+                                                <MobileSingleImageRegister data={null} callback={handleSetFile} />
                                             </div>
 
                                             {

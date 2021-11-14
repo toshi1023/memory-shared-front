@@ -6,6 +6,7 @@ import { fetchGetInfoMessages, fetchGetErrorMessages, fetchCredStart, fetchCredE
 import { fetchAsyncPostUser, fetchAsyncPostUserValidation, selectUserValidation, fetchResetValidation } from './userSlice';
 import { Grid, Theme, makeStyles, createStyles,Typography, Card, CardHeader, CardContent, Input, Radio, Button } from '@material-ui/core';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
+import MobileSingleImageRegister from '../../components/common/MobileSingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -407,7 +408,7 @@ const UserRegister: React.FC = () => {
                                             </div>
                                             <div className="c_labelarea"><span className="c_label">プロフィール画像</span></div>
                                             <div className="c_imagearea">
-                                                <SingleImageRegister data={null} callback={handleSetFile} />
+                                                <MobileSingleImageRegister data={null} callback={handleSetFile} />
                                                 {
                                                     validation.errors !== undefined && validation.errors.image_file !== undefined && validation.errors.image_file[0] ? 
                                                         validation.errors.image_file.map(val => {

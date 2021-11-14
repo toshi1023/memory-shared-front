@@ -6,6 +6,7 @@ import { Grid, Typography, Card, CardHeader, CardContent, Input, Button } from '
 import { fetchGetUrl, fetchAsyncGetToken, fetchCredStart, fetchCredEnd, fetchGetInfoMessages, fetchGetErrorMessages } from '../appSlice';
 import { fetchAsyncGetEditAlbum, fetchResetValidation, fetchAsyncPostAlbumValidation, selectAlbumValidation, fetchAsyncPutAlbum, fetchAsyncDeleteAlbum, selectAlbum } from './albumSlice';
 import SingleImageRegister from '../../components/common/SingleImageRegister';
+import MobileSingleImageRegister from '../../components/common/MobileSingleImageRegister';
 import DisplayStyles from '../../../styles/common/displayMode';
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -252,7 +253,7 @@ const AlbumEditer: React.FC = () => {
                                             }
                                             <div className="c_labelarea"><span className="c_label">サムネイル画像</span></div>
                                             <div className="c_imagearea">
-                                                <SingleImageRegister data={album.image_url} callback={handleSetFile} />
+                                                <MobileSingleImageRegister data={album.image_url} callback={handleSetFile} />
                                             </div>
                                             
                                             {
