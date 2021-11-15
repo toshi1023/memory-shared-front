@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import '../../../styles/groups/groups.scss';
 import DisplayStyles from '../../../styles/common/displayMode';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
-import { fetchAsyncGetGroups, selectGroups } from './groupSlice';
+import { fetchAsyncGetGroups, selectGroups, selectGroupPages } from './groupSlice';
 import SearchText from '../../components/common/SearchText';
 import SelectBox from '../../components/common/SelectBox';
 import GroupListData from '../../components/groups/GroupListData';
@@ -21,6 +21,7 @@ const GroupList: React.FC = () => {
     // redux
     const dispatch: AppDispatch = useDispatch();
     const groups = useSelector(selectGroups);
+    const groupPages = useSelector(selectGroupPages);
 
     /**
      * グループ一覧データの取得
@@ -28,7 +29,11 @@ const GroupList: React.FC = () => {
      * @returns 
      */
      const asyncGetData = async (key: string) => {
-        const groupsProps = getSearchSortProps(key);
+        const searchProps = getSearchSortProps(key);
+        const groupsProps = {
+            ...searchProps,
+            page: null
+        }
         
         const groupsRes = await dispatch(fetchAsyncGetGroups(groupsProps));
         if(fetchAsyncGetGroups.fulfilled.match(groupsRes) && groupsRes.payload.error_message) {
@@ -59,6 +64,25 @@ const GroupList: React.FC = () => {
         asyncGetData(key);
     }
 
+    /**
+     * スクロールイベント(グループの取得)
+     * @param page 
+     * @returns 
+     */
+    const scrollGetData = async (page: number) => {
+        const searchProps = getSearchSortProps();
+        const groupsProps = {
+            ...searchProps,
+            page: page
+        }
+
+        const groupsRes = await dispatch(fetchAsyncGetGroups(groupsProps));
+        if(fetchAsyncGetGroups.fulfilled.match(groupsRes) && groupsRes.payload.error_message) {
+            dispatch(fetchGetErrorMessages(groupsRes.payload.error_message));
+        }
+        return true;
+    }
+
     return (
         <div id="group_list">
 
@@ -75,7 +99,7 @@ const GroupList: React.FC = () => {
                 <Grid container justify="center" className="list_box">
                     <Grid item sm={7} md={6} lg={5}>
                         <Button className="groupcreate_button" onClick={() => history.push('/groups/register')}><GroupAddIcon className="groupcreate_icon" />グループを作成</Button>
-                        <GroupListData data={groups} />
+                        <GroupListData data={groups} page={{current_page: groupPages.gi_currentpage, last_page: groupPages.gi_lastpage}} callback={scrollGetData} />
                     </Grid>
                 </Grid>
             </div>
@@ -93,7 +117,7 @@ const GroupList: React.FC = () => {
                 <Grid container justify="center" className="list_box">
                     <Grid item xs={11}>
                         <Button className="groupcreate_button mobile" onClick={() => history.push('/groups/register')}><GroupAddIcon className="groupcreate_icon" />グループを作成</Button>
-                        <GroupListData data={groups} />
+                        <GroupListData data={groups} page={{current_page: groupPages.gi_currentpage, last_page: groupPages.gi_lastpage}} callback={scrollGetData} />
                     </Grid>
                 </Grid>
             </div>

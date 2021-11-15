@@ -25,6 +25,7 @@ export const fetchAsyncGetGroups = createAsyncThunk<GROUPS_RES, GROUPS_PROPS>(
             let url = `${apiUrl}/groups?name@like=${props.s_namelike}`;
             if(props.o_name) url = url + `&sort_name=${props.o_name}`;
             if(props.o_created_at) url = url + `&sort_created_at=${props.o_created_at}`;
+            if(props.page) url = url + `&page=${props.page}`;
 
             const res = await axios.get(url, {
                 headers: {
@@ -701,7 +702,7 @@ export const groupSlice = createSlice({
         // グループ一覧取得処理
         builder.addCase(fetchAsyncGetGroups.fulfilled, (state, action: PayloadAction<GROUPS_RES>) => {
             if(!action.payload.error_message) {
-                state.groups = action.payload.groups.data;
+                state.groups = action.payload.groups.data; // 要修正
                 state.page.gi_currentpage = action.payload.groups.current_page;
                 state.page.gi_lastpage = action.payload.groups.last_page;
             }

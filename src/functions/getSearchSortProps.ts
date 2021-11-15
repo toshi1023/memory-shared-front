@@ -10,7 +10,7 @@ type SEARCH_SORT = {
  * @param searchValue 
  * @returns 
  */
-const getSearchSortProps = (key: string, searchValue: string = '') => {
+const getSearchSortProps = (key: string = '', searchValue: string = '') => {
     let props: SEARCH_SORT;
 
     switch(key) {

@@ -34,7 +34,14 @@
                 updated_at: string,
             }
         }[]
-    }[]
+    }[],
+
+    page: {
+        current_page: number,
+        last_page: number,
+    },
+
+    callback: (page: number) => Promise<boolean>,
 }
 
 /**
@@ -202,7 +209,8 @@ export interface FORMIK_RPOST {
  export interface GROUPS_PROPS {
     s_namelike: string | null,
     o_name: string,
-    o_created_at: string
+    o_created_at: string,
+    page: number | null
 }
 /**
  * AsyncThunk用(groups用)
