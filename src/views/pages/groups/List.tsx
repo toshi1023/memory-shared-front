@@ -29,9 +29,9 @@ const GroupList: React.FC = () => {
      * @returns 
      */
      const asyncGetData = async (key: string) => {
-        const searchProps = getSearchSortProps(key);
+        const searchKey = getSearchSortProps(key);
         const groupsProps = {
-            ...searchProps,
+            ...searchKey,
             page: null
         }
         
@@ -70,9 +70,9 @@ const GroupList: React.FC = () => {
      * @returns 
      */
     const scrollGetData = async (page: number) => {
-        const searchProps = getSearchSortProps();
+        const searchKey = getSearchSortProps(searchProps);
         const groupsProps = {
-            ...searchProps,
+            ...searchKey,
             page: page
         }
 
