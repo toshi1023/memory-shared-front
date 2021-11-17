@@ -99,7 +99,7 @@ const GroupList: React.FC = () => {
                 <Grid container justify="center" className="list_box">
                     <Grid item sm={7} md={6} lg={5}>
                         <Button className="groupcreate_button" onClick={() => history.push('/groups/register')}><GroupAddIcon className="groupcreate_icon" />グループを作成</Button>
-                        <GroupListData data={groups} page={{current_page: groupPages.gi_currentpage, last_page: groupPages.gi_lastpage}} callback={scrollGetData} />
+                        <GroupListData data={groups} page={{current_page: groupPages.gi_currentpage, last_page: groupPages.gi_lastpage}} callback={scrollGetData} searchkey={searchProps} />
                     </Grid>
                 </Grid>
             </div>
@@ -117,7 +117,7 @@ const GroupList: React.FC = () => {
                 <Grid container justify="center" className="list_box">
                     <Grid item xs={11}>
                         <Button className="groupcreate_button mobile" onClick={() => history.push('/groups/register')}><GroupAddIcon className="groupcreate_icon" />グループを作成</Button>
-                        <GroupListData data={groups} page={{current_page: groupPages.gi_currentpage, last_page: groupPages.gi_lastpage}} callback={scrollGetData} />
+                        <GroupListData data={groups} page={{current_page: groupPages.gi_currentpage, last_page: groupPages.gi_lastpage}} callback={scrollGetData} searchkey={searchProps} />
                     </Grid>
                 </Grid>
             </div>

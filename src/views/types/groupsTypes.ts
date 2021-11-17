@@ -41,6 +41,8 @@
         last_page: number,
     },
 
+    searchkey: string,
+
     callback: (page: number) => Promise<boolean>,
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { useHistory } from "react-router-dom";
@@ -40,24 +40,32 @@ const GroupListData: React.FC<GROUP_LIST_DATA> = (props) => {
     const history = useHistory();
     // scrollerの制御
     const [scroll, setScroll] = useState(true);
+    const [page, setPage] = useState(1);
     // redux
     const dispatch: AppDispatch = useDispatch();
 
+    // 検索もしくはソート条件の変動でカレントページをリセット
+    useEffect(() => {
+        setPage(1);
+        setScroll(true);
+    }, [props.searchkey]);
+
     /**
      * 項目を読み込むときのコールバック
-     * @param {*} page 
      */
-    const loadMore = async (page: number) => {
-        console.log(page);
+    const loadMore = async () => {
         // loadMoreの実行を停止
         setScroll(false);
+        // ページ数の更新
+        const currentPage = page + 1;
+        setPage(currentPage);
         // Loading開始
         await dispatch(fetchCredStart);
         
         // グループの取得
-        const res = await props.callback(page);
+        const res = await props.callback(currentPage);
         if(res) {
-            if(page === props.page.last_page) return;
+            if(currentPage === props.page.last_page) return;
             setScroll(true);
         }
         // Loading終了

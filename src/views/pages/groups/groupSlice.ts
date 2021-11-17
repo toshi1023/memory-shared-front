@@ -535,7 +535,8 @@ export const groupSlice = createSlice({
                             created_at: '',
                             updated_at: '',
                         }
-                }]
+                    }
+                ]
             }
         ],
         // グループ詳細を管理
@@ -702,9 +703,13 @@ export const groupSlice = createSlice({
         // グループ一覧取得処理
         builder.addCase(fetchAsyncGetGroups.fulfilled, (state, action: PayloadAction<GROUPS_RES>) => {
             if(!action.payload.error_message) {
-                state.groups = action.payload.groups.data; // 要修正
                 state.page.gi_currentpage = action.payload.groups.current_page;
                 state.page.gi_lastpage = action.payload.groups.last_page;
+                if(action.payload.groups.current_page === 1) {
+                    state.groups = action.payload.groups.data;
+                } else {
+                    state.groups = state.groups.concat(action.payload.groups.data);
+                }
             }
         });
         // グループ詳細取得処理
