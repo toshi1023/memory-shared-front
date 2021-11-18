@@ -76,7 +76,7 @@ const GroupListData: React.FC<GROUP_LIST_DATA> = (props) => {
         <List dense className={classes.root}>
             <InfiniteScroll
                 pageStart={0}
-                loadMore={loadMore}    //項目を読み込む際に処理するコールバック関数
+                loadMore={loadMore}                   //項目を読み込む際に処理するコールバック関数
                 initialLoad={false}
                 threshold={700}
                 hasMore={scroll}                      //読み込みを行うかどうかの判定

@@ -23,6 +23,7 @@ const apiUrl = process.env.REACT_APP_MSA_API_URL;
             let url = `${apiUrl}/users?name@like=${props.s_namelike}`;
             if(props.o_name) url = url + `&sort_name=${props.o_name}`;
             if(props.o_created_at) url = url + `&sort_created_at=${props.o_created_at}`;
+            if(props.page) url = url + `&page=${props.page}`;
 
             const res = await axios.get(url, {
                 headers: {
@@ -547,9 +548,13 @@ export const userSlice = createSlice({
         // ユーザ一覧取得処理
         builder.addCase(fetchAsyncGetUsers.fulfilled, (state, action: PayloadAction<USERS_RES>) => {
             if(!action.payload.error_message) {
-                state.users = action.payload.users.data;
                 state.page.ui_currentpage = action.payload.users.current_page;
                 state.page.ui_lastpage = action.payload.users.last_page;
+                if(action.payload.users.current_page === 1) {
+                    state.users = action.payload.users.data;
+                } else {
+                    state.users = state.users.concat(action.payload.users.data);
+                }
             }
         });
         // ユーザ詳細情報取得処理

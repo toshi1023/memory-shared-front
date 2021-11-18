@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import '../../../styles/users/users.scss';
 import DisplayStyles from '../../../styles/common/displayMode';
 import { fetchGetErrorMessages, fetchGetUrl } from '../appSlice';
-import { fetchAsyncGetUsers, selectUsers } from './userSlice';
+import { fetchAsyncGetUsers, selectUsers, selectUserPages } from './userSlice';
 import SearchText from '../../components/common/SearchText';
 import SelectBox from '../../components/common/SelectBox';
 import UserListData from '../../components/users/UserListData';
@@ -20,6 +20,7 @@ const UserList: React.FC = () => {
     // redux
     const dispatch: AppDispatch = useDispatch();
     const users = useSelector(selectUsers);
+    const userPages = useSelector(selectUserPages);
 
     /**
      * ユーザ一覧データの取得
@@ -27,7 +28,11 @@ const UserList: React.FC = () => {
      * @returns 
      */
     const asyncGetData = async (key: string) => {
-        const usersProps = getSearchSortProps(key);
+        const searchKey = getSearchSortProps(key);
+        const usersProps = {
+            ...searchKey,
+            page: null
+        }
         
         const usersRes = await dispatch(fetchAsyncGetUsers(usersProps));
         if(fetchAsyncGetUsers.fulfilled.match(usersRes) && usersRes.payload.error_message) {
@@ -61,6 +66,25 @@ const UserList: React.FC = () => {
         asyncGetData(key);
     }
 
+    /**
+     * スクロールイベント(グループの取得)
+     * @param page 
+     * @returns 
+     */
+     const scrollGetData = async (page: number) => {
+        const searchKey = getSearchSortProps(searchProps);
+        const usersProps = {
+            ...searchKey,
+            page: page
+        }
+
+        const usersRes = await dispatch(fetchAsyncGetUsers(usersProps));
+        if(fetchAsyncGetUsers.fulfilled.match(usersRes) && usersRes.payload.error_message) {
+            dispatch(fetchGetErrorMessages(usersRes.payload.error_message));
+        }
+        return true;
+    }
+
     return (
         <div id="user_list">
 
@@ -76,7 +100,7 @@ const UserList: React.FC = () => {
                 </Grid>
                 <Grid container justify="center" className="list_box">
                     <Grid item sm={7} md={6} lg={5}>
-                        <UserListData data={users} />
+                        <UserListData data={users} page={{current_page: userPages.ui_currentpage, last_page: userPages.ui_lastpage}} callback={scrollGetData} searchkey={searchProps} />
                     </Grid>
                 </Grid>
             </div>
@@ -93,7 +117,7 @@ const UserList: React.FC = () => {
                 </Grid>
                 <Grid container justify="center" className="list_box">
                     <Grid item xs={11}>
-                        <UserListData data={users} />
+                        <UserListData data={users} page={{current_page: userPages.ui_currentpage, last_page: userPages.ui_lastpage}} callback={scrollGetData} searchkey={searchProps} />
                     </Grid>
                 </Grid>
             </div>

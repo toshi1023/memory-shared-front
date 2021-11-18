@@ -39,7 +39,16 @@ export interface USER_LIST_DATA {
             created_at: string,
             updated_at: string,
         }[],
-    }[]
+    }[],
+
+    page: {
+        current_page: number,
+        last_page: number,
+    },
+
+    searchkey: string,
+
+    callback: (page: number) => Promise<boolean>,
 }
 
 /**
@@ -172,7 +181,8 @@ export interface FORMIK_UUSER {
  export interface USERS_PROPS {
     s_namelike: string | null,
     o_name: string,
-    o_created_at: string
+    o_created_at: string,
+    page: number | null
 }
 /**
  * AsyncThunk用(users用)
