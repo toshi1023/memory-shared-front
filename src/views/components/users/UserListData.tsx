@@ -46,6 +46,7 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
 
     // 検索もしくはソート条件の変動でカレントページをリセット
     useEffect(() => {
+        console.log(props.searchkey)
         setPage(1);
         setScroll(true);
     }, [props.searchkey]);
@@ -115,4 +116,4 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
     );
 }
 
-export default UserListData
+export default React.memo(UserListData)

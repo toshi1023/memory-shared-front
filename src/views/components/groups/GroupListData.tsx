@@ -118,4 +118,4 @@ const GroupListData: React.FC<GROUP_LIST_DATA> = (props) => {
     );
 }
 
-export default GroupListData
+export default React.memo(GroupListData)

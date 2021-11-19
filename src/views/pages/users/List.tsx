@@ -16,7 +16,7 @@ const UserList: React.FC = () => {
     const history = useHistory();
     const displayStyles = DisplayStyles();
     // users取得条件
-    const [searchProps, setSearchProps] = useState('');
+    const [searchProps, setSearchProps] = useState('new');
     // redux
     const dispatch: AppDispatch = useDispatch();
     const users = useSelector(selectUsers);
@@ -63,6 +63,7 @@ const UserList: React.FC = () => {
      * @param key 
      */
     const selectCallback = async (key: string) => {
+        setSearchProps(key);
         asyncGetData(key);
     }
 

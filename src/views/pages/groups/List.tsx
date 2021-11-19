@@ -17,7 +17,7 @@ const GroupList: React.FC = () => {
     const history = useHistory();
     const displayStyles = DisplayStyles();
     // groups取得条件
-    const [searchProps, setSearchProps] = useState('');
+    const [searchProps, setSearchProps] = useState('new');
     // redux
     const dispatch: AppDispatch = useDispatch();
     const groups = useSelector(selectGroups);
