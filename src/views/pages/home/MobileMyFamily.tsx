@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/home/home.scss';
 import { fetchGetErrorMessages, fetchGetUrl, fetchAsyncGetNreadCount } from '../appSlice';
-import { fetchAsyncGetFamily, selectFamily } from './homeSlice';
+import { fetchAsyncGetFamily, selectFamily, selectHomePage } from './homeSlice';
 import PageNotFound from '../../components/common/PageNotFound';
 import MyFamilyList from '../../components/home/MyFamilyList';
 import { Grid, Typography } from '@material-ui/core';
@@ -18,11 +18,12 @@ const MobileMyFamily: React.FC = () => {
     // redux
     const dispatch: AppDispatch = useDispatch();
     const families = useSelector(selectFamily);
+    const homePage = useSelector(selectHomePage);
 
     useEffect(() => {
         const renderMyFamily = async() => {
             // ファミリー情報を取得
-            const familyRes = await dispatch(fetchAsyncGetFamily({ id: +localStorage.loginId }));
+            const familyRes = await dispatch(fetchAsyncGetFamily({ id: +localStorage.loginId, page: null }));
             if(fetchAsyncGetFamily.fulfilled.match(familyRes) && familyRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(familyRes.payload.error_message));
                 return;
@@ -43,6 +44,19 @@ const MobileMyFamily: React.FC = () => {
      */
     const handleOpenDescription = () => {
         setDesc(!desc);
+    }
+
+    /**
+     * スクロールイベント(ファミリーの取得)
+     * @param page 
+     * @returns 
+     */
+     const scrollGetFamilyData = async (page: number) => {
+        const familyRes = await dispatch(fetchAsyncGetFamily({ id: +localStorage.loginId, page: page }));
+        if(fetchAsyncGetFamily.fulfilled.match(familyRes) && familyRes.payload.error_message) {
+            dispatch(fetchGetErrorMessages(familyRes.payload.error_message));
+        }
+        return true;
     }
 
     return (
@@ -71,7 +85,7 @@ const MobileMyFamily: React.FC = () => {
                         }
                     </Grid>
                     <Grid item xs={10}>
-                        <MyFamilyList data={families} />
+                        <MyFamilyList data={families} page={{current_page: homePage.f_currentpage, last_page: homePage.f_lastpage}} callback={scrollGetFamilyData} />
                     </Grid>
                 </Grid>
             </div>

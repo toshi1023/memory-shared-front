@@ -3,7 +3,7 @@ import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { 
     LOGIN_PROPS, LOGIN_RES, LOGOUT_PROPS, LOGOUT_RES, API_USERS_PROPS, PROFILE_RES, 
-    FAMILY_RES, PARTICIPANT_PROPS, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS, 
+    FAMILY_PROPS, FAMILY_RES, PARTICIPANT_PROPS, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS, 
     REGISTER_TALK_PROPS, REGISTER_TALK_RES, PUSHER_TALK_RES, DELETE_MREADS_RES, DELETE_MREADS_PROPS
 } from "../../types/homeTypes";
 import generateFormData from "../../../functions/generateFormData";
@@ -94,26 +94,29 @@ export const fetchAsyncGetProfile = createAsyncThunk<PROFILE_RES, API_USERS_PROP
 /**
  * ファミリー取得の非同期関数
  */
-export const fetchAsyncGetFamily = createAsyncThunk<FAMILY_RES, API_USERS_PROPS>(
+export const fetchAsyncGetFamily = createAsyncThunk<FAMILY_RES, FAMILY_PROPS>(
     "family",
-    async (props: API_USERS_PROPS) => {
-          try {
-              const res = await axios.get(`${apiUrl}/users/${props.id}/families`, {
-                  headers: {
-                      "Accept": "application/json"
-                  },
-                  withCredentials: true
-              });
-              
-              return res.data as FAMILY_RES;
-  
-          } catch (err: any) {
-              if (!err.response) {
-                  throw err
-              }
-              
-              return err.response.data as FAMILY_RES;
-          }
+    async (props: FAMILY_PROPS) => {
+        try {
+            let url = `${apiUrl}/users/${props.id}/families`;
+            if(props.page) url = url + `?page=${props.page}`;
+
+            const res = await axios.get(url, {
+                headers: {
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as FAMILY_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as FAMILY_RES;
+        }
     }
 );
 
@@ -404,9 +407,13 @@ export const homeSlice = createSlice({
         // ファミリー取得処理
         builder.addCase(fetchAsyncGetFamily.fulfilled, (state, action: PayloadAction<FAMILY_RES>) => {
             if(!action.payload.error_message) {
-                state.families = action.payload.families.data;
                 state.page.f_currentpage = action.payload.families.current_page;
                 state.page.f_lastpage = action.payload.families.last_page;
+                if(action.payload.families.current_page === 1) {
+                    state.families = action.payload.families.data;
+                } else {
+                    state.families = state.families.concat(action.payload.families.data);
+                }
             }
         });
         // 参加グループ取得処理

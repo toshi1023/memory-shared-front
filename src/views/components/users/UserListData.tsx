@@ -57,6 +57,9 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
     const loadMore = useCallback(async () => {
         // loadMoreの実行を停止
         setScroll(false);
+        if(props.page.last_page === 1) {
+            return;
+        }
         // ページ数の更新
         const currentPage = page + 1;
         setPage(currentPage);

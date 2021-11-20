@@ -31,7 +31,14 @@ export interface FAMILY_LIST {
         status: number,
         image_file: string,
         image_url: string,
-    }[]
+    }[],
+
+    page: {
+        current_page: number,
+        last_page: number,
+    },
+
+    callback: (page: number) => Promise<boolean>,
 }
 
 /**
@@ -180,6 +187,13 @@ export interface PROFILE_RES {
     error_message: string,
 }
 
+/**
+ * family用のデータ型定義
+ */
+export interface FAMILY_PROPS {
+    id: number,
+    page: number | null
+}
 /**
  * AsyncThunk用(family用)
  */
