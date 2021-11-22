@@ -33,6 +33,8 @@ export interface FAMILY_LIST {
         image_url: string,
     }[],
 
+    el: React.RefObject<HTMLDivElement | null>,
+
     page: {
         current_page: number,
         last_page: number,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../../../styles/common/common.scss';
@@ -19,6 +19,8 @@ const MobileMyFamily: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const families = useSelector(selectFamily);
     const homePage = useSelector(selectHomePage);
+    // Ref
+    const fRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const renderMyFamily = async() => {
@@ -85,7 +87,7 @@ const MobileMyFamily: React.FC = () => {
                         }
                     </Grid>
                     <Grid item xs={10}>
-                        <MyFamilyList data={families} page={{current_page: homePage.f_currentpage, last_page: homePage.f_lastpage}} callback={scrollGetFamilyData} />
+                        <MyFamilyList data={families} page={{current_page: homePage.f_currentpage, last_page: homePage.f_lastpage}} el={fRef} callback={scrollGetFamilyData} />
                     </Grid>
                 </Grid>
             </div>

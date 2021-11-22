@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../../../styles/common/common.scss';
@@ -27,6 +27,8 @@ const Home: React.FC = () => {
     const participants = useSelector(selectParticipant);
     const talklists = useSelector(selectTalklist);
     const homePage = useSelector(selectHomePage);
+    // Ref
+    const fRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const renderHome = async() => {
@@ -96,7 +98,7 @@ const Home: React.FC = () => {
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
                 <Grid container spacing={2}>
-                    <Grid item sm={3} className="c_title_space center c_side_area">
+                    <Grid item sm={3} ref={fRef} className="c_title_space center c_side_area">
                         <Typography className="c_title">
                             ファミリー
                         </Typography>
@@ -112,7 +114,7 @@ const Home: React.FC = () => {
                             :
                                 ''
                         }
-                        <MyFamilyList data={families} page={{current_page: homePage.f_currentpage, last_page: homePage.f_lastpage}} callback={scrollGetFamilyData} />
+                        <MyFamilyList data={families} page={{current_page: homePage.f_currentpage, last_page: homePage.f_lastpage}} el={fRef} callback={scrollGetFamilyData} />
                     </Grid>
                     <Grid item sm={6} className="c_title_space">
                         <Typography className="c_title">
