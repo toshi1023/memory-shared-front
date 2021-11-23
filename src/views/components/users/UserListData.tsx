@@ -85,6 +85,7 @@ const UserListData: React.FC<USER_LIST_DATA> = (props) => {
                 threshold={700}
                 hasMore={scroll}                      //読み込みを行うかどうかの判定
                 loader={<Loading />}                  // 記事取得中のロード画面
+                key={0}
             >
                 {_.map(props.data, value => {
                     const labelId = `user-list-${value.id}`;

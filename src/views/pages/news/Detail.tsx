@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import '../../../styles/common/common.scss';
 import '../../../styles/news/news.scss';
 import { fetchGetErrorMessages, fetchGetUrl, fetchAsyncGetNreadCount } from '../appSlice';
-import { fetchAsyncGetNews, selectNews, fetchAsyncGetGroupHistories, selectGroupHistories } from './newsSlice';
+import { fetchAsyncGetNews, selectNews, fetchAsyncGetGroupHistories, selectGroupHistories, selectNewsPages } from './newsSlice';
 import NewsCard from '../../components/news/NewsCard';
 import NewsListData from '../../components/news/NewsListData';
 import GroupListData from '../../components/news/GroupListData';
@@ -12,8 +12,6 @@ import { Grid, Typography, Hidden } from '@material-ui/core';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
 import DisplayStyles from '../../../styles/common/displayMode';
 import { AppDispatch } from '../../../stores/store';
-
-import group_list from '../../../data/group_list_data.json';
 
 const NewsDetail: React.FC = () => {
     const history = useHistory();
@@ -24,6 +22,7 @@ const NewsDetail: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const news = useSelector(selectNews);
     const group_histories = useSelector(selectGroupHistories);
+    const newsPages = useSelector(selectNewsPages);
 
     useEffect(() => {
         const renderNewsDetail = async () => {
@@ -49,6 +48,19 @@ const NewsDetail: React.FC = () => {
         }
         renderNewsDetail();
     }, [dispatch]);
+
+    /**
+     * スクロールイベント(ニュースの取得)
+     * @param page 
+     * @returns 
+     */
+     const scrollGetData = async (page: number) => {
+        const newsRes = await dispatch(fetchAsyncGetNews());
+        if(fetchAsyncGetNews.fulfilled.match(newsRes) && newsRes.payload.error_message) {
+            dispatch(fetchGetErrorMessages(newsRes.payload.error_message));
+        }
+        return true;
+    }
 
     // MobileHeaderTab用のラベルを設定
     const label = {
@@ -81,7 +93,7 @@ const NewsDetail: React.FC = () => {
                     <hr className="app_hr" />
                     <br />
 
-                    <NewsListData data={news} />
+                    <NewsListData data={news} page={{current_page: newsPages.ni_currentpage, last_page: newsPages.ni_lastpage}} callback={scrollGetData} />
                 </Grid>
             </Grid>
         );
@@ -133,7 +145,7 @@ const NewsDetail: React.FC = () => {
                             <hr className="app_hr" />
                             <br />
 
-                            <NewsListData data={news} />
+                            <NewsListData data={news} page={{current_page: newsPages.ni_currentpage, last_page: newsPages.ni_lastpage}} callback={scrollGetData} />
                         </Grid>
                         <Grid item md={3} className="c_content_space center">
                             <GroupListData data={group_histories} />
@@ -162,7 +174,7 @@ const NewsDetail: React.FC = () => {
                             <hr className="app_hr" />
                             <br />
 
-                            <NewsListData data={news} />
+                            <NewsListData data={news} page={{current_page: newsPages.ni_currentpage, last_page: newsPages.ni_lastpage}} callback={scrollGetData} />
                         </Grid>
                         <Grid item sm={4} className="c_content_space center">
                             <GroupListData data={group_histories} />

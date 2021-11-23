@@ -15,7 +15,14 @@
         created_at: string,
         updated_at: string,
         read_user_id: number
-    }[]
+    }[],
+
+    page: {
+        current_page: number,
+        last_page: number,
+    },
+
+    callback: (page: number) => Promise<boolean>,
 }
 
 /**

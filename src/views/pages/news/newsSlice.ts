@@ -184,5 +184,6 @@ export const {
 export const selectNews = (state: RootState) => state.news.news;
 export const selectNewsInfo = (state: RootState) => state.news.newsinfo;
 export const selectGroupHistories = (state: RootState) => state.news.group_histories;
+export const selectNewsPages = (state: RootState) => state.news.page;
 
 export default newsSlice.reducer;

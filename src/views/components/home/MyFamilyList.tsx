@@ -60,7 +60,6 @@ const MyFamilyList: React.FC<FAMILY_LIST> = (props) => {
             if(props.page.last_page === 1 || page === props.page.last_page) {
                 return;
             }
-            console.log(scroll)
             // ページ数の更新
             const currentPage = page + 1;
             setPage(currentPage);
@@ -86,7 +85,7 @@ const MyFamilyList: React.FC<FAMILY_LIST> = (props) => {
                 initialLoad={false}
                 threshold={700}
                 hasMore={scroll}                      //読み込みを行うかどうかの判定
-                loader={<Loading key={0} />}                  // 記事取得中のロード画面
+                loader={<Loading key={0} />}          // 記事取得中のロード画面
                 useWindow={false}
                 getScrollParent={() => props.el.current}
             >
