@@ -10,7 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
+import { Grid, Hidden } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
+import CloseIcon from '@material-ui/icons/Close';
 import { IMAGE_LIST_DATA } from '../../types/albumsTypes';
 import houston from '../../../image/houston.jpg';
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -54,6 +56,12 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
     const componentStyles = ComponentStyles();
     const displayStyles = DisplayStyles();
     const [open, setOpen] = useState(false);
+    const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
+    
+    const slideTo = (index: number) => {
+        if (!swiperInstance) return;
+        swiperInstance.slideTo(index);
+    };
 
     return (
         <>
@@ -100,7 +108,7 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                     </ImageList>
                 </div>
             </div>
-
+            
             {/* 画像拡大画面 */}
             <Modal
                 className={componentStyles.modal}
@@ -113,21 +121,51 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                 }}
             >
                 <Fade in={open}>
-                    <Swiper
-                        spaceBetween={50}
-                        slidesPerView={1}
-                        initialSlide={1}
-                        loop={true}
-                        navigation
-                        onSlideChange={() => console.log('slide change')}
-                        onSwiper={(swiper) => console.log(swiper)}
-                    >
-                        <SwiperSlide>
-                            {_.map(props.data, item => (
-                                <img src={houston} key={item.id} alt={item.title} />
-                            ))}
-                        </SwiperSlide>
-                    </Swiper>
+                    <Grid container justify="center">
+                        <CloseIcon className={componentStyles.closeIcon} style={{ color: '#fff' }} onClick={() => setOpen(false)} />
+                        
+                        {/* PC版 */}
+                        <Hidden mdDown>
+                            <Grid item lg={7}>
+                                <Swiper
+                                    spaceBetween={50}
+                                    slidesPerView={1}
+                                    initialSlide={1}
+                                    loop={true}
+                                    navigation
+                                    onSlideChange={() => console.log('slide change')}
+                                    onSwiper={(swiper) => setSwiperInstance(swiper)}
+                                >
+                                    {_.map(props.data, item => (
+                                        <SwiperSlide key={item.id}>
+                                            <img style={{ height: '90vh', width: 'auto' }} src={houston} alt={item.title} />
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </Grid>
+                        </Hidden>
+
+                        {/* iPad & スマホ版 */}
+                        <Hidden lgUp>
+                            <Grid item xs={11}>
+                                <Swiper
+                                    spaceBetween={50}
+                                    slidesPerView={1}
+                                    initialSlide={1}
+                                    loop={true}
+                                    navigation
+                                    onSlideChange={() => console.log('slide change')}
+                                    onSwiper={(swiper) => setSwiperInstance(swiper)}
+                                >
+                                    {_.map(props.data, item => (
+                                        <SwiperSlide key={item.id}>
+                                            <img style={{ height: 'auto', width: '90vw' }} src={houston} alt={item.title} />
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </Grid>
+                        </Hidden>
+                    </Grid>
                 </Fade>
             </Modal>
         </>
