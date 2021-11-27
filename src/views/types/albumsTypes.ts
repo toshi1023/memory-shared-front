@@ -77,6 +77,49 @@ export interface FORMIK_UALBUM {
 }
 
 /**
+ * album用のデータ型定義
+ */
+export interface ALBUM_PROPS {
+    group_id: number,
+    album_id: number
+}
+/**
+ * AsyncThunk用(album用)
+ */
+export interface ALBUM_RES {
+    album: {
+        id: number,
+        name: string,
+        group_id: number,
+        image_file: string,
+        image_url: string,
+        host_user_id: number
+    },
+    image: {
+        id: number,
+        user_id: number,
+        album_id: number,
+        image_file: string,
+        image_url: string,
+        black_list: object,
+        white_list: object,
+        updated_user_id: number
+    },
+    video: {
+        id: number,
+        user_id: number,
+        album_id: number,
+        image_file: string,
+        image_url: string,
+        black_list: object,
+        white_list: object,
+        updated_user_id: number
+    },
+
+    error_message: string,
+}
+
+/**
  * register用のデータ型定義
  */
 export interface REGISTER_ALBUM_PROPS {

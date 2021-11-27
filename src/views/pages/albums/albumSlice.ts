@@ -2,10 +2,40 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../stores/store";
 import axios from "axios";
 import { API_GROUP_PROPS } from "../../types/groupsTypes";
-import { ALBUM_VALIDATE_RES, API_ALBUM_PROPS, DELETE_ALBUM_PROPS, DELETE_ALBUM_RES, EDIT_ALBUM_PROPS, EDIT_ALBUM_RES, REGISTER_ALBUM_PROPS, REGISTER_ALBUM_RES, UPDATE_ALBUM_PROPS, UPDATE_ALBUM_RES } from "../../types/albumsTypes";
+import { 
+    ALBUM_PROPS, ALBUM_RES, ALBUM_VALIDATE_RES, API_ALBUM_PROPS, DELETE_ALBUM_PROPS, DELETE_ALBUM_RES, 
+    EDIT_ALBUM_PROPS, EDIT_ALBUM_RES, REGISTER_ALBUM_PROPS, REGISTER_ALBUM_RES, UPDATE_ALBUM_PROPS, UPDATE_ALBUM_RES 
+} from "../../types/albumsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
 const apiUrl = process.env.REACT_APP_MSA_API_URL;
+
+/**
+ * アルバムの詳細情報取得の非同期関数
+ */
+export const fetchAsyncGetAlbum = createAsyncThunk<ALBUM_RES, ALBUM_PROPS>(
+    "album",
+    async (props: ALBUM_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/groups/${props.group_id}/albums/${props.album_id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as ALBUM_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as ALBUM_RES;
+        }
+    }
+);
 
 /**
  * アルバム登録のバリデーションチェック非同期関数
@@ -179,6 +209,26 @@ export const albumSlice = createSlice({
             image_url: '',
             host_user_id: 0
         },
+        image: {
+            id: 0,
+            user_id: 0,
+            album_id: 0,
+            image_file: '',
+            image_url: '',
+            black_list: {},
+            white_list: {},
+            updated_user_id: 0
+        },
+        video: {
+            id: 0,
+            user_id: 0,
+            album_id: 0,
+            image_file: '',
+            image_url: '',
+            black_list: {},
+            white_list: {},
+            updated_user_id: 0
+        },
         validation: {
             errors: {
                 name: [''],
@@ -207,6 +257,12 @@ export const albumSlice = createSlice({
     },
     // 非同期関数の後処理を設定
     extraReducers: (builder) => {
+        // 詳細用データ取得処理
+        builder.addCase(fetchAsyncGetAlbum.fulfilled, (state, action: PayloadAction<ALBUM_RES>) => {
+            state.album = action.payload.album;
+            state.image = action.payload.image;
+            state.video = action.payload.video;
+        });
         // 編集用データ取得処理
         builder.addCase(fetchAsyncGetEditAlbum.fulfilled, (state, action: PayloadAction<EDIT_ALBUM_RES>) => {
             state.album = action.payload.album;
@@ -223,6 +279,8 @@ export const {
 } = albumSlice.actions;
 
 export const selectAlbum = (state: RootState) => state.album.album;
+export const selectImage = (state: RootState) => state.album.image;
+export const selectVideo = (state: RootState) => state.album.video;
 export const selectAlbumValidation = (state: RootState) => state.album.validation;
 
 export default albumSlice.reducer;
