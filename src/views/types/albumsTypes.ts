@@ -7,9 +7,14 @@
  */
  export interface IMAGE_LIST_DATA {
     data: { 
-        id: number;
-        image_file: string;
-        title: string;
+        id: number,
+        user_id: number,
+        album_id: number,
+        image_file: string,
+        image_url: string,
+        black_list: object,
+        white_list: object,
+        updated_user_id: number
     }[]
 
     callback: {
@@ -96,24 +101,32 @@ export interface ALBUM_RES {
         host_user_id: number
     },
     image: {
-        id: number,
-        user_id: number,
-        album_id: number,
-        image_file: string,
-        image_url: string,
-        black_list: object,
-        white_list: object,
-        updated_user_id: number
+        data: {
+            id: number,
+            user_id: number,
+            album_id: number,
+            image_file: string,
+            image_url: string,
+            black_list: object,
+            white_list: object,
+            updated_user_id: number
+        }[],
+        current_page: number,
+        last_page: number
     },
     video: {
-        id: number,
-        user_id: number,
-        album_id: number,
-        image_file: string,
-        image_url: string,
-        black_list: object,
-        white_list: object,
-        updated_user_id: number
+        data: {
+            id: number,
+            user_id: number,
+            album_id: number,
+            image_file: string,
+            image_url: string,
+            black_list: object,
+            white_list: object,
+            updated_user_id: number
+        }[],
+        current_page: number,
+        last_page: number
     },
 
     error_message: string,

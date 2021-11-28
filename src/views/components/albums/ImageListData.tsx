@@ -58,8 +58,14 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
     const [open, setOpen] = useState(false);
     const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
     
+    /**
+     * クリックした画像を最初のスライドに表示する
+     * @param index 
+     * @returns 
+     */
     const slideTo = (index: number) => {
         if (!swiperInstance) return;
+        console.log(index)
         swiperInstance.slideTo(index);
     };
 
@@ -69,18 +75,17 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
             <div className={displayStyles.sectionDesktop}>
                 <div className={classes.root}>
                     <ImageList rowHeight={180} className={classes.imageList} cols={3}>
-                            {_.map(props.data, item => (
-                                <ImageListItem key={item.id} onClick={() => setOpen(true)} style={{ cursor: 'pointer' }}>
-                                    <img src={houston} alt={item.title} />
-                                    {/* <img src={item.image_file} alt={item.title} /> */}
-                                    <ImageListItemBar
-                                        title={item.title}
-                                        actionIcon={
-                                            <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
-                                                <InfoIcon />
-                                            </IconButton>
-                                        }
-                                    />
+                            {_.map(props.data, (item, index) => (
+                                <ImageListItem 
+                                    key={item.id} 
+                                    onClick={() => {
+                                        setOpen(true);
+                                        slideTo(index);
+                                    }} 
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    {/* <img src={houston} alt={item.title} /> */}
+                                    <img src={item.image_url} alt={item.image_file} />
                                 </ImageListItem>
                             ))}
                     </ImageList>
@@ -91,18 +96,17 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
             <div className={displayStyles.sectionMobile}>
                 <div className={classes.root}>
                     <ImageList rowHeight={180} className={classes.mobileImageList}>
-                        {_.map(props.data, item => (
-                            <ImageListItem key={item.id} onClick={() => setOpen(true)} style={{ cursor: 'pointer' }}>
-                                <img src={houston} alt={item.title} />
-                                {/* <img src={item.image_file} alt={item.title} /> */}
-                                <ImageListItemBar
-                                    title={item.title}
-                                    actionIcon={
-                                        <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
-                                            <InfoIcon />
-                                        </IconButton>
-                                    }
-                                />
+                        {_.map(props.data, (item, index) => (
+                            <ImageListItem 
+                                key={item.id} 
+                                onClick={() => {
+                                    setOpen(true);
+                                    slideTo(index);
+                                }} 
+                                style={{ cursor: 'pointer' }}
+                            >
+                                {/* <img src={houston} /> */}
+                                <img src={item.image_url} alt={item.image_file} />
                             </ImageListItem>
                         ))}
                     </ImageList>
@@ -133,12 +137,11 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                                     initialSlide={1}
                                     loop={true}
                                     navigation
-                                    onSlideChange={() => console.log('slide change')}
                                     onSwiper={(swiper) => setSwiperInstance(swiper)}
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
-                                            <img style={{ height: '90vh', width: 'auto' }} src={houston} alt={item.title} />
+                                            <img style={{ height: '90vh', width: 'auto' }} src={item.image_url} />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
@@ -154,12 +157,11 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                                     initialSlide={1}
                                     loop={true}
                                     navigation
-                                    onSlideChange={() => console.log('slide change')}
                                     onSwiper={(swiper) => setSwiperInstance(swiper)}
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
-                                            <img style={{ height: 'auto', width: '90vw' }} src={houston} alt={item.title} />
+                                            <img style={{ height: 'auto', width: '100vw' }} src={item.image_url} />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>

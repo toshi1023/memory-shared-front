@@ -133,7 +133,7 @@ const AlbumDetail: React.FC = () => {
                             view ? 
                                 <VideoListData data={videoData} label ={label} callback={callback} />
                             :
-                                <ImageListData data={media_list} label={label} callback={callback} />
+                                <ImageListData data={image} label={label} callback={callback} />
                         }
                     </Grid>
                 </Grid>
@@ -167,7 +167,7 @@ const AlbumDetail: React.FC = () => {
                                 view ? 
                                     <VideoListData data={videoData} label ={label} callback={callback} />
                                 :
-                                    <ImageListData data={media_list} label={label} callback={callback} />
+                                    <ImageListData data={image} label={label} callback={callback} />
                             }
                         </div>
                     </Grid>

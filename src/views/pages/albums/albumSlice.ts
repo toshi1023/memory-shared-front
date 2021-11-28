@@ -209,26 +209,30 @@ export const albumSlice = createSlice({
             image_url: '',
             host_user_id: 0
         },
-        image: {
-            id: 0,
-            user_id: 0,
-            album_id: 0,
-            image_file: '',
-            image_url: '',
-            black_list: {},
-            white_list: {},
-            updated_user_id: 0
-        },
-        video: {
-            id: 0,
-            user_id: 0,
-            album_id: 0,
-            image_file: '',
-            image_url: '',
-            black_list: {},
-            white_list: {},
-            updated_user_id: 0
-        },
+        image: [
+            {
+                id: 0,
+                user_id: 0,
+                album_id: 0,
+                image_file: '',
+                image_url: '',
+                black_list: {},
+                white_list: {},
+                updated_user_id: 0
+            }
+        ],
+        video: [
+            {
+                id: 0,
+                user_id: 0,
+                album_id: 0,
+                image_file: '',
+                image_url: '',
+                black_list: {},
+                white_list: {},
+                updated_user_id: 0
+            }
+        ],
         validation: {
             errors: {
                 name: [''],
@@ -260,8 +264,12 @@ export const albumSlice = createSlice({
         // 詳細用データ取得処理
         builder.addCase(fetchAsyncGetAlbum.fulfilled, (state, action: PayloadAction<ALBUM_RES>) => {
             state.album = action.payload.album;
-            state.image = action.payload.image;
-            state.video = action.payload.video;
+            state.image = action.payload.image.data;
+            state.video = action.payload.video.data;
+            state.page.i_currentpage = action.payload.image.current_page;
+            state.page.i_lastpage = action.payload.image.last_page;
+            state.page.v_currentpage = action.payload.video.current_page;
+            state.page.v_lastpage = action.payload.video.current_page;
         });
         // 編集用データ取得処理
         builder.addCase(fetchAsyncGetEditAlbum.fulfilled, (state, action: PayloadAction<EDIT_ALBUM_RES>) => {
