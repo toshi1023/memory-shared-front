@@ -5,13 +5,10 @@ import ComponentStyles from '../../../styles/common/componentStyle';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
-import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
 import { Grid, Hidden } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
 import { IMAGE_LIST_DATA } from '../../types/albumsTypes';
 import houston from '../../../image/houston.jpg';
@@ -56,18 +53,19 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
     const componentStyles = ComponentStyles();
     const displayStyles = DisplayStyles();
     const [open, setOpen] = useState(false);
-    const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
+    // const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
+    const [slideIndex, setSlideIndex] = useState(0);
     
     /**
      * クリックした画像を最初のスライドに表示する
      * @param index 
      * @returns 
      */
-    const slideTo = (index: number) => {
-        if (!swiperInstance) return;
-        console.log(index)
-        swiperInstance.slideTo(index);
-    };
+    // const slideTo = (index: number) => {
+    //     if (!swiperInstance) return;
+    //     console.log(index)
+    //     swiperInstance.slideTo(index, 500);
+    // };
 
     return (
         <>
@@ -79,8 +77,8 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                                 <ImageListItem 
                                     key={item.id} 
                                     onClick={() => {
+                                        setSlideIndex(index);
                                         setOpen(true);
-                                        slideTo(index);
                                     }} 
                                     style={{ cursor: 'pointer' }}
                                 >
@@ -100,8 +98,8 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                             <ImageListItem 
                                 key={item.id} 
                                 onClick={() => {
+                                    setSlideIndex(index);
                                     setOpen(true);
-                                    slideTo(index);
                                 }} 
                                 style={{ cursor: 'pointer' }}
                             >
@@ -134,10 +132,11 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                                 <Swiper
                                     spaceBetween={50}
                                     slidesPerView={1}
-                                    initialSlide={1}
+                                    initialSlide={slideIndex}
+                                    slideToClickedSlide={true}
                                     loop={true}
                                     navigation
-                                    onSwiper={(swiper) => setSwiperInstance(swiper)}
+                                    // onSwiper={(swiper) => setSwiperInstance(swiper)}
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
@@ -154,10 +153,11 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                                 <Swiper
                                     spaceBetween={50}
                                     slidesPerView={1}
-                                    initialSlide={1}
+                                    initialSlide={slideIndex}
+                                    slideToClickedSlide={true}
                                     loop={true}
                                     navigation
-                                    onSwiper={(swiper) => setSwiperInstance(swiper)}
+                                    // onSwiper={(swiper) => setSwiperInstance(swiper)}
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
