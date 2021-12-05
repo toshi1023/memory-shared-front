@@ -5,19 +5,9 @@ import ComponentStyles from '../../../styles/common/componentStyle';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
-import Modal from '@material-ui/core/Modal';
-import Fade from '@material-ui/core/Fade';
-import Backdrop from '@material-ui/core/Backdrop';
-import { Grid, Hidden } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 import { IMAGE_LIST_DATA } from '../../types/albumsTypes';
+import ModalSwiperImages from './ModalSwiperImages';
 import houston from '../../../image/houston.jpg';
-import { Swiper, SwiperSlide } from "swiper/react";
-import 'swiper/swiper-bundle.min.css';
-import 'swiper/swiper.min.css';
-import 'swiper/components/navigation/navigation.scss'
-import SwiperCore, { Navigation } from 'swiper';
-SwiperCore.use([Navigation]);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,19 +43,15 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
     const componentStyles = ComponentStyles();
     const displayStyles = DisplayStyles();
     const [open, setOpen] = useState(false);
-    // const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
     const [slideIndex, setSlideIndex] = useState(0);
-    
+
     /**
-     * クリックした画像を最初のスライドに表示する
-     * @param index 
-     * @returns 
+     * モーダル表示制御用関数
+     * @param value 
      */
-    // const slideTo = (index: number) => {
-    //     if (!swiperInstance) return;
-    //     console.log(index)
-    //     swiperInstance.slideTo(index, 500);
-    // };
+    const handleOpen = (value: boolean) => {
+        setOpen(value);
+    };
 
     return (
         <>
@@ -110,66 +96,8 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                     </ImageList>
                 </div>
             </div>
-            
-            {/* 画像拡大画面 */}
-            <Modal
-                className={componentStyles.modal}
-                open={open}
-                onClose={() => setOpen(false)}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
-            >
-                <Fade in={open}>
-                    <Grid container justify="center">
-                        <CloseIcon className={componentStyles.closeIcon} style={{ color: '#fff' }} onClick={() => setOpen(false)} />
-                        
-                        {/* PC版 */}
-                        <Hidden mdDown>
-                            <Grid item lg={7}>
-                                <Swiper
-                                    spaceBetween={50}
-                                    slidesPerView={1}
-                                    initialSlide={slideIndex}
-                                    slideToClickedSlide={true}
-                                    loop={true}
-                                    navigation
-                                    // onSwiper={(swiper) => setSwiperInstance(swiper)}
-                                >
-                                    {_.map(props.data, item => (
-                                        <SwiperSlide key={item.id}>
-                                            <img style={{ height: '90vh', width: 'auto' }} src={item.image_url} />
-                                        </SwiperSlide>
-                                    ))}
-                                </Swiper>
-                            </Grid>
-                        </Hidden>
 
-                        {/* iPad & スマホ版 */}
-                        <Hidden lgUp>
-                            <Grid item xs={11}>
-                                <Swiper
-                                    spaceBetween={50}
-                                    slidesPerView={1}
-                                    initialSlide={slideIndex}
-                                    slideToClickedSlide={true}
-                                    loop={true}
-                                    navigation
-                                    // onSwiper={(swiper) => setSwiperInstance(swiper)}
-                                >
-                                    {_.map(props.data, item => (
-                                        <SwiperSlide key={item.id}>
-                                            <img style={{ height: 'auto', width: '100vw' }} src={item.image_url} />
-                                        </SwiperSlide>
-                                    ))}
-                                </Swiper>
-                            </Grid>
-                        </Hidden>
-                    </Grid>
-                </Fade>
-            </Modal>
+            <ModalSwiperImages callback={handleOpen} data={props.data} open={open} index={slideIndex} />
         </>
     );
 }

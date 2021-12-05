@@ -51,6 +51,26 @@
 }
 
 /**
+ * ModalSwiperImages用のデータ型定義
+ */
+ export interface MODAL_SWIPER_IMAGES {
+    data: { 
+        id: number,
+        user_id: number,
+        album_id: number,
+        image_file: string,
+        image_url: string,
+        black_list: object,
+        white_list: object,
+        updated_user_id: number
+    }[]
+
+    index: number;
+    open: boolean;
+    callback: (value: boolean) => void;
+}
+
+/**
  * Register(Formik)用のデータ型定義
  */
 export interface FORMIK_RALBUM {
