@@ -31,8 +31,13 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
         
         imageList.forEach((val) => {
             const image = val as HTMLImageElement;
-            image.width = divW;
-            image.height = image.height * (divW / image.width);
+            if(image.width > image.height) {
+                image.width = divW;
+                image.height = image.height * (divW / image.width);
+            } else {
+                image.height = divH;
+                image.width = image.width * (divH / image.height);
+            }
             console.log(image)
             console.log(image.width)
             console.log(image.height)
@@ -69,7 +74,7 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
                                     slideToClickedSlide={true}
                                     loop={true}
                                     navigation
-                                    // onSwiper={(swiper) => setSwiperInstance(swiper)}
+                                    autoHeight={true}
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
@@ -92,7 +97,7 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
                                     slideToClickedSlide={true}
                                     loop={true}
                                     navigation
-                                    // onSwiper={(swiper) => setSwiperInstance(swiper)}
+                                    autoHeight={true}
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
