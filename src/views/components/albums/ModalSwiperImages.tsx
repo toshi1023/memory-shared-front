@@ -19,30 +19,40 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
 
     useEffect(() => {
         const imageList = Array.from(document.getElementsByClassName('image'));
-        const container = Array.from(document.getElementsByClassName('container'));
-        //console.log(imageList);
+        const ipImageList = Array.from(document.getElementsByClassName('ipad_image'));
+        const mbImageList = Array.from(document.getElementsByClassName('mobile_image'));
+        console.log(imageList);
         // const img = Array.from(imageList)
-        let divH: number;
-        let divW: number;
-        container.forEach(val => {
-            divH = val.clientHeight;
-            divW = val.clientWidth;
-        });
         
         imageList.forEach((val) => {
             const image = val as HTMLImageElement;
-            if(image.width > image.height) {
-                image.width = divW;
-                image.height = image.height * (divW / image.width);
+            if(image.height > image.width) {
+                image.style.height = '70vh';
+                image.style.width = 'auto';
             } else {
-                image.height = divH;
-                image.width = image.width * (divH / image.height);
+                image.style.height = '70vh';
+                image.style.width = '100%';
             }
-            console.log(image)
-            console.log(image.width)
-            console.log(image.height)
-            console.log(divW)
-            console.log(divH)
+        });
+        ipImageList.forEach((val) => {
+            const image = val as HTMLImageElement;
+            if(image.height > image.width) {
+                image.style.height = '70vh';
+                image.style.width = 'auto';
+            } else {
+                image.style.height = '40vh';
+                image.style.width = 'auto';
+            }
+        });
+        mbImageList.forEach((val) => {
+            const image = val as HTMLImageElement;
+            if(image.height > image.width) {
+                image.style.height = '70vh';
+                image.style.width = 'auto';
+            } else {
+                image.style.height = '250vh';
+                image.style.width = '100%';
+            }
         });
         
     }, [props.open]);
@@ -78,9 +88,7 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
-                                            <div className="container" style={{ height: '90vh', width: 'auto' }}>
-                                                <img className="image" src={item.image_url} />
-                                            </div>
+                                            <img className="image" src={item.image_url} />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
@@ -88,7 +96,27 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
                         </Hidden>
 
                         {/* iPad & スマホ版 */}
-                        <Hidden lgUp>
+                        <Hidden xsDown lgUp>
+                            <Grid item sm={11} md={10}>
+                                <Swiper
+                                    spaceBetween={50}
+                                    slidesPerView={1}
+                                    initialSlide={props.index}
+                                    slideToClickedSlide={true}
+                                    loop={true}
+                                    navigation
+                                    autoHeight={true}
+                                >
+                                    {_.map(props.data, item => (
+                                        <SwiperSlide key={item.id}>
+                                            <img className="ipad_image" src={item.image_url} />
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </Grid>
+                        </Hidden>
+
+                        <Hidden smUp>
                             <Grid item xs={11}>
                                 <Swiper
                                     spaceBetween={50}
@@ -101,9 +129,7 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
-                                            <div className="container" style={{ height: 'auto', width: '100vw' }}>
-                                                <img className="image" src={item.image_url} />
-                                            </div>
+                                            <img className="mobile_image" src={item.image_url} />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
