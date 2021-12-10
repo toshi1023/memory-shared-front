@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
 import ComponentStyles from '../../../styles/common/componentStyle';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -14,7 +15,41 @@ import 'swiper/components/navigation/navigation.scss'
 import SwiperCore, { Navigation } from 'swiper';
 SwiperCore.use([Navigation]);
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        lgvImage: {
+            height: '70vh',
+            width: 'auto'
+        },
+        lgwImage: {
+            height: '70vh',
+            width: '100%'
+        },
+        smvImage: {
+            height: '70vh',
+            width: 'auto'
+        },
+        smwImage: {
+            height: '40vh',
+            width: '100%'
+        },
+        xsvImage: {
+            height: '50vh',
+            width: 'auto'
+        },
+        xswImage: {
+            height: '25vh',
+            width: '100%'
+        },
+        wideImage: {
+            height: 'auto',
+            width: '100%'
+        }
+    })
+);
+
 const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
+    const classes = useStyles();
     const componentStyles = ComponentStyles();
 
     useEffect(() => {
@@ -50,7 +85,7 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
                 image.style.height = '70vh';
                 image.style.width = 'auto';
             } else {
-                image.style.height = '250vh';
+                image.style.height = '25vh';
                 image.style.width = '100%';
             }
         });
@@ -88,7 +123,7 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
-                                            <img className="image" src={item.image_url} />
+                                            <img className={item.type === 1 ? classes.lgwImage : item.type === 2 ? classes.lgvImage : classes.wideImage} src={item.image_url} />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
@@ -109,7 +144,7 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
-                                            <img className="ipad_image" src={item.image_url} />
+                                            <img className={item.type === 1 ? classes.smwImage : item.type === 2 ? classes.smvImage : classes.wideImage} src={item.image_url} />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
@@ -129,7 +164,7 @@ const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
                                 >
                                     {_.map(props.data, item => (
                                         <SwiperSlide key={item.id}>
-                                            <img className="mobile_image" src={item.image_url} />
+                                            <img className={item.type === 1 ? classes.xswImage : item.type === 2 ? classes.xsvImage : classes.wideImage} src={item.image_url} />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>

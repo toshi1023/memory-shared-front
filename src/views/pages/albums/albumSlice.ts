@@ -214,6 +214,7 @@ export const albumSlice = createSlice({
                 id: 0,
                 user_id: 0,
                 album_id: 0,
+                type: 0,
                 image_file: '',
                 image_url: '',
                 black_list: {},
