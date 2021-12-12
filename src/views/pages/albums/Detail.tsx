@@ -5,13 +5,16 @@ import '../../../styles/common/common.scss';
 import { useHistory, useParams } from "react-router-dom";
 import { fetchGetErrorMessages } from '../appSlice';
 import { fetchAsyncGetAlbum, selectAlbum, selectImage, selectVideo } from './albumSlice';
-import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip, Button } from '@material-ui/core';
+import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip, Button, Menu, MenuItem } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import MobileHeaderTab from '../../components/common/MobileHeaderTab';
 import ImageListData from '../../components/albums/ImageListData';
 import VideoListData from '../../components/albums/VideoListData';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import MovieIcon from '@material-ui/icons/Movie';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { AppDispatch } from '../../../stores/store';
 
 import videoSrc from '../../../video/MemoryShareApp.mp4';
@@ -28,6 +31,8 @@ const AlbumDetail: React.FC = () => {
     const { id, name, albumname, albumid } = useParams<{ id: string, name: string, albumname: string, albumid: string }>();
     // 画面切り替えを管理
     const [view, setView] = useState(0);
+    // アルバム編集メニュー表示管理
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     // redux
     const dispatch: AppDispatch = useDispatch();
     const album = useSelector(selectAlbum);
@@ -60,6 +65,14 @@ const AlbumDetail: React.FC = () => {
     // PC & iPad用のタブ変更を管理
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setView(newValue);
+    };
+
+    // アルバム編集メニューの表示制御
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     const videoData = [
@@ -108,11 +121,38 @@ const AlbumDetail: React.FC = () => {
                     </Grid>
                     <Grid item sm={10} md={8} lg={7} className="pos_relative">
                         <Button 
-                            className="edit_button pos_left pos_vertical_center"
-                            onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/editer`)}
+                            className="edit_button pos_left pos_vertical_center" 
+                            aria-controls="simple-menu" 
+                            aria-haspopup="true" 
+                            onClick={handleClick} 
                         >
                             アルバムを編集する
                         </Button>
+                        <Menu
+                            id="simple-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={() => {
+                                history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/editer`);
+                                handleClose();
+                            }}>
+                                <EditIcon />アルバム情報の編集
+                            </MenuItem>
+                            {
+                                view ? 
+                                    <MenuItem onClick={handleClose}>
+                                        <DeleteIcon />動画の削除
+                                    </MenuItem>
+                                :
+                                    <MenuItem onClick={handleClose}>
+                                        <DeleteIcon />画像の削除
+                                    </MenuItem>
+                            }
+                        </Menu>
+
                         <Tabs
                             className="desktop_tab"
                             value={view}
@@ -124,9 +164,16 @@ const AlbumDetail: React.FC = () => {
                             <Tab label={label.label1} />
                             <Tab label={label.label2} />
                         </Tabs>
-                        <Tooltip title="写真/動画を投稿" classes={{ tooltip: componentStyles.tooltip }}>
-                            <IconButton className="ic_button desk pos_right"><AddAPhotoIcon /></IconButton>
-                        </Tooltip>
+                        {
+                            view ? 
+                                <Tooltip title="動画を投稿" classes={{ tooltip: componentStyles.tooltip }}>
+                                    <IconButton className="ic_button desk pos_right"><MovieIcon /></IconButton>
+                                </Tooltip>
+                            :
+                                <Tooltip title="写真を投稿" classes={{ tooltip: componentStyles.tooltip }}>
+                                    <IconButton className="ic_button desk pos_right"><AddAPhotoIcon /></IconButton>
+                                </Tooltip>
+                        }
                     </Grid>
                     <Grid item sm={10} md={8} lg={7}>
                         {
@@ -153,13 +200,44 @@ const AlbumDetail: React.FC = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={11} className="pos_relative">
-                        <Button
-                            className="edit_button mobile pos_left"
-                            onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/editer`)}
+                        <Button 
+                            className="edit_button mobile pos_left" 
+                            aria-controls="simple-menu" 
+                            aria-haspopup="true" 
+                            onClick={handleClick} 
                         >
                             アルバムを編集する
                         </Button>
-                        <IconButton className="ic_button mobile pos_right"><AddAPhotoIcon /></IconButton>
+                        <Menu
+                            id="simple-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={() => {
+                                history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/editer`);
+                                handleClose();
+                            }}>
+                                <EditIcon />アルバム情報の編集
+                            </MenuItem>
+                            {
+                                view ? 
+                                    <MenuItem onClick={handleClose}>
+                                        <DeleteIcon />動画の削除
+                                    </MenuItem>
+                                :
+                                    <MenuItem onClick={handleClose}>
+                                        <DeleteIcon />画像の削除
+                                    </MenuItem>
+                            }
+                        </Menu>
+                        {
+                            view ? 
+                                <IconButton className="ic_button mobile pos_right"><MovieIcon /></IconButton>
+                            :    
+                                <IconButton className="ic_button mobile pos_right"><AddAPhotoIcon /></IconButton>
+                        }
                     </Grid>
                     <Grid item xs={11}>
                         <div>
