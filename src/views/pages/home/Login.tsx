@@ -49,7 +49,7 @@ const Login: React.FC = () => {
                             dispatch(fetchGetInfoMessages(loginRes.payload.info_message)) 
                         : 
                             dispatch(fetchGetErrorMessages(loginRes.payload.error_message));
-                        console.log(loginRes.payload.error_message);
+                        
                         if(loginRes.payload.info_message) history.push('/');
                     }
                     await dispatch(fetchCredEnd());

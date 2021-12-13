@@ -17,7 +17,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { AppDispatch } from '../../../stores/store';
 
-import videoSrc from '../../../video/MemoryShareApp.mp4';
+// import videoSrc from '../../../video/MemoryShareApp.mp4';
 import media_list from '../../../data/media_list_data.json';
 
 /**
@@ -78,35 +78,67 @@ const AlbumDetail: React.FC = () => {
     const videoData = [
         {
             id: 1,
-            src: videoSrc,
+            src: '',
             type: "video/mp4",
             title: 'test_video1'
         },
         {
             id: 2,
-            src: videoSrc,
+            src: '',
             type: "video/mp4",
             title: 'test_video2'
         },
         {
             id: 3,
-            src: videoSrc,
+            src: '',
             type: "video/mp4",
             title: 'test_video3'
         },
         {
             id: 4,
-            src: videoSrc,
+            src: '',
             type: "video/mp4",
             title: 'test_video4'
         },
         {
             id: 5,
-            src: videoSrc,
+            src: '',
             type: "video/mp4",
             title: 'test_video5'
         },
     ]
+    // const videoData = [
+    //     {
+    //         id: 1,
+    //         src: videoSrc,
+    //         type: "video/mp4",
+    //         title: 'test_video1'
+    //     },
+    //     {
+    //         id: 2,
+    //         src: videoSrc,
+    //         type: "video/mp4",
+    //         title: 'test_video2'
+    //     },
+    //     {
+    //         id: 3,
+    //         src: videoSrc,
+    //         type: "video/mp4",
+    //         title: 'test_video3'
+    //     },
+    //     {
+    //         id: 4,
+    //         src: videoSrc,
+    //         type: "video/mp4",
+    //         title: 'test_video4'
+    //     },
+    //     {
+    //         id: 5,
+    //         src: videoSrc,
+    //         type: "video/mp4",
+    //         title: 'test_video5'
+    //     },
+    // ]
 
     return (
         <div id="album_detail">
@@ -171,7 +203,12 @@ const AlbumDetail: React.FC = () => {
                                 </Tooltip>
                             :
                                 <Tooltip title="写真を投稿" classes={{ tooltip: componentStyles.tooltip }}>
-                                    <IconButton className="ic_button desk pos_right"><AddAPhotoIcon /></IconButton>
+                                    <IconButton
+                                        className="ic_button desk pos_right" 
+                                        onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/images/register`)}
+                                    >
+                                        <AddAPhotoIcon />
+                                    </IconButton>
                                 </Tooltip>
                         }
                     </Grid>
@@ -236,7 +273,12 @@ const AlbumDetail: React.FC = () => {
                             view ? 
                                 <IconButton className="ic_button mobile pos_right"><MovieIcon /></IconButton>
                             :    
-                                <IconButton className="ic_button mobile pos_right"><AddAPhotoIcon /></IconButton>
+                                <IconButton 
+                                    className="ic_button mobile pos_right" 
+                                    onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/images/register`)}
+                                >
+                                    <AddAPhotoIcon />
+                                </IconButton>
                         }
                     </Grid>
                     <Grid item xs={11}>

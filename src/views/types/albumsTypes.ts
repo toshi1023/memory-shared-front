@@ -239,3 +239,31 @@ export interface DELETE_ALBUM_RES {
     info_message: string,
     error_message: string,
 }
+
+/**
+ * register_image用のデータ型定義
+ */
+export interface REGISTER_IMAGE_PROPS {
+    user_id: number,
+    group_id: number,
+    album_id: number,
+    image_file: File | null
+}
+/**
+ * AsyncThunk用(register_image用)
+ */
+export interface REGISTER_IMAGE_RES {
+    info_message: string,
+    error_message: string,
+}
+/**
+ * AsyncThunk用(register_imagevalidation用)
+ */
+export interface IMAGE_VALIDATE_RES {
+    errors: {
+        user_id: string[],
+        image_file: string[]
+    }
+
+    validate_status: string
+}

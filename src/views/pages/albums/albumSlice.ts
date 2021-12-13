@@ -4,7 +4,8 @@ import axios from "axios";
 import { API_GROUP_PROPS } from "../../types/groupsTypes";
 import { 
     ALBUM_PROPS, ALBUM_RES, ALBUM_VALIDATE_RES, API_ALBUM_PROPS, DELETE_ALBUM_PROPS, DELETE_ALBUM_RES, 
-    EDIT_ALBUM_PROPS, EDIT_ALBUM_RES, REGISTER_ALBUM_PROPS, REGISTER_ALBUM_RES, UPDATE_ALBUM_PROPS, UPDATE_ALBUM_RES 
+    EDIT_ALBUM_PROPS, EDIT_ALBUM_RES, REGISTER_ALBUM_PROPS, REGISTER_ALBUM_RES, UPDATE_ALBUM_PROPS, UPDATE_ALBUM_RES, 
+    REGISTER_IMAGE_PROPS, REGISTER_IMAGE_RES, IMAGE_VALIDATE_RES, 
 } from "../../types/albumsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -184,6 +185,34 @@ export const fetchAsyncPostAlbumValidation = createAsyncThunk<ALBUM_VALIDATE_RES
             }
             
             return err.response.data as DELETE_ALBUM_RES;
+        }
+    }
+);
+
+/**
+ * 画像保存用の非同期関数
+ */
+export const fetchAsyncPostUserImage = createAsyncThunk<REGISTER_IMAGE_RES, REGISTER_IMAGE_PROPS>(
+    "register_image",
+    async (props: REGISTER_IMAGE_PROPS) => {
+        try {
+            const fd = generateFormData<REGISTER_IMAGE_PROPS>(props);
+            const res = await axios.post(`${apiUrl}/groups/${props.group_id}/albums/${props.album_id}/images`, fd, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as REGISTER_IMAGE_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as REGISTER_IMAGE_RES;
         }
     }
 );

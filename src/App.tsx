@@ -24,6 +24,7 @@ import PostRegister from './views/pages/groups/PostRegister';
 import AlbumDetail from './views/pages/albums/Detail';
 import AlbumRegister from './views/pages/albums/Register';
 import AlbumEditer from './views/pages/albums/Editer';
+import ImageRegister from './views/pages/albums/ImageRegister';
 import Login from './views/pages/home/Login';
 import NewsDetail from './views/pages/news/Detail';
 
@@ -113,6 +114,7 @@ const App: React.FC = () => {
                   <PrivateRoute exact path="/groups/:name/:id/albums/:albumname/:albumid" component={AlbumDetail} />
                   <PrivateRoute exact path="/groups/:name/:id/albums/register" component={AlbumRegister} />
                   <PrivateRoute exact path="/groups/:name/:id/albums/:albumname/:albumid/editer" component={AlbumEditer} />
+                  <PrivateRoute exact path="/groups/:name/:id/albums/:albumname/:albumid/images/register" component={ImageRegister} />
                   <PrivateRoute exact path="/news/:name" component={NewsDetail} />
 
                   {/* スマホ用フッタータブとの連携ページ */}
