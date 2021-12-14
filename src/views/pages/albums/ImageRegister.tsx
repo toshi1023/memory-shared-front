@@ -88,15 +88,15 @@ const ImageRegister: React.FC = () => {
         // ボタン非活性化
         setDisabled(true);
         // 複数のファイルアップロードをPromise.allで並列に実行する
-        // const result = await Promise.all(files.map((file) => {
-        //     const data = {
-        //         user_id: +localStorage.loginId, 
-        //         group_id: +id,
-        //         album_id: +albumid,
-        //         image_file: file.data
-        //     }
-        //     dispatch(fetchAsyncPostUserImage(data));
-        // }));
+        const result = await Promise.all(files.map((file) => {
+            const data = {
+                user_id: +localStorage.loginId, 
+                group_id: +id,
+                album_id: +albumid,
+                image_file: file.data
+            }
+            dispatch(fetchAsyncPostUserImage(data));
+        }));
         console.log(files);
 
         // ローディングを終了し、リストを空に
