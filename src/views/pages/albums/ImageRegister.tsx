@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from "react-router-dom";
 import '../../../styles/common/common.scss';
 import '../../../styles/albums/albums.scss';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { Grid, Typography, Card, CardHeader, CardContent, Paper, Button, ImageList, ImageListItem } from '@material-ui/core';
+import ComponentStyles from '../../../styles/common/componentStyle';
+import { Grid, Hidden, Typography, Card, CardHeader, CardContent, Paper, Button, ImageList, ImageListItem } from '@material-ui/core';
 import { fetchGetUrl, fetchAsyncGetToken, fetchCredStart, fetchCredEnd, fetchGetInfoMessages, fetchGetErrorMessages } from '../appSlice';
 import { fetchAsyncPostUserImage } from './albumSlice';
 import { AppDispatch } from '../../../stores/store';
@@ -12,51 +12,6 @@ import Loading from '../../components/common/Loading';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { useDropzone } from 'react-dropzone';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      '& > *': {
-        margin: theme.spacing(3),
-      },
-    },
-    dropzone: {
-      width: "100%",
-      height: 200,
-      boxSizing: "border-box",
-      borderWidth: 2,
-      borderColor: "#666666",
-      borderStyle: "dashed",
-      borderRadius: 5,
-      verticalAlign: "top",
-      marginRight: "2%",
-    },
-    thumbsContainer: {
-      marginTop: 16,
-    },
-    gridList: {
-      width: "100%",
-      height: 450,
-      transform: 'translateZ(0)',
-    },
-    titleBar: {
-      background:
-        'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-        'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-    },
-    icon: {
-      color: 'white',
-    },
-    upButton: {
-      color: "secondary",
-      margin: theme.spacing(3),
-    },
-    circular: {
-      textAlign: 'center',
-    }
-  }),
-);
 
 /**
  * 画像プレビュー用の型定義
@@ -64,6 +19,8 @@ const useStyles = makeStyles((theme: Theme) =>
 type MyFile = {
     data: File; 
     preview: string;
+    width: number;
+    height: number;
 };
 
 /**
@@ -71,7 +28,7 @@ type MyFile = {
  * @returns 
  */
 const ImageRegister: React.FC = () => {
-    const classes = useStyles();
+    const componentStyles = ComponentStyles();
     const history = useHistory();
     const { id, name, albumname, albumid } = useParams<{ id: string, name: string, albumname: string, albumid: string }>();
     // FileUpload関連
@@ -83,17 +40,41 @@ const ImageRegister: React.FC = () => {
     // redux
     const dispatch: AppDispatch = useDispatch();
 
+    /**
+     * 画像読み込み用の非同期処理
+     * @param file 
+     * @returns 
+     */
+    const loadImage = (file: File) => {
+        return new Promise((resolve: (val: HTMLImageElement) => void, reject) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = (e) => reject(e);
+          img.src = URL.createObjectURL(file);
+        });
+    };
+
    /**
     * ドロップした時の処理
     */
     const onDrop = useCallback((acceptedFiles: File[]) => {
+        let obj: MyFile[] = new Array();
         // previewの追加
-        setFiles(acceptedFiles.map(
-        file => Object.assign({
-            data: file, 
-            preview: URL.createObjectURL(file)
-        })));
-
+        acceptedFiles.map(async (file) => {
+            const res = await loadImage(file).catch(e => {
+              console.log('onload error', e);
+            });
+            if(res instanceof HTMLImageElement) {
+              // こうしないとfilesが常に1件しかデータを持たないため
+              obj.push({
+                data: file, 
+                preview: URL.createObjectURL(file),
+                width: res.width,
+                height: res.height
+              });
+              setFiles([...files, ...obj]);
+            } 
+        })
     }, []);
 
     // Dropzone
@@ -107,42 +88,25 @@ const ImageRegister: React.FC = () => {
         // ボタン非活性化
         setDisabled(true);
         // 複数のファイルアップロードをPromise.allで並列に実行する
-        const result = await Promise.all(files.map((file) => {
-            const data = {
-                user_id: +localStorage.loginId, 
-                group_id: +id,
-                album_id: +albumid,
-                image_file: file.data
-            }
-            dispatch(fetchAsyncPostUserImage(data));
-        }));
-
-        console.log("Upload result");
-        console.log(result);
+        // const result = await Promise.all(files.map((file) => {
+        //     const data = {
+        //         user_id: +localStorage.loginId, 
+        //         group_id: +id,
+        //         album_id: +albumid,
+        //         image_file: file.data
+        //     }
+        //     dispatch(fetchAsyncPostUserImage(data));
+        // }));
+        console.log(files);
 
         // ローディングを終了し、リストを空に
         setDisabled(false);
         setFiles([]);
     }
 
-    // タイルを敷き詰められるように、一部画像のサイズは大きくする
-    const tile_cols = 3;
-    let tile_featured: number[] | null[] = [];
-    switch (files.length % tile_cols) {
-      case 0:
-        tile_featured = [];
-        break;
-      case 1:
-        tile_featured = [0, files.length - 1];
-        break;
-      case 2:
-        tile_featured = [0];
-        break;
-    }
-
     // サムネイルの作成
     const thumbs = files.map((file, index) => (
-        <ImageListItem key={file.preview} cols={2} rows={1}>
+        <ImageListItem key={file.preview} cols={file.width > 1500 ? 2 : 1} rows={1}>
             <img src={file.preview} alt={file.data.name} />
         </ImageListItem>
     ));
@@ -167,18 +131,29 @@ const ImageRegister: React.FC = () => {
                             </Paper>
                             {
                                 disabled ? 
-                                    <Button className="c_disabled_button small" disabled={disabled} startIcon={<CloudUploadIcon />}>
+                                    <Button className={componentStyles.disabledButton} disabled={disabled} startIcon={<CloudUploadIcon />}>
                                         アップロード中<Loading />
                                     </Button>
                                 :
-                                    <Button onClick={handleSubmit} disabled={disabled} className="c_button small" startIcon={<CloudUploadIcon />}>
+                                    <Button onClick={handleSubmit} disabled={files.length === 0} className={componentStyles.registerButton} startIcon={<CloudUploadIcon />}>
                                         アップロード
                                     </Button>
                             }
                             <aside className="thumbs-container">
-                                <ImageList cellHeight={200} className="gridlist" cols={tile_cols}>
-                                {thumbs}
-                                </ImageList>
+                              <Hidden smDown>
+                                <Grid item md={12}>
+                                  <ImageList cellHeight={200} className="gridlist" cols={3}>
+                                  {thumbs}
+                                  </ImageList>
+                                </Grid>
+                              </Hidden>
+                              <Hidden mdUp>
+                                <Grid item sm={12}>
+                                  <ImageList cellHeight={200} className="gridlist" cols={2}>
+                                  {thumbs}
+                                  </ImageList>
+                                </Grid>
+                              </Hidden>
                             </aside>
                         </CardContent>
                     </Card>
