@@ -28,11 +28,10 @@ const VideoRegister: React.FC = () => {
     /**
     * ドロップした時の処理
     */
-     const onDrop = useCallback((acceptedFiles: File[]) => {
-        acceptedFiles.map((file) => {  
-            setFiles([...files, file]);
-        })
-        console.log(files)
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        setFiles(acceptedFiles.map((file) => {
+            return file
+        }));
     }, []);
 
     // Dropzone
