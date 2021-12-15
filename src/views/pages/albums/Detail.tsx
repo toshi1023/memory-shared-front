@@ -167,7 +167,12 @@ const AlbumDetail: React.FC = () => {
                         {
                             view ? 
                                 <Tooltip title="動画を投稿" classes={{ tooltip: componentStyles.tooltip }}>
-                                    <IconButton className="ic_button desk pos_right"><MovieIcon /></IconButton>
+                                    <IconButton 
+                                        className="ic_button desk pos_right" 
+                                        onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/videos/register`)}
+                                    >
+                                        <MovieIcon />
+                                    </IconButton>
                                 </Tooltip>
                             :
                                 <Tooltip title="写真を投稿" classes={{ tooltip: componentStyles.tooltip }}>
@@ -239,7 +244,12 @@ const AlbumDetail: React.FC = () => {
                         </Menu>
                         {
                             view ? 
-                                <IconButton className="ic_button mobile pos_right"><MovieIcon /></IconButton>
+                                <IconButton 
+                                    className="ic_button mobile pos_right" 
+                                    onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/videos/register`)}
+                                >
+                                    <MovieIcon />
+                                </IconButton>
                             :    
                                 <IconButton 
                                     className="ic_button mobile pos_right" 
