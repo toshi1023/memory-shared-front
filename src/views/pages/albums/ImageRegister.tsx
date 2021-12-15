@@ -30,13 +30,13 @@ type MyFile = {
 const ImageRegister: React.FC = () => {
     const componentStyles = ComponentStyles();
     const history = useHistory();
-    const { id, name, albumname, albumid } = useParams<{ id: string, name: string, albumname: string, albumid: string }>();
+    const { id, albumid } = useParams<{ id: string, albumid: string }>();
     // FileUpload関連
     const [files, setFiles] = useState<MyFile[]>([]);
     const [disabled, setDisabled] = useState(false);
     // Dropzoneの設定
     const acceptFile = 'image/*';
-    const maxFileSize = 1048576;
+    const maxFileSize = 1048576;  // 1MB
     // redux
     const dispatch: AppDispatch = useDispatch();
 
@@ -128,6 +128,12 @@ const ImageRegister: React.FC = () => {
                             <Paper className="dropzone" {...getRootProps()}>
                                 <input {...getInputProps()} />
                                 <Typography className="drag-drop-info">ファイルをドロップ</Typography>
+                                <Button className="c_clear clear_button_place" onClick={(event) => {
+                                    event.stopPropagation();
+                                    setFiles([])}
+                                }>
+                                    クリア
+                                </Button>
                             </Paper>
                             {
                                 disabled ? 
