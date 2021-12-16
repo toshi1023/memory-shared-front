@@ -76,3 +76,10 @@ export interface NREAD_COUNT_RES {
     count: number,
     callback: (value: number) => void
 }
+
+/**
+ * CircularCount用のデータ型定義
+ */
+export interface CIRCULAR_COUNT {
+    data: number
+}

@@ -9,9 +9,9 @@ import { fetchGetUrl, fetchAsyncGetToken, fetchCredStart, fetchCredEnd, fetchGet
 import { fetchAsyncPostUserImage } from './albumSlice';
 import { AppDispatch } from '../../../stores/store';
 import Loading from '../../components/common/Loading';
+import CircularCount from '../../components/common/CircularCount';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { useDropzone } from 'react-dropzone';
-
 
 /**
  * 画像プレビュー用の型定義
@@ -44,6 +44,9 @@ const ImageRegister: React.FC = () => {
     // redux
     const dispatch: AppDispatch = useDispatch();
     const infoMessage = '画像を保存しました';
+    // 待機用
+    const sleepfunc = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+    const sleeptime = files.length > 100 ? 10000 : files.length > 60 ? 6000 : files.length > 40 ? 4000 : 2000;
 
     /**
      * 画像読み込み用の非同期処理
@@ -93,6 +96,7 @@ const ImageRegister: React.FC = () => {
     const handleSubmit = async () => {
         // ボタン非活性化
         setDisabled(true);
+        dispatch(fetchCredStart);
         // 複数のファイルアップロードをPromise.allで並列に実行する
         await Promise.all(files.map((file) => {
             const data = {
@@ -104,6 +108,7 @@ const ImageRegister: React.FC = () => {
             }
             dispatch(fetchAsyncPostUserImage(data));
         }));
+        await sleepfunc(sleeptime);
 
         // 保存成功メッセージ
         dispatch(fetchGetInfoMessages(infoMessage));
@@ -111,6 +116,7 @@ const ImageRegister: React.FC = () => {
 
         // ローディングを終了し、リストを空に
         setDisabled(false);
+        dispatch(fetchCredEnd);
         setFiles([]);
     }
 
@@ -135,16 +141,21 @@ const ImageRegister: React.FC = () => {
                             className="header">
                         </CardHeader>
                         <CardContent>
-                            <Paper className="dropzone" {...getRootProps()}>
-                                <input {...getInputProps()} />
-                                <Typography className="drag-drop-info">ファイルをドロップ</Typography>
-                                <Button className="c_clear clear_button_place" onClick={(event) => {
-                                    event.stopPropagation();
-                                    setFiles([])}
-                                }>
-                                    クリア
-                                </Button>
-                            </Paper>
+                            {
+                                disabled && files.length > 20 ? 
+                                    <CircularCount data={sleeptime} />
+                                :
+                                    <Paper className="dropzone" {...getRootProps()}>
+                                        <input {...getInputProps()} />
+                                        <Typography className="drag-drop-info">ファイルをドロップ</Typography>
+                                        <Button className="c_clear clear_button_place" onClick={(event) => {
+                                            event.stopPropagation();
+                                            setFiles([])}
+                                        }>
+                                            クリア
+                                        </Button>
+                                    </Paper>
+                            }
                             {
                                 disabled ? 
                                     <Button className={componentStyles.disabledButton} disabled={disabled} startIcon={<CloudUploadIcon />}>
