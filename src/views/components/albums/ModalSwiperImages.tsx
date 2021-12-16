@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -17,6 +17,7 @@ SwiperCore.use([Navigation]);
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        // PC & iPad pro
         lgvImage: {
             height: '70vh',
             width: 'auto'
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '70vh',
             width: '100%'
         },
+        // iPad
         smvImage: {
             height: '70vh',
             width: 'auto'
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '40vh',
             width: '100%'
         },
+        // mobile
         xsvImage: {
             height: '50vh',
             width: 'auto'
@@ -41,6 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '25vh',
             width: '100%'
         },
+        // 縦横比が約3:7で横幅が広い画像
         wideImage: {
             height: 'auto',
             width: '100%'
@@ -51,46 +55,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const ModalSwiperImages: React.FC<MODAL_SWIPER_IMAGES> = (props) => {
     const classes = useStyles();
     const componentStyles = ComponentStyles();
-
-    useEffect(() => {
-        const imageList = Array.from(document.getElementsByClassName('image'));
-        const ipImageList = Array.from(document.getElementsByClassName('ipad_image'));
-        const mbImageList = Array.from(document.getElementsByClassName('mobile_image'));
-        console.log(imageList);
-        // const img = Array.from(imageList)
-        
-        imageList.forEach((val) => {
-            const image = val as HTMLImageElement;
-            if(image.height > image.width) {
-                image.style.height = '70vh';
-                image.style.width = 'auto';
-            } else {
-                image.style.height = '70vh';
-                image.style.width = '100%';
-            }
-        });
-        ipImageList.forEach((val) => {
-            const image = val as HTMLImageElement;
-            if(image.height > image.width) {
-                image.style.height = '70vh';
-                image.style.width = 'auto';
-            } else {
-                image.style.height = '40vh';
-                image.style.width = 'auto';
-            }
-        });
-        mbImageList.forEach((val) => {
-            const image = val as HTMLImageElement;
-            if(image.height > image.width) {
-                image.style.height = '70vh';
-                image.style.width = 'auto';
-            } else {
-                image.style.height = '25vh';
-                image.style.width = '100%';
-            }
-        });
-        
-    }, [props.open]);
 
     return (
         <div>

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import DisplayStyles from '../../../styles/common/displayMode';
 import _ from 'lodash';
-import ComponentStyles from '../../../styles/common/componentStyle';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import { IMAGE_LIST_DATA } from '../../types/albumsTypes';
 import ModalSwiperImages from './ModalSwiperImages';
-import houston from '../../../image/houston.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,7 +38,6 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
     const classes = useStyles();
-    const componentStyles = ComponentStyles();
     const displayStyles = DisplayStyles();
     const [open, setOpen] = useState(false);
     const [slideIndex, setSlideIndex] = useState(0);
@@ -68,7 +65,6 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                                     }} 
                                     style={{ cursor: 'pointer' }}
                                 >
-                                    {/* <img src={houston} alt={item.title} /> */}
                                     <img src={item.image_url} alt={item.image_file} />
                                 </ImageListItem>
                             ))}
@@ -89,7 +85,6 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                                 }} 
                                 style={{ cursor: 'pointer' }}
                             >
-                                {/* <img src={houston} /> */}
                                 <img src={item.image_url} alt={item.image_file} />
                             </ImageListItem>
                         ))}

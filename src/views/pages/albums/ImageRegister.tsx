@@ -21,6 +21,7 @@ type MyFile = {
     preview: string;
     width: number;
     height: number;
+    type: number;
 };
 
 /**
@@ -34,11 +35,15 @@ const ImageRegister: React.FC = () => {
     // FileUpload関連
     const [files, setFiles] = useState<MyFile[]>([]);
     const [disabled, setDisabled] = useState(false);
+    // 画像の基準値を設定
+    const wide = 1500;
+    const ratio = 0.45;
     // Dropzoneの設定
     const acceptFile = 'image/*';
     const maxFileSize = 1048576;  // 1MB
     // redux
     const dispatch: AppDispatch = useDispatch();
+    const infoMessage = '画像を保存しました';
 
     /**
      * 画像読み込み用の非同期処理
@@ -70,7 +75,8 @@ const ImageRegister: React.FC = () => {
                 data: file, 
                 preview: URL.createObjectURL(file),
                 width: res.width,
-                height: res.height
+                height: res.height,
+                type: res.height / res.width < ratio ? 3 : res.height > res.width ? 2 : 1
               });
               setFiles([...files, ...obj]);
             } 
@@ -88,15 +94,19 @@ const ImageRegister: React.FC = () => {
         // ボタン非活性化
         setDisabled(true);
         // 複数のファイルアップロードをPromise.allで並列に実行する
-        const result = await Promise.all(files.map((file) => {
+        await Promise.all(files.map((file) => {
             const data = {
                 user_id: +localStorage.loginId, 
                 group_id: +id,
                 album_id: +albumid,
-                image_file: file.data
+                image_file: file.data,
+                type: file.type
             }
             dispatch(fetchAsyncPostUserImage(data));
         }));
+
+        // 保存成功メッセージ
+        dispatch(fetchGetInfoMessages(infoMessage));
         console.log(files);
 
         // ローディングを終了し、リストを空に
@@ -106,7 +116,7 @@ const ImageRegister: React.FC = () => {
 
     // サムネイルの作成
     const thumbs = files.map((file, index) => (
-        <ImageListItem key={file.preview} cols={file.width > 1500 ? 2 : 1} rows={1}>
+        <ImageListItem key={file.preview} cols={file.width > wide ? 2 : 1} rows={1}>
             <img src={file.preview} alt={file.data.name} />
         </ImageListItem>
     ));

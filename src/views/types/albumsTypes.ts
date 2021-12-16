@@ -247,7 +247,8 @@ export interface REGISTER_IMAGE_PROPS {
     user_id: number,
     group_id: number,
     album_id: number,
-    image_file: File | null
+    image_file: File | null,
+    type: number
 }
 /**
  * AsyncThunk用(register_image用)
