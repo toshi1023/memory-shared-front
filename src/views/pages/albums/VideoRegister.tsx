@@ -53,12 +53,31 @@ const VideoRegister: React.FC = () => {
     }
 
     // アップロードする動画の情報を記載
-    const metaInfo = files.map(file => (
-        <tr key={file.name} className="meta-list">
-            <td>{file.name}</td>
-            <td>{Math.round(file.size / 1024 / 1024)} <span>MB</span></td>
-        </tr>
-    ));
+    const metaInfo = () => {
+        return (
+            files.length !== 0 ?
+                <table className='meta-table'>
+                    <thead>
+                        <tr>
+                            <th className='h-filename'>ファイル名</th>
+                            <th className='h-filesize'>サイズ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            files.map(file => (
+                                <tr key={file.name}>
+                                    <td>{file.name}</td>
+                                    <td>{Math.round(file.size / 1024 / 1024)} <span>MB</span></td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            :
+                ''
+        )
+    }
 
     return (
         <div id="video_register">
@@ -95,22 +114,7 @@ const VideoRegister: React.FC = () => {
                                     </Button>
                             }
                             <aside className="metas-container">
-                                {
-                                    files.length !== 0 ?
-                                        <table className='meta-table'>
-                                            <thead className='meta-header'>
-                                                <tr>
-                                                    <th className='h-filename'>ファイル名</th>
-                                                    <th className='h-filesize'>サイズ</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {metaInfo}
-                                            </tbody>
-                                        </table>
-                                    :
-                                        ''
-                                }
+                                {metaInfo()}
                             </aside>
                         </CardContent>
                     </Card>

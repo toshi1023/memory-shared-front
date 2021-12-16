@@ -250,20 +250,12 @@
 
         .meta-table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 1;
-            border-radius: 3px;
+            border-collapse:collapse;
 
-            .meta-header {
-                background-color: #c75427;
-                color: #fff;
-                border-radius: 3px;
-
-                th {
-                    background-color:#c75427;
-                    border:2px solid #c75427;
-                    border-radius:5px; 
-                }
+            thead {
+                background-color: #edf1f3;
+                border-bottom: 1px dotted rgb(139, 139, 139);
+                color: #999;
 
                 th.h-filename {
                     width: 70%;
@@ -273,14 +265,13 @@
                 }
             }
 
-            .meta-list {
+            tbody {
                 font-size: 1.1rem;
-                background-color: #ffe48c;
-                color: #c75427;
+                color: #6b6867;
 
                 td {
-                    border:2px solid #ffe48c;
-                    border-radius:5px; 
+                    border-bottom: 1px solid #edf1f3;
+                    padding: 3px 0;
                 }
 
                 span {
