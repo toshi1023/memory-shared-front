@@ -268,3 +268,31 @@ export interface IMAGE_VALIDATE_RES {
 
     validate_status: string
 }
+
+/**
+ * register_video用のデータ型定義
+ */
+ export interface REGISTER_VIDEO_PROPS {
+    user_id: number,
+    group_id: number,
+    album_id: number,
+    image_file: File | null
+}
+/**
+ * AsyncThunk用(register_video用)
+ */
+export interface REGISTER_VIDEO_RES {
+    info_message: string,
+    error_message: string,
+}
+/**
+ * AsyncThunk用(register_videovalidation用)
+ */
+export interface VIDEO_VALIDATE_RES {
+    errors: {
+        user_id: string[],
+        image_file: string[]
+    }
+
+    validate_status: string
+}

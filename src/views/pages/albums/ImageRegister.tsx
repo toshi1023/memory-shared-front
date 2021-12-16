@@ -112,7 +112,6 @@ const ImageRegister: React.FC = () => {
 
         // 保存成功メッセージ
         dispatch(fetchGetInfoMessages(infoMessage));
-        console.log(files);
 
         // ローディングを終了し、リストを空に
         setDisabled(false);

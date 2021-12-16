@@ -6,7 +6,7 @@ import '../../../styles/albums/albums.scss';
 import ComponentStyles from '../../../styles/common/componentStyle';
 import { Grid, Hidden, Typography, Card, CardHeader, CardContent, Paper, Button, ImageList, ImageListItem } from '@material-ui/core';
 import { fetchGetUrl, fetchAsyncGetToken, fetchCredStart, fetchCredEnd, fetchGetInfoMessages, fetchGetErrorMessages } from '../appSlice';
-import { fetchAsyncPostUserImage } from './albumSlice';
+import { fetchAsyncPostUserVideo } from './albumSlice';
 import { AppDispatch } from '../../../stores/store';
 import Loading from '../../components/common/Loading';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -24,6 +24,10 @@ const VideoRegister: React.FC = () => {
     const maxFileSize = 209715200;  // 200MB
     // redux
     const dispatch: AppDispatch = useDispatch();
+    const infoMessage = '動画を保存しました';
+    // 待機用
+    const sleepfunc = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+    const sleeptime = files.length > 10 ? 4000 : files.length > 5 ? 2000 : 0;
 
     /**
     * ドロップした時の処理
@@ -44,11 +48,25 @@ const VideoRegister: React.FC = () => {
      const handleSubmit = async () => {
         // ボタン非活性化
         setDisabled(true);
+        dispatch(fetchCredStart);
+        // 複数のファイルアップロードをPromise.allで並列に実行する
+        await Promise.all(files.map((file) => {
+            const data = {
+                user_id: +localStorage.loginId, 
+                group_id: +id,
+                album_id: +albumid,
+                image_file: file
+            }
+            dispatch(fetchAsyncPostUserVideo(data));
+        }));
+        await sleepfunc(sleeptime);
 
-        console.log(files);
+        // 保存成功メッセージ
+        dispatch(fetchGetInfoMessages(infoMessage));
 
         // ローディングを終了し、リストを空に
         setDisabled(false);
+        dispatch(fetchCredEnd);
         setFiles([]);
     }
 
