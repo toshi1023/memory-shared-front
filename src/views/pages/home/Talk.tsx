@@ -37,7 +37,7 @@ const Talk: React.FC = () => {
             }
             // スクロールが存在する場合、メッセージ表示部分のスクロールを最下層に初期値として設定
             if(messageArea.current !== null) {
-                messageArea.current.scrollTop = messageArea.current?.clientHeight;
+                messageArea.current.scrollTop = messageArea.current?.scrollHeight;
             }
             dispatch(fetchGetUrl(history.location.pathname));
         }        
@@ -68,7 +68,7 @@ const Talk: React.FC = () => {
 
         // スクロールが存在する場合、メッセージ表示部分のスクロールを最下層に初期値として設定
         if(messageArea.current !== null) {
-            messageArea.current.scrollTop = messageArea.current?.clientHeight;
+            messageArea.current.scrollTop = messageArea.current?.scrollHeight;
         }
     }, [talks]);
 

@@ -375,9 +375,16 @@ export const homeSlice = createSlice({
     reducers: {
         // Pusherから受け取ったデータを処理(新規追加)
         fetchWebsocketMessage(state, action: PayloadAction<PUSHER_TALK_RES>) {
-            return {
-                ...state,
-                talks: [...state.talks, action.payload.talk]
+            let flg = true;
+            state.talks.map(talk => {
+                if(action.payload.talk.id === talk.id) flg = false;
+            });
+            
+            if(flg) {
+                return {
+                    ...state,
+                    talks: [...state.talks, action.payload.talk]
+                }
             }
         },
     },
@@ -435,7 +442,7 @@ export const homeSlice = createSlice({
         // トーク履歴取得処理
         builder.addCase(fetchAsyncGetTalks.fulfilled, (state, action: PayloadAction<TALKS_RES>) => {
             if(!action.payload.error_message) {
-                state.talks = action.payload.talks.data;
+                state.talks = action.payload.talks.data.sort((a,b) => -1);     // ソート順序を入れ替え
                 state.page.ti_currentpage = action.payload.talks.current_page;
                 state.page.ti_lastpage = action.payload.talks.last_page;
             }
