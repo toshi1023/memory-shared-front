@@ -73,7 +73,7 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
             </div>
 
             {/* スマホ版 */}
-            <div className={displayStyles.sectionMobile}>
+            <div className={displayStyles.sectionMobileNoBottom}>
                 <div className={classes.root}>
                     <ImageList rowHeight={180} className={classes.mobileImageList}>
                         {_.map(props.data, (item, index) => (

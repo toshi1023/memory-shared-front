@@ -33,6 +33,8 @@ const AlbumDetail: React.FC = () => {
     const [view, setView] = useState(0);
     // アルバム編集メニュー表示管理
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    // 削除時の切り替えフラグ
+    const [deleteflg, setDeleteflg] = useState(false);
     // redux
     const dispatch: AppDispatch = useDispatch();
     const album = useSelector(selectAlbum);
@@ -120,69 +122,92 @@ const AlbumDetail: React.FC = () => {
                         </Typography>
                     </Grid>
                     <Grid item sm={10} md={8} lg={7} className="pos_relative">
-                        <Button 
-                            className="edit_button pos_left pos_vertical_center" 
-                            aria-controls="simple-menu" 
-                            aria-haspopup="true" 
-                            onClick={handleClick} 
-                        >
-                            アルバムを編集する
-                        </Button>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={() => {
-                                history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/editer`);
-                                handleClose();
-                            }}>
-                                <EditIcon />アルバム情報の編集
-                            </MenuItem>
-                            {
-                                view ? 
-                                    <MenuItem onClick={handleClose}>
-                                        <DeleteIcon />動画の削除
-                                    </MenuItem>
-                                :
-                                    <MenuItem onClick={handleClose}>
-                                        <DeleteIcon />画像の削除
-                                    </MenuItem>
-                            }
-                        </Menu>
-
-                        <Tabs
-                            className="desktop_tab"
-                            value={view}
-                            onChange={handleChange}
-                            indicatorColor="primary"
-                            textColor="primary"
-                            centered
-                        >
-                            <Tab label={label.label1} />
-                            <Tab label={label.label2} />
-                        </Tabs>
                         {
-                            view ? 
-                                <Tooltip title="動画を投稿" classes={{ tooltip: componentStyles.tooltip }}>
-                                    <IconButton 
-                                        className="ic_button desk pos_right" 
-                                        onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/videos/register`)}
+                            deleteflg ? 
+                                <>
+                                    <Button 
+                                        className="edit_button pos_left pos_vertical_center" 
+                                        onClick={() => setDeleteflg(false)} 
                                     >
-                                        <MovieIcon />
-                                    </IconButton>
-                                </Tooltip>
+                                        削除を取りやめる
+                                    </Button>
+                                    <div className='submessage_container'>
+                                        <Typography className="delete_submessage">削除する画像を選択してください</Typography>
+                                    </div>
+                                </>
                             :
-                                <Tooltip title="写真を投稿" classes={{ tooltip: componentStyles.tooltip }}>
-                                    <IconButton
-                                        className="ic_button desk pos_right" 
-                                        onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/images/register`)}
+                                <>
+                                    <Button 
+                                        className="edit_button pos_left pos_vertical_center" 
+                                        aria-controls="simple-menu" 
+                                        aria-haspopup="true" 
+                                        onClick={handleClick} 
                                     >
-                                        <AddAPhotoIcon />
-                                    </IconButton>
-                                </Tooltip>
+                                        アルバムを編集する
+                                    </Button>
+                                    <Menu
+                                        id="simple-menu"
+                                        anchorEl={anchorEl}
+                                        keepMounted
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleClose}
+                                    >
+                                        <MenuItem onClick={() => {
+                                            history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/editer`);
+                                            handleClose();
+                                        }}>
+                                            <EditIcon />アルバム情報の編集
+                                        </MenuItem>
+                                        {
+                                            view ? 
+                                                <MenuItem onClick={() => {
+                                                    setDeleteflg(true);
+                                                    handleClose();
+                                                }}>
+                                                    <DeleteIcon />動画の削除
+                                                </MenuItem>
+                                            :
+                                                <MenuItem onClick={() => {
+                                                    setDeleteflg(true);
+                                                    handleClose();
+                                                }}>
+                                                    <DeleteIcon />画像の削除
+                                                </MenuItem>
+                                        }
+                                    </Menu>
+
+                                    <Tabs
+                                        className="desktop_tab"
+                                        value={view}
+                                        onChange={handleChange}
+                                        indicatorColor="primary"
+                                        textColor="primary"
+                                        centered
+                                    >
+                                        <Tab label={label.label1} />
+                                        <Tab label={label.label2} />
+                                    </Tabs>
+                                    {
+                                        view ? 
+                                            <Tooltip title="動画を投稿" classes={{ tooltip: componentStyles.tooltip }}>
+                                                <IconButton 
+                                                    className="ic_button desk pos_right" 
+                                                    onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/videos/register`)}
+                                                >
+                                                    <MovieIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        :
+                                            <Tooltip title="写真を投稿" classes={{ tooltip: componentStyles.tooltip }}>
+                                                <IconButton
+                                                    className="ic_button desk pos_right" 
+                                                    onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/images/register`)}
+                                                >
+                                                    <AddAPhotoIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                    }
+                                </>
                         }
                     </Grid>
                     <Grid item sm={10} md={8} lg={7}>
@@ -192,71 +217,102 @@ const AlbumDetail: React.FC = () => {
                             :
                                 <ImageListData data={image} label={label} callback={callback} />
                         }
+                        {
+                            deleteflg ? 
+                                <Button variant="contained" color="secondary" className="delete_button">削除する</Button>
+                            :
+                                ''
+                        }
                     </Grid>
                 </Grid>
             </div>
 
             {/* スマホ版 */}
             <div className={displayStyles.sectionMobile}>
-                <Grid container>
-                    <Grid item xs={12}>
-                        <MobileHeaderTab label={label} callback={callback} />
-                    </Grid>
-                </Grid>
+                {
+                    deleteflg ? 
+                        <div className='submessage_container'>
+                            <Button 
+                                className="edit_button" 
+                                onClick={() => setDeleteflg(false)} 
+                            >
+                                削除を取りやめる
+                            </Button>
+                        </div>
+                    :
+                        <Grid container>
+                            <Grid item xs={12}>
+                                <MobileHeaderTab label={label} callback={callback} />
+                            </Grid>
+                        </Grid>
+                }
                 <Grid container justify="center">
-                    <Grid item xs={11} className="c_title_space pos_relative">
+                    <Grid item xs={11} className="c_title_space ">
                         <Typography className="c_title mobile_title">
                             {albumname}
                         </Typography>
                     </Grid>
                     <Grid item xs={11} className="pos_relative">
-                        <Button 
-                            className="edit_button mobile pos_left" 
-                            aria-controls="simple-menu" 
-                            aria-haspopup="true" 
-                            onClick={handleClick} 
-                        >
-                            アルバムを編集する
-                        </Button>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={() => {
-                                history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/editer`);
-                                handleClose();
-                            }}>
-                                <EditIcon />アルバム情報の編集
-                            </MenuItem>
-                            {
-                                view ? 
-                                    <MenuItem onClick={handleClose}>
-                                        <DeleteIcon />動画の削除
-                                    </MenuItem>
-                                :
-                                    <MenuItem onClick={handleClose}>
-                                        <DeleteIcon />画像の削除
-                                    </MenuItem>
-                            }
-                        </Menu>
                         {
-                            view ? 
-                                <IconButton 
-                                    className="ic_button mobile pos_right" 
-                                    onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/videos/register`)}
-                                >
-                                    <MovieIcon />
-                                </IconButton>
-                            :    
-                                <IconButton 
-                                    className="ic_button mobile pos_right" 
-                                    onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/images/register`)}
-                                >
-                                    <AddAPhotoIcon />
-                                </IconButton>
+                            deleteflg ? 
+                                ''
+                            :
+                                <>
+                                    <Button 
+                                        className="edit_button mobile pos_left" 
+                                        aria-controls="simple-menu" 
+                                        aria-haspopup="true" 
+                                        onClick={handleClick} 
+                                    >
+                                        アルバムを編集する
+                                    </Button>
+                                    <Menu
+                                        id="simple-menu"
+                                        anchorEl={anchorEl}
+                                        keepMounted
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleClose}
+                                    >
+                                        <MenuItem onClick={() => {
+                                            history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/editer`);
+                                            handleClose();
+                                        }}>
+                                            <EditIcon />アルバム情報の編集
+                                        </MenuItem>
+                                        {
+                                            view ? 
+                                                <MenuItem onClick={() => {
+                                                    setDeleteflg(true);
+                                                    handleClose();
+                                                }}>
+                                                    <DeleteIcon />動画の削除
+                                                </MenuItem>
+                                            :
+                                                <MenuItem onClick={() => {
+                                                    setDeleteflg(true);
+                                                    handleClose();
+                                                }}>
+                                                    <DeleteIcon />画像の削除
+                                                </MenuItem>
+                                        }
+                                    </Menu>
+                                    {
+                                        view ? 
+                                            <IconButton 
+                                                className="ic_button mobile pos_right" 
+                                                onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/videos/register`)}
+                                            >
+                                                <MovieIcon />
+                                            </IconButton>
+                                        :    
+                                            <IconButton 
+                                                className="ic_button mobile pos_right" 
+                                                onClick={() => history.push(`/groups/${name}/${id}/albums/${albumname}/${albumid}/images/register`)}
+                                            >
+                                                <AddAPhotoIcon />
+                                            </IconButton>
+                                    }
+                                </>
                         }
                     </Grid>
                     <Grid item xs={11}>
@@ -266,6 +322,12 @@ const AlbumDetail: React.FC = () => {
                                     <VideoListData data={videoData} label ={label} callback={callback} />
                                 :
                                     <ImageListData data={image} label={label} callback={callback} />
+                            }
+                            {
+                                deleteflg ? 
+                                    <Button variant="contained" color="secondary" className="delete_button">削除する</Button>
+                                :
+                                    ''
                             }
                         </div>
                     </Grid>

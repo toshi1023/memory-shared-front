@@ -83,7 +83,7 @@ const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
             </div>
 
             {/* スマホ版 */}
-            <div className={displayStyles.sectionMobile}>
+            <div className={displayStyles.sectionMobileNoBottom}>
                 <div className={classes.root}>
                     {_.map(props.data, item => (
                         <VideoPlayer 

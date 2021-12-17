@@ -25,6 +25,12 @@ const DisplayStyles = makeStyles((theme: Theme) =>
         },
         marginBottom: "100px"
     },
+    sectionMobileNoBottom: {
+        display: "block",
+        [theme.breakpoints.up("sm")]: {
+            display: "none"
+        },
+    },
   }));
 
 export default DisplayStyles;
