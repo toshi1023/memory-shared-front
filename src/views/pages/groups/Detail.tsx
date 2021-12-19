@@ -30,20 +30,39 @@ const GroupDetail: React.FC = () => {
     const pusers = useSelector(selectPusers);
     const ghusers = useSelector(selectGhusers);
     const albums = useSelector(selectAlbums);
+    // アルバム表示制御
+    const [albumflg, setAlbumflg] = useState(false);
+    // プライベートグループの表示制御
+    const [privateflg, setPrivateflg] = useState(false);
 
     useEffect(() => {
         const renderGroupDetail = async () => {
+            // グループのプライベートフラグの管理
+            let gpflg = 0;
             // グループ詳細情報取得
             const groupRes = await dispatch(fetchAsyncGetGroup({id: +id}));
-            if(fetchAsyncGetGroup.fulfilled.match(groupRes) && groupRes.payload.error_message) {
-                dispatch(fetchGetErrorMessages(groupRes.payload.error_message));
-                return;
+            if(fetchAsyncGetGroup.fulfilled.match(groupRes)) {
+                if(groupRes.payload.error_message) {
+                    dispatch(fetchGetErrorMessages(groupRes.payload.error_message));
+                    return;
+                }
+                gpflg = groupRes.payload.group.private_flg;
             }
             // 参加者情報取得
             const pusersRes = await dispatch(fetchAsyncGetPusers({id: +id}));
-            if(fetchAsyncGetPusers.fulfilled.match(pusersRes) && pusersRes.payload.error_message) {
-                dispatch(fetchGetErrorMessages(pusersRes.payload.error_message));
-                return;
+            if(fetchAsyncGetPusers.fulfilled.match(pusersRes)) {
+                // エラーメッセージを表示
+                if(pusersRes.payload.error_message) {
+                    dispatch(fetchGetErrorMessages(pusersRes.payload.error_message));
+                    return;
+                }
+                // アルバム表示フラグを設定
+                if(pusersRes.payload.pusers.data) {
+                    pusersRes.payload.pusers.data.map(val => {
+                        if(val.id === +localStorage.loginId) setAlbumflg(true);
+                        if(gpflg && val.id === +localStorage.loginId) setPrivateflg(true);
+                    });
+                }
             }
             // グループ履歴参加申請情報取得
             const ghusersRes = await dispatch(fetchAsyncGetGhUsers({group_id: +id, status: 1, sort_created_at: 'desc'}));
@@ -89,16 +108,21 @@ const GroupDetail: React.FC = () => {
                 <Grid item xs={11}>
                     <GroupCard data={group} />
                 </Grid>
-                <Grid item xs={11} className="album_list">
-                    <hr className="app_hr" />
-                    <div className="c_title_space">
-                        <Typography className="c_title">
-                            アルバム
-                        </Typography>
-                    </div>
-                    <Button className="albumcreate_button mobile" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
-                    <AlbumListData data={albums} />
-                </Grid>
+                {
+                    albumflg ? 
+                        <Grid item xs={11} className="album_list">
+                            <hr className="app_hr" />
+                            <div className="c_title_space">
+                                <Typography className="c_title">
+                                    アルバム
+                                </Typography>
+                            </div>
+                            <Button className="albumcreate_button mobile" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                            <AlbumListData data={albums} />
+                        </Grid>
+                    :
+                        ''
+                }
             </Grid>
         );
     }
@@ -133,103 +157,240 @@ const GroupDetail: React.FC = () => {
 
     return (
         <div id="group_detail">
+            
+            {
+                // 公開フラグが公開の場合
+                group.private_flg === 0 ? 
+                    <>
+                        {/* PC版 & iPad版 */}
+                        <div className={displayStyles.sectionDesktop}>
+                            {/* PC版 */}
+                            <Hidden smDown>
+                                <Grid container justify="center">
+                                    {/* Content */}
+                                    <Grid item md={6} className="c_content_space center">
+                                        <Typography className="c_title">
+                                            {group.name}の詳細
+                                        </Typography>
 
-            {/* PC版 & iPad版 */}
-            <div className={displayStyles.sectionDesktop}>
-                {/* PC版 */}
-                <Hidden smDown>
-                    <Grid container justify="center">
-                        {/* Content */}
-                        <Grid item md={6} className="c_content_space center">
-                            <Typography className="c_title">
-                                {group.name}の詳細
-                            </Typography>
+                                        <GroupCard data={group} />
+                                        
+                                        {
+                                            albumflg ? 
+                                                <>
+                                                    <br />
+                                                    <hr className="app_hr" />
+                                                    <div className="c_title_space">
+                                                        <Typography className="c_title">
+                                                            アルバム
+                                                        </Typography>
+                                                    </div>
+                                                    <Button className="albumcreate_button" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                                                    <AlbumListData data={albums} />
+                                                </>
+                                            :
+                                                ''
+                                        }
+                                    </Grid>
+                                    <Grid item md={3} className="c_content_space center c_side_area">
+                                        {
+                                            group.host_user_id === +localStorage.loginId ? 
+                                                <Typography className="c_title">
+                                                    参加申請中ユーザ
+                                                </Typography>
+                                            :
+                                                <Typography className="c_title">
+                                                    参加ユーザ
+                                                </Typography>
+                                        }
+                                        
+                                        <UserListData data={pusers} subdata={ghusers} host_user_id={group.host_user_id} />
+                                    </Grid>
+                                </Grid>
+                            </Hidden>
+                            {/* iPad版 */}
+                            <Hidden mdUp xsDown>
+                                <Grid container justify="center">
+                                    {/* Content */}
+                                    <Grid item sm={7} className="c_content_space center">
+                                        <Typography className="c_title">
+                                            {group.name}の詳細
+                                        </Typography>
 
-                            <GroupCard data={group} />
+                                        <GroupCard data={group} />
+
+                                        {
+                                            albumflg ? 
+                                                <>
+                                                    <br />
+                                                    <hr className="app_hr" />
+                                                    <div className="c_title_space">
+                                                        <Typography className="c_title">
+                                                            アルバム
+                                                        </Typography>
+                                                    </div>
+                                                    <Button className="albumcreate_button ipad" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                                                    <AlbumListData data={albums} />
+                                                </>
+                                            :
+                                                ''
+                                        }
+                                        
+                                    </Grid>
+                                    <Grid item sm={4} className="c_content_space center c_side_area">
+                                        {
+                                            group.host_user_id === +localStorage.loginId ? 
+                                                <Typography className="c_title">
+                                                    参加申請中ユーザ
+                                                </Typography>
+                                            :
+                                                <Typography className="c_title">
+                                                    参加ユーザ
+                                                </Typography>
+                                        }
+
+                                        <UserListData data={pusers} subdata={ghusers} host_user_id={group.host_user_id} />
+                                    </Grid>
+                                </Grid>
+                            </Hidden>
                             
-                            <br />
-                            <hr className="app_hr" />
-                            <div className="c_title_space">
-                                <Typography className="c_title">
-                                    アルバム
-                                </Typography>
-                            </div>
-                            <Button className="albumcreate_button" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
-                            <AlbumListData data={albums} />
-                        </Grid>
-                        <Grid item md={3} className="c_content_space center c_side_area">
+                        </div>
+
+                        {/* スマホ版 */}
+                        <div className={displayStyles.sectionMobile}>
+                            <Grid container>
+                                <Grid item xs={12}>
+                                    <MobileHeaderTab label={label} callback={callback} />
+                                </Grid>
+                            </Grid>
+
                             {
-                                group.host_user_id === +localStorage.loginId ? 
-                                    <Typography className="c_title">
-                                        参加申請中ユーザ
-                                    </Typography>
+                                view ?
+                                    renderMobileUserList()
                                 :
-                                    <Typography className="c_title">
-                                        参加ユーザ
-                                    </Typography>
+                                    renderMobileGroupCard()
                             }
-                            
-                            <UserListData data={pusers} subdata={ghusers} host_user_id={group.host_user_id} />
-                        </Grid>
-                    </Grid>
-                </Hidden>
-                {/* iPad版 */}
-                <Hidden mdUp xsDown>
-                    <Grid container justify="center">
-                        {/* Content */}
-                        <Grid item sm={7} className="c_content_space center">
-                            <Typography className="c_title">
-                                {group.name}の詳細
-                            </Typography>
 
-                            <GroupCard data={group} />
+                        </div>
+                    </>
+                :
+                    // 公開フラグが非公開の場合
+                    privateflg ? 
+                        <>
+                            {/* PC版 & iPad版 */}
+                            <div className={displayStyles.sectionDesktop}>
+                                {/* PC版 */}
+                                <Hidden smDown>
+                                    <Grid container justify="center">
+                                        {/* Content */}
+                                        <Grid item md={6} className="c_content_space center">
+                                            <Typography className="c_title">
+                                                {group.name}の詳細
+                                            </Typography>
 
-                            <br />
-                            <hr className="app_hr" />
-                            <div className="c_title_space">
-                                <Typography className="c_title">
-                                    アルバム
-                                </Typography>
+                                            <GroupCard data={group} />
+                                            
+                                            {
+                                                albumflg ? 
+                                                    <>
+                                                        <br />
+                                                        <hr className="app_hr" />
+                                                        <div className="c_title_space">
+                                                            <Typography className="c_title">
+                                                                アルバム
+                                                            </Typography>
+                                                        </div>
+                                                        <Button className="albumcreate_button" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                                                        <AlbumListData data={albums} />
+                                                    </>
+                                                :
+                                                    ''
+                                            }
+                                        </Grid>
+                                        <Grid item md={3} className="c_content_space center c_side_area">
+                                            {
+                                                group.host_user_id === +localStorage.loginId ? 
+                                                    <Typography className="c_title">
+                                                        参加申請中ユーザ
+                                                    </Typography>
+                                                :
+                                                    <Typography className="c_title">
+                                                        参加ユーザ
+                                                    </Typography>
+                                            }
+                                            
+                                            <UserListData data={pusers} subdata={ghusers} host_user_id={group.host_user_id} />
+                                        </Grid>
+                                    </Grid>
+                                </Hidden>
+                                {/* iPad版 */}
+                                <Hidden mdUp xsDown>
+                                    <Grid container justify="center">
+                                        {/* Content */}
+                                        <Grid item sm={7} className="c_content_space center">
+                                            <Typography className="c_title">
+                                                {group.name}の詳細
+                                            </Typography>
+
+                                            <GroupCard data={group} />
+
+                                            {
+                                                albumflg ? 
+                                                    <>
+                                                        <br />
+                                                        <hr className="app_hr" />
+                                                        <div className="c_title_space">
+                                                            <Typography className="c_title">
+                                                                アルバム
+                                                            </Typography>
+                                                        </div>
+                                                        <Button className="albumcreate_button ipad" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                                                        <AlbumListData data={albums} />
+                                                    </>
+                                                :
+                                                    ''
+                                            }
+                                            
+                                        </Grid>
+                                        <Grid item sm={4} className="c_content_space center c_side_area">
+                                            {
+                                                group.host_user_id === +localStorage.loginId ? 
+                                                    <Typography className="c_title">
+                                                        参加申請中ユーザ
+                                                    </Typography>
+                                                :
+                                                    <Typography className="c_title">
+                                                        参加ユーザ
+                                                    </Typography>
+                                            }
+
+                                            <UserListData data={pusers} subdata={ghusers} host_user_id={group.host_user_id} />
+                                        </Grid>
+                                    </Grid>
+                                </Hidden>
+                                
                             </div>
-                            <Button className="albumcreate_button ipad" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
-                            <AlbumListData data={albums} />
-                            
-                        </Grid>
-                        <Grid item sm={4} className="c_content_space center c_side_area">
-                            {
-                                group.host_user_id === +localStorage.loginId ? 
-                                    <Typography className="c_title">
-                                        参加申請中ユーザ
-                                    </Typography>
-                                :
-                                    <Typography className="c_title">
-                                        参加ユーザ
-                                    </Typography>
-                            }
 
-                            <UserListData data={pusers} subdata={ghusers} host_user_id={group.host_user_id} />
-                        </Grid>
-                    </Grid>
-                </Hidden>
-                
-            </div>
+                            {/* スマホ版 */}
+                            <div className={displayStyles.sectionMobile}>
+                                <Grid container>
+                                    <Grid item xs={12}>
+                                        <MobileHeaderTab label={label} callback={callback} />
+                                    </Grid>
+                                </Grid>
 
-            {/* スマホ版 */}
-            <div className={displayStyles.sectionMobile}>
-                <Grid container>
-                    <Grid item xs={12}>
-                        <MobileHeaderTab label={label} callback={callback} />
-                    </Grid>
-                </Grid>
+                                {
+                                    view ?
+                                        renderMobileUserList()
+                                    :
+                                        renderMobileGroupCard()
+                                }
 
-                {
-                    view ?
-                        renderMobileUserList()
+                            </div>
+                        </>
                     :
-                        renderMobileGroupCard()
-                }
-
-            </div>
+                        ''
+            }
         </div>
     )
 }
