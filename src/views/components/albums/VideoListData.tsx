@@ -52,7 +52,7 @@ const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
                         <VideoPlayer 
                             options={{
                                 sources: [{
-                                    src: item.src,
+                                    src: item.video_url,
                                     type: item.type
                                 }],
                             }} 
@@ -89,7 +89,7 @@ const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
                         <VideoPlayer 
                             options={{
                                 sources: [{
-                                    src: item.src,
+                                    src: item.video_url,
                                     type: item.type
                                 }],
                             }} 

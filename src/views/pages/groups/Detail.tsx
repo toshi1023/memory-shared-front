@@ -60,6 +60,7 @@ const GroupDetail: React.FC = () => {
                 if(pusersRes.payload.pusers.data) {
                     pusersRes.payload.pusers.data.map(val => {
                         if(val.id === +localStorage.loginId) setAlbumflg(true);
+                        // 非公開のグループかつメンバーであるときのみデータを表示する
                         if(gpflg && val.id === +localStorage.loginId) setPrivateflg(true);
                     });
                 }

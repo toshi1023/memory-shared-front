@@ -49,12 +49,15 @@ const VideoRegister: React.FC = () => {
         // ボタン非活性化
         setDisabled(true);
         dispatch(fetchCredStart);
+        // XSRF-TOKENの取得
+        await dispatch(fetchAsyncGetToken());
         // 複数のファイルアップロードをPromise.allで並列に実行する
         await Promise.all(files.map((file) => {
             const data = {
                 user_id: +localStorage.loginId, 
                 group_id: +id,
                 album_id: +albumid,
+                type: file.type,
                 image_file: file
             }
             dispatch(fetchAsyncPostUserVideo(data));

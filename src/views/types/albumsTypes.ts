@@ -34,10 +34,15 @@
  */
  export interface VIDEO_LIST_DATA {
     data: {
-        id: number;
-        src: string;
-        type: string;
-        title: string;
+        id: number,
+        user_id: number,
+        album_id: number,
+        type: string,
+        image_file: string,
+        video_url: string,
+        black_list: object,
+        white_list: object,
+        updated_user_id: number
     }[]
 
     callback: {
@@ -54,7 +59,7 @@
 /**
  * ModalSwiperImages用のデータ型定義
  */
- export interface MODAL_SWIPER_IMAGES {
+export interface MODAL_SWIPER_IMAGES {
     data: { 
         id: number,
         user_id: number,
@@ -142,8 +147,9 @@ export interface ALBUM_RES {
             id: number,
             user_id: number,
             album_id: number,
+            type: string,
             image_file: string,
-            image_url: string,
+            video_url: string,
             black_list: object,
             white_list: object,
             updated_user_id: number
@@ -276,6 +282,7 @@ export interface IMAGE_VALIDATE_RES {
     user_id: number,
     group_id: number,
     album_id: number,
+    type: string,
     image_file: File | null
 }
 /**

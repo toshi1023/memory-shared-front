@@ -284,8 +284,9 @@ export const albumSlice = createSlice({
                 id: 0,
                 user_id: 0,
                 album_id: 0,
+                type: 'video/mp4',
                 image_file: '',
-                image_url: '',
+                video_url: '',
                 black_list: {},
                 white_list: {},
                 updated_user_id: 0

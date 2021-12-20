@@ -213,7 +213,7 @@ const AlbumDetail: React.FC = () => {
                     <Grid item sm={10} md={8} lg={7}>
                         {
                             view ? 
-                                <VideoListData data={videoData} label ={label} callback={callback} />
+                                <VideoListData data={video} label ={label} callback={callback} />
                             :
                                 <ImageListData data={image} label={label} callback={callback} />
                         }
@@ -319,7 +319,7 @@ const AlbumDetail: React.FC = () => {
                         <div>
                             {
                                 view ? 
-                                    <VideoListData data={videoData} label ={label} callback={callback} />
+                                    <VideoListData data={video} label ={label} callback={callback} />
                                 :
                                     <ImageListData data={image} label={label} callback={callback} />
                             }
