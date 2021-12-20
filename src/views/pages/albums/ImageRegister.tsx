@@ -46,8 +46,7 @@ const ImageRegister: React.FC = () => {
     const infoMessage = '画像を保存しました';
     // 待機用
     const sleepfunc = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-    // const sleeptime = files.length > 100 ? 10000 : files.length > 60 ? 6000 : files.length > 40 ? 4000 : 2000;
-    const sleeptime = files.length > 40 ? 4000 : 2000;
+    const sleeptime = files.length > 100 ? 200000 : files.length > 60 ? 12500 : files.length > 40 ? 8000 : files.length > 10 ? 4000 : 2000;
 
     /**
      * 画像読み込み用の非同期処理

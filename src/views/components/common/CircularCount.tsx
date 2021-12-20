@@ -71,16 +71,22 @@ const CircularCount: React.FC<CIRCULAR_COUNT> = (props) => {
         const timer = setInterval(() => {
             switch(props.data) {
                 case 2000:
-                    setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 50));
+                    setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 50));
                     break;
                 case 4000:
-                    setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 25));
+                    setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 25));
                     break;
-                case 6000:
-                    setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 15));
+                case 8000:
+                    setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 12.5));
                     break;
                 case 10000:
-                    setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
+                    setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 10));
+                    break;
+                case 12500:
+                    setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 8));
+                    break;
+                case 20000:
+                    setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 5));
                     break;
             }
         }, 900);

@@ -173,7 +173,10 @@ const AlbumDetail: React.FC = () => {
                                 <>
                                     <Button 
                                         className="edit_button pos_left pos_vertical_center" 
-                                        onClick={() => setDeleteflg(false)} 
+                                        onClick={() => {
+                                            setDeleteflg(false);
+                                            setDeletedata([]);
+                                        }} 
                                     >
                                         削除を取りやめる
                                     </Button>
@@ -285,7 +288,10 @@ const AlbumDetail: React.FC = () => {
                         <div className='submessage_container'>
                             <Button 
                                 className="edit_button" 
-                                onClick={() => setDeleteflg(false)} 
+                                onClick={() => {
+                                    setDeleteflg(false);
+                                    setDeletedata([]);
+                                }} 
                             >
                                 削除を取りやめる
                             </Button>
