@@ -69,6 +69,16 @@
         border-radius: 30px;
         font-weight: bold;
     }
+    .disabled_button {
+        margin: 40px 0 20px 0;
+        width: 60%;
+        background: #e6e1e1;
+        border: 1px solid #646363;
+        border-radius: 30px;
+        box-sizing: border-box;
+        font-size: 16px;
+        font-weight: bold;
+    }
 }
 
 #album_register {
@@ -204,6 +214,15 @@
         height: 450px;
         transform: translateZ(0);
     }
+
+    .circle {
+        width: 90%;
+        height: 20vh;
+        vertical-align: top;
+        display: flex;
+        margin: 3vh auto;
+        position: relative;
+    }
 }
 
 #video_register {
@@ -261,6 +280,15 @@
             bottom: 0;
             right: 0;
         }
+    }
+
+    .circle {
+        width: 90%;
+        height: 20vh;
+        vertical-align: top;
+        display: flex;
+        margin: 3vh auto;
+        position: relative;
     }
     
     .metas-container {

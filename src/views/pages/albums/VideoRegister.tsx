@@ -10,6 +10,7 @@ import { fetchAsyncPostUserVideo } from './albumSlice';
 import { AppDispatch } from '../../../stores/store';
 import Loading from '../../components/common/Loading';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CircularCount from '../../components/common/CircularCount';
 import { useDropzone } from 'react-dropzone';
 
 const VideoRegister: React.FC = () => {
@@ -27,7 +28,7 @@ const VideoRegister: React.FC = () => {
     const infoMessage = '動画を保存しました';
     // 待機用
     const sleepfunc = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-    const sleeptime = files.length > 10 ? 4000 : files.length > 5 ? 2000 : 0;
+    const sleeptime = files.length > 10 ? 4000 : 2000;
 
     /**
     * ドロップした時の処理
@@ -114,16 +115,23 @@ const VideoRegister: React.FC = () => {
                             className="header">
                         </CardHeader>
                         <CardContent>
-                            <Paper className="dropzone" {...getRootProps()}>
-                                <input {...getInputProps()} />
-                                <Typography className="drag-drop-info">ファイルをドロップ</Typography>
-                                <Button className="c_clear clear_button_place" onClick={(event) => {
-                                    event.stopPropagation();
-                                    setFiles([])}
-                                }>
-                                    クリア
-                                </Button>
-                            </Paper>
+                            {
+                                disabled ? 
+                                    <div className="circle">
+                                        <CircularCount data={sleeptime} />
+                                    </div>
+                                :
+                                    <Paper className="dropzone" {...getRootProps()}>
+                                        <input {...getInputProps()} />
+                                        <Typography className="drag-drop-info">ファイルをドロップ</Typography>
+                                        <Button className="c_clear clear_button_place" onClick={(event) => {
+                                            event.stopPropagation();
+                                            setFiles([])}
+                                        }>
+                                            クリア
+                                        </Button>
+                                    </Paper>
+}
                             {
                                 disabled ? 
                                     <Button className={componentStyles.disabledButton} disabled={disabled} startIcon={<CloudUploadIcon />}>

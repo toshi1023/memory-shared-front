@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import '../../../styles/albums/albums.scss';
 import '../../../styles/common/common.scss';
 import { useHistory, useParams } from "react-router-dom";
-import { fetchGetErrorMessages, fetchGetInfoMessages } from '../appSlice';
+import { fetchGetErrorMessages, fetchGetInfoMessages, fetchCredStart, fetchCredEnd } from '../appSlice';
 import { fetchAsyncGetAlbum, selectAlbum, selectImage, selectVideo, fetchAsyncDeleteUserImage } from './albumSlice';
 import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip, Button, Menu, MenuItem } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
@@ -15,6 +15,7 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import MovieIcon from '@material-ui/icons/Movie';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Loading from '../../components/common/Loading';
 import { AppDispatch } from '../../../stores/store';
 
 /**
@@ -26,6 +27,7 @@ const AlbumDetail: React.FC = () => {
     const componentStyles = ComponentStyles();
     const history = useHistory();
     const { id, name, albumname, albumid } = useParams<{ id: string, name: string, albumname: string, albumid: string }>();
+    const [disabled, setDisabled] = useState(false);
     // 画面切り替えを管理
     const [view, setView] = useState(0);
     // アルバム編集メニュー表示管理
@@ -34,6 +36,8 @@ const AlbumDetail: React.FC = () => {
     const [deleteflg, setDeleteflg] = useState(false);
     // 画像・動画削除管理
     const [deletedata, setDeletedata] = useState<number[]>([]);
+    // 待機用
+    const sleepfunc = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
     // redux
     const dispatch: AppDispatch = useDispatch();
     const album = useSelector(selectAlbum);
@@ -102,6 +106,10 @@ const AlbumDetail: React.FC = () => {
 
     // 削除処理を実行
     const handleDelete = async () => {
+        // ボタンを非活性化
+        setDisabled(true);
+        await dispatch(fetchCredStart());
+
         await deletedata.map(async (val) => {
             const data = {
                 group_id: +id,
@@ -119,6 +127,8 @@ const AlbumDetail: React.FC = () => {
                 return;
             }
         });
+        // 削除完了のために1.5秒ほど待機
+        await sleepfunc(1500);
         // データの再取得
         const albumRes = await dispatch(fetchAsyncGetAlbum({group_id: +id, album_id: +albumid}));
         if(fetchAsyncGetAlbum.fulfilled.match(albumRes) && albumRes.payload.error_message) {
@@ -133,6 +143,9 @@ const AlbumDetail: React.FC = () => {
             dispatch(fetchGetInfoMessages('動画の削除が完了しました'))
         :
             dispatch(fetchGetInfoMessages('画像の削除が完了しました'))
+
+        await dispatch(fetchCredEnd());
+        setDisabled(false);
     }
 
     // アルバム編集メニューの表示制御
@@ -252,7 +265,12 @@ const AlbumDetail: React.FC = () => {
                         }
                         {
                             deleteflg ? 
-                                <Button variant="contained" color="secondary" className="delete_button" onClick={handleDelete}>削除する</Button>
+                                disabled ? 
+                                    <Button variant="contained" color="secondary" className="disabled_button" disabled={disabled}>
+                                        削除中<Loading />
+                                    </Button>
+                                :
+                                    <Button variant="contained" color="secondary" className="delete_button" onClick={handleDelete}>削除する</Button>
                             :
                                 ''
                         }
@@ -358,7 +376,12 @@ const AlbumDetail: React.FC = () => {
                             }
                             {
                                 deleteflg ? 
-                                    <Button variant="contained" color="secondary" className="delete_button" onClick={handleDelete}>削除する</Button>
+                                    disabled ? 
+                                        <Button variant="contained" color="secondary" className="disabled_button" disabled={disabled}>
+                                            削除中<Loading />
+                                        </Button>
+                                    :
+                                        <Button variant="contained" color="secondary" className="delete_button" onClick={handleDelete}>削除する</Button>
                                 :
                                     ''
                             }
