@@ -59,26 +59,6 @@ const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
                             key={item.id}
                         />
                     ))}
-                    {/* <ImageList rowHeight={180} className={classes.imageList} cols={3}>
-                        {_.map(props.data, item => (
-                            <ImageListItem key={item.id}>
-                                <VideoPlayer options={{
-                                    sources: [{
-                                        src: item.src,
-                                        type: item.type
-                                    }]
-                                }} />
-                                <ImageListItemBar
-                                    title={item.title}
-                                    actionIcon={
-                                        <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
-                                            <InfoIcon />
-                                        </IconButton>
-                                    }
-                                />
-                            </ImageListItem>
-                        ))}
-                    </ImageList> */}
                 </div>
             </div>
 

@@ -5,7 +5,8 @@ import { API_GROUP_PROPS } from "../../types/groupsTypes";
 import { 
     ALBUM_PROPS, ALBUM_RES, ALBUM_VALIDATE_RES, API_ALBUM_PROPS, DELETE_ALBUM_PROPS, DELETE_ALBUM_RES, 
     EDIT_ALBUM_PROPS, EDIT_ALBUM_RES, REGISTER_ALBUM_PROPS, REGISTER_ALBUM_RES, UPDATE_ALBUM_PROPS, UPDATE_ALBUM_RES, 
-    REGISTER_IMAGE_PROPS, REGISTER_IMAGE_RES, IMAGE_VALIDATE_RES, REGISTER_VIDEO_PROPS, REGISTER_VIDEO_RES 
+    REGISTER_IMAGE_PROPS, REGISTER_IMAGE_RES, IMAGE_VALIDATE_RES, REGISTER_VIDEO_PROPS, REGISTER_VIDEO_RES, 
+    DELETE_IMAGE_PROPS, DELETE_IMAGE_RES, 
 } from "../../types/albumsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -213,6 +214,33 @@ export const fetchAsyncPostUserImage = createAsyncThunk<REGISTER_IMAGE_RES, REGI
             }
             
             return err.response.data as REGISTER_IMAGE_RES;
+        }
+    }
+);
+
+/**
+ * 画像削除用の非同期関数
+ */
+export const fetchAsyncDeleteUserImage = createAsyncThunk<DELETE_IMAGE_RES, DELETE_IMAGE_PROPS>(
+    "delete_image",
+    async (props: DELETE_IMAGE_PROPS) => {
+        try {
+            const res = await axios.delete(`${apiUrl}/groups/${props.group_id}/albums/${props.album_id}/images/${props.image_id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as DELETE_IMAGE_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as DELETE_IMAGE_RES;
         }
     }
 );

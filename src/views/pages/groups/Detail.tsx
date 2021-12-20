@@ -291,22 +291,15 @@ const GroupDetail: React.FC = () => {
 
                                             <GroupCard data={group} />
                                             
-                                            {
-                                                albumflg ? 
-                                                    <>
-                                                        <br />
-                                                        <hr className="app_hr" />
-                                                        <div className="c_title_space">
-                                                            <Typography className="c_title">
-                                                                アルバム
-                                                            </Typography>
-                                                        </div>
-                                                        <Button className="albumcreate_button" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
-                                                        <AlbumListData data={albums} />
-                                                    </>
-                                                :
-                                                    ''
-                                            }
+                                            <br />
+                                            <hr className="app_hr" />
+                                            <div className="c_title_space">
+                                                <Typography className="c_title">
+                                                    アルバム
+                                                </Typography>
+                                            </div>
+                                            <Button className="albumcreate_button" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                                            <AlbumListData data={albums} />
                                         </Grid>
                                         <Grid item md={3} className="c_content_space center c_side_area">
                                             {
@@ -335,22 +328,15 @@ const GroupDetail: React.FC = () => {
 
                                             <GroupCard data={group} />
 
-                                            {
-                                                albumflg ? 
-                                                    <>
-                                                        <br />
-                                                        <hr className="app_hr" />
-                                                        <div className="c_title_space">
-                                                            <Typography className="c_title">
-                                                                アルバム
-                                                            </Typography>
-                                                        </div>
-                                                        <Button className="albumcreate_button ipad" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
-                                                        <AlbumListData data={albums} />
-                                                    </>
-                                                :
-                                                    ''
-                                            }
+                                            <br />
+                                            <hr className="app_hr" />
+                                            <div className="c_title_space">
+                                                <Typography className="c_title">
+                                                    アルバム
+                                                </Typography>
+                                            </div>
+                                            <Button className="albumcreate_button ipad" onClick={() => history.push(`/groups/${group.name}/${group.id}/albums/register`)}><LibraryAddIcon className="albumcreate_icon" />アルバムを作成</Button>
+                                            <AlbumListData data={albums} />
                                             
                                         </Grid>
                                         <Grid item sm={4} className="c_content_space center c_side_area">

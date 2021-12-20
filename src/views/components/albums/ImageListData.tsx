@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
+    },
+    visible: {
+        backgroundColor: 'rgba(252, 26, 26, 0.7)'
     }
   }),
 );
@@ -59,7 +62,14 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                             {_.map(props.data, (item, index) => (
                                 <ImageListItem 
                                     key={item.id} 
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                        // 削除モードの場合は削除用コールバックを実行
+                                        if(props.flg) {
+                                            e.currentTarget.classList.toggle(classes.visible);
+                                            props.callback(item.id);
+                                            return;
+                                        }
+                                        // 削除モードで無い場合はモーダルを表示
                                         setSlideIndex(index);
                                         setOpen(true);
                                     }} 
@@ -79,7 +89,14 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                         {_.map(props.data, (item, index) => (
                             <ImageListItem 
                                 key={item.id} 
-                                onClick={() => {
+                                onClick={(e) => {
+                                    e.currentTarget.classList.toggle(classes.visible);
+                                    // 削除モードの場合は削除用コールバックを実行
+                                    if(props.flg) {
+                                        props.callback(item.id);
+                                        return;
+                                    }
+                                    // 削除モードで無い場合はモーダルを表示
                                     setSlideIndex(index);
                                     setOpen(true);
                                 }} 

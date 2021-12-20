@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import '../../../styles/albums/albums.scss';
 import '../../../styles/common/common.scss';
 import { useHistory, useParams } from "react-router-dom";
-import { fetchGetErrorMessages } from '../appSlice';
-import { fetchAsyncGetAlbum, selectAlbum, selectImage, selectVideo } from './albumSlice';
+import { fetchGetErrorMessages, fetchGetInfoMessages } from '../appSlice';
+import { fetchAsyncGetAlbum, selectAlbum, selectImage, selectVideo, fetchAsyncDeleteUserImage } from './albumSlice';
 import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip, Button, Menu, MenuItem } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import ComponentStyles from '../../../styles/common/componentStyle';
@@ -16,9 +16,6 @@ import MovieIcon from '@material-ui/icons/Movie';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { AppDispatch } from '../../../stores/store';
-
-import videoSrc from '../../../video/MemoryShareApp.mp4';
-import media_list from '../../../data/media_list_data.json';
 
 /**
  * アルバムの詳細ページ
@@ -35,6 +32,8 @@ const AlbumDetail: React.FC = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     // 削除時の切り替えフラグ
     const [deleteflg, setDeleteflg] = useState(false);
+    // 画像・動画削除管理
+    const [deletedata, setDeletedata] = useState<number[]>([]);
     // redux
     const dispatch: AppDispatch = useDispatch();
     const album = useSelector(selectAlbum);
@@ -69,6 +68,73 @@ const AlbumDetail: React.FC = () => {
         setView(newValue);
     };
 
+    // 画像・動画削除時のcallback関数を設定
+    const deleteCallback = (data: number) => {
+        let obj: number[] = new Array();
+        let flg = false;
+        obj = [...deletedata];
+        
+        // データを1件も選択していない場合
+        if(obj.length === 0) {
+            setDeletedata([data]);
+            return;
+        }
+
+        // すでに1件選択している場合
+        obj.map((val, index) => {
+            // deletedataに追加されていれば配列から削除する
+            if(val === data) {
+                if(index === 0) {
+                    // 先頭の要素を削除
+                    obj.shift();
+                } else {
+                    // 戦闘以外の要素を削除
+                    obj.splice(index, index);
+                }
+                flg = true;
+            }
+        });
+        // 未追加だった場合はobjに追加する
+        if(!flg) obj.push(data);
+        
+        setDeletedata(obj);
+    }
+
+    // 削除処理を実行
+    const handleDelete = async () => {
+        await deletedata.map(async (val) => {
+            const data = {
+                group_id: +id,
+                album_id: +albumid,
+                image_id: val
+            }
+            // 動画の削除
+            // if(view) {
+            //     return;
+            // }
+            // 画像の削除
+            const dimageRes = await dispatch(fetchAsyncDeleteUserImage(data));
+            if(fetchAsyncDeleteUserImage.fulfilled.match(dimageRes) && dimageRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(dimageRes.payload.error_message));
+                return;
+            }
+        });
+        // データの再取得
+        const albumRes = await dispatch(fetchAsyncGetAlbum({group_id: +id, album_id: +albumid}));
+        if(fetchAsyncGetAlbum.fulfilled.match(albumRes) && albumRes.payload.error_message) {
+            dispatch(fetchGetErrorMessages(albumRes.payload.error_message));
+            return;
+        }
+        // stateの初期化
+        setDeleteflg(false);
+        setDeletedata([]);
+        // 削除成功メッセージの表示
+        view ? 
+            dispatch(fetchGetInfoMessages('動画の削除が完了しました'))
+        :
+            dispatch(fetchGetInfoMessages('画像の削除が完了しました'))
+    }
+
     // アルバム編集メニューの表示制御
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -76,39 +142,6 @@ const AlbumDetail: React.FC = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const videoData = [
-        {
-            id: 1,
-            src: videoSrc,
-            type: "video/mp4",
-            title: 'test_video1'
-        },
-        {
-            id: 2,
-            src: videoSrc,
-            type: "video/mp4",
-            title: 'test_video2'
-        },
-        {
-            id: 3,
-            src: videoSrc,
-            type: "video/mp4",
-            title: 'test_video3'
-        },
-        {
-            id: 4,
-            src: videoSrc,
-            type: "video/mp4",
-            title: 'test_video4'
-        },
-        {
-            id: 5,
-            src: videoSrc,
-            type: "video/mp4",
-            title: 'test_video5'
-        },
-    ]
 
     return (
         <div id="album_detail">
@@ -213,13 +246,13 @@ const AlbumDetail: React.FC = () => {
                     <Grid item sm={10} md={8} lg={7}>
                         {
                             view ? 
-                                <VideoListData data={video} label ={label} callback={callback} />
+                                <VideoListData data={video} label ={label} callback={deleteCallback} flg={deleteflg} />
                             :
-                                <ImageListData data={image} label={label} callback={callback} />
+                                <ImageListData data={image} label={label} callback={deleteCallback} flg={deleteflg} />
                         }
                         {
                             deleteflg ? 
-                                <Button variant="contained" color="secondary" className="delete_button">削除する</Button>
+                                <Button variant="contained" color="secondary" className="delete_button" onClick={handleDelete}>削除する</Button>
                             :
                                 ''
                         }
@@ -319,13 +352,13 @@ const AlbumDetail: React.FC = () => {
                         <div>
                             {
                                 view ? 
-                                    <VideoListData data={video} label ={label} callback={callback} />
+                                    <VideoListData data={video} label ={label} callback={deleteCallback} flg={deleteflg} />
                                 :
-                                    <ImageListData data={image} label={label} callback={callback} />
+                                    <ImageListData data={image} label={label} callback={deleteCallback} flg={deleteflg} />
                             }
                             {
                                 deleteflg ? 
-                                    <Button variant="contained" color="secondary" className="delete_button">削除する</Button>
+                                    <Button variant="contained" color="secondary" className="delete_button" onClick={handleDelete}>削除する</Button>
                                 :
                                     ''
                             }

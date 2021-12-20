@@ -16,12 +16,10 @@
         black_list: object,
         white_list: object,
         updated_user_id: number
-    }[]
+    }[],
+    flg: boolean,
 
-    callback: {
-        function1: (value: number) => void,
-        function2: (value: number) => void,
-    }
+    callback: (value: number) => void,
 
     label: {
         label1: string,
@@ -43,12 +41,10 @@
         black_list: object,
         white_list: object,
         updated_user_id: number
-    }[]
+    }[],
+    flg: boolean,
 
-    callback: {
-        function1: (value: number) => void,
-        function2: (value: number) => void,
-    }
+    callback: (value: number) => void,
 
     label: {
         label1: string,
@@ -273,6 +269,22 @@ export interface IMAGE_VALIDATE_RES {
     }
 
     validate_status: string
+}
+
+/**
+ * delete_image用のデータ型定義
+ */
+export interface DELETE_IMAGE_PROPS {
+    group_id: number,
+    album_id: number,
+    image_id: number
+}
+/**
+ * AsyncThunk用(delete_image用)
+ */
+export interface DELETE_IMAGE_RES {
+    info_message: string,
+    error_message: string,
 }
 
 /**
