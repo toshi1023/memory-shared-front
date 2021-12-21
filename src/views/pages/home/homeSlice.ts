@@ -183,7 +183,7 @@ export const fetchAsyncGetTalks = createAsyncThunk<TALKS_RES, API_TALKS_PROPS>(
     "talks",
     async (props: API_TALKS_PROPS) => {
           try {
-              const res = await axios.get(`${apiUrl}/users/${props.id}/messages?user_id=${props.user_id}`, {
+              const res = await axios.get(`${apiUrl}/users/${props.id}/messages?user_id=${props.user_id}&page=${props.page}`, {
                   headers: {
                       "Accept": "application/json"
                   },
@@ -442,9 +442,13 @@ export const homeSlice = createSlice({
         // トーク履歴取得処理
         builder.addCase(fetchAsyncGetTalks.fulfilled, (state, action: PayloadAction<TALKS_RES>) => {
             if(!action.payload.error_message) {
-                state.talks = action.payload.talks.data.sort((a,b) => -1);     // ソート順序を入れ替え
                 state.page.ti_currentpage = action.payload.talks.current_page;
                 state.page.ti_lastpage = action.payload.talks.last_page;
+                if(action.payload.talks.current_page === 1) {
+                    state.talks = action.payload.talks.data.sort((a,b) => -1);                         // ソート順序を入れ替え
+                } else {
+                    state.talks = action.payload.talks.data.sort((a,b) => -1).concat(state.talks);     // ソート順序を入れ替え
+                }
             }
         });
         // トーク保存後処理

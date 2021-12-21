@@ -297,7 +297,8 @@ export interface TALKLIST_RES {
  */
 export interface API_TALKS_PROPS {
     id: number,
-    user_id: number
+    user_id: number,
+    page: number | null
 }
 /**
  * AsyncThunk用(talks用)
