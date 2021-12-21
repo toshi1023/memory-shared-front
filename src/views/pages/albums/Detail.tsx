@@ -181,7 +181,7 @@ const AlbumDetail: React.FC = () => {
                                         削除を取りやめる
                                     </Button>
                                     <div className='submessage_container'>
-                                        <Typography className="delete_submessage">削除する画像を選択してください</Typography>
+                                        <Typography className="delete_submessage">{view ? '削除する動画を選択してください' : '削除する画像を選択してください'}</Typography>
                                     </div>
                                 </>
                             :
