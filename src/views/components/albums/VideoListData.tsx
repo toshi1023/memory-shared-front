@@ -2,11 +2,6 @@ import React from 'react';
 import DisplayStyles from '../../../styles/common/displayMode';
 import _ from 'lodash';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import ImageList from '@material-ui/core/ImageList';
-import ImageListItem from '@material-ui/core/ImageListItem';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
 import { VIDEO_LIST_DATA } from '../../types/albumsTypes';
 import VideoPlayer from "../../components/common/VideoPlayer";
 

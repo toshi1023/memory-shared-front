@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DisplayStyles from '../../../styles/common/displayMode';
 import _ from 'lodash';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -45,6 +45,14 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
     const [open, setOpen] = useState(false);
     const [slideIndex, setSlideIndex] = useState(0);
 
+    // 削除を取りやめた場合は画像の選択状態を解除する
+    useEffect(() => {
+        const element = Array.from(document.getElementsByClassName('image_list'));
+        element.map(el => {
+            el.classList.remove(classes.visible);
+        });
+    }, [props.flg])
+
     /**
      * モーダル表示制御用関数
      * @param value 
@@ -62,6 +70,7 @@ const ImageListData: React.FC<IMAGE_LIST_DATA> = (props) => {
                             {_.map(props.data, (item, index) => (
                                 <ImageListItem 
                                     key={item.id} 
+                                    className="image_list" 
                                     onClick={(e) => {
                                         // 削除モードの場合は削除用コールバックを実行
                                         if(props.flg) {
