@@ -33,6 +33,15 @@ const Talk: React.FC = () => {
     // pusher
     Pusher.logToConsole = true;
 
+    /**
+     * スクロールが存在する場合、メッセージ表示部分のスクロールを最下層に初期値として設定
+     */
+    const handleScrollBottom = () => {
+        if(messageArea.current !== null) {
+            messageArea.current.scrollTop = messageArea.current?.scrollHeight;
+        }
+    }
+
     useEffect(() => {
         // トーク履歴を取得
         const renderTalk = async () => {
@@ -41,10 +50,7 @@ const Talk: React.FC = () => {
                 dispatch(fetchGetErrorMessages(talkRes.payload.error_message));
                 return;
             }
-            // スクロールが存在する場合、メッセージ表示部分のスクロールを最下層に初期値として設定
-            if(messageArea.current !== null) {
-                messageArea.current.scrollTop = messageArea.current?.scrollHeight;
-            }
+            handleScrollBottom();
             dispatch(fetchGetUrl(history.location.pathname));
         }        
         renderTalk();
@@ -58,10 +64,7 @@ const Talk: React.FC = () => {
         channel.bind(appEvent, function(data: PUSHER_TALK_RES) {
             // 自身がuser_idで設定されたとき(受け手)のみPusherからメッセージを取得
             if (data.talk.user_id === +localStorage.loginId) dispatch(fetchWebsocketMessage(data));
-            // スクロールが存在する場合、メッセージ表示部分のスクロールを最下層に初期値として設定
-            if(messageArea.current !== null) {
-                messageArea.current.scrollTop = messageArea.current?.scrollHeight;
-            }
+            handleScrollBottom();
         });
     }, [dispatch]);
 
@@ -95,10 +98,7 @@ const Talk: React.FC = () => {
         if(talkInput !== null) {
             talkInput.value = '';
         }
-        // スクロールが存在する場合、メッセージ表示部分のスクロールを最下層に初期値として設定
-        if(messageArea.current !== null) {
-            messageArea.current.scrollTop = messageArea.current?.scrollHeight;
-        }
+        handleScrollBottom();
     }
 
     /**
