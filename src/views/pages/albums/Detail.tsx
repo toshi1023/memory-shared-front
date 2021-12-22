@@ -4,7 +4,7 @@ import '../../../styles/albums/albums.scss';
 import '../../../styles/common/common.scss';
 import { useHistory, useParams } from "react-router-dom";
 import { fetchGetErrorMessages, fetchGetInfoMessages, fetchCredStart, fetchCredEnd } from '../appSlice';
-import { fetchAsyncGetAlbum, selectAlbum, selectImage, selectVideo, fetchAsyncDeleteUserImage } from './albumSlice';
+import { fetchAsyncGetAlbum, fetchAsyncGetImages, fetchAsyncGetVideos, selectAlbum, selectImages, selectVideos, fetchAsyncDeleteUserImage } from './albumSlice';
 import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip, Button, Menu, MenuItem } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import ComponentStyles from '../../../styles/common/componentStyle';
@@ -41,8 +41,8 @@ const AlbumDetail: React.FC = () => {
     // redux
     const dispatch: AppDispatch = useDispatch();
     const album = useSelector(selectAlbum);
-    const image = useSelector(selectImage);
-    const video = useSelector(selectVideo);
+    const images = useSelector(selectImages);
+    const videos = useSelector(selectVideos);
 
     useEffect(() => {
         const renderAlbumDetail = async () => {
@@ -50,6 +50,18 @@ const AlbumDetail: React.FC = () => {
             const albumRes = await dispatch(fetchAsyncGetAlbum({group_id: +id, album_id: +albumid}));
             if(fetchAsyncGetAlbum.fulfilled.match(albumRes) && albumRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(albumRes.payload.error_message));
+                return;
+            }
+            // 画像情報取得
+            const imagesRes = await dispatch(fetchAsyncGetImages({group_id: +id, album_id: +albumid}));
+            if(fetchAsyncGetImages.fulfilled.match(imagesRes) && imagesRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(imagesRes.payload.error_message));
+                return;
+            }
+            // 動画情報取得
+            const videosRes = await dispatch(fetchAsyncGetVideos({group_id: +id, album_id: +albumid}));
+            if(fetchAsyncGetVideos.fulfilled.match(videosRes) && videosRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(videosRes.payload.error_message));
                 return;
             }
         }
@@ -262,9 +274,9 @@ const AlbumDetail: React.FC = () => {
                     <Grid item sm={10} md={8} lg={7}>
                         {
                             view ? 
-                                <VideoListData data={video} label ={label} callback={deleteCallback} flg={deleteflg} />
+                                <VideoListData data={videos} label ={label} callback={deleteCallback} flg={deleteflg} />
                             :
-                                <ImageListData data={image} label={label} callback={deleteCallback} flg={deleteflg} />
+                                <ImageListData data={images} label={label} callback={deleteCallback} flg={deleteflg} />
                         }
                         {
                             deleteflg ? 
@@ -376,9 +388,9 @@ const AlbumDetail: React.FC = () => {
                         <div>
                             {
                                 view ? 
-                                    <VideoListData data={video} label ={label} callback={deleteCallback} flg={deleteflg} />
+                                    <VideoListData data={videos} label ={label} callback={deleteCallback} flg={deleteflg} />
                                 :
-                                    <ImageListData data={image} label={label} callback={deleteCallback} flg={deleteflg} />
+                                    <ImageListData data={images} label={label} callback={deleteCallback} flg={deleteflg} />
                             }
                             {
                                 deleteflg ? 

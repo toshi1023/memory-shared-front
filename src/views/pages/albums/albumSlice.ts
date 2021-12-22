@@ -6,7 +6,7 @@ import {
     ALBUM_PROPS, ALBUM_RES, ALBUM_VALIDATE_RES, API_ALBUM_PROPS, DELETE_ALBUM_PROPS, DELETE_ALBUM_RES, 
     EDIT_ALBUM_PROPS, EDIT_ALBUM_RES, REGISTER_ALBUM_PROPS, REGISTER_ALBUM_RES, UPDATE_ALBUM_PROPS, UPDATE_ALBUM_RES, 
     REGISTER_IMAGE_PROPS, REGISTER_IMAGE_RES, IMAGE_VALIDATE_RES, REGISTER_VIDEO_PROPS, REGISTER_VIDEO_RES, 
-    DELETE_IMAGE_PROPS, DELETE_IMAGE_RES, 
+    DELETE_IMAGE_PROPS, DELETE_IMAGE_RES, IMAGES_PROPS, IMAGES_RES, VIDEOS_PROPS, VIDEOS_RES 
 } from "../../types/albumsTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -191,6 +191,33 @@ export const fetchAsyncPostAlbumValidation = createAsyncThunk<ALBUM_VALIDATE_RES
 );
 
 /**
+ * 画像情報取得の非同期関数
+ */
+ export const fetchAsyncGetImages = createAsyncThunk<IMAGES_RES, IMAGES_PROPS>(
+    "images",
+    async (props: IMAGES_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/groups/${props.group_id}/albums/${props.album_id}/images`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as IMAGES_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as IMAGES_RES;
+        }
+    }
+);
+
+/**
  * 画像保存用の非同期関数
  */
 export const fetchAsyncPostUserImage = createAsyncThunk<REGISTER_IMAGE_RES, REGISTER_IMAGE_PROPS>(
@@ -246,6 +273,33 @@ export const fetchAsyncDeleteUserImage = createAsyncThunk<DELETE_IMAGE_RES, DELE
 );
 
 /**
+ * 動画情報取得の非同期関数
+ */
+ export const fetchAsyncGetVideos = createAsyncThunk<VIDEOS_RES, VIDEOS_PROPS>(
+    "videos",
+    async (props: VIDEOS_PROPS) => {
+        try {
+            const res = await axios.get(`${apiUrl}/groups/${props.group_id}/albums/${props.album_id}/videos`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as VIDEOS_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as VIDEOS_RES;
+        }
+    }
+);
+
+/**
  * 動画保存用の非同期関数
  */
 export const fetchAsyncPostUserVideo = createAsyncThunk<REGISTER_VIDEO_RES, REGISTER_VIDEO_PROPS>(
@@ -294,7 +348,7 @@ export const albumSlice = createSlice({
             image_url: '',
             host_user_id: 0
         },
-        image: [
+        images: [
             {
                 id: 0,
                 user_id: 0,
@@ -307,7 +361,7 @@ export const albumSlice = createSlice({
                 updated_user_id: 0
             }
         ],
-        video: [
+        videos: [
             {
                 id: 0,
                 user_id: 0,
@@ -351,12 +405,18 @@ export const albumSlice = createSlice({
         // 詳細用データ取得処理
         builder.addCase(fetchAsyncGetAlbum.fulfilled, (state, action: PayloadAction<ALBUM_RES>) => {
             state.album = action.payload.album;
-            state.image = action.payload.image.data;
-            state.video = action.payload.video.data;
-            state.page.i_currentpage = action.payload.image.current_page;
-            state.page.i_lastpage = action.payload.image.last_page;
-            state.page.v_currentpage = action.payload.video.current_page;
-            state.page.v_lastpage = action.payload.video.current_page;
+        });
+        // 画像データ取得処理
+        builder.addCase(fetchAsyncGetImages.fulfilled, (state, action: PayloadAction<IMAGES_RES>) => {
+            state.images = action.payload.images.data;
+            state.page.i_currentpage = action.payload.images.current_page;
+            state.page.i_lastpage = action.payload.images.last_page;
+        });
+        // 動画データ取得処理
+        builder.addCase(fetchAsyncGetVideos.fulfilled, (state, action: PayloadAction<VIDEOS_RES>) => {
+            state.videos = action.payload.videos.data;
+            state.page.v_currentpage = action.payload.videos.current_page;
+            state.page.v_lastpage = action.payload.videos.last_page;
         });
         // 編集用データ取得処理
         builder.addCase(fetchAsyncGetEditAlbum.fulfilled, (state, action: PayloadAction<EDIT_ALBUM_RES>) => {
@@ -374,8 +434,8 @@ export const {
 } = albumSlice.actions;
 
 export const selectAlbum = (state: RootState) => state.album.album;
-export const selectImage = (state: RootState) => state.album.image;
-export const selectVideo = (state: RootState) => state.album.video;
+export const selectImages = (state: RootState) => state.album.images;
+export const selectVideos = (state: RootState) => state.album.videos;
 export const selectAlbumValidation = (state: RootState) => state.album.validation;
 
 export default albumSlice.reducer;

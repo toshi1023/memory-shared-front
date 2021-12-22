@@ -123,36 +123,6 @@ export interface ALBUM_RES {
         image_url: string,
         host_user_id: number
     },
-    image: {
-        data: {
-            id: number,
-            user_id: number,
-            album_id: number,
-            type: number,
-            image_file: string,
-            image_url: string,
-            black_list: object,
-            white_list: object,
-            updated_user_id: number
-        }[],
-        current_page: number,
-        last_page: number
-    },
-    video: {
-        data: {
-            id: number,
-            user_id: number,
-            album_id: number,
-            type: string,
-            image_file: string,
-            video_url: string,
-            black_list: object,
-            white_list: object,
-            updated_user_id: number
-        }[],
-        current_page: number,
-        last_page: number
-    },
 
     error_message: string,
 }
@@ -243,6 +213,36 @@ export interface DELETE_ALBUM_RES {
 }
 
 /**
+ * images用のデータ型定義
+ */
+ export interface IMAGES_PROPS {
+    group_id: number,
+    album_id: number
+}
+/**
+ * AsyncThunk用(images用)
+ */
+export interface IMAGES_RES {
+    images: {
+        data: {
+            id: number,
+            user_id: number,
+            album_id: number,
+            type: number,
+            image_file: string,
+            image_url: string,
+            black_list: object,
+            white_list: object,
+            updated_user_id: number
+        }[],
+        current_page: number,
+        last_page: number
+    },
+
+    error_message: string,
+}
+
+/**
  * register_image用のデータ型定義
  */
 export interface REGISTER_IMAGE_PROPS {
@@ -284,6 +284,36 @@ export interface DELETE_IMAGE_PROPS {
  */
 export interface DELETE_IMAGE_RES {
     info_message: string,
+    error_message: string,
+}
+
+/**
+ * videos用のデータ型定義
+ */
+export interface VIDEOS_PROPS {
+    group_id: number,
+    album_id: number
+}
+/**
+ * AsyncThunk用(videos用)
+ */
+export interface VIDEOS_RES {
+    videos: {
+        data: {
+            id: number,
+            user_id: number,
+            album_id: number,
+            type: string,
+            image_file: string,
+            video_url: string,
+            black_list: object,
+            white_list: object,
+            updated_user_id: number
+        }[],
+        current_page: number,
+        last_page: number
+    },
+
     error_message: string,
 }
 
