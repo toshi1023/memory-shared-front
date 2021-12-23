@@ -21,6 +21,12 @@
 
     callback: (value: number) => void,
 
+    scrollCallback: (page: number) => Promise<boolean>,
+    page: {
+        current_page: number,
+        last_page: number,
+    },
+
     label: {
         label1: string,
         label2: string
@@ -45,6 +51,12 @@
     flg: boolean,
 
     callback: (value: number) => void,
+
+    scrollCallback: (page: number) => Promise<boolean>,
+    page: {
+        current_page: number,
+        last_page: number,
+    },
 
     label: {
         label1: string,
@@ -217,7 +229,8 @@ export interface DELETE_ALBUM_RES {
  */
  export interface IMAGES_PROPS {
     group_id: number,
-    album_id: number
+    album_id: number,
+    page: number
 }
 /**
  * AsyncThunk用(images用)
@@ -292,7 +305,8 @@ export interface DELETE_IMAGE_RES {
  */
 export interface VIDEOS_PROPS {
     group_id: number,
-    album_id: number
+    album_id: number,
+    page: number
 }
 /**
  * AsyncThunk用(videos用)

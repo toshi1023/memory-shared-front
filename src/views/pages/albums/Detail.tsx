@@ -4,7 +4,7 @@ import '../../../styles/albums/albums.scss';
 import '../../../styles/common/common.scss';
 import { useHistory, useParams } from "react-router-dom";
 import { fetchGetErrorMessages, fetchGetInfoMessages, fetchCredStart, fetchCredEnd } from '../appSlice';
-import { fetchAsyncGetAlbum, fetchAsyncGetImages, fetchAsyncGetVideos, selectAlbum, selectImages, selectVideos, fetchAsyncDeleteUserImage } from './albumSlice';
+import { fetchAsyncGetAlbum, fetchAsyncGetImages, fetchAsyncGetVideos, selectAlbumPages, selectImages, selectVideos, fetchAsyncDeleteUserImage } from './albumSlice';
 import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip, Button, Menu, MenuItem } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import ComponentStyles from '../../../styles/common/componentStyle';
@@ -40,9 +40,9 @@ const AlbumDetail: React.FC = () => {
     const sleepfunc = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
     // redux
     const dispatch: AppDispatch = useDispatch();
-    const album = useSelector(selectAlbum);
     const images = useSelector(selectImages);
     const videos = useSelector(selectVideos);
+    const albumPages = useSelector(selectAlbumPages);
 
     useEffect(() => {
         const renderAlbumDetail = async () => {
@@ -53,13 +53,13 @@ const AlbumDetail: React.FC = () => {
                 return;
             }
             // 画像情報取得
-            const imagesRes = await dispatch(fetchAsyncGetImages({group_id: +id, album_id: +albumid}));
+            const imagesRes = await dispatch(fetchAsyncGetImages({group_id: +id, album_id: +albumid, page: 1}));
             if(fetchAsyncGetImages.fulfilled.match(imagesRes) && imagesRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(imagesRes.payload.error_message));
                 return;
             }
             // 動画情報取得
-            const videosRes = await dispatch(fetchAsyncGetVideos({group_id: +id, album_id: +albumid}));
+            const videosRes = await dispatch(fetchAsyncGetVideos({group_id: +id, album_id: +albumid, page: 1}));
             if(fetchAsyncGetVideos.fulfilled.match(videosRes) && videosRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(videosRes.payload.error_message));
                 return;
@@ -142,10 +142,18 @@ const AlbumDetail: React.FC = () => {
         // 削除完了のために1.5秒ほど待機
         await sleepfunc(1500);
         // データの再取得
-        const albumRes = await dispatch(fetchAsyncGetAlbum({group_id: +id, album_id: +albumid}));
-        if(fetchAsyncGetAlbum.fulfilled.match(albumRes) && albumRes.payload.error_message) {
-            dispatch(fetchGetErrorMessages(albumRes.payload.error_message));
-            return;
+        if(view) {
+            const videosRes = await dispatch(fetchAsyncGetVideos({group_id: +id, album_id: +albumid, page: 1}));
+            if(fetchAsyncGetVideos.fulfilled.match(videosRes) && videosRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(videosRes.payload.error_message));
+                return;
+            }
+        } else {
+            const imagesRes = await dispatch(fetchAsyncGetImages({group_id: +id, album_id: +albumid, page: 1}));
+            if(fetchAsyncGetImages.fulfilled.match(imagesRes) && imagesRes.payload.error_message) {
+                dispatch(fetchGetErrorMessages(imagesRes.payload.error_message));
+                return;
+            }
         }
         // stateの初期化
         setDeleteflg(false);
@@ -167,6 +175,32 @@ const AlbumDetail: React.FC = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    /**
+     * スクロールイベント(画像の取得)
+     * @param page 
+     * @returns 
+     */
+    const scrollGetImagesData = async (page: number) => {
+        const imagesRes = await dispatch(fetchAsyncGetImages({group_id: +id, album_id: +albumid, page: page}));
+        if(fetchAsyncGetImages.fulfilled.match(imagesRes) && imagesRes.payload.error_message) {
+            dispatch(fetchGetErrorMessages(imagesRes.payload.error_message));
+        }
+        return true;
+    }
+
+    /**
+     * スクロールイベント(動画の取得)
+     * @param page 
+     * @returns 
+     */
+    const scrollGetVideosData = async (page: number) => {
+        const videosRes = await dispatch(fetchAsyncGetVideos({group_id: +id, album_id: +albumid, page: page}));
+        if(fetchAsyncGetVideos.fulfilled.match(videosRes) && videosRes.payload.error_message) {
+            dispatch(fetchGetErrorMessages(videosRes.payload.error_message));
+        }
+        return true;
+    }
 
     return (
         <div id="album_detail">
@@ -274,9 +308,23 @@ const AlbumDetail: React.FC = () => {
                     <Grid item sm={10} md={8} lg={7}>
                         {
                             view ? 
-                                <VideoListData data={videos} label ={label} callback={deleteCallback} flg={deleteflg} />
+                                <VideoListData 
+                                    data={videos} 
+                                    label ={label} 
+                                    callback={deleteCallback} 
+                                    flg={deleteflg}  
+                                    page={{current_page: albumPages.v_currentpage, last_page: albumPages.v_lastpage}}
+                                    scrollCallback={scrollGetVideosData}
+                                />
                             :
-                                <ImageListData data={images} label={label} callback={deleteCallback} flg={deleteflg} />
+                                <ImageListData 
+                                    data={images} 
+                                    label={label} 
+                                    callback={deleteCallback} 
+                                    flg={deleteflg} 
+                                    page={{current_page: albumPages.i_currentpage, last_page: albumPages.i_lastpage}}
+                                    scrollCallback={scrollGetImagesData}
+                                />
                         }
                         {
                             deleteflg ? 
@@ -388,9 +436,23 @@ const AlbumDetail: React.FC = () => {
                         <div>
                             {
                                 view ? 
-                                    <VideoListData data={videos} label ={label} callback={deleteCallback} flg={deleteflg} />
+                                    <VideoListData 
+                                        data={videos} 
+                                        label ={label} 
+                                        callback={deleteCallback} 
+                                        flg={deleteflg}  
+                                        page={{current_page: albumPages.v_currentpage, last_page: albumPages.v_lastpage}}
+                                        scrollCallback={scrollGetVideosData}
+                                    />
                                 :
-                                    <ImageListData data={images} label={label} callback={deleteCallback} flg={deleteflg} />
+                                    <ImageListData 
+                                        data={images} 
+                                        label={label} 
+                                        callback={deleteCallback} 
+                                        flg={deleteflg} 
+                                        page={{current_page: albumPages.i_currentpage, last_page: albumPages.i_lastpage}}
+                                        scrollCallback={scrollGetImagesData}
+                                    />
                             }
                             {
                                 deleteflg ? 

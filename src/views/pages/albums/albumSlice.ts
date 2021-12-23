@@ -197,7 +197,7 @@ export const fetchAsyncPostAlbumValidation = createAsyncThunk<ALBUM_VALIDATE_RES
     "images",
     async (props: IMAGES_PROPS) => {
         try {
-            const res = await axios.get(`${apiUrl}/groups/${props.group_id}/albums/${props.album_id}/images`, {
+            const res = await axios.get(`${apiUrl}/groups/${props.group_id}/albums/${props.album_id}/images?page=${props.page}`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
@@ -279,7 +279,7 @@ export const fetchAsyncDeleteUserImage = createAsyncThunk<DELETE_IMAGE_RES, DELE
     "videos",
     async (props: VIDEOS_PROPS) => {
         try {
-            const res = await axios.get(`${apiUrl}/groups/${props.group_id}/albums/${props.album_id}/videos`, {
+            const res = await axios.get(`${apiUrl}/groups/${props.group_id}/albums/${props.album_id}/videos?page=${props.page}`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
@@ -408,13 +408,21 @@ export const albumSlice = createSlice({
         });
         // 画像データ取得処理
         builder.addCase(fetchAsyncGetImages.fulfilled, (state, action: PayloadAction<IMAGES_RES>) => {
-            state.images = action.payload.images.data;
+            if(action.payload.images.current_page === 1) {
+                state.images = action.payload.images.data;
+            } else {
+                state.images = state.images.concat(action.payload.images.data);
+            }
             state.page.i_currentpage = action.payload.images.current_page;
             state.page.i_lastpage = action.payload.images.last_page;
         });
         // 動画データ取得処理
         builder.addCase(fetchAsyncGetVideos.fulfilled, (state, action: PayloadAction<VIDEOS_RES>) => {
-            state.videos = action.payload.videos.data;
+            if(action.payload.videos.current_page === 1) {
+                state.videos = action.payload.videos.data;
+            } else {
+                state.videos = state.videos.concat(action.payload.videos.data);
+            }
             state.page.v_currentpage = action.payload.videos.current_page;
             state.page.v_lastpage = action.payload.videos.last_page;
         });
@@ -437,5 +445,6 @@ export const selectAlbum = (state: RootState) => state.album.album;
 export const selectImages = (state: RootState) => state.album.images;
 export const selectVideos = (state: RootState) => state.album.videos;
 export const selectAlbumValidation = (state: RootState) => state.album.validation;
+export const selectAlbumPages = (state: RootState) => state.album.page;
 
 export default albumSlice.reducer;
