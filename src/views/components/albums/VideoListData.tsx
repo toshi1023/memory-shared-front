@@ -1,14 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import DisplayStyles from '../../../styles/common/displayMode';
+import ComponentStyles from '../../../styles/common/componentStyle';
 import _ from 'lodash';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { VIDEO_LIST_DATA } from '../../types/albumsTypes';
 import VideoPlayer from "../../components/common/VideoPlayer";
-import Loading from '../common/Loading'; 
-import InfiniteScroll  from "react-infinite-scroller";
-import { fetchCredStart, fetchCredEnd } from '../../pages/appSlice';
-import { AppDispatch } from '../../../stores/store';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
-    }
+    },
   }),
 );
 
@@ -42,38 +39,19 @@ const useStyles = makeStyles((theme: Theme) =>
 const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
     const classes = useStyles();
     const displayStyles = DisplayStyles();
-    // scrollerの制御
-    const [scroll, setScroll] = useState(true);
+    const componentStyles = ComponentStyles();
+    // ページネーションの制御
     const [page, setPage] = useState(1);
-    // redux
-    const dispatch: AppDispatch = useDispatch();
 
     /**
-     * 項目を読み込むときのコールバック
+     * データの取得(ページネーション処理)
+     * @param page 
      */
-    const loadMore = useCallback(async () => {
-        if(scroll) {
-            // loadMoreの実行を停止
-            setScroll(false);
-            if(props.page.last_page === 1 || page === props.page.last_page) {
-                return;
-            }
-            // ページ数の更新
-            const currentPage = page + 1;
-            setPage(currentPage);
-            // Loading開始
-            await dispatch(fetchCredStart);
-            
-            // ファミリーの取得
-            const res = await props.scrollCallback(currentPage);
-            if(res) {
-                if(currentPage === props.page.last_page) return;
-                setScroll(true);
-            }
-            // Loading終了
-            await dispatch(fetchCredEnd);
-        }
-    }, [page]);
+    const handleGetData = async () => {
+        const currentPage = page + 1;
+        setPage(currentPage);
+        await props.scrollCallback(currentPage);
+    }
 
     return (
         <>
@@ -92,6 +70,12 @@ const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
                         />
                     ))}
                 </div>
+                {
+                    props.data.length === 0 || props.page.last_page === page ? 
+                        ''
+                    :
+                        <Button className={componentStyles.submitButton} onClick={handleGetData}>もっと動画を見る</Button>
+                }
             </div>
 
             {/* スマホ版 */}
@@ -109,6 +93,12 @@ const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
                         />
                     ))}
                 </div>
+                {
+                    props.data.length === 0 || props.page.last_page === page ? 
+                        ''
+                    :
+                        <Button className={componentStyles.submitButton} onClick={handleGetData}>もっと動画を見る</Button>
+                }
             </div>
         </>
     );
