@@ -28,7 +28,7 @@ const VideoRegister: React.FC = () => {
     const infoMessage = '動画を保存しました';
     // 待機用
     const sleepfunc = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-    const sleeptime = files.length > 5 ? 20000 : files.length > 3 ? 12500 : 8000;
+    const sleeptime = files.length >= 5 ? 20000 : files.length >= 3 ? 12500 : 8000;
 
     /**
     * ドロップした時の処理

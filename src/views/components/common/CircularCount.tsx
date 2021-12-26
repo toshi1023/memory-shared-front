@@ -83,7 +83,7 @@ const CircularCount: React.FC<CIRCULAR_COUNT> = (props) => {
                     setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 10));
                     break;
                 case 12500:
-                    setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 8));
+                    setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress === 96 ? prevProgress + 4 : prevProgress + 8));
                     break;
                 case 20000:
                     setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 5));
