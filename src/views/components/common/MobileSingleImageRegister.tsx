@@ -8,7 +8,7 @@ import { SINGLE_IMAGE_REGISTER } from '../../types/commonTypes';
  * ファイル選択画面の表示
  */
 const handleFileClick = () => {
-    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    const fileInput = document.getElementById('mobileFileInput') as HTMLInputElement;
 
     fileInput.click();
 }
@@ -20,7 +20,7 @@ const handleFileClear = (event: React.MouseEvent) => {
     // 親要素のクリック発火関数を無効化
     event.stopPropagation(); 
 
-    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    const fileInput = document.getElementById('mobileFileInput') as HTMLInputElement;
     let previewImage = document.getElementById("mobilePreviewImage");
 
     // 画像を空にする
@@ -197,7 +197,7 @@ const MobileSingleImageRegister: React.FC<SINGLE_IMAGE_REGISTER> = (props) => {
             <div className="drag-drop-inside">
                 <p className="drag-drop-info">ここにファイルをドロップ</p>
                 <p className="drag-drop-buttons">
-                    <input id="fileInput" type="file" accept="image/*" name="photo" onChange={(event) => photoChangePreview(event, props)} style={{ display: 'none' }} />
+                    <input id="mobileFileInput" type="file" accept="image/*" name="photo" onChange={(event) => photoChangePreview(event, props)} style={{ display: 'none' }} />
                 </p>
                 <div id="mobilePreviewArea">
                     {
