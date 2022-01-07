@@ -40,7 +40,7 @@ const ImageRegister: React.FC = () => {
     const ratio = 0.45;
     // Dropzoneの設定
     const acceptFile = 'image/*';
-    const maxFileSize = 1048576;  // 1MB
+    const maxFileSize = 10485760;  // 10MB
     // redux
     const dispatch: AppDispatch = useDispatch();
     const infoMessage = '画像を保存しました';
