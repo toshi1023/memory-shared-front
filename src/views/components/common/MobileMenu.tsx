@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectNreadCount } from '../../pages/appSlice';
+import { selectNreadCount, fetchGetErrorMessages } from '../../pages/appSlice';
 import { fetchAsyncLogout } from '../../pages/home/homeSlice';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
@@ -118,9 +118,14 @@ const MobileMenu: React.FC<MOBILE_MENU_ICON> = (props) => {
             <Divider />
             <List>
                 {['ログアウト'].map((text) => (
-                    <ListItem button key={text} onClick={() => {
-                        dispatch(fetchAsyncLogout({id: +localStorage.loginId}));
-                        window.location.href = '/login';
+                    <ListItem button key={text} onClick={async () => {
+                        const logoutRes = await dispatch(fetchAsyncLogout({id: +localStorage.loginId}));
+                        if(fetchAsyncLogout.fulfilled.match(logoutRes)) {
+                        logoutRes.payload.info_message ? 
+                            window.location.href = '/login'
+                        : 
+                            dispatch(fetchGetErrorMessages(logoutRes.payload.error_message));
+                        }
                     }}>
                         <ListItemIcon><ExitToAppIcon /></ListItemIcon>
                         <ListItemText primary={text} />
