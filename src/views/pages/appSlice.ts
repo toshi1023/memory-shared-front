@@ -92,6 +92,7 @@ export const fetchAsyncGetToken = createAsyncThunk(
         fetchGetErrorMessages(state, action: PayloadAction<string>) {
             state.errorMessages = action.payload;
         },
+        // 現在のURLを取得
         fetchGetUrl(state, action: PayloadAction<string>) {
             state.currentUrl = action.payload;
         },

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta
+        name="description"
+        content="Web site created using create-react-app"
+        />
+        <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+        <!--
+        manifest.json provides metadata used when your web app is installed on a
+        user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+        -->
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+        <!--
+        Notice the use of %PUBLIC_URL% in the tags above.
+        It will be replaced with the URL of the `public` folder during the build.
+        Only files inside the `public` folder can be referenced from the HTML.
+
+        Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+        work correctly both with client-side routing and a non-root public URL.
+        Learn how to configure a non-root public URL by running `npm run build`.
+        -->
+        <!-- Google フォントデザインの利用 -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
+
+        <!-- Font Awesome -->
+        <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+        <!-- アプリの背景色を設定 -->
+        <style>
+            body {
+                background-color: rgb(243, 239, 239);
+            }
+
+            #error {
+                margin-top: 60px;
+                text-align: center;
+            }
+
+            .fa-exclamation-circle {
+                font-size: 30px;
+            }
+
+            button {
+                margin: 20px 0 20px 0;
+                width: 200px;
+                height: 50px;
+                position: relative;
+                background: #f8cf77;
+                border: 1px solid #f8cf77;
+                border-radius: 30px;
+                box-sizing: border-box;
+                color: #fff;
+                font-size: 16px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            
+            button:before {
+                content: '';
+                width: 8px;
+                height: 8px;
+                border: 0;
+                border-top: 2px solid #fff;
+                border-right: 2px solid #fff;
+                transform: rotate(45deg);
+                position: absolute;
+                top: 50%;
+                right: 25px;
+                margin-top: -6px;
+            }
+            button:hover {
+                background: #fff;
+                color: #f8cf77;
+            }
+            button:hover:before {
+                border-top: 2px solid #f8cf77;
+                border-right: 2px solid #f8cf77;
+            }
+        </style>
+        
+        <title>Memory Share App</title>
+    </head>
+    <body>
+            <div id="error">
+                <i class="fas fa-exclamation-circle"></i>
+                <h2>
+                    500 ERROR !
+                </h2>
+                <h5>
+                    システム障害が発生しました
+                </h5>
+                <h5>
+                    ページを再リロードするか管理者にお問い合わせください
+                </h5>
+                <button onclick="reload()">再リロード</button>
+            </div>
+    </body>
+    <script>
+        const reload = () => {
+            // スーパーリロード
+            window.location.reload(true);
+        }
+    </script>
+</html>
