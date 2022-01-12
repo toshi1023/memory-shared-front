@@ -22,6 +22,7 @@ type MyFile = {
     width: number;
     height: number;
     type: number;
+    size: number;
 };
 
 /**
@@ -46,7 +47,13 @@ const ImageRegister: React.FC = () => {
     const infoMessage = '画像を保存しました';
     // 待機用
     const sleepfunc = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-    const sleeptime = files.length > 100 ? 200000 : files.length > 60 ? 12500 : files.length > 40 ? 8000 : files.length > 10 ? 4000 : 2000;
+    // const sleeptime = files.length > 100 ? 200000 : files.length > 60 ? 12500 : files.length > 40 ? 8000 : files.length > 10 ? 4000 : 2000;
+    let size = 0;
+    files.map((file) => {
+        size += file.size;
+    });
+    // 10MB, 5MB, 2.5MB, 1MB, その他 で秒数を設定
+    const sleeptime = size >= 10485760 ? 400000 : size >= 5242880 ? 200000 : size >= 2621440 ? 12500 : size >= 1048576 ? 8000 : 4000;
 
     /**
      * 画像読み込み用の非同期処理
@@ -72,6 +79,7 @@ const ImageRegister: React.FC = () => {
             const res = await loadImage(file).catch(e => {
               console.log('onload error', e);
             });
+            console.table(file);
             if(res instanceof HTMLImageElement) {
               // こうしないとfilesが常に1件しかデータを持たないため
               obj.push({
@@ -79,7 +87,8 @@ const ImageRegister: React.FC = () => {
                 preview: URL.createObjectURL(file),
                 width: res.width,
                 height: res.height,
-                type: res.height / res.width < ratio ? 3 : res.height > res.width ? 2 : 1
+                type: res.height / res.width < ratio ? 3 : res.height > res.width ? 2 : 1,
+                size: file.size
               });
               setFiles([...files, ...obj]);
             } 
