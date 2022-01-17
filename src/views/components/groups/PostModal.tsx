@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>
     iconButton: {
         backgroundColor: 'rgb(253, 200, 103)',
         marginLeft: '3px',
+        width: 'auto',
         '&:hover': {
             backgroundColor: 'rgb(253, 200, 103)',
         }
@@ -293,7 +294,7 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
             </Hidden>
 
             {/* iPad版 */}
-            <Hidden mdUp>
+            <Hidden xsDown mdUp>
                 <Grid item sm={8}>
                     <Modal
                         className={componentStyles.modal}

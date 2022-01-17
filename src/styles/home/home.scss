@@ -337,28 +337,29 @@
         display: 'flex';
         width: 100%;
 
-        .reply_icon {
-            font-size: 1.5rem;
-            color: #fff;
-            width: 100%;
-        }
-
         .textfield {
             width: 85%;
             background-color: white;
+        }
+
+        .sendbutton {
+            background-color: rgb(253, 200, 103);
+            margin-left: 3px;
+            width: auto;
+            &:hover {
+                background-color: rgb(253, 200, 103);
+            }
+        }
+
+        .reply_icon {
+            font-size: 1.5rem;
+            color: #fff;
+            width: auto;
         }
     }
 
     .message_box {
         // メッセージを1データごとに改行させる
         overflow: hidden
-    }
-
-    .sendbutton {
-        background-color: rgb(253, 200, 103);
-        margin-left: 3px;
-        &:hover {
-            background-color: rgb(253, 200, 103);
-        }
     }
 }
