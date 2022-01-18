@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { VIDEO_LIST_DATA } from '../../types/albumsTypes';
 import VideoPlayer from "../../components/common/VideoPlayer";
-import { Button } from '@material-ui/core';
+import { Button, Checkbox } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
     },
+    checkBox: {
+        transform: "scale(1.4)",  // サイズ変更
+    }
   }),
 );
 
@@ -53,21 +56,40 @@ const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
         await props.scrollCallback(currentPage);
     }
 
+    const handleChange = (id: number) => {
+        props.callback(id);
+    }
+    
     return (
         <>
             {/* PC版 & iPad版 */}
             <div className={displayStyles.sectionDesktop}>
                 <div className={classes.root}>
                     {_.map(props.data, item => (
-                        <VideoPlayer 
-                            options={{
-                                sources: [{
-                                    src: item.video_url,
-                                    type: item.type
-                                }],
-                            }} 
-                            key={item.id}
-                        />
+                        <>
+                            <VideoPlayer 
+                                options={{
+                                    sources: [{
+                                        src: item.video_url,
+                                        type: item.type
+                                    }],
+                                }} 
+                                id={item.id}
+                            />
+                            {
+                                props.flg ? 
+                                    <div>
+                                        <Checkbox
+                                            className={classes.checkBox}
+                                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                                            onChange={() => handleChange(item.id)}
+                                        />
+                                    </div>
+                                :
+                                    <div>
+                                    </div>
+                            }
+                        </>
                     ))}
                 </div>
                 {
@@ -82,15 +104,29 @@ const VideoListData: React.FC<VIDEO_LIST_DATA> = (props) => {
             <div className={displayStyles.sectionMobileNoBottom}>
                 <div className={classes.root}>
                     {_.map(props.data, item => (
-                        <VideoPlayer 
-                            options={{
-                                sources: [{
-                                    src: item.video_url,
-                                    type: item.type
-                                }],
-                            }} 
-                            key={item.id}
-                        />
+                        <>
+                            <VideoPlayer 
+                                options={{
+                                    sources: [{
+                                        src: item.video_url,
+                                        type: item.type
+                                    }],
+                                }} 
+                                id={item.id}
+                            />
+                            {
+                                props.flg ? 
+                                    <div>
+                                        <Checkbox
+                                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                                            onChange={() => handleChange(item.id)}
+                                        />
+                                    </div>
+                                :
+                                    <div>
+                                    </div>
+                            }
+                        </>
                     ))}
                 </div>
                 {

@@ -4,7 +4,10 @@ import '../../../styles/albums/albums.scss';
 import '../../../styles/common/common.scss';
 import { useHistory, useParams } from "react-router-dom";
 import { fetchGetErrorMessages, fetchGetInfoMessages, fetchCredStart, fetchCredEnd } from '../appSlice';
-import { fetchAsyncGetAlbum, fetchAsyncGetImages, fetchAsyncGetVideos, selectAlbumPages, selectImages, selectVideos, fetchAsyncDeleteUserImage } from './albumSlice';
+import { 
+    fetchAsyncGetAlbum, fetchAsyncGetImages, fetchAsyncGetVideos, selectAlbumPages, 
+    selectImages, selectVideos, fetchAsyncDeleteUserImage, fetchAsyncDeleteUserVideo 
+} from './albumSlice';
 import { Grid, Typography, Hidden, Tabs, Tab, IconButton, Tooltip, Button, Menu, MenuItem } from '@material-ui/core';
 import DisplayStyles from '../../../styles/common/displayMode';
 import ComponentStyles from '../../../styles/common/componentStyle';
@@ -123,20 +126,30 @@ const AlbumDetail: React.FC = () => {
         await dispatch(fetchCredStart());
 
         await deletedata.map(async (val) => {
-            const data = {
-                group_id: +id,
-                album_id: +albumid,
-                image_id: val
-            }
             // 動画の削除
-            // if(view) {
-            //     return;
-            // }
-            // 画像の削除
-            const dimageRes = await dispatch(fetchAsyncDeleteUserImage(data));
-            if(fetchAsyncDeleteUserImage.fulfilled.match(dimageRes) && dimageRes.payload.error_message) {
-                dispatch(fetchGetErrorMessages(dimageRes.payload.error_message));
-                return;
+            if(view) {
+                const data = {
+                    group_id: +id,
+                    album_id: +albumid,
+                    video_id: val
+                }
+                const dvideoRes = await dispatch(fetchAsyncDeleteUserVideo(data));
+                if(fetchAsyncDeleteUserVideo.fulfilled.match(dvideoRes) && dvideoRes.payload.error_message) {
+                    dispatch(fetchGetErrorMessages(dvideoRes.payload.error_message));
+                    return;
+                }
+            } else {
+                // 画像の削除
+                const data = {
+                    group_id: +id,
+                    album_id: +albumid,
+                    image_id: val
+                }
+                const dimageRes = await dispatch(fetchAsyncDeleteUserImage(data));
+                if(fetchAsyncDeleteUserImage.fulfilled.match(dimageRes) && dimageRes.payload.error_message) {
+                    dispatch(fetchGetErrorMessages(dimageRes.payload.error_message));
+                    return;
+                }
             }
         });
         // 削除完了のために1.5秒ほど待機
@@ -148,21 +161,20 @@ const AlbumDetail: React.FC = () => {
                 dispatch(fetchGetErrorMessages(videosRes.payload.error_message));
                 return;
             }
+            // 削除成功メッセージの表示
+            dispatch(fetchGetInfoMessages('動画の削除が完了しました'))
         } else {
             const imagesRes = await dispatch(fetchAsyncGetImages({group_id: +id, album_id: +albumid, page: 1}));
             if(fetchAsyncGetImages.fulfilled.match(imagesRes) && imagesRes.payload.error_message) {
                 dispatch(fetchGetErrorMessages(imagesRes.payload.error_message));
                 return;
             }
+            // 削除成功メッセージの表示
+            dispatch(fetchGetInfoMessages('画像の削除が完了しました'))
         }
         // stateの初期化
         setDeleteflg(false);
         setDeletedata([]);
-        // 削除成功メッセージの表示
-        view ? 
-            dispatch(fetchGetInfoMessages('動画の削除が完了しました'))
-        :
-            dispatch(fetchGetInfoMessages('画像の削除が完了しました'))
 
         await dispatch(fetchCredEnd());
         setDisabled(false);

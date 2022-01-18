@@ -359,3 +359,18 @@ export interface VIDEO_VALIDATE_RES {
 
     validate_status: string
 }
+/**
+ * delete_video用のデータ型定義
+ */
+ export interface DELETE_VIDEO_PROPS {
+    group_id: number,
+    album_id: number,
+    video_id: number
+}
+/**
+ * AsyncThunk用(delete_video用)
+ */
+export interface DELETE_VIDEO_RES {
+    info_message: string,
+    error_message: string,
+}
