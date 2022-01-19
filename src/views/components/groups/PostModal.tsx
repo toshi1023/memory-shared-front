@@ -80,12 +80,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     replyIcon: {
         fontSize: '1.5rem',
-        color: '#fff',
-        width: '100%'
+        color: '#fff'
     },
     textfield: {
-        width: '85%',
+        width: '75vw',
+        height: 'auto',
         backgroundColor: 'white'
+    },
+    labelFont: {
+        fontSize: '.8rem'
     },
     deleteButton: {
         display: 'block',
@@ -420,23 +423,34 @@ const PostModal: React.FC<POST_MODAL> = (props) => {
                                     }
                                 </div>
                                 <div className={classes.commentField}>
-                                    <TextField
-                                        id="mobile_comment_input"
-                                        className={classes.textfield}
-                                        name="message"
-                                        label="コメントを投稿"
-                                        variant="outlined"
-                                        multiline
-                                        onChange={(e) => setValue(e.target.value)}
-                                    />
-                                    <IconButton 
-                                        color="primary" 
-                                        aria-label="add"
-                                        className={classes.iconButton}
-                                        onClick={() => handleSubmit(value)}
-                                    >
-                                        <ReplyIcon className={classes.replyIcon} />
-                                    </IconButton>
+                                    <div style={{ width: '75vw' }}>
+                                        <TextField
+                                            id="mobile_comment_input"
+                                            className={classes.textfield}
+                                            style={{ width: '100%' }}
+                                            name="message"
+                                            label="コメントを投稿"
+                                            variant="outlined"
+                                            multiline
+                                            fullWidth={true}
+                                            onChange={(e) => setValue(e.target.value)}
+                                            InputLabelProps={{
+                                                classes: {
+                                                    root: classes.labelFont
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                    <div style={{ width: 'auto' }}>
+                                        <IconButton 
+                                            color="primary" 
+                                            aria-label="add"
+                                            className={classes.iconButton}
+                                            onClick={() => handleSubmit(value)}
+                                        >
+                                            <ReplyIcon className={classes.replyIcon} />
+                                        </IconButton>
+                                    </div>
                                 </div>
                                 {
                                     props.data.user_id === +localStorage.loginId ? 

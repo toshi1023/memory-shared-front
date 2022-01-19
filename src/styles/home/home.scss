@@ -362,4 +362,41 @@
         // メッセージを1データごとに改行させる
         overflow: hidden
     }
+
+    @media screen and (max-width:480px) { 
+        /*　画面サイズが480pxからはここを読み込む　*/
+        .message_area {
+            overflow: auto;
+            height: 55vh;
+        }
+
+        .message_field {
+            font-size: 1.2rem;
+            padding: 20px 0 20px 0;
+            position: fixed;
+            bottom: 0;
+            display: 'flex';
+            width: 100%;
+    
+            .textfield {
+                width: 75vw;
+                background-color: white;
+            }
+    
+            .sendbutton {
+                background-color: rgb(253, 200, 103);
+                margin-left: 3px;
+                width: auto;
+                &:hover {
+                    background-color: rgb(253, 200, 103);
+                }
+            }
+    
+            .reply_icon {
+                font-size: 1.5rem;
+                color: #fff;
+                width: auto;
+            }
+        }
+    }
 }
