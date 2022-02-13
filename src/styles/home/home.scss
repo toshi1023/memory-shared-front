@@ -47,6 +47,11 @@
     .textfield {
         margin: 15px 0 15px 0;
         width: 80%;
+
+        &.center {
+            display: inline-flex;
+            align-items: center;
+        }
     }
 
     .pagetransition_card {
@@ -56,6 +61,11 @@
         color: rgb(116, 161, 245);
         text-decoration: underline;
         cursor: pointer;
+
+        &.reset {
+            text-align: left;
+            font-size: 0.8rem;
+        }
     }
 
     .formcontainer {

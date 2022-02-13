@@ -137,6 +137,11 @@ const Login: React.FC = () => {
                                                     :
                                                         <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
                                                 }
+                                                <div className="textfield center">
+                                                    <Typography className="pagetransition_event reset" onClick={() => history.push('/sender')}>
+                                                        パスワードを忘れた?
+                                                    </Typography>
+                                                </div>
                                             </CardContent>
                                         </Card>
 
@@ -217,6 +222,11 @@ const Login: React.FC = () => {
                                                     :
                                                         <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
                                                 }
+                                                <div className="textfield center">
+                                                    <Typography className="pagetransition_event reset" onClick={() => history.push('/sender')}>
+                                                        パスワードを忘れた?
+                                                    </Typography>
+                                                </div>
                                             </CardContent>
                                         </Card>
 
@@ -293,6 +303,11 @@ const Login: React.FC = () => {
                                                     :
                                                         <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
                                                 }
+                                                <div className="textfield center">
+                                                    <Typography className="pagetransition_event reset" onClick={() => history.push('/sender')}>
+                                                        パスワードを忘れた?
+                                                    </Typography>
+                                                </div>
                                             </CardContent>
                                         </Card>
 
@@ -365,6 +380,11 @@ const Login: React.FC = () => {
                                                 :
                                                     <Button className="c_button" type="submit" disabled={!isValid}>ログイン</Button>
                                             }
+                                            <div className="textfield center">
+                                                <Typography className="pagetransition_event reset" onClick={() => history.push('/sender')}>
+                                                    パスワードを忘れた?
+                                                </Typography>
+                                            </div>
                                         </CardContent>
                                     </Card>
 

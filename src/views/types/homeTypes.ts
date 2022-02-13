@@ -166,6 +166,37 @@ export interface LOGOUT_RES {
 }
 
 /**
+ * post_email用のデータ型定義
+ */
+export interface POST_EMAIL_PROPS {
+    email: string
+}
+/**
+ * AsyncThunk用
+ */
+export interface POST_EMAIL_RES {
+    info_message: string,
+    error_message: string
+}
+
+/**
+ * password_reset用のデータ型定義
+ */
+export interface PASSWORD_RESET_PROPS {
+    email: string,
+    password: string,
+    password_confirmation: string,
+    token: string
+}
+/**
+ * AsyncThunk用
+ */
+export interface PASSWORD_RESET_RES {
+    info_message: string,
+    error_message: string
+}
+
+/**
  * api/users/*** 通信用のデータ型定義
  */
 export interface API_USERS_PROPS {

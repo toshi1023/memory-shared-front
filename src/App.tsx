@@ -28,6 +28,7 @@ import ImageRegister from './views/pages/albums/ImageRegister';
 import VideoRegister from './views/pages/albums/VideoRegister';
 import Login from './views/pages/home/Login';
 import NewsDetail from './views/pages/news/Detail';
+import EmailSender from './views/pages/home/EmailSender';
 
 /**
  * スマホ画面の場合、フッターのメニュータブを表示
@@ -102,6 +103,8 @@ const App: React.FC = () => {
                   {/* PC & 一部スマホページ */}
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/register" component={UserRegister} />
+                  <Route exact path="/sender" component={EmailSender} />
+                  <Route exact path="/reset-password/:email/:token" component={EmailSender} />
                   <PrivateRoute exact path="/" component={Home} />
                   <PrivateRoute exact path="/:name/:id/editer" component={UserEditer} />
                   <PrivateRoute exact path="/talk/:name/:id" component={Talk} />

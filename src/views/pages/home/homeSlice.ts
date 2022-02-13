@@ -4,7 +4,8 @@ import axios from "axios";
 import { 
     LOGIN_PROPS, LOGIN_RES, LOGOUT_PROPS, LOGOUT_RES, API_USERS_PROPS, PROFILE_RES, 
     FAMILY_PROPS, FAMILY_RES, PARTICIPANT_PROPS, PARTICIPANT_RES, TALKLIST_RES, TALKS_RES, API_TALKS_PROPS, 
-    REGISTER_TALK_PROPS, REGISTER_TALK_RES, PUSHER_TALK_RES, DELETE_MREADS_RES, DELETE_MREADS_PROPS
+    REGISTER_TALK_PROPS, REGISTER_TALK_RES, PUSHER_TALK_RES, DELETE_MREADS_RES, DELETE_MREADS_PROPS,
+    POST_EMAIL_PROPS, POST_EMAIL_RES, PASSWORD_RESET_PROPS, PASSWORD_RESET_RES 
 } from "../../types/homeTypes";
 import generateFormData from "../../../functions/generateFormData";
 
@@ -62,6 +63,60 @@ export const fetchAsyncLogin = createAsyncThunk<LOGIN_RES, LOGIN_PROPS>(
               
               return err.response.data as LOGOUT_RES;
           }
+    }
+);
+
+/**
+ * パスワードリセット時の前処理非同期関数
+ */
+ export const fetchAsyncPostEmail = createAsyncThunk<POST_EMAIL_RES, POST_EMAIL_PROPS>(
+    "post_email",
+    async (props: POST_EMAIL_PROPS) => {
+        try {
+            const res = await axios.post(`${webUrl}/forgot-password`, props, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as POST_EMAIL_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as POST_EMAIL_RES;
+        }
+    }
+);
+
+/**
+ * パスワードリセットの非同期関数
+ */
+export const fetchAsyncResetPassword = createAsyncThunk<PASSWORD_RESET_RES, PASSWORD_RESET_PROPS>(
+    "password_reset",
+    async (props: PASSWORD_RESET_PROPS) => {
+        try {
+            const res = await axios.post(`${webUrl}/reset-password/${props.email}/${props.token}`, props, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                withCredentials: true
+            });
+            
+            return res.data as PASSWORD_RESET_RES;
+
+        } catch (err: any) {
+            if (!err.response) {
+                throw err
+            }
+            
+            return err.response.data as PASSWORD_RESET_RES;
+        }
     }
 );
 
