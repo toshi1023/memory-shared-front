@@ -1,3 +1,6 @@
+@use "../variable";
+@use "../mixin" as mix;
+
 #user_list {
     .list_box {
         margin-top: 30px;
@@ -11,63 +14,11 @@
 }
 
 #user_register {
-    .card {
-        margin-top: 50px;
-        background-color: white;
-        min-height: 250px;
-        
-        .header {
-            background-color: rgb(253, 200, 103);
-            height: 5%;
-        }
-        .header_title {
-            font-family: 'Merienda', 'cursive';
-            font-size: 1.2rem;
-            color: white;
-        }
-    }
-
-    form {
-        .textfield {
-            margin: 15px 0 15px 0;
-            width: 80%;
-        }
-
-        .glabel {
-            color: rgb(134, 133, 133);
-            margin-right: 15px;
-        }
-    }
+    @include mix.formStyle;
 }
 
 #user_editer {
-    .card {
-        margin-top: 50px;
-        background-color: white;
-        min-height: 250px;
-        
-        .header {
-            background-color: rgb(253, 200, 103);
-            height: 5%;
-        }
-        .header_title {
-            font-family: 'Merienda', 'cursive';
-            font-size: 1.2rem;
-            color: white;
-        }
-    }
-
-    form {
-        .textfield {
-            margin: 15px 0 15px 0;
-            width: 80%;
-        }
-
-        .glabel {
-            color: rgb(134, 133, 133);
-            margin-right: 15px;
-        }
-    }
+    @include mix.formStyle;
 
     .delete_button {
         margin: 40px 0 20px 0;

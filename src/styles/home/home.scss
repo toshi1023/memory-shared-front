@@ -1,3 +1,6 @@
+@use "../variable";
+@use "../mixin" as mix;
+
 #home {
     position: relative;
 
@@ -28,20 +31,15 @@
     }
 }
 
+#email_sender {
+    .card {
+        @include mix.card;
+    }
+}
+
 #login {
     .card {
-        background-color: white;
-        max-height: 350px;
-        
-        .header {
-            background-color: rgb(253, 200, 103);
-            height: 5%;
-        }
-        .header_title {
-            font-family: 'Merienda', 'cursive';
-            font-size: 1.2rem;
-            color: white;
-        }
+        @include mix.card;
     }
 
     .textfield {
@@ -171,34 +169,10 @@
         }
     }
     .card_ipad {
-        background-color: white;
-        max-height: 350px;
-        margin-top: 120%;
-        
-        .header {
-            background-color: rgb(253, 200, 103);
-            height: 5%;
-        }
-        .header_title {
-            font-family: 'Merienda', 'cursive';
-            font-size: 1.2rem;
-            color: white;
-        }
+        @include mix.card(variable.$maincolor, variable.$backcolor, variable.$fontcolor, 120%);
     }
     .card_ipadpro {
-        background-color: white;
-        max-height: 350px;
-        margin-top: 90%;
-        
-        .header {
-            background-color: rgb(253, 200, 103);
-            height: 5%;
-        }
-        .header_title {
-            font-family: 'Merienda', 'cursive';
-            font-size: 1.2rem;
-            color: white;
-        }
+        @include mix.card(variable.$maincolor, variable.$backcolor, variable.$fontcolor, 90%);
     }
 
     // iPhone版
@@ -324,15 +298,15 @@
     }
 
     .right-box {
-        background-color: rgb(253, 200, 103); 
-        color: white;
+        background-color: variable.$maincolor; 
+        color: variable.$fontcolor;
         float: right;
         min-width: 20vw;
         text-align: left;
     }
 
     .left-box {
-        background-color: white;
+        background-color: variable.$backcolor;
         color: #1b2538;
         float: left;
         min-width: 20vw;
@@ -340,32 +314,7 @@
     }
 
     .message_field {
-        font-size: 1.2rem;
-        padding: 20px 0 20px 0;
-        position: fixed;
-        bottom: 0;
-        display: 'flex';
-        width: 100%;
-
-        .textfield {
-            width: 85%;
-            background-color: white;
-        }
-
-        .sendbutton {
-            background-color: rgb(253, 200, 103);
-            margin-left: 3px;
-            width: auto;
-            &:hover {
-                background-color: rgb(253, 200, 103);
-            }
-        }
-
-        .reply_icon {
-            font-size: 1.5rem;
-            color: #fff;
-            width: auto;
-        }
+        @include mix.messageField(85%);
     }
 
     .message_box {
@@ -381,32 +330,7 @@
         }
 
         .message_field {
-            font-size: 1.2rem;
-            padding: 20px 0 20px 0;
-            position: fixed;
-            bottom: 0;
-            display: 'flex';
-            width: 100%;
-    
-            .textfield {
-                width: 75vw;
-                background-color: white;
-            }
-    
-            .sendbutton {
-                background-color: rgb(253, 200, 103);
-                margin-left: 3px;
-                width: auto;
-                &:hover {
-                    background-color: rgb(253, 200, 103);
-                }
-            }
-    
-            .reply_icon {
-                font-size: 1.5rem;
-                color: #fff;
-                width: auto;
-            }
+            @include mix.messageField(75vw);
         }
     }
 }

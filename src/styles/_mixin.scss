@@ -1,0 +1,103 @@
+@use "./variable";
+
+// カードの共通スタイル
+@mixin card($headercolor: variable.$maincolor, $backcolor: variable.$backcolor, $fontcolor: variable.$fontcolor, $mtop: 0%) {
+    background-color: $backcolor;
+    max-height: 350px;
+    @if $mtop != 0% {
+        // $mtopに値が設定されれば適用(ipad用)
+        margin-top: $mtop;
+    }
+    
+    .header {
+        background-color: $headercolor;
+        height: 5%;
+    }
+    .header_title {
+        font-family: 'Merienda', 'cursive';
+        font-size: 1.2rem;
+        color: $fontcolor;
+    }
+}
+
+// talkのメッセージ送信部の共通スタイル
+@mixin messageField($width) {
+    font-size: 1.2rem;
+    padding: 20px 0 20px 0;
+    position: fixed;
+    bottom: 0;
+    display: 'flex';
+    width: 100%;
+
+    .textfield {
+        width: $width;
+        background-color: variable.$backcolor;
+    }
+
+    .sendbutton {
+        background-color: variable.$maincolor;
+        margin-left: 3px;
+        width: auto;
+        &:hover {
+            background-color: variable.$maincolor;
+        }
+    }
+
+    .reply_icon {
+        font-size: 1.5rem;
+        color: #fff;
+        width: auto;
+    }
+}
+
+// 作成ボタンの共通スタイル
+@mixin createButtonBase() {
+    margin: 20px 0 20px 0;
+    height: 50px;
+    width: 40%;
+    align-items: right;
+    background-color: #fff;
+    border: 2px solid #f8cf77;
+    border-radius: 30px;
+    box-sizing: border-box;
+    color: #f8cf77;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+// 登録画面の共通カードスタイル
+@mixin registerCard($headercolor: variable.$maincolor, $backcolor: variable.$backcolor, $fontcolor: variable.$fontcolor) {
+    margin-top: 50px;
+    background-color: $backcolor;
+    min-height: 250px;
+    
+    .header {
+        background-color: $headercolor;
+        height: 5%;
+    }
+    .header_title {
+        font-family: 'Merienda', 'cursive';
+        font-size: 1.2rem;
+        color: $fontcolor;
+    }
+}
+
+// 登録・更新画面用の共通スタイル
+@mixin formStyle($headercolor: variable.$maincolor, $backcolor: variable.$backcolor, $fontcolor: variable.$fontcolor) {
+    .card {
+        @include registerCard($headercolor, $backcolor, $fontcolor);
+    }
+    
+    form {
+        .textfield {
+            margin: 15px 0 15px 0;
+            width: 80%;
+        }
+
+        .glabel {
+            color: rgb(134, 133, 133);
+            margin-right: 15px;
+        }
+    }
+}
